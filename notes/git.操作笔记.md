@@ -476,8 +476,25 @@ git checkout HEAD@{m} // 切换到刚才的游离分支
 git log -g [-n] HEAD // 也可以输出引用的变更记录
 
 ```
+## git config 配置
 
-### git config 配置用户信息
+git 配置有当前项目的配置文件 和 全局配置文件
+
+### 设置默认编辑器
+
+git需要编辑内容的时候会用系统默认的编辑器打开, 一般为 vi
+可以自行配置
+
+如把默认编辑器设置为 vscode 则执行下面的豫剧
+
+```bash
+git config --global core.editor "code --wait" 
+
+git config --global -e # 用vscode 打开全局的配置文件进行编辑
+
+```
+
+### 配置用户信息
 
 设置全局的
 
@@ -492,6 +509,24 @@ $ git config --global user.email "john@doe.org"
 $ git config user.name "John Doe"
 $ git config user.email "john@doe.org"
 ```
+
+### 配置默认diff工具
+
+打开配置文件
+git config --global -e
+
+在配置文件中加上, 此处设置diff工具为vscode
+
+```
+
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+```
+
+此时执行 git difftool 则可以使用自定义的vscode来进行diff
+
 
 
 
