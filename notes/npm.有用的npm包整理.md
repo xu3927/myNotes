@@ -176,7 +176,11 @@ rimraf build
 
 可以在node中使用的功能类似 mkdir 的命令
 
+### markdown mermaid
 
+[mermaid.cli](https://github.com/mermaidjs/mermaid.cli)
+
+用于markdown生成甘特图等的命令行工具
 
 
 ## Browserify 浏览器环境
