@@ -182,6 +182,18 @@ rimraf build
 
 用于markdown生成甘特图等的命令行工具
 
+### execa
+
+执行shell命令
+对 child_process.exec的封装, 提供了promise接口
+
+[https://www.npmjs.com/package/execa](https://www.npmjs.com/package/execa)
+
+### shelljs
+
+https://www.npmjs.com/package/shelljs
+
+执行shell命令的js库, 兼容windows/linux/OS X
 
 ## Browserify 浏览器环境
 
@@ -284,6 +296,10 @@ A multi-transport async logging library for node.js.
 [https://www.npmjs.com/package/husky](https://www.npmjs.com/package/husky)
 
 用来设置git hook
+
+### git-hooks
+
+[https://www.npmjs.com/package/git-hooks](https://www.npmjs.com/package/git-hooks)
 
 ### normalizr
 
