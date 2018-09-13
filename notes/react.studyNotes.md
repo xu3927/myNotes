@@ -241,6 +241,14 @@ export default PropTypeComp;
 - componentDidCatch() 可以捕获render或其他生命周期中暴露的错误.
 
 
+## 强制使组件redender
+
+```
+this.setState(this.state)
+// 或者
+this.forceUpdate()
+```
+
 
 
 
