@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
     
+=======
+    "pasteImage.path": "${currentFileDir}/images/chatu/"
+>>>>>>> 29fdfdd70973cb55ef70523a971f24659aa16f33
 }
