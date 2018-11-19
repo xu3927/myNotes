@@ -1,29 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<title>gulp 用法</title>
-	<!-- 代码着色核心文件 -->
-	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
-	<!-- 代码着色匹配代码类型的文件 -->
-	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
-	<!-- 代码高亮的css样式文件 -->
-	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
-	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
-	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
-
-	<!-- 自己定义的css样式 -->
-	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
-	
-	<style type="text/css">
-
-	</style>
-</head>
-<body>
-
-<!-- 插入markDown -->
-
-<xmp>
+[TOC]
 
 # 1 gulp 用法
 
@@ -240,6 +215,14 @@ ps：这里只是列了js版本的glob模式的一些常用语法。
 
 "*.{js,html,css}" 可以匹配"a.js", 'bad.html' , "afa.css"等
 
+## gulp cli 命令行
+
+### 显示各个任务的依赖关系
+
+```
+gulp -T
+```
+
 ## 11 gulp 插件
 
 如何使用插件（以修改文件名称为例）
@@ -385,38 +368,3 @@ gulp.task("dealImg",function(){
 	.pipe(gulp.dest("demo"))
 })
 ```
-
-
-
-</xmp>
-
-
-
-
-<!-- js代码 -->
-<script type="text/javascript">
-
-
-	
-</script>
-
-<!-- //markdown格式化文件 -->
-<script src="js/strapdown/strapdown_xiugai.js"></script>
-
-<!-- SyntaxHighlighter 代码着色执行文件 -->
-<script type="text/javascript">SyntaxHighlighter.all();</script>
-<!-- 生成目录 -->
-<script type="text/javascript" src="js/buildCatalog.js"></script>
-
-</body>
-</html>
-
-
-<!-- 代码自动高亮模板 -->
-<!-- <div class="daima">
-	<script type="syntaxhighlighter" class="brush: js;">
-
-	
-	</script>
-</div>
- -->

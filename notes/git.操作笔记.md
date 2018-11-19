@@ -2,7 +2,7 @@
 
 # git 操作笔记
 
-### 基本概念
+## 基本概念
 
 ![git仓库\](./images/chatu/git-flow.png)
 
@@ -15,6 +15,16 @@ modified(已修改), staged(已暂存), commited(1已提交)
 - workding directory 工作区
 - staging area 暂存区
 - repository 仓库 
+
+## git revision 版本
+
+每次 commit 会产生一个 SHA-1
+
+可以使用指定的 SHA-1 值来指代一次提交
+
+### Short SHA-1
+
+SHA-1有40个字符, 可以使用前几个字符(最少需要4个)来指定 commit, 
 
 
 ### git log 查看commit记录
@@ -527,6 +537,35 @@ git config --global -e
 
 此时执行 git difftool 则可以使用自定义的vscode来进行diff
 
+
+### filter-branch 修改历史记录中的文件
+
+参考 [filter-branch](https://git-scm.com/docs/git-filter-branch)
+
+在历史 commit 中执行某个命令
+
+命令使用:
+```
+git filter-branch [--setup <command>] [--subdirectory-filter <directory>]
+	[--env-filter <command>] [--tree-filter <command>]
+	[--index-filter <command>] [--parent-filter <command>]
+	[--msg-filter <command>] [--commit-filter <command>]
+	[--tag-name-filter <command>] [--prune-empty]
+	[--original <namespace>] [-d <directory>] [-f | --force]
+	[--state-branch <branch>] [--] [<rev-list options>…​]
+```
+command 要执行的命令
+
+#### --tree-filter <command>
+
+用来重写 tree 以及其内容, 
+
+
+#### Example
+
+从所有的 commit 中删除文件名为 filename 的文件
+
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch filename' HEAD
 
 
 

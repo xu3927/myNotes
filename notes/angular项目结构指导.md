@@ -6,10 +6,10 @@
 
 ### 1. LIFT 准则
 
->1. **L**ocating our code is easy, 准确定位代码
->2. **I**ndentify code at glance, 一眼识别代码, (看到文件就能够知道文件内包含的内容)
->3. **F**lat structure as long as we can, 保持扁平化的系统目录结构(目录结构不要太深, 方便查找代码)
->4. **T**ry to stay DRY(Don`t Repeat Yourself), 不要重复自己的工作
+1. **L**ocating our code is easy, 准确定位代码
+2. **I**ndentify code at glance, 一眼识别代码, (看到文件就能够知道文件内包含的内容)
+3. **F**lat structure as long as we can, 保持扁平化的系统目录结构(目录结构不要太深, 方便查找代码)
+4. **T**ry to stay DRY(Don`t Repeat Yourself), 不要重复自己的工作
 
 要评判自己的目录是否合适可以问自己
 
