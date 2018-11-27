@@ -191,7 +191,7 @@ module.exports = {
 [https://webpack.js.org/configuration/resolve/](https://webpack.js.org/configuration/resolve/)
 
 
-```json
+```js
 
 resolve: {
     alias: {

@@ -1,3 +1,5 @@
+[TOC]
+
 # web 优化
 
 ## 浏览器关键时间点 
@@ -67,7 +69,7 @@ performance.getEntriesByType('navigation') // 获取页面性能参数
 
 该指标反应了网络的情况. 
 
-该时间包括dns解析 + socket连接 + 服务器处理请求并响应的时间.
+该时间包括dns解析 + TCP连接建立 + 服务器处理请求并响应的时间.
 
 优化角度:
 - 优化dns解析

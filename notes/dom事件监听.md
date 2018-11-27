@@ -1,29 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<title>dom事件监听</title>
-	<!-- 代码着色核心文件 -->
-	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
-	<!-- 代码着色匹配代码类型的文件 -->
-	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
-	<!-- 代码高亮的css样式文件 -->
-	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
-	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
-	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
 
-	<!-- 自己定义的css样式 -->
-	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
-	
-	<style type="text/css">
-
-	</style>
-</head>
-<body>
-
-<!-- 插入markDown -->
-
-<xmp>
 # Dom事件监听
 ### 1 捕获与冒泡
 
@@ -140,35 +115,3 @@ event.preventDefault();
 ```
 event.stopPropagation();
 ```
-
-</xmp>
-
-
-
-<!-- js代码 -->
-<script type="text/javascript">
-
-
-	
-</script>
-
-<!-- //markdown格式化文件 -->
-<script src="js/strapdown/strapdown_xiugai.js"></script>
-
-<!-- SyntaxHighlighter 代码着色执行文件 -->
-<script type="text/javascript">SyntaxHighlighter.all();</script>
-<!-- 生成目录 -->
-<script type="text/javascript" src="js/buildCatalog.js"></script>
-
-</body>
-</html>
-
-
-<!-- 代码自动高亮模板 -->
-<!-- <div class="daima">
-	<script type="syntaxhighlighter" class="brush: js;">
-
-	
-	</script>
-</div>
- -->

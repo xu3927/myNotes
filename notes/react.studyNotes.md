@@ -240,7 +240,6 @@ export default PropTypeComp;
 
 - componentDidCatch() 可以捕获render或其他生命周期中暴露的错误.
 
-
 ## 强制使组件redender
 
 ```
@@ -248,6 +247,44 @@ this.setState(this.state)
 // 或者
 this.forceUpdate()
 ```
+
+## 虚拟 dom 更新的 diff 算法
+
+参考 
+- [https://yq.aliyun.com/articles/610195](https://yq.aliyun.com/articles/610195)
+- [https://holmeshe.me/understanding-react-js-source-code-virtual-dom-diff-IX/#The-old-amp-new-virtual-DOM-tree](https://holmeshe.me/understanding-react-js-source-code-virtual-dom-diff-IX/#The-old-amp-new-virtual-DOM-tree)
+- [如何实现一个 Virtual DOM 算法](https://github.com/livoras/blog/issues/13)
+
+虚拟 dom 更新时, 会对比新旧两个树的差异, 通过 diff 得到一个 patches, 
+执行 patch更新真实dom
+
+![](images/chatu/2018-11-26-00-15-20.png)
+
+### diff 过程
+
+- 遍历新旧2颗树, 采用深度优先算法O(n), 遍历每个节点进行同级元素比较, 记录节点的变化类型.
+  - 变化类型有4种: 
+    1. 标签名变更,则replace. 
+    2. 属性变更; 
+    3. text 内容变更. 
+    4. 元素顺序变化发生的重排. 
+  - 如果是顺序变化则使用 list diff 算法记录变化情况.
+- diff 之后得到 patches: 保存了每个节点需要做的变化. 
+- 执行 patch 操作, 更新真实 dom
+
+
+#### list diff
+
+采用动态规划算法获取最小编辑距离的算法, 复杂度为 O(max(m * n)) 如果节点被 remove 掉了, 则执行 list diff.
+
+
+
+
+
+## Reconciliation 一致性算法
+
+参考 [https://reactjs.org/docs/reconciliation.html](https://reactjs.org/docs/reconciliation.html)
+
 
 
 

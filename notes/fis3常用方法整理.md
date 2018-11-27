@@ -1,29 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<title>fis3常用方法整理</title>
-	<!-- 代码着色核心文件 -->
-	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
-	<!-- 代码着色匹配代码类型的文件 -->
-	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
-	<!-- 代码高亮的css样式文件 -->
-	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
-	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
-	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
-
-	<!-- 自己定义的css样式 -->
-	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
-	
-	<style type="text/css">
-
-	</style>
-</head>
-<body>
-
-<!-- 插入markDown -->
-
-<xmp>
 # fis常用方法整理
 
 FIS3 是面向前端的工程构建工具。解决前端工程中性能优化、资源加载（异步、同步、按需、预加载、依赖管理、合并、内嵌）、模块化开发、自动化工具、开发规范、代码部署等问题。
@@ -509,35 +483,3 @@ Amd中，我们通过require方式加载文件，注意require接受的参数是
 Commonjs中，我们通过require加载文件的，require接受的是一个字符串，就是模块的路径，不过在commonjs中我们要给模块打包，
 
 不论开发哪种我们，我们只是引入模块方式不同，开发模式是一致的
-
-</xmp>
-
-
-
-<!-- js代码 -->
-<script type="text/javascript">
-
-
-	
-</script>
-
-<!-- //markdown格式化文件 -->
-<script src="js/strapdown/strapdown_xiugai.js"></script>
-
-<!-- SyntaxHighlighter 代码着色执行文件 -->
-<script type="text/javascript">SyntaxHighlighter.all();</script>
-<!-- 生成目录 -->
-<script type="text/javascript" src="js/buildCatalog.js"></script>
-
-</body>
-</html>
-
-
-<!-- 代码自动高亮模板 -->
-<!-- <div class="daima">
-	<script type="syntaxhighlighter" class="brush: js;">
-
-	
-	</script>
-</div>
- -->
