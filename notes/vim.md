@@ -4,10 +4,16 @@
 
 参考资料:
 
-http://www.cnblogs.com/jiqingwu/archive/2012/06/14/vim_notes.html#id60
-官方文档: [http://vimdoc.sourceforge.net/htmldoc/usr_toc.html](http://vimdoc.sourceforge.net/htmldoc/usr_toc.html)
-中文文档 [http://vimcdoc.sourceforge.net/doc/help.html](http://vimcdoc.sourceforge.net/doc/help.html)
-[菜鸟教程](http://www.runoob.com/linux/linux-vim.html)
+
+- [官方文档](http://vimdoc.sourceforge.net/htmldoc/usr_toc.html)
+- [中文文档](http://vimcdoc.sourceforge.net/doc/help.html)
+- [vim文档](http://vimdoc.sourceforge.net/)
+- [菜鸟教程](http://www.runoob.com/linux/linux-vim.html)
+- [Vim 从入门到精通](https://github.com/wsdjeg/vim-galore-zh_cn)
+- [中文速查表](https://github.com/skywind3000/awesome-cheatsheets/blob/master/editors/vim.txt)
+- [http://www.cnblogs.com/jiqingwu/archive/2012/06/14/vim_notes.html#id60
+](http://www.cnblogs.com/jiqingwu/archive/2012/06/14/vim_notes.html#id60
+)
 
 ## 模式
 

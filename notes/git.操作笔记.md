@@ -568,5 +568,48 @@ command 要执行的命令
 git filter-branch --index-filter 'git rm --cached --ignore-unmatch filename' HEAD
 
 
+## 保存登录信息
+
+如果使用 ssh 链接, 需要先配置 ssh key
+如果使用 http 链接 则需要输入用户名和密码
+
+如执行以下命令时
+```
+git clone https://github.com/xu3927/algorithm.git
+```
+
+解决输入账号, 密码的方法
+
+### http 连接中增加用户名密码
+
+格式
+```
+git clone https://<username>:<password>@github.com/xu3927/algorithm.git
+```
+
+如此执行 git clone, pull, push 等命令时可以不用再输入账号密码
+
+### 使用 credential.helper
+
+参考 
+1. [https://git-scm.com/docs/git-credential-store](https://git-scm.com/docs/git-credential-store)
+2. [https://git-scm.com/docs/gitcredentials](https://git-scm.com/docs/gitcredentials)
+
+credential helper 是 git用来自动处理验证的一些插件. 有 store, cache 等
+
+```
+# 使用 store 插件
+git config credential.helper store
+```
+
+则会保存用户名密码, 
+首次需要手动输入
+之后git 会读取本地保存的账号密码, 自动登录
+
+git credentials store 读取本地保存的用户密码, 查看的文件路径依次为
+
+1. --file 指定的目录
+2. ~/.git-credentials
+3. $HOME/.config/git/credentials
 
 
