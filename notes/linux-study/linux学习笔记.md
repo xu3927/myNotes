@@ -22,6 +22,29 @@
 
 ssh协议: secure shell
 
+#### terminal 操作快捷键
+
+mac 下快捷键
+[https://support.apple.com/zh-cn/guide/terminal/keyboard-shortcuts-trmlshtcts/mac](https://support.apple.com/zh-cn/guide/terminal/keyboard-shortcuts-trmlshtcts/mac)
+
+|操作|快捷键|
+|--|--|
+|重新定位插入点|在按住 Option 键的同时将指针移到新的插入点。|
+|将插入点移到行的开头|Control-A|
+|将插入点移到行的结尾|Control-E|
+|将插入点前移一个字符|右箭头键|
+|将插入点后移一个字符|左箭头键|
+|将插入点前移一个字词|Option-右箭头键|
+|将插入点后移一个字词|Option-左箭头键|
+|删除到行的开头|Control-U|
+|删除到行的结尾|Control-K|
+|向前删除到字词的结尾|Option-D（选中将 Option 键用作 Meta 键后可用）|
+|向后删除到字词的开头|Control-W|
+|删除一个字符|Delete|
+|向前删除一个字符|向前删除（或使用 Fn-Delete）|
+|转置两个字符|Control-T|
+
+
 ### 1.2.1 shell 外壳
 
 shell 是离用户最近的程序, 是用户用来连入计算机时所使用的外壳程序.
