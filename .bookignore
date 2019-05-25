@@ -5,6 +5,7 @@ deploy.json
 .vscode
 webpack.config.js
 .gitignore
-mind-map/**
-web-module/**
+mind-map
+web-module
+docs
 

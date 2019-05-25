@@ -22,6 +22,7 @@
   "homepage": "https://github.com/xu3927/myNotes#readme",
   "devDependencies": {
     "gitbook-cli": "^2.3.2",
+    "gitbook-plugin-custom-js-css": "0.0.1",
     "gitbook-plugin-folding-chapters": "^0.0.9",
     "gitbook-plugin-page-toc": "^1.1.1",
     "gitbook-plugin-prism": "^2.4.0",

@@ -1,5 +1,5 @@
 {
-    "title": "my notes",
+    "title": "My Notes",
     "author": "x3927",
     "authorHomepage": "",
     "description": "个人笔记",
@@ -21,25 +21,28 @@
         "prism",
         "folding-chapters",
         "-sharing",
-        "url-embed"
+        "url-embed",
+        "custom-js-css"
     ],
     "pluginsConfig": {
+        "fontsettings": {
+            "theme": "white",
+            "family": "sans",
+            "size": 1
+        },
         "theme-default": {
             "showLevel": true
-        },
-        "sharing": {
-            "facebook": false,
-            "twitter": false,
-            "google": false,
-            "weibo": false,
-            "instapaper": false,
-            "vk": false,
-            "all": []
         },
         "page-toc": {
             "selector": ".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4",
             "position": "before-first",
             "showByDefault": true
+        },
+        "custom-js-css": {
+            "js": [],
+            "css": [
+                "./notes/css/custom-gitbook.css"
+            ]
         }
     }
 }
