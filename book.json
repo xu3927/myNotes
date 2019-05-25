@@ -1,0 +1,45 @@
+{
+    "title": "my notes",
+    "author": "x3927",
+    "authorHomepage": "",
+    "description": "个人笔记",
+    "language": "zh-hans",
+    "copyright": "All Rights Reserved",
+    "root": ".",
+    "structure": {
+        "summary": "SUMMARY.md",
+        "readme": "Introduction.md"
+    },
+    "variables": {
+        "uxDisplayServe": "http://xxx.com",
+        "homePage": "/"
+    },
+    "plugins": [
+        "page-toc",
+        "theme-default",
+        "splitter",
+        "prism",
+        "folding-chapters",
+        "-sharing",
+        "url-embed"
+    ],
+    "pluginsConfig": {
+        "theme-default": {
+            "showLevel": true
+        },
+        "sharing": {
+            "facebook": false,
+            "twitter": false,
+            "google": false,
+            "weibo": false,
+            "instapaper": false,
+            "vk": false,
+            "all": []
+        },
+        "page-toc": {
+            "selector": ".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4",
+            "position": "before-first",
+            "showByDefault": true
+        }
+    }
+}

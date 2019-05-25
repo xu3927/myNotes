@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>node.js 批量处理图片</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>node.js 利用 GraphicsMagick 批量处理图片</h1>
+	<p>
+		服务器经常需要对图片进行处理，比如改变尺寸、裁切、翻转等等。Node.js非常擅长！图片裁切也是IO业务。
+	</p>
+	<p>
+		使用的工具 : GraphicsMagick
+	</p>
+	<p>
+		GraphicsMagick is the swiss army knife of image processing.  <br />
+官    网：<a href="http://www.graphicsmagick.org/">http://www.graphicsmagick.org/</a> <br />
+下载地址：<a href="ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/windows/ ">ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/windows/ </a>
+	</p>
+	<p>
+		把安装目录，设置为环境变量！
+	</p>
+	<h3>常用的命令</h3>
+		<p>convert : 转换图像格式和大小，模糊，裁剪，驱除污点，抖动，临近，图片上画图片，加入新图片，生成缩略图等。 </p>
+	<p>identify：描述一个或较多图像文件的格式和特性。 </p>
+	<p>mogrify：按规定尺寸***一个图像，模糊，裁剪，抖动等。Mogrify改写最初的图像文件然后写到一个不同的图像文件。 </p>
+	<p>composite：根据一个图片或多个图片组合生成图片。 </p>
+	<p>montage：创建一些分开的要素图像。在含有要素图像任意的装饰图片，如边框、结构、图片名称等。 </p>
+	<p>compare：在算术上和视觉上评估不同的图片***其它的改造图片。 </p>
+	<p>display：如果你拥有一个X server的系统，它可以按次序的显示图片 </p>
+	<p>animate：利用X server显示动画图片 </p>
+	<p>import：在X server或任何可见的窗口上输出图片文件。 你可以捕获单一窗口，整个的荧屏或任何荧屏的矩形部分。 </p>
+	<p>conjure：解释执行 MSL (Magick Scripting Language) 写的脚本。</p>
+
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// 一些命令行演示
+	//以下命令需要在cmd中执行
+	// 改变jpg为png
+	gm -convert 1.jpg 1.png
+
+	// 改变0.jpg为00.jpg并且改变尺寸为60*60
+	gm -convert -resize 60x60! 0.jpg 00.jpg
+
+	// 旋转90度，并且改名为00.jpg
+	gm -convert -rotate 90 0.jpg 00.jpg
+
+	// 裁切图片，从原图的100px100px位置，裁切30*30，并且改名为00.jpg
+	gm -convert -crop 30x30+100+100 0.jpg 00.jpg
+	
+	</script>
+</div>
+
+<h3>在node.js中操作</h3>
+<p>
+	先在npm中安装gm包
+</p>
+<p>
+	npm install gm --save
+</p>
+
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+		
+	//引用gm包
+	var gm = require("gm");
+	var fs = require("fs");
+
+
+	//处理一张
+	gm(__dirname + "/1.jpg").resize(500,300,"!").write(__dirname + "/new.jpg",function(err){
+	//参数
+	// gm(当前图片路径).resize(图片尺寸,"!"表示强制转为该尺寸).write(新的路径,回调)
+	// _ _dirname 表示当前的根目录
+		if(err){
+			console.log("err");
+			return;
+		}
+		console.log("ok");
+	})
+
+	// //批量处理图片
+	// //用fs模块从文件夹中读取图片
+	fs.readdir("./images",function(err,dataArr){
+		for(var i = 0; i < dataArr.length; i++){
+			//用gm模块处理图片,重新设置图片尺寸
+			gm("./images/" + dataArr[i]).resize(200,200,"!").write("./newPic/" + dataArr[i],function(err){
+				err ? console.log(err) : console.log("ok");
+			})
+		}
+	})
+
+	//裁切图片
+	// crop 参数是图片的起始坐标,及要裁的尺寸.
+	gm("./1.jpg").crop(100,50,50,80).write("./11.jpg",function(err){
+		if(err) console.log(err);
+	})
+
+	</script>
+</div>
+
+</body>
+</html>
+

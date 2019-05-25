@@ -1,0 +1,2619 @@
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/index',['./component','./locale/index','./index.css'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _component = require('./component');
+
+var _component2 = _interopRequireDefault(_component);
+
+var _index = require('./locale/index');
+
+var _index2 = _interopRequireDefault(_index);
+
+require('./index.css');
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+_component2.default.LOCALE = _index2.default;
+
+exports.default = _component2.default;
+
+module.exports = _component2.default;
+module.exports = exports['default'];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/component',['mui/reactjs/react','mui/fusion/index','mui/react-router/index','ascm-comp/lib-boxes/index','./list.js','./step.js','./index.css'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = require("mui/fusion/index");
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = require("mui/react-router/index");
+
+var _index4 = require("ascm-comp/lib-boxes/index");
+
+var _list = require("./list.js");
+
+var _list2 = _interopRequireDefault(_list);
+
+var _step = require("./step.js");
+
+var _step2 = _interopRequireDefault(_step);
+
+require("./index.css");
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var PropTypes = _react2.default.PropTypes;
+
+window.Fusion = _index2.default;
+
+var Component = function (_React$Component) {
+    _inherits(Component, _React$Component);
+
+    function Component() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, Component);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Component.__proto__ || Object.getPrototypeOf(Component)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            visible: true
+        }, _this.closePopup = function () {
+            window.history.back();
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(Component, [{
+        key: "componentWillMount",
+        value: function componentWillMount() {
+            var page = this.props.page;
+            if (!window.location.hash) {
+                window.location.hash = '#/' + page;
+            }
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            var that = this;
+
+            return _react2.default.createElement("div", null, _react2.default.createElement(_index3.HashRouter, null, _react2.default.createElement("div", null, _react2.default.createElement(_index3.Route, { path: "/:showType/:type", component: function component(match) {
+                    var params = match.match.params;
+
+                    if (!params) {
+                        return;
+                    }
+                    var showType = params.showType,
+                        type = params.type;
+
+                    var listStyle = {};
+                    if (showType == 'list') {
+                        _this2.listPageType = type;
+                    }
+
+                    switch (showType) {
+                        case 'list':
+                            return _react2.default.createElement("div", null, _react2.default.createElement("div", null, _react2.default.createElement(_list2.default, { type: _this2.listPageType })));
+                        case 'detail':
+                            return _react2.default.createElement("div", null, _this2.listPageType && _react2.default.createElement("div", { style: { display: 'none' } }, _react2.default.createElement(_list2.default, { type: _this2.listPageType })), _react2.default.createElement("div", null, _react2.default.createElement(_list2.default, { showClose: true, type: type })));
+                        case 'step':
+                            return _react2.default.createElement("div", null, _this2.listPageType && _react2.default.createElement("div", { style: { display: 'none' } }, _react2.default.createElement(_list2.default, { type: _this2.listPageType })), _react2.default.createElement("div", null, _react2.default.createElement(_step2.default, { afterClose: _this2.closePopup, showClose: true, type: type, openMethod: "hash" })));
+                    }
+                } }))));
+        }
+    }]);
+
+    return Component;
+}(_react2.default.Component);
+
+Component.displayName = "ascm-comp/merchandise-vending-goods-authorize-mendian";
+Component.defaultProps = {
+    page: 'list/goodsAuthorize' // list/goodsAuthorize, list/vendingManage, step/editGoodsAuthorize
+};
+exports.default = (0, _index.LocaleProvider)((0, _index4.Scala)()(Component));
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/list',['mui/reactjs/react','mui/fusion/index','ascm-comp/lib-export-file-mendian/index','mui/fusion-panel/index','ascm-comp/lib-utils-mendian/index','./provider.js','./config.js','./formComps'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = require("mui/fusion/index");
+
+var _index2 = require("ascm-comp/lib-export-file-mendian/index");
+
+var _index3 = _interopRequireDefault(_index2);
+
+var _index4 = require("mui/fusion-panel/index");
+
+var _index5 = _interopRequireDefault(_index4);
+
+var _index6 = require("ascm-comp/lib-utils-mendian/index");
+
+var _provider = require("./provider.js");
+
+var _provider2 = _interopRequireDefault(_provider);
+
+var _config = require("./config.js");
+
+var _config2 = _interopRequireDefault(_config);
+
+var _formComps = require("./formComps");
+
+var _formComps2 = _interopRequireDefault(_formComps);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var PropTypes = _react2.default.PropTypes;
+var Col = _index.Grid.Col,
+    Row = _index.Grid.Row;
+
+var Toast = _index.Feedback.toast;
+
+var Component = function (_React$Component) {
+    _inherits(Component, _React$Component);
+
+    function Component(props) {
+        _classCallCheck(this, Component);
+
+        var _this = _possibleConstructorReturn(this, (Component.__proto__ || Object.getPrototypeOf(Component)).call(this, props));
+
+        _initialiseProps.call(_this);
+
+        _this.field = new _index.Field(_this, {
+            onChange: function onChange() {
+                _this.search();
+            }
+        });
+        _this.state = {
+            tableData: [],
+            count: 0,
+            tableTotal: 0,
+            pageIndex: 1,
+            pageSize: 10
+        };
+
+        _this.onPageSizeChange = _this.onPageSizeChange.bind(_this);
+        _this.onPageIndexChange = _this.onPageIndexChange.bind(_this);
+        _this.onClose = _this.onClose.bind(_this);
+        return _this;
+    }
+
+    _createClass(Component, [{
+        key: "componentWillMount",
+        value: function componentWillMount() {
+            this.type = this.props.type || '';
+
+            this.config = _config2.default[this.type];
+            console.log('this.config', this.config);
+        }
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            this.search();
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            var newType = nextProps.type || '';
+            if (this.type !== newType) {
+                this.type = newType;
+                this.field.reset();
+                var that = this;
+
+                var search = _index6.Util.getHashSearchParams();
+                if (search) {
+                    that.field.setValue(search);
+
+                    this.setState({
+                        pageIndex: 1,
+                        pageSize: 10
+                    }, function () {
+                        that.search();
+                    });
+                } else {
+                    this.setState({
+                        pageIndex: 1,
+                        pageSize: 10
+                    }, that.search);
+                }
+            }
+        }
+    }, {
+        key: "onPageSizeChange",
+        value: function onPageSizeChange(pageSize) {
+            this.setState({
+                pageIndex: 1,
+                pageSize: pageSize
+            }, this.search);
+        }
+    }, {
+        key: "onPageIndexChange",
+        value: function onPageIndexChange(pageIndex) {
+            this.setState({
+                pageIndex: pageIndex
+            }, this.search);
+        }
+    }, {
+        key: "onClose",
+        value: function onClose() {
+            this.setState({
+                dialogVisible: false
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            var title = this.config.title || '';
+
+            var columnsConfig = this.config.columns || [];
+
+            var _extra = typeof this.config.extra == 'function' ? this.config.extra() : null;
+
+            return _react2.default.createElement(_index5.default, { title: title, extra: _extra }, this.renderFilters(), _react2.default.createElement("div", { style: { marginTop: 20 } }, this.config.btns.showExport ? _react2.default.createElement(_index3.default, { content: "\u6279\u91CF\u5BFC\u51FA", exportUrl: _index6.Fetch.transformUrl('/statdata/export.json'), params: this.handleParams.call(this) }) : null), this.config.tip && _react2.default.createElement("div", { className: "tip", style: { marginTop: 20 } }, this.config.tip), _react2.default.createElement("div", { style: { marginTop: 20 } }, _react2.default.createElement(_index.Table, {
+                dataSource: this.state.tableData,
+                primaryKey: "mainOuterOrderId" }, columnsConfig.map(function (item, index) {
+                return _react2.default.createElement(_index.Table.Column, _extends({ key: String(index) }, item));
+            }))), _react2.default.createElement("div", { style: { marginTop: 20 } }, _react2.default.createElement(_index.Pagination, {
+                current: this.state.pageIndex,
+                total: this.state.tableTotal,
+                pageSize: this.state.pageSize,
+                pageSizeSelector: "dropdown",
+                pageSizePosition: "end",
+                style: { lineHeight: "30px" },
+                onPageSizeChange: function onPageSizeChange(pageSize) {
+                    return _this2.onPageSizeChange(pageSize);
+                },
+                onChange: function onChange(pageIndex) {
+                    return _this2.onPageIndexChange(pageIndex);
+                }
+            })), _react2.default.createElement("div", { style: { marginTop: 20, textAlign: 'left' } }, this.props.showClose ? _react2.default.createElement(_index.Button, { type: "primary", onClick: function onClick() {
+                    window.history.back();
+                } }, "\u5173\u95ED") : null));
+        }
+    }]);
+
+    return Component;
+}(_react2.default.Component);
+
+Component.defaultProps = {
+    type: '' //
+};
+
+var _initialiseProps = function _initialiseProps() {
+    var _this3 = this;
+
+    this.dataConvert = function () {
+        var dataArr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+        return _this3.config.dataConvert(dataArr);
+    };
+
+    this.queryData = function () {
+        _this3.setState({
+            pageIndex: 1
+        }, _this3.search);
+    };
+
+    this.search = function () {
+        var that = _this3;
+        var queryParams = that.handleParams();
+
+        if (queryParams === null) {
+            return;
+        }
+
+        queryParams.pageIndex = _this3.state.pageIndex;
+        queryParams.pageSize = _this3.state.pageSize;
+
+        if (!_provider2.default[_this3.config.provider]) {
+            throw new Error('Provider中找不到' + _this3.config.provider);
+            return;
+        }
+
+        _provider2.default[_this3.config.provider](queryParams).then(function (resp) {
+            var tableData = [];
+            var tableTotal = 0;
+            if (resp && resp.success) {
+                tableData = resp.data || [];
+                tableTotal = resp.totalCount || 0;
+                tableData = that.dataConvert(tableData);
+            } else {
+                Toast.error(resp.errorMsg || '网络异常，请稍后再试...');
+            }
+            that.setState({ tableData: tableData, tableTotal: tableTotal });
+        });
+    };
+
+    this.handleParams = function () {
+        var params = _this3.field.getValues();
+
+        return _this3.config.handleParams(params);
+    };
+
+    this.renderFilters = function () {
+        var that = _this3;
+        var _field = _this3.field,
+            init = _field.init,
+            reset = _field.reset;
+
+        var defaultFilterProps = {
+            label: '',
+            param: '',
+            compName: '',
+            span: '6',
+            offset: '0'
+        };
+
+        var formItemStyle = {
+            width: "100%"
+        };
+
+        var filterConfig = _this3.config.filters || [];
+
+        filterConfig = handleFilterConfig();
+
+        var FilterComp = _react2.default.createElement(_index.Form, {
+            labelAlign: "top",
+            labelTextAlign: "left",
+            direction: "hoz"
+        }, filterConfig.map(function (rowConfig, rowIndex) {
+            return _react2.default.createElement(Row, { key: String(rowIndex) }, rowConfig.map(function (colConfig, colIndex) {
+                var colProps = _extends({}, init(colConfig.param), colConfig.props);
+
+                if (colConfig.compName === 'Search') {
+                    colProps = _extends({ reset: reset, search: that.queryData }, colConfig.props);
+                }
+
+                var compType = _formComps2.default[colConfig.compName];
+                return _react2.default.createElement(Col, { span: colConfig.span, offset: colConfig.offset, key: String(colIndex) }, _react2.default.createElement(_index.Form.Item, { label: colConfig.label, style: formItemStyle }, renderComp(compType, colProps)));
+            }));
+        }));
+
+        function copyObj(obj) {
+            return JSON.parse(JSON.stringify(obj));
+        }
+
+        function handleFilterConfig() {
+            var RowMap = [];
+            var ColMap = [];
+            totalSpan = 0;
+            filterConfig.forEach(function (item) {
+                item = _extends({}, defaultFilterProps, item);
+                totalSpan += parseInt(item.span) + parseInt(item.offset);
+                ColMap.push(item);
+                if (totalSpan >= 24) {
+                    totalSpan = 0;
+                    RowMap.push(copyObj(ColMap));
+                    ColMap = [];
+                }
+            });
+            return RowMap;
+        }
+
+        function renderComp(compName, props) {
+            return _react2.default.createElement(compName, props);
+        }
+
+        return FilterComp;
+    };
+};
+
+exports.default = Component;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/provider',['./mock','ascm-comp/lib-utils-mendian/index','mui/fusion/index'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mock = require('./mock');
+
+var _mock2 = _interopRequireDefault(_mock);
+
+var _index = require('ascm-comp/lib-utils-mendian/index');
+
+var _index2 = require('mui/fusion/index');
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _asyncToGenerator(fn) {
+    return function () {
+        var gen = fn.apply(this, arguments);return new Promise(function (resolve, reject) {
+            function step(key, arg) {
+                try {
+                    var info = gen[key](arg);var value = info.value;
+                } catch (error) {
+                    reject(error);return;
+                }if (info.done) {
+                    resolve(value);
+                } else {
+                    return Promise.resolve(value).then(function (value) {
+                        step("next", value);
+                    }, function (err) {
+                        step("throw", err);
+                    });
+                }
+            }return step("next");
+        });
+    };
+} // mockData
+
+
+var isDebug = window.location.search.includes('debug');
+
+var Toast = _index2.Feedback.toast;
+
+function _fetch(_api, params) {
+    if (isDebug && _mock2.default[_api]) {
+        return Promise.resolve(_mock2.default[_api] || { data: {} });
+    }
+    return new Promise(function (resolve, reject) {
+        (0, _index.Fetch)(_api, params).then(function (res) {
+
+            if (res && res.success) {
+                resolve(res);
+            } else {
+                Toast.error(res.errorMsg || '网络错误');
+                reject(res);
+            }
+        }).catch(function (err) {
+            console.error(err);
+        });
+    });
+}
+
+// 请求 atmp.tmall.com 域名
+function atmpFetch(_api, params) {
+    var hostEnum = {
+        daily: '//atmp.tmall.net',
+        prepub: '//atmp.tmall.com',
+        publish: '//atmp.tmall.com'
+    };
+
+    var base = '/rpc';
+
+    var url = hostEnum[_index.Fetch.getEnv() || 'daily'] + base + _api;
+
+    params.data = {
+        query: params.data
+    };
+
+    return new Promise(function (resolve, reject) {
+        if (isDebug && _mock2.default[_api]) {
+            resolve(_mock2.default[_api] || { data: {} });
+            return;
+        }
+
+        (0, _index.Fetch)(url, params).then(function (res) {
+
+            if (res && res.success) {
+                resolve(res);
+            } else {
+                Toast.error(res.errorMsg || '网络错误');
+                reject(res);
+            }
+        }).catch(function (err) {
+            console.error(err);
+        });
+    });
+}
+// /user/getCurrentUserSellers.json
+
+var API = {
+    getConstant: '/global/getConstant',
+    goodsAuthorize: '/item/batchGrantItem4Vending.json', // 贩卖机授权
+    queryVendingList: '/vending/queryList',
+    setReplenishmentGoodsWarning: '/vending/updateStockConfig',
+    getDeviceList: '/device/search.json', // 查询贩卖机
+    getGoodsAuthorizeList: '/item/search/vending.json', // 查询货品授权列表
+    getItemList: '/item/search.json', // 商品列表
+    getCurrentUserSellers: '/user/getCurrentUserSellers.json' // 获取货主
+};
+
+var Provider = {
+    getConstant: function getConstant(params) {
+        return atmpFetch(API.getConstant, {
+            data: params
+        });
+    },
+    goodsAuthorize: function goodsAuthorize(params) {
+        return _fetch(API.goodsAuthorize, {
+            data: params,
+            method: 'post'
+        });
+    },
+    queryVendingList: function queryVendingList(params) {
+        return atmpFetch(API.queryVendingList, {
+            data: params
+        });
+    },
+    setReplenishmentGoodsWarning: function setReplenishmentGoodsWarning(params) {
+        return atmpFetch(API.setReplenishmentGoodsWarning, {
+            data: params,
+            method: 'post'
+        });
+    },
+    getDeviceList: function getDeviceList(params) {
+        var _this = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var res;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return _fetch(API.getDeviceList, {
+                                data: params
+
+                            });
+
+                        case 2:
+                            res = _context.sent;
+                            return _context.abrupt('return', res.data || []);
+
+                        case 4:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, _this);
+        }))();
+    },
+    getGoodsAuthorizeList: function getGoodsAuthorizeList(params) {
+        var _this2 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var res;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            _context2.next = 2;
+                            return _fetch(API.getGoodsAuthorizeList, {
+                                data: params
+                            });
+
+                        case 2:
+                            res = _context2.sent;
+                            return _context2.abrupt('return', res || {});
+
+                        case 4:
+                        case 'end':
+                            return _context2.stop();
+                    }
+                }
+            }, _callee2, _this2);
+        }))();
+    },
+    getItemList: function getItemList(params) {
+        var _this3 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+            var res;
+            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                while (1) {
+                    switch (_context3.prev = _context3.next) {
+                        case 0:
+                            _context3.next = 2;
+                            return _fetch(API.getItemList, {
+                                data: params
+                            });
+
+                        case 2:
+                            res = _context3.sent;
+                            return _context3.abrupt('return', res || {});
+
+                        case 4:
+                        case 'end':
+                            return _context3.stop();
+                    }
+                }
+            }, _callee3, _this3);
+        }))();
+    },
+    getCurrentUserSellers: function getCurrentUserSellers(params) {
+        var _this4 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+            var res;
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            _context4.next = 2;
+                            return _fetch(API.getCurrentUserSellers, {
+                                data: params
+                            });
+
+                        case 2:
+                            res = _context4.sent;
+                            return _context4.abrupt('return', res || {});
+
+                        case 4:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, _this4);
+        }))();
+    }
+};
+
+exports.default = Provider;
+module.exports = exports['default'];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/mock',function (require, exports, module) {
+             
+
+var mock = {
+    '/global/getConstant.json': {
+        "success": true,
+        "data": {
+            "deviceStatus": [{ "label": "在线", "value": 0 }, { "label": "异常", "value": 1 }],
+            "deviceType": [],
+            "deviceVersionStatus": [],
+            "deviceVersionType": [],
+            "deviceVersionPublishType": [],
+            "deviceLogType": []
+        }
+    },
+    '/vending/queryList.json': {
+        "success": true,
+        "totalCount": 100,
+        "pageSize": 20,
+        "pageIndex": 1,
+        "data": [{ "deviceName": "测试设备" }]
+    },
+    '/device/search': {
+        success: true,
+        data: [{
+            id: 1,
+            deviceId: 111,
+            deviceName: 'deviceName1',
+            cityName: 'cityName',
+            state: 1
+
+        }, {
+            id: 2,
+            deviceId: 222,
+            deviceName: 'deviceName2',
+            cityName: 'cityName',
+            state: 2
+
+        }, {
+            id: 4,
+            deviceId: 444,
+            deviceName: 'deviceName4',
+            cityName: 'cityName',
+            state: 1
+
+        }]
+    },
+    '/item/batchGrantItem4Vending.json': {
+        "responseTimestamp": "1521626755794",
+        "responseDate": "2018-03-21 18:05:55",
+        "traceId": "0bba25d715216267557654646e62c8",
+        "success": true
+    },
+    '/item/searchGrantItems.json': function () {
+        var list = new Array(10).fill({}).map(function (item) {
+            var n = parseInt(Math.random() * 1000);
+            return {
+                scItemId: '2300944810710',
+                scItemName: 'scItemName-' + n,
+                deviceId: 'deviceId-' + n,
+                deviceName: 'deviceName-' + n
+            };
+        });
+
+        return {
+            success: true,
+            data: list,
+            "pageIndex": 1,
+            "pageSize": 10,
+            "totalCount": 100
+        };
+    }(),
+    // 获取授权货品
+    '/item/search/vending.json': { "fail": false, "endRow": 10, "asc": false, "totalCount": 3, "totalPage": 1, "pageIndex": 1, "startRow": 0, "pageSize": 10, "responseTimestamp": "1522314945064", "responseDate": "2018-03-29 17:15:45", "traceId": "0a67792f15223149036032918e2731", "success": true, "data": [{ "gmtModifiedStr": "2018-03-27 21:03:30", "gmtCreateStr": "2018-03-27 21:03:29", "isStandardGoodCN": "是", "needLogisticsCN": "否", "selfItemId": 44490001, "statusOpen": 2, "selfCategoryId": 13360001, "scItemId": 566769711073, "selfCategoryName": "美妆", "selfBrandId": 4270002, "selfBrandName": "贩卖机品牌2", "categoryId": 127086009, "saleUnit": "个", "itemPrice": 0, "inventoryUnit": "个", "scItemName": "测试请不要拍零元商品", "inventoryId": 0, "barCode": "8000282400019", "isStandardGood": 1, "extendMediaUrls": [], "parentItemId": 0, "shortKey": "CSQBYPLYSP", "isGrant": 1, "needLogistics": 0, "channelStates": { "meituan": {}, "yiguo": {}, "cityhall": {}, "tmall": {}, "eleme": {} }, "selfParentItemId": 0, "hasSku": false, "outerId": "8000282400019", "mediaUrls": ["https:\/\/img.alicdn.com\/imgextra\/i2\/3872022371\/TB2mZYOgL5TBuNjSspmXXaDRVXa_!!3872022371-2-thr.png", "https:\/\/img.alicdn.com\/imgextra\/i2\/3872022371\/TB2kOHDgKGSBuNjSspbXXciipXa_!!3872022371-2-thr.png"], "saleSpec": "1", "saleUnitRate": 1, "selfStatus": 9, "subTitle": "测试请不要拍零元商品", "picUrl": "https:\/\/img.alicdn.com\/imgextra\/i2\/3872022371\/TB2mZYOgL5TBuNjSspmXXaDRVXa_!!3872022371-2-thr.png", "gmtCreate": 1522155809000, "gmtModified": 1522155810000, "title": "测试请不要拍零元商品", "rowStatus": 1, "nameSpace": "FORMAL", "options": 0, "status": 0, "attributes": { "bizCode": "vending", "needLogistics": "0", "saleSpec": "1", "userInputInventoryUnitRate": "1", "saleUnit": "个", "tags": "181634,215362,215298,236674,98562,98626,216002", "userInputInventoryUnit": "个", "saleUnitRate": "1", "parentItemId": "0", "subTitle": "测试请不要拍零元商品", "inventoryUnit": "个", "shortKey": "CSQBYPLYSP", "isGrant": "1", "stopProduction": "0" }, "sellerId": 3872022371, "storeId": 0, "itemId": 566483184074, "bizCode": "vending" }, { "deviceDTOList": [], "gmtModifiedStr": "2018-03-27 12:01:33", "gmtCreateStr": "2018-03-27 12:01:32", "isStandardGoodCN": "是", "needLogisticsCN": "否", "selfItemId": 44450004, "statusOpen": 2, "selfCategoryId": 13360001, "scItemId": 566714015993, "selfCategoryName": "美妆", "selfBrandId": 4270002, "selfBrandName": "贩卖机品牌2", "categoryId": 127086009, "saleUnit": "个", "itemPrice": 1, "inventoryUnit": "个", "scItemName": "贩卖机货品2", "inventoryId": 0, "barCode": "8000282100025", "isStandardGood": 1, "extendMediaUrls": ["https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2IpBUgUR1BeNjy0FmXXb0wVXa_!!3872022371-2-thr.png", "https:\/\/img.alicdn.com\/imgextra\/i4\/3872022371\/TB2ekZOgCCWBuNjy0FhXXb6EVXa_!!3872022371-2-thr.png"], "parentItemId": 0, "shortKey": "CS,QBYP,KYS", "isGrant": 1, "needLogistics": 0, "channelStates": { "meituan": {}, "yiguo": {}, "cityhall": {}, "tmall": {}, "eleme": {} }, "selfParentItemId": 0, "hasSku": false, "mediaUrls": ["https:\/\/img.alicdn.com\/imgextra\/i2\/3872022371\/TB2DjQFgwaTBuNjSszfXXXgfpXa_!!3872022371-2-thr.png", "https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2gUgZgv5TBuNjSspcXXbnGFXa_!!3872022371-2-thr.png"], "saleSpec": "1", "saleUnitRate": 1, "selfStatus": 9, "subTitle": "测试,请不要拍,科颜氏", "picUrl": "https:\/\/img.alicdn.com\/imgextra\/i2\/3872022371\/TB2DjQFgwaTBuNjSszfXXXgfpXa_!!3872022371-2-thr.png", "gmtCreate": 1522123292000, "gmtModified": 1522123293000, "title": "测试,请不要拍,科颜氏", "rowStatus": 1, "nameSpace": "FORMAL", "options": 0, "status": 0, "attributes": { "needLogistics": "0", "saleSpec": "1", "userInputInventoryUnitRate": "1", "saleUnit": "个", "tags": "181634,215362,215298,236674,98562,98626,216002", "userInputInventoryUnit": "个", "saleUnitRate": "1", "parentItemId": "0", "subTitle": "测试,请不要拍,科颜氏", "inventoryUnit": "个", "extendMediaUrls": "https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2IpBUgUR1BeNjy0FmXXb0wVXa_!!3872022371-2-thr.png,https:\/\/img.alicdn.com\/imgextra\/i4\/3872022371\/TB2ekZOgCCWBuNjy0FhXXb6EVXa_!!3872022371-2-thr.png", "shortKey": "CS,QBYP,KYS", "isGrant": "1", "stopProduction": "0" }, "sellerId": 3872022371, "storeId": 0, "itemId": 566742007029, "bizCode": "vending" }, { "gmtModifiedStr": "2018-03-27 11:38:44", "gmtCreateStr": "2018-03-26 16:13:49", "isStandardGoodCN": "是", "needLogisticsCN": "否", "selfItemId": 43380002, "statusOpen": 2, "selfCategoryId": 13360001, "scItemId": 566643739904, "selfCategoryName": "美妆", "selfBrandId": 4270002, "selfBrandName": "贩卖机品牌2", "categoryId": 127086009, "saleUnit": "个", "itemPrice": 1, "inventoryUnit": "个", "scItemName": "测试货品1", "inventoryId": 0, "barCode": "8000275100032", "isStandardGood": 1, "extendMediaUrls": ["https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2_VcygwaTBuNjSszfXXXgfpXa_!!3872022371-0-thr.jpg", "https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2E8emgStYBeNjSspaXXaOOFXa_!!3872022371-0-thr.jpg"], "parentItemId": 0, "shortKey": "CSQBYPSP1", "isGrant": 1, "needLogistics": 0, "channelStates": { "meituan": {}, "yiguo": {}, "cityhall": {}, "tmall": {}, "eleme": {} }, "selfParentItemId": 0, "hasSku": false, "outerId": "8000275100032", "mediaUrls": ["https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2.XFSgr9YBuNjy0FgXXcxcXXa_!!3872022371-0-thr.jpg", "https:\/\/img.alicdn.com\/imgextra\/i4\/3872022371\/TB2et4MgrSYBuNjSspfXXcZCpXa_!!3872022371-0-thr.jpg"], "saleSpec": "1", "saleUnitRate": 1, "selfStatus": 9, "subTitle": "测试请不要拍商品1", "picUrl": "https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2.XFSgr9YBuNjy0FgXXcxcXXa_!!3872022371-0-thr.jpg", "gmtCreate": 1522052029000, "gmtModified": 1522121924000, "title": "测试请不要拍商品1", "rowStatus": 1, "nameSpace": "FORMAL", "options": 0, "status": 0, "attributes": { "bizCode": "vending", "needLogistics": "0", "saleSpec": "1", "userInputInventoryUnitRate": "1", "saleUnit": "个", "tags": "181634,215362,215298,236674,98562,98626,216002", "userInputInventoryUnit": "个", "taxRate": "0.7", "saleUnitRate": "1", "subTitle": "测试请不要拍商品1", "parentItemId": "0", "inventoryUnit": "个", "shortKey": "CSQBYPSP1", "extendMediaUrls": "https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2_VcygwaTBuNjSszfXXXgfpXa_!!3872022371-0-thr.jpg,https:\/\/img.alicdn.com\/imgextra\/i3\/3872022371\/TB2E8emgStYBeNjSspaXXaOOFXa_!!3872022371-0-thr.jpg", "isGrant": "1" }, "sellerId": 3872022371, "storeId": 0, "itemId": 566487965799, "bizCode": "vending" }] },
+    // 获取货主
+    '/user/getCurrentUserSellers.json': { "fail": false, "endRow": 20, "asc": false, "totalCount": 0, "totalPage": 0, "pageIndex": 1, "startRow": 0, "pageSize": 20, "responseTimestamp": "1522314899926", "responseDate": "2018-03-29 17:14:59", "traceId": "0a67792f15223148999172886e2731", "success": true, "data": [{ "sellerId": 3872022371, "sellerNick": "贩卖机商家1" }] }
+
+};
+
+module.exports = mock;
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/config',['mui/reactjs/react','mui/fusion/index','./config/goodsAuthorizeConfig','./config/vendingManageConfig'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = require("mui/fusion/index");
+
+var _goodsAuthorizeConfig = require("./config/goodsAuthorizeConfig");
+
+var _goodsAuthorizeConfig2 = _interopRequireDefault(_goodsAuthorizeConfig);
+
+var _vendingManageConfig = require("./config/vendingManageConfig");
+
+var _vendingManageConfig2 = _interopRequireDefault(_vendingManageConfig);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var config = {};
+
+var defaultConfig = {
+    title: '',
+    extra: null,
+    tip: '',
+    filter: [],
+    columns: [],
+    provider: '', // provider文件中的 key
+    handleParams: function handleParams() {},
+    // return 参数， 如果return null 则停止发送search请求
+    dataConvert: function dataConvert() {},
+
+    btns: {}
+};
+
+function mapConfig(configName, cfg) {
+    if (typeof configName !== 'string') {
+        return;
+    }
+    config[configName] = _extends({}, defaultConfig, cfg);
+}
+
+mapConfig('goodsAuthorize', _goodsAuthorizeConfig2.default);
+mapConfig('vendingManage', _vendingManageConfig2.default);
+
+if (window.location.search.includes('debug')) {}
+
+exports.default = config;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/config/goodsAuthorizeConfig',['mui/reactjs/react','ascm-comp/lib-utils-mendian/index','../dataConverFns','../provider'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = require("ascm-comp/lib-utils-mendian/index");
+
+var _dataConverFns = require("../dataConverFns");
+
+var _dataConverFns2 = _interopRequireDefault(_dataConverFns);
+
+var _provider = require("../provider");
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var filters = [{
+    label: '货主名称',
+    param: 'sellerId',
+    compName: 'SelectSeller',
+    props: {
+        required: true
+    }
+}, {
+    label: '商品名称',
+    param: 'scItemName',
+    compName: 'Input'
+}, {
+    label: '商品编码',
+    param: 'itemId',
+    compName: 'Input'
+}, {
+    label: '贩卖机名称',
+    param: 'deviceName',
+    compName: 'Input'
+}, {
+    label: '贩卖机编码',
+    param: 'deviceId',
+    compName: 'Input'
+},
+//     {
+//     label: '授权状态',
+//     param: 'status',
+//     compName: 'Select',
+//     span: 6,
+//     props: {
+//         dataSource: [{
+//             label: '已授权',
+//             value: '1'
+//         }, {
+//             label: '未授权',
+//             value: '2'
+//         }],
+//         style: {width: '100%'}
+//     }
+// },
+{
+    compName: 'Search',
+    span: '18'
+}];
+
+var columns = [{
+    title: '商品名称',
+    dataIndex: 'scItemName'
+}, {
+    title: '商品编码',
+    dataIndex: 'itemId'
+}, {
+    title: '货主名称',
+    dataIndex: 'sellerNick'
+}, {
+    title: '货主编码',
+    dataIndex: 'sellerId'
+}, {
+    title: '贩卖机名称',
+    dataIndex: 'deviceName'
+}, {
+    title: '贩卖机编码',
+    dataIndex: 'deviceId'
+}, {
+    title: '操作',
+    dataIndex: 'deviceId',
+    cell: function cell(value, index, record) {
+        var style = {
+            padding: '0 5px',
+            color: '#388BEB',
+            cursor: 'pointer'
+        };
+        return _react2.default.createElement("div", null, _react2.default.createElement("a", { style: style, onClick: function onClick() {
+                window.location.hash = '#/step/editGoodsAuthorize?itemId=' + record.itemId;
+            } }, "\u5546\u54C1\u6388\u6743\u7F16\u8F91"));
+    }
+}];
+
+var config = {
+    title: '商品授权',
+    extra: function extra() {
+        return _react2.default.createElement("a", { href: "" }, "\u65B0\u589E\u8D27\u54C1\u6388\u6743");
+    },
+    filters: filters,
+    columns: columns,
+    provider: 'getGoodsAuthorizeList',
+    handleParams: function handleParams(params) {
+        var queryParams = _extends({}, params);
+
+        if (!queryParams.sellerId) return null;
+
+        var search = _index.Util.getHashSearchParams();
+
+        queryParams.isQueryMainItem = true;
+
+        return queryParams;
+    },
+    dataConvert: function dataConvert(dataArr) {
+        var convertEnum = {
+            payFee: 'centToYuan',
+            refundFee: 'centToYuan',
+            userFee: 'centToYuan'
+        };
+        return dataArr.map(function (item) {
+            for (var key in convertEnum) {
+                if (item[key] && convertEnum[key]) {
+                    item[key] = _dataConverFns2.default[convertEnum[key]](item[key]);
+                }
+            }
+            return item;
+        });
+    }
+};
+
+exports.default = config;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/dataConverFns',['ascm-comp/lib-utils-mendian/index'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _index = require("ascm-comp/lib-utils-mendian/index");
+
+var centToYuan = _index.Util.centToYuan;
+exports.default = {
+    centToYuan: centToYuan
+};
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/config/vendingManageConfig',['mui/reactjs/react','ascm-comp/lib-utils-mendian/index','../dataConverFns','../replenishmentGoodsWarning'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = require("ascm-comp/lib-utils-mendian/index");
+
+var _dataConverFns = require("../dataConverFns");
+
+var _dataConverFns2 = _interopRequireDefault(_dataConverFns);
+
+var _replenishmentGoodsWarning = require("../replenishmentGoodsWarning");
+
+var _replenishmentGoodsWarning2 = _interopRequireDefault(_replenishmentGoodsWarning);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var filters = [{
+    label: '贩卖机名称',
+    param: 'deviceName',
+    compName: 'Input'
+}, {
+    label: '贩卖机状态',
+    param: 'deviceStatus',
+    compName: 'SelectVendingStatus'
+}, {
+    compName: 'Search',
+    span: '12'
+}];
+
+var columns = [{
+    title: '贩卖机名称',
+    dataIndex: 'deviceName'
+}, {
+    title: '贩卖机ID',
+    dataIndex: 'deviceSn'
+}, {
+    title: '所在城市',
+    dataIndex: 'deviceAddress'
+}, {
+    title: '客服电话',
+    dataIndex: 'customerServiceNumber'
+}, {
+    title: '运营电话',
+    dataIndex: 'operatorNumber'
+}, {
+    title: '贩卖机从属',
+    dataIndex: 'payFee'
+}, {
+    title: '操作',
+    cell: function cell(value, index, record) {
+        var style = {
+            padding: '0 5px',
+            color: '#388BEB',
+            cursor: 'pointer'
+            // http://web.cbbs.tmall.net/pages/vending/register?deviceSn=10086
+        };return _react2.default.createElement("div", null, _react2.default.createElement("a", { style: style, href: '/pages/vending/register?deviceSn=' + record.deviceSn }, "\u7F16\u8F91\u8D29\u5356\u673A"), _react2.default.createElement("a", { style: style, onClick: function onClick() {
+                _replenishmentGoodsWarning2.default.open(record.deviceSn);
+            } }, "\u8BBE\u7F6E\u8865\u8D27\u9884\u8B66"));
+    }
+}];
+
+var config = {
+    title: '自动贩卖机管理',
+    filters: filters,
+    columns: columns,
+    provider: 'queryVendingList',
+    handleParams: function handleParams(params) {
+        var queryParams = _extends(params);
+
+        return queryParams;
+    },
+    dataConvert: function dataConvert(dataArr) {
+        var convertEnum = {
+            payFee: 'centToYuan',
+            refundFee: 'centToYuan',
+            userFee: 'centToYuan'
+        };
+        return dataArr.map(function (item) {
+            for (var key in convertEnum) {
+                if (item[key] && convertEnum[key]) {
+                    item[key] = _dataConverFns2.default[convertEnum[key]](item[key]);
+                }
+            }
+            return item;
+        });
+    }
+};
+
+exports.default = config;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/replenishmentGoodsWarning',['mui/reactjs/react','mui/reactjs/react-dom.js','mui/fusion/index','ascm-comp/lib-utils-mendian/index','./provider.js'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("mui/reactjs/react-dom.js");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _index = require("mui/fusion/index");
+
+var _index2 = require("ascm-comp/lib-utils-mendian/index");
+
+var _provider = require("./provider.js");
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var formItemLayout = {
+    labelCol: { span: 4 },
+    wrapperCol: { span: 20 }
+};
+
+var ReplenishmentGoodsWarning = function (_React$Component) {
+    _inherits(ReplenishmentGoodsWarning, _React$Component);
+
+    function ReplenishmentGoodsWarning() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, ReplenishmentGoodsWarning);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ReplenishmentGoodsWarning.__proto__ || Object.getPrototypeOf(ReplenishmentGoodsWarning)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            visible: true,
+            deviceSn: ''
+        }, _this.field = new _index.Field(_this), _this.onOk = function () {
+            var fields = _this.field.getValues();
+            var isBlank = _index2.Util.validator.isBlank;
+            if (isBlank(fields.needSms) || isBlank(fields.stockLimit) || !_index2.Util.validator.isInteger(fields.stockLimit) || fields.stockLimit < 0) {
+                _index2.Util.toastError('请检查必填项');
+                return;
+            }
+            _provider2.default.setReplenishmentGoodsWarning({
+                deviceSn: _this.props.deviceSn,
+                sendWarningSms: fields.needSms == 1 ? true : false,
+                stockWarningLimit: fields.stockLimit
+            }).then(function (res) {
+                if (res && res.success) {
+                    _this.setState({ visible: false });
+                    _index.Feedback.toast.success('设置成功');
+                }
+            });
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(ReplenishmentGoodsWarning, [{
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            var radioEnum = [{ label: '是', value: '1' }, { label: '否', value: '2' }];
+
+            var init = this.field.init;
+
+            return _react2.default.createElement("div", null, _react2.default.createElement(_index.Dialog, {
+                title: "\u8BBE\u7F6E\u8865\u8D27\u9884\u8B66",
+                onOk: this.onOk,
+                onCancel: function onCancel() {
+                    return _this2.setState({ visible: false });
+                },
+                afterClose: this.props.afterClose,
+                visible: this.state.visible }, _react2.default.createElement(_index.Form, _extends({}, formItemLayout, { field: this.field, style: { maxWidth: '500px' } }), _react2.default.createElement(_index.Form.Item, _extends({ label: "\u53D1\u9001\u5E93\u5B58\u8B66\u544A\u77ED\u4FE1", required: true }, init('needSms')), _react2.default.createElement(_index.Radio.Group, { dataSource: radioEnum, defaultValue: '1' })), _react2.default.createElement(_index.Form.Item, _extends({ label: "\u5355\u54C1\u5E93\u5B58\u544A\u8B66\u6570", required: true }, init('stockLimit')), _react2.default.createElement(_index.Input, { htmlType: "number", placeholder: "" })))));
+        }
+    }]);
+
+    return ReplenishmentGoodsWarning;
+}(_react2.default.Component);
+
+ReplenishmentGoodsWarning.open = function open(deviceSn) {
+
+    var div = document.createElement('div');
+    document.body.appendChild(div);
+
+    function destroy() {
+        _reactDom2.default.unmountComponentAtNode(div);
+        document.body.removeChild(div);
+    }
+
+    _reactDom2.default.render(_react2.default.createElement(ReplenishmentGoodsWarning, { afterClose: destroy, deviceSn: deviceSn }), div);
+};
+
+exports.default = ReplenishmentGoodsWarning;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/formComps',['mui/reactjs/react','./lib/commonComponents','mui/fusion/index'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _commonComponents = require("./lib/commonComponents");
+
+var _commonComponents2 = _interopRequireDefault(_commonComponents);
+
+var _index = require("mui/fusion/index");
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var SelectStore = _commonComponents2.default.SelectStore,
+    SelectCategory = _commonComponents2.default.SelectCategory,
+    SelectVendingStatus = _commonComponents2.default.SelectVendingStatus,
+    SelectItem = _commonComponents2.default.SelectItem,
+    SelectSeller = _commonComponents2.default.SelectSeller;
+
+var RangePicker = function (_React$Component) {
+    _inherits(RangePicker, _React$Component);
+
+    function RangePicker(props) {
+        _classCallCheck(this, RangePicker);
+
+        return _possibleConstructorReturn(this, (RangePicker.__proto__ || Object.getPrototypeOf(RangePicker)).call(this, props));
+    }
+
+    _createClass(RangePicker, [{
+        key: "render",
+        value: function render() {
+            var that = this;
+            var props = {
+                onChange: function onChange(origin, format) {
+                    var _that$props;
+
+                    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+                        args[_key - 2] = arguments[_key];
+                    }
+
+                    (_that$props = that.props).onChange.apply(_that$props, [format, origin].concat(args));
+                }
+            };
+            props = _extends({}, that.props, props);
+
+            return _react2.default.createElement(_index.DatePicker.RangePicker, props);
+        }
+    }]);
+
+    return RangePicker;
+}(_react2.default.Component);
+
+RangePicker.defaultProps = {
+    style: { width: "100%" },
+    format: 'YYYY-MM-DD'
+};
+
+var Search = function (_React$Component2) {
+    _inherits(Search, _React$Component2);
+
+    function Search(props) {
+        _classCallCheck(this, Search);
+
+        return _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+    }
+
+    _createClass(Search, [{
+        key: "render",
+        value: function render() {
+            var _this3 = this;
+
+            return _react2.default.createElement("div", { style: { textAlign: "right" } }, _react2.default.createElement(_index.Button, { type: "primary", onClick: function onClick() {
+                    return _this3.props.search();
+                } }, "\u67E5\u8BE2"), _react2.default.createElement(_index.Button, { type: "normal", onClick: function onClick() {
+                    return _this3.props.reset();
+                } }, "\u91CD\u7F6E"));
+        }
+    }]);
+
+    return Search;
+}(_react2.default.Component);
+
+Search.defaultProps = {
+    search: function search() {},
+    reset: function reset() {}
+};
+
+function SelectCategorySelf(props) {
+    return _react2.default.createElement(SelectCategory, _extends({ onlyFistLevel: true }, props));
+}
+
+var formComps = {
+    SelectStore: SelectStore,
+    Input: _index.Input,
+    Select: _index.Select,
+    RangePicker: RangePicker,
+    Search: Search,
+    SelectCategory: SelectCategorySelf,
+    SelectVendingStatus: SelectVendingStatus,
+    SelectItem: SelectItem,
+    SelectSeller: SelectSeller
+};
+
+exports.default = _extends({}, formComps);
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/lib/commonComponents',['mui/reactjs/react','ascm-comp/lib-utils-mendian/index','mui/fusion/index','./constant.js','../provider'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = require("ascm-comp/lib-utils-mendian/index");
+
+var _index2 = require("mui/fusion/index");
+
+var _constant = require("./constant.js");
+
+var _constant2 = _interopRequireDefault(_constant);
+
+var _provider = require("../provider");
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var SelectVendingStatus = function (_React$Component) {
+    _inherits(SelectVendingStatus, _React$Component);
+
+    function SelectVendingStatus(props) {
+        _classCallCheck(this, SelectVendingStatus);
+
+        var _this = _possibleConstructorReturn(this, (SelectVendingStatus.__proto__ || Object.getPrototypeOf(SelectVendingStatus)).call(this, props));
+
+        _this.componentWillMount = function () {
+            (0, _constant2.default)().then(function (constant) {
+                var statusList = constant.deviceStatus.map(function (item) {
+                    return {
+                        label: item.label,
+                        value: String(item.value)
+                    };
+                });
+                _this.setState({ statusList: statusList });
+            });
+        };
+
+        _this.onChange = function (val, option) {
+            _this.props.onChange(val, option);
+        };
+
+        _this.state = {
+            statusList: [],
+            status: ''
+        };
+        _this.field = new _index2.Field(_this);
+        return _this;
+    }
+
+    _createClass(SelectVendingStatus, [{
+        key: "render",
+        value: function render() {
+            var init = this.field.init;
+
+            var that = this;
+            return _react2.default.createElement(_index2.Select, _extends({}, init('status', {
+                props: {
+                    onChange: function onChange(val, option) {
+                        that.onChange(val, option);
+                        that.field.setValue('status', val);
+                    }
+                }
+            }), { dataSource: this.state.statusList, filterLocal: false, style: _extends({ width: '100%' }, this.props.style), hasClear: typeof this.props.hasClear !== 'undefined' ? this.props.hasClear : true }));
+        }
+    }]);
+
+    return SelectVendingStatus;
+}(_react2.default.Component);
+
+// 选择货主
+
+
+SelectVendingStatus.defaultProps = {
+    style: { width: "100%" }
+};
+
+var SelectSeller = function (_React$Component2) {
+    _inherits(SelectSeller, _React$Component2);
+
+    function SelectSeller(props) {
+        _classCallCheck(this, SelectSeller);
+
+        var _this2 = _possibleConstructorReturn(this, (SelectSeller.__proto__ || Object.getPrototypeOf(SelectSeller)).call(this, props));
+
+        _this2.componentWillMount = function () {
+            _this2.getItemList(function () {
+                _this2.setDefaultValue();
+            });
+        };
+
+        _this2.setDefaultValue = function () {
+            if (_this2.props.defaultValue) {
+                _this2.field.setValue('itemId', _this2.props.defaultValue);
+                _this2.props.onChange(_this2.props.defaultValue, _this2.state.itemList && _this2.state.itemList.filter(function (value) {
+                    return value === _this2.props.defaultValue;
+                }));
+            } else if (_this2.props.required) {
+                var _val = _this2.state.itemList && _this2.state.itemList[0] && _this2.state.itemList[0].value || '';
+                _this2.field.setValue('itemId', _val);
+                _this2.props.onChange(_val, _this2.state.itemList && _this2.state.itemList[0]);
+            }
+        };
+
+        _this2.getItemList = function (title) {
+            var callback = void 0;
+            if (typeof title == 'function') {
+                callback = title;
+                title = '';
+            }
+            clearTimeout(_this2.getItemListTimer);
+            _this2.getItemListTimer = setTimeout(function () {
+                _provider2.default.getCurrentUserSellers({
+                    // sellerNick: title
+                }).then(function (res) {
+                    var itemData = res.data || [];
+                    var itemList = itemData.map(function (item) {
+                        return {
+                            label: item.sellerNick,
+                            value: String(item.sellerId),
+                            origin: item
+                        };
+                    });
+                    _this2.setState({ itemList: itemList }, function () {
+                        callback && callback();
+                    });
+                });
+            }, 300);
+        };
+
+        _this2.onChange = function (val, option) {
+            _this2.props.onChange(val, option);
+        };
+
+        _this2.state = {
+            itemList: [],
+            itemId: ''
+        };
+        _this2.field = new _index2.Field(_this2);
+        return _this2;
+    }
+
+    _createClass(SelectSeller, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {}
+    }, {
+        key: "render",
+        value: function render() {
+            var init = this.field.init;
+
+            var that = this;
+            return _react2.default.createElement(_index2.Select, _extends({}, init('itemId', {
+                props: {
+                    onChange: function onChange(val, option) {
+                        that.onChange(val, option);
+                        that.field.setValue('itemId', val);
+                    }
+                }
+            }), {
+                disabled: this.props.disabled,
+                autoWidth: false,
+                showSearch: false,
+                onSearch: this.getItemList,
+                dataSource: this.state.itemList, filterLocal: false, style: _extends({ width: '100%' }, this.props.style), hasClear: typeof this.props.hasClear !== 'undefined' ? this.props.hasClear : true }));
+        }
+    }]);
+
+    return SelectSeller;
+}(_react2.default.Component);
+
+// 商品列表
+
+
+SelectSeller.defaultProps = {
+    style: { width: "100%" },
+    defaultValue: '',
+    disabled: false,
+    required: false
+};
+
+var SelectItem = function (_React$Component3) {
+    _inherits(SelectItem, _React$Component3);
+
+    function SelectItem(props) {
+        _classCallCheck(this, SelectItem);
+
+        var _this3 = _possibleConstructorReturn(this, (SelectItem.__proto__ || Object.getPrototypeOf(SelectItem)).call(this, props));
+
+        _this3.componentWillMount = function () {
+            _this3.getItemList();
+        };
+
+        _this3.setDefaultValue = function () {
+            if (_this3.props.defaultValue) {
+                _this3.field.setValue('itemId', _this3.props.defaultValue);
+                _this3.props.onChange(_this3.props.defaultValue, _this3.state.itemList && _this3.state.itemList.filter(function (value) {
+                    return value === _this3.props.defaultValue;
+                }));
+            } else if (_this3.props.required) {
+                var _val = _this3.state.itemList && _this3.state.itemList[0] && _this3.state.itemList[0].value || '';
+                _this3.field.setValue('itemId', _val);
+                _this3.props.onChange(_val, _this3.state.itemList && _this3.state.itemList[0]);
+            }
+        };
+
+        _this3.getItemList = function (title) {
+            clearTimeout(_this3.getItemListTimer);
+            _this3.getItemListTimer = setTimeout(function () {
+                var _params = {
+                    isQueryMainItem: true,
+                    pageIndex: 1,
+                    pageSize: 200,
+                    title: title
+                };
+                if (_this3.isfirstMount) {
+                    _params.itemId = _this3.props.defaultValue;
+                }
+                _provider2.default.getItemList(_params).then(function (res) {
+                    var itemData = res.data || [];
+                    var itemList = itemData.map(function (item) {
+                        return {
+                            label: item.title + '(' + item.itemId + ')',
+                            value: String(item.itemId)
+                        };
+                    });
+                    _this3.setState({ itemList: itemList }, function () {
+                        if (_this3.isfirstMount) {
+                            _this3.setDefaultValue();
+                            _this3.isfirstMount = false;
+                        }
+                    });
+                });
+            }, 300);
+        };
+
+        _this3.onChange = function (val, option) {
+            _this3.props.onChange(val, option);
+        };
+
+        _this3.state = {
+            itemList: [],
+            itemId: ''
+        };
+        _this3.isfirstMount = true;
+        _this3.field = new _index2.Field(_this3);
+        return _this3;
+    }
+
+    _createClass(SelectItem, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {}
+    }, {
+        key: "render",
+        value: function render() {
+            var init = this.field.init;
+
+            var that = this;
+            return _react2.default.createElement(_index2.Select, _extends({}, init('itemId', {
+                props: {
+                    onChange: function onChange(val, option) {
+                        that.onChange(val, option);
+                        that.field.setValue('itemId', val);
+                    }
+                }
+            }), {
+                disabled: this.props.disabled,
+                autoWidth: false,
+                showSearch: true,
+                onSearch: this.getItemList,
+                dataSource: this.state.itemList, filterLocal: false, style: _extends({ width: '100%' }, this.props.style), hasClear: typeof this.props.hasClear !== 'undefined' ? this.props.hasClear : true }));
+        }
+    }]);
+
+    return SelectItem;
+}(_react2.default.Component);
+
+SelectItem.defaultProps = {
+    style: { width: "100%" },
+    defaultValue: '',
+    disabled: false
+};
+
+var commonComponents = {
+    SelectVendingStatus: SelectVendingStatus,
+    SelectItem: SelectItem,
+    SelectSeller: SelectSeller
+};
+
+exports.default = _extends({}, _index.Comps, commonComponents);
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/lib/constant',['../provider.js'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _provider = require('../provider.js');
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Constant = {
+    deviceStatus: [{ 'label': '在线', 'value': 0 }, { 'label': '异常', 'value': 1 }],
+    deviceType: [],
+    deviceVersionStatus: [],
+    deviceVersionType: [],
+    deviceVersionPublishType: [],
+    deviceLogType: []
+};
+
+function getConstant() {
+    if (this.hasGotConstant) {
+        return Promise.resolve(Constant);
+    } else {
+        return new Promise(function (resolve) {
+            var _this = this;
+
+            _provider2.default.getConstant().then(function (res) {
+                var _obj = res.data || {};
+                Constant = _extends({}, Constant, _obj);
+                _this.hasGotConstant = true;
+                resolve(Constant);
+            });
+        });
+    }
+}
+
+exports.default = getConstant;
+module.exports = exports['default'];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/step',['mui/reactjs/react','mui/reactjs/react-dom.js','mui/fusion/index','ascm-comp/lib-utils-mendian/index','mui/fusion-panel/index','./editVendingAuthorize.js','./selectItemTransfer.js','./lib/commonComponents.js','./provider.js'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("mui/reactjs/react-dom.js");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _index = require("mui/fusion/index");
+
+var _index2 = require("ascm-comp/lib-utils-mendian/index");
+
+var _index3 = require("mui/fusion-panel/index");
+
+var _index4 = _interopRequireDefault(_index3);
+
+var _editVendingAuthorize = require("./editVendingAuthorize.js");
+
+var _editVendingAuthorize2 = _interopRequireDefault(_editVendingAuthorize);
+
+var _selectItemTransfer = require("./selectItemTransfer.js");
+
+var _selectItemTransfer2 = _interopRequireDefault(_selectItemTransfer);
+
+var _commonComponents = require("./lib/commonComponents.js");
+
+var _provider = require("./provider.js");
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var StepComp = function (_React$Component) {
+    _inherits(StepComp, _React$Component);
+
+    function StepComp() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, StepComp);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = StepComp.__proto__ || Object.getPrototypeOf(StepComp)).call.apply(_ref, [this].concat(args))), _this), _this.field = new _index.Field(_this), _this.state = {
+            currentStep: 0,
+            itemId: '',
+            selected: []
+            // selected = []
+
+        }, _this.componentDidMount = function () {
+            var itemId = _this.props.openMethod == 'hash' ? _index2.Util.getHashSearchParams().itemId : _this.props.itemId;
+            _this.setState({
+                itemId: itemId
+            });
+        }, _this.renderChooseVending = function () {
+            // const itemId = this.props.openMethod == 'hash' ? Util.getHashSearchParams().itemId : this.props.itemId
+
+            return _react2.default.createElement(_editVendingAuthorize2.default, { itemId: _this.state.itemId, onChange: function onChange(selected) {
+                    return _this.setState({ selected: selected });
+                } });
+        }, _this.renderSelectItem = function () {
+
+            var itemId = _this.props.openMethod == 'hash' ? _index2.Util.getHashSearchParams().itemId : _this.props.itemId;
+
+            return _react2.default.createElement("div", null, _react2.default.createElement(_selectItemTransfer2.default, { defaultValue: itemId, itemId: _this.state.itemId, onChange: function onChange(itemId) {
+                    return _this.setState({ itemId: itemId });
+                } }));
+        }, _this.submit = function () {
+            _provider2.default.goodsAuthorize({
+                data: JSON.stringify({
+                    itemId: _this.state.itemId,
+                    isGrant: 1,
+                    deviceIdList: _this.state.selected.map(function (item) {
+                        return item.deviceID;
+                    })
+                })
+            }).then(function (res) {
+                if (res && res.success) {
+                    _index.Feedback.toast.success('授权成功');
+                }
+            });
+        }, _this.close = function () {
+            _this.props.afterClose();
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(StepComp, [{
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            var currentStep = this.state.currentStep;
+
+            var title = '编辑商品授权';
+            var stepsList = ['选择商品', '选择贩卖机'];
+            var content = null;
+            var steps = stepsList.map(function (item, index) {
+                return _react2.default.createElement(_index.Step.Item, { className: "Item", key: index, title: item });
+            });
+
+            switch (currentStep) {
+                case 0:
+                    content = this.renderSelectItem();
+                    break;
+                case 1:
+                    content = this.renderChooseVending();
+                    break;
+            }
+
+            return _react2.default.createElement(_index4.default, { title: title }, _react2.default.createElement(_index.Step, {
+                current: currentStep }, steps), _react2.default.createElement("div", { style: { marginTop: '20px' } }, content), _react2.default.createElement("div", { style: { marginTop: '20px', textAlign: 'center' } }, this.props.showClose && _react2.default.createElement(_index.Button, { type: "normal", onClick: this.close }, "\u5173\u95ED"), currentStep > 0 ? _react2.default.createElement(_index.Button, { type: "secondary", onClick: function onClick() {
+                    return _this2.setState({ currentStep: currentStep - 1 });
+                } }, "\u4E0A\u4E00\u6B65") : null, currentStep < stepsList.length - 1 && _react2.default.createElement(_index.Button, { type: "secondary", onClick: function onClick() {
+                    return _this2.setState({ currentStep: currentStep + 1 });
+                } }, "\u4E0B\u4E00\u6B65"), currentStep == stepsList.length - 1 && _react2.default.createElement(_index.Button, { onClick: this.submit, type: "secondary" }, "\u5B8C\u6210")));
+        }
+    }]);
+
+    return StepComp;
+}(_react2.default.Component);
+
+StepComp.defaultProps = {
+    afterClose: function afterClose() {},
+
+    showClose: true,
+    openMethod: 'hash', // 打开方式 弹窗 popup, url地址 hash
+    itemId: ''
+};
+
+StepComp.open = function open() {
+
+    var div = document.createElement('div');
+    document.body.appendChild(div);
+
+    function destroy() {
+        _reactDom2.default.unmountComponentAtNode(div);
+        document.body.removeChild(div);
+    }
+
+    for (var _len2 = arguments.length, props = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        props[_key2] = arguments[_key2];
+    }
+
+    _reactDom2.default.render(_react2.default.createElement(StepComp, _extends({ openMethod: "popup", afterClose: destroy }, props)), div);
+};
+
+exports.default = StepComp;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/editVendingAuthorize',['mui/reactjs/react','mui/reactjs/react-dom.js','mui/fusion/index','ascm-comp/lib-utils-mendian/index','./lib/transfer.js','./provider.js'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("mui/reactjs/react-dom.js");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _index = require("mui/fusion/index");
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = require("ascm-comp/lib-utils-mendian/index");
+
+var _transfer = require("./lib/transfer.js");
+
+var _transfer2 = _interopRequireDefault(_transfer);
+
+var _provider = require("./provider.js");
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var formItemLayout = {
+    labelCol: { span: 4 },
+    wrapperCol: { span: 20 }
+};
+
+var EditGoodsAuthorize = function (_React$Component) {
+    _inherits(EditGoodsAuthorize, _React$Component);
+
+    function EditGoodsAuthorize() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, EditGoodsAuthorize);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditGoodsAuthorize.__proto__ || Object.getPrototypeOf(EditGoodsAuthorize)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            list: []
+        }, _this.field = new _index.Field(_this), _this.onChange = function (arr) {
+            _this.props.onChange(arr);
+        }, _this.renderItem = function (data) {
+            return _react2.default.createElement("div", null, data.deviceName);
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(EditGoodsAuthorize, [{
+        key: "componentWillMount",
+        value: function componentWillMount() {
+            var _this2 = this;
+
+            _provider2.default.getDeviceList({
+                itemId: this.props.itemId,
+                isContainAllDevice: true
+            }).then(function (res) {
+                var data = res || [];
+                var list = data.map(function (item) {
+                    var deviceId = item.deviceId,
+                        deviceName = item.deviceName,
+                        cityName = item.cityName,
+                        state = item.state;
+
+                    return {
+                        deviceID: deviceId,
+                        deviceName: deviceName,
+                        cityName: cityName,
+                        state: state
+                    };
+                });
+                _this2.setState({
+                    list: list
+                });
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var list = this.state.list;
+            var init = this.field.init;
+
+            return _react2.default.createElement("div", null, _react2.default.createElement(_transfer2.default, {
+                data: list,
+                onChange: this.onChange
+            }));
+        }
+    }]);
+
+    return EditGoodsAuthorize;
+}(_react2.default.Component);
+
+EditGoodsAuthorize.defaultProps = {
+    itemId: '',
+    onChange: function onChange() {}
+};
+exports.default = EditGoodsAuthorize;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/lib/transfer',['mui/reactjs/react','mui/reactjs/react-dom.js','mui/fusion/index','mui/fusion-panel/index','./transfer.css'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("mui/reactjs/react-dom.js");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _index = require("mui/fusion/index");
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = require("mui/fusion-panel/index");
+
+var _index4 = _interopRequireDefault(_index3);
+
+require("./transfer.css");
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var Row = _index.Grid.Row,
+    Col = _index.Grid.Col;
+
+var Columns = [{
+    title: '贩卖机名称',
+    dataIndex: 'deviceName'
+}, {
+    title: '贩卖机编码',
+    dataIndex: 'deviceID'
+}, {
+    title: '城市',
+    dataIndex: 'cityName'
+}];
+
+var Transfer = function (_React$Component) {
+    _inherits(Transfer, _React$Component);
+
+    function Transfer() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, Transfer);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Transfer.__proto__ || Object.getPrototypeOf(Transfer)).call.apply(_ref, [this].concat(args))), _this), _this.field = new _index.Field(_this), _this.state = {
+            allData: [],
+            leftList: [],
+            rightList: []
+        }, _this.leftSelectedKeys = [], _this.rightSelectedKeys = [], _this.rowSelectedOnChange = function (side) {
+            return function (selectedRowKeys, records) {
+                _this[side + 'SelectedKeys'] = selectedRowKeys;
+            };
+        }, _this.renderList = function (side) {
+
+            return _react2.default.createElement(_index.Table, { dataSource: _this.state[side + 'List'], rowSelection: { onChange: _this.rowSelectedOnChange(side) }, primaryKey: "deviceID" }, Columns.map(function (column, index) {
+                return _react2.default.createElement(_index.Table.Column, { title: column.title, dataIndex: column.dataIndex, key: String(index) });
+            }));
+        }, _this.filterSearch = function (side) {
+            return function () {
+                var fields = _this.field.getValues();
+
+                var allData = _this.state.allData;
+                var list = allData.filter(function (item) {
+                    var isInclude = true;
+                    if (isInclude && typeof fields[side + '-deviceName'] !== 'undefined') {
+                        isInclude = isInclude && item.deviceName.toString().includes(fields[side + '-deviceName']);
+                    }
+                    if (isInclude && typeof fields[side + '-deviceID'] !== 'undefined') {
+                        isInclude = isInclude && item.deviceID.toString().includes(fields[side + '-deviceID']);
+                    }
+                    if (side == 'left') {
+                        isInclude = isInclude && item.state == 2;
+                    } else {
+                        isInclude = isInclude && item.state == 1;
+                    }
+                    return isInclude;
+                });
+                var state = {};
+                state[side + 'List'] = list;
+                _this.setState(state, function () {
+                    return _this.props.onChange(_this.state.rightList);
+                });
+            };
+        }, _this.updateSideList = function () {
+            _this.filterSearch('left')();
+            _this.filterSearch('right')();
+        }, _this.transferData = function (action) {
+            function isInclude(id, arr) {
+                for (var len = arr.length - 1; len >= 0; len--) {
+                    if (arr[len] == id) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return function () {
+                var allData = _this.state.allData;
+                var selected = _this.leftSelectedKeys;
+                var stateValue = 1;
+                if (action == 'delete') {
+                    selected = _this.rightSelectedKeys;
+                    stateValue = 2;
+                }
+                allData.forEach(function (item) {
+                    if (isInclude(item.deviceID, selected)) {
+                        item.state = stateValue;
+                    }
+                });
+                _this.setState({ allData: allData }, _this.updateSideList);
+            };
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(Transfer, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({
+                allData: nextProps.data
+            }, this.updateSideList);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var init = this.field.init;
+
+            return _react2.default.createElement("div", { className: "vending-transfer" }, _react2.default.createElement("div", { className: "left-panel" }, _react2.default.createElement(_index4.default, { title: "\u5F85\u9009", style: { height: '100%', width: '100%' } }, _react2.default.createElement("div", { className: "filters" }, _react2.default.createElement(Row, { style: { paddingTop: '4px' } }, _react2.default.createElement(Col, { span: "6" }, _react2.default.createElement(_index.Input, _extends({}, init('left-deviceName'), { placeholder: "\u8D29\u5356\u673A\u540D\u79F0", style: { width: '100%' }, size: "small" }))), _react2.default.createElement(Col, { span: "6" }, _react2.default.createElement(_index.Input, _extends({}, init('left-deviceID'), { placeholder: "\u8D29\u5356\u673A\u7F16\u7801", style: { width: '100%' }, size: "small" }))), _react2.default.createElement(Col, { span: "12" }, _react2.default.createElement(_index.Button, { type: "primary", size: "small", style: { float: 'right' }, onClick: this.filterSearch('left') }, "\u67E5\u8BE2")))), _react2.default.createElement("div", { className: "content" }, this.renderList('left')))), _react2.default.createElement("div", { className: "operator" }, _react2.default.createElement("div", { className: "center" }, _react2.default.createElement("div", null, _react2.default.createElement(_index.Button, { size: "medium", type: "primary", onClick: this.transferData('add') }, ">")), _react2.default.createElement("div", { style: { marginTop: '10px' } }, _react2.default.createElement(_index.Button, { size: "medium", type: "secondary", onClick: this.transferData('delete') }, "<")))), _react2.default.createElement("div", { className: "right-panel" }, _react2.default.createElement(_index4.default, { title: "\u5DF2\u9009", style: { height: '100%', width: '100%' } }, _react2.default.createElement("div", { className: "filters" }, _react2.default.createElement(Row, { style: { paddingTop: '4px' } }, _react2.default.createElement(Col, { span: "6" }, _react2.default.createElement(_index.Input, _extends({}, init('right-deviceName'), { placeholder: "\u8D29\u5356\u673A\u540D\u79F0", style: { width: '100%' }, size: "small" }))), _react2.default.createElement(Col, { span: "6" }, _react2.default.createElement(_index.Input, _extends({}, init('right-deviceID'), { placeholder: "\u8D29\u5356\u673A\u7F16\u7801", style: { width: '100%' }, size: "small" }))), _react2.default.createElement(Col, { span: "12" }, _react2.default.createElement(_index.Button, { type: "primary", size: "small", style: { float: 'right' }, onClick: this.filterSearch('right') }, "\u67E5\u8BE2")))), _react2.default.createElement("div", { className: "content" }, this.renderList('right')))));
+        }
+    }]);
+
+    return Transfer;
+}(_react2.default.Component);
+
+exports.default = Transfer;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/selectItemTransfer',['mui/reactjs/react','mui/reactjs/react-dom.js','mui/fusion/index','mui/fusion-panel/index','ascm-comp/lib-utils-mendian/index','./lib/transfer.css','./provider.js'],function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = require("mui/reactjs/react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("mui/reactjs/react-dom.js");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _index = require("mui/fusion/index");
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = require("mui/fusion-panel/index");
+
+var _index4 = _interopRequireDefault(_index3);
+
+var _index5 = require("ascm-comp/lib-utils-mendian/index");
+
+require("./lib/transfer.css");
+
+var _provider = require("./provider.js");
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var Row = _index.Grid.Row,
+    Col = _index.Grid.Col;
+
+var Columns = [{
+    title: '商品名称',
+    dataIndex: 'scItemName'
+}, {
+    title: '商品编码',
+    dataIndex: 'itemId'
+}, {
+    title: '货主名称',
+    dataIndex: 'sellerNick'
+}, {
+    title: '货主编码',
+    dataIndex: 'sellerId'
+}];
+
+var SelectItemTransfer = function (_React$Component) {
+    _inherits(SelectItemTransfer, _React$Component);
+
+    function SelectItemTransfer() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, SelectItemTransfer);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SelectItemTransfer.__proto__ || Object.getPrototypeOf(SelectItemTransfer)).call.apply(_ref, [this].concat(args))), _this), _this.field = new _index.Field(_this), _this.state = {
+            allData: [],
+            leftList: [],
+            rightList: [],
+            pageIndexLeft: 1,
+            tableTotalLeft: 0,
+            pageSizeLeft: 20
+        }, _this.componentDidMount = function () {
+            _this.getGoodsList();
+        }, _this.getGoodsList = function () {
+            var params = _this.field.getValues();
+            params.pageIndex = _this.state.pageIndexLeft;
+            params.pageSize = _this.state.pageSizeLeft;
+            _provider2.default.getGoodsAuthorizeList(params).then(function (res) {
+                _this.setState({
+                    allData: res.data || []
+                });
+            });
+        }, _this.leftSelectedKeys = [], _this.rightSelectedKeys = [], _this.rowSelectedOnChange = function (side) {
+            return function (selectedRowKeys, records) {
+                _this[side + 'SelectedKeys'] = selectedRowKeys;
+            };
+        }, _this.renderList = function (side) {
+            return _react2.default.createElement(_index.Table, { dataSource: _this.state[side + 'List'], rowSelection: { onChange: _this.rowSelectedOnChange(side), mode: 'single' }, primaryKey: "deviceID" }, Columns.map(function (column, index) {
+                return _react2.default.createElement(_index.Table.Column, { title: column.title, dataIndex: column.dataIndex, key: String(index) });
+            }));
+        }, _this.updateSideList = function () {
+            _this.filterSearch('left')();
+            _this.filterSearch('right')();
+        }, _this.transferData = function (action) {
+            function isInclude(id, arr) {
+                for (var len = arr.length - 1; len >= 0; len--) {
+                    if (arr[len] == id) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return function () {
+                var allData = _this.state.allData;
+                var selected = _this.leftSelectedKeys;
+                var stateValue = 1;
+                if (action == 'delete') {
+                    selected = _this.rightSelectedKeys;
+                    stateValue = 2;
+                }
+                allData.forEach(function (item) {
+                    if (isInclude(item.deviceID, selected)) {
+                        item.state = stateValue;
+                    }
+                });
+                _this.setState({ allData: allData }, _this.updateSideList);
+            };
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(SelectItemTransfer, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            // this.setState({
+            //     allData: nextProps.data
+            // }, this.updateSideList)
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            var init = this.field.init;
+
+            return _react2.default.createElement("div", { className: "vending-transfer" }, _react2.default.createElement("div", { className: "left-panel" }, _react2.default.createElement(_index4.default, { title: "\u5F85\u9009", style: { height: '100%', width: '100%' } }, _react2.default.createElement("div", { className: "filters" }, _react2.default.createElement(Row, { style: { paddingTop: '4px' } }, _react2.default.createElement(Col, { span: "6" }, _react2.default.createElement(_index.Input, _extends({}, init('left-deviceName'), { placeholder: "\u5546\u54C1\u540D\u79F0", style: { width: '100%' }, size: "small" }))), _react2.default.createElement(Col, { span: "6" }, _react2.default.createElement(_index.Input, _extends({}, init('left-deviceID'), { placeholder: "\u5546\u54C1\u7F16\u7801", style: { width: '100%' }, size: "small" }))), _react2.default.createElement(Col, { span: "12" }, _react2.default.createElement(_index.Button, { type: "primary", size: "small", style: { float: 'right' }, onClick: this.getGoodsList }, "\u67E5\u8BE2")))), _react2.default.createElement("div", { className: "content" }, this.renderList('left')), _react2.default.createElement("div", { className: "pagination", style: { marginTop: '20px' } }, _react2.default.createElement(_index.Pagination, {
+                size: "small",
+                current: this.state.pageIndexLeft,
+                total: this.state.tableTotalLeft,
+                pageSize: this.state.pageSizeLeft,
+                pageSizeSelector: "dropdown",
+                pageSizePosition: "end",
+                style: { lineHeight: "30px" },
+                onPageSizeChange: function onPageSizeChange(pageSize) {
+                    _this2.setState({
+                        pageSizeLeft: pageSize
+                    }, _this2.getGoodsList);
+                },
+                onChange: function onChange(pageIndex) {
+                    _this2.setState({
+                        pageIndexLeft: pageIndex
+                    }, _this2.getGoodsList);
+                }
+            })))), _react2.default.createElement("div", { className: "operator" }, _react2.default.createElement("div", { className: "center" }, _react2.default.createElement("div", null, _react2.default.createElement(_index.Button, { size: "medium", type: "primary", onClick: this.transferData('add') }, ">")), _react2.default.createElement("div", { style: { marginTop: '10px' } }, _react2.default.createElement(_index.Button, { size: "medium", type: "secondary", onClick: this.transferData('delete') }, "<")))), _react2.default.createElement("div", { className: "right-panel" }, _react2.default.createElement(_index4.default, { title: "\u5DF2\u9009", style: { height: '100%', width: '100%' } }, _react2.default.createElement("div", { className: "filters" }, _react2.default.createElement(Row, { style: { paddingTop: '4px' } }, _react2.default.createElement(Col, { span: "6" }, _react2.default.createElement(_index.Input, _extends({}, init('right-deviceName'), { placeholder: "\u8D29\u5356\u673A\u540D\u79F0", style: { width: '100%' }, size: "small" }))), _react2.default.createElement(Col, { span: "6" }, _react2.default.createElement(_index.Input, _extends({}, init('right-deviceID'), { placeholder: "\u8D29\u5356\u673A\u7F16\u7801", style: { width: '100%' }, size: "small" }))), _react2.default.createElement(Col, { span: "12" }, _react2.default.createElement(_index.Button, { type: "primary", size: "small", style: { float: 'right' }, onClick: this.filterSearch }, "\u67E5\u8BE2")))), _react2.default.createElement("div", { className: "content" }, this.renderList('right')))));
+        }
+    }]);
+
+    return SelectItemTransfer;
+}(_react2.default.Component);
+
+exports.default = SelectItemTransfer;
+module.exports = exports["default"];
+});
+
+define('ascm-comp/merchandise-vending-goods-authorize-mendian/locale/index',function (require, exports, module) {
+             
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  'zh-cn': {
+    title: '标题'
+  }
+};
+module.exports = exports['default'];
+});

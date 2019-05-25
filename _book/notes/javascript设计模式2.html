@@ -1,0 +1,965 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>javascript设计模式2</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+	*{
+		/*margin: 0;
+		padding: 0;*/
+	}
+	.minling{
+		width: 90%;
+		height: 200px;
+	}
+	.minling div{
+		width: 150px;
+		height: 90px;
+		margin-right: 10px;
+		float: left;
+		position: relative;
+	}
+	.minling div::before{
+		content: "";
+		width: 100%;
+		height: 24px;
+		background-color: #333;
+		position: absolute;
+		bottom: 0;
+		opacity: 0.7;
+		/*display: none;*/
+	}
+	.minling div:hover::before{
+		display: block;
+	}
+	.minling div img{
+		width: 150px;
+		height: 90px;
+	}
+	.minling div p{
+		position: absolute;
+		width: 100%;
+		bottom: 0;
+		color: #f5f5f5;
+		text-align: center;
+		display: none;
+	}
+	.minling div:hover p{
+		display: block;
+	}
+
+	</style>
+</head>
+<body>
+	<h1>javascript设计模式2</h1>
+
+	<h3>1. 命令模式</h3>
+	<p>
+		所谓命令模式，就是解耦了命令发送者与命令接收者，何谓命令发送者，何谓命令接收者，举个例子，我点击一个按钮，一个div变红，命令发送者就是按钮，接收者就是div。当然这是简单的例子，为什么要解耦，好处就是解耦了各个对象的联系。
+	</p>
+	<p>
+		<p>
+			命令模式的主要用途是把调用对象（用户界面、API和代理等）与实现操作的对象隔离开。凡是两个对象间互动方式需要有更高的模块化程度时都可以用到这种模式。
+命令的意思是用一个简单方法或函数去执行和这个命令相关的实际操作。就如同用遥控器打开电视一样，只按一个按键就可以打开电视，简单、方便。它具体的实现操作我们不用关心。那是有电视器来处理的。电视对遥控器提供了一个接口(信号)，遥控器只需要在点击时实现这个接口就可以了
+		</p>
+		命令模式是一种行为型设计模式
+	</p>
+	<h4>1.2 模式分析</h4>
+
+	<p>1.命令模式的本质是对命令进行封装，将发出命令的责任和执行命令的责任分割开。</p>
+	<p>2.每一个命令都是一个操作：请求的一方发出请求，要求执行一个操作；接收的一方收到请求，并执行操作。</p>
+	<p>
+		3.命令模式允许请求的一方和接收的一方独立开来，使得请求的一方不必知道接收请求的一方的接口，更不必知道请求是怎么被接收，以及操作是否被执行、何时被执行，以及是怎么被执行的。
+	</p>
+	<p>4.命令模式使请求本身成为一个对象，这个对象和其他对象一样可以被存储和传递。</p>
+	<p>
+		5.命令模式的关键在于引入了抽象命令接口，且发送者针对抽象命令接口编程，只有实现了抽象命令接口的具体命令才能与接收者相关联。
+	</p>
+	<h4>1.3 模式优点</h4>
+
+	<p>1.降低对象之间的耦合度。</p>
+	<p>2.新的命令可以很容易地加入到系统中。</p>
+	<p>3.可以比较容易地设计一个组合命令。</p>
+	<p>4.调用同一方法实现不同的功能</p>
+	
+	<h4>1.4 命令模式渲染视图</h4>
+
+	<div class="jieguo minling" id="minling">
+		
+	</div>
+<br />	
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	//用命令模式来创建视图.
+	var tpl = "<div><img src='Zz{src}zZ' alt=''><p>Zz{text}zZ</p></div>"
+
+	var productData = [
+	{
+		src : 'img/01.jpg',
+		text : '迎着朝阳的野菊花'
+	},
+	{
+		src : 'img/02.jpg',
+		text : '绽放的桃花'
+	},
+	{
+		src : 'img/03.jpg',
+		text : '阳光下的温馨'
+	},
+	{
+		src : 'img/04.jpg',
+		text : '镜头前的绿色'
+	}
+	];
+
+//视图创建命令. 传入要创建的样式,就可以创建相应的dom结构
+var viewCommand = (function haha(){
+	/**
+	*模板生成函数
+	* @tpl 		模板字符串
+	* @data 	要传入的数据
+	*/
+	function formatString(tpl,data){
+
+		var result = tpl.replace(/Zz{(\w+)}zZ/g,function(match,	key){
+			//如果这个k值不存在返回""
+			data[key] ? data[key] : "";
+			return data[key];
+		})
+		return result;
+	}
+	var html = "";  //保存dom字符串
+
+	//cmd 命令集合, 存放所有的命令
+	var cmd = {
+
+		/**
+		* 接受模板和数据后生成dom字符串
+		* @obj.tpl  //模板字符串
+		* @obj.data //要生成的数据
+		*/
+		create : function(obj){
+		
+			//如果传入的obj.data是数据,需要遍历生成dom
+			if(obj.data instanceof Array){
+				for(var i = 0; i<obj.data.length;i++){
+					html += formatString(obj.tpl,obj.data[i]);
+				}
+			}else{
+				//是obj不是数组,执行一次即可
+				html += formatString(obj.tpl,obj.data);
+			}
+		},
+
+		/**
+		 * 将html字符串渲染页面中
+		 * @obj.id 	页面中渲染字符串容器id 必须
+		 * @obj.tpl	模板
+		 * @obj.data 
+		 */
+		display : function(obj){
+			if(obj.tpl && obj.data){
+				this.create(obj);
+			}
+			var dom = document.getElementById(obj.id);
+			dom.innerHTML += html;
+			html = "";
+		}
+	}
+
+
+	return{
+	/**
+	* excute 执行命令的接口,接受传进来的命令名称,调用命令集合里的命令并执行.
+	* obj.command //要执行的命令的名称
+	* obj.param   //执行该命令所需的参数
+	* obj.param.data //create命令所需要的目标数据
+	* obj.param.id //display命令所需要的目标节点id	
+	*/
+	 excute : function(obj){
+		//调用命令执行
+		//用户所传入的命令
+		var command = cmd[obj.command];
+		//执行命令
+		command.call(cmd,obj.param);
+		console.log(this)
+		return this; //返回this方便链式调用. 这个this就是renturn后面的这个obj,返回的this也拥有excute方法
+	}
+}
+})()
+
+	// 测试
+
+	//create命令创建数据节点,display命令显示创建的节点
+	viewCommand.excute({
+		command : "create",
+		"param" : {
+			tpl : tpl,
+			data : productData
+		}
+	})
+	.excute({
+		command : "create",
+		param : {
+			tpl : tpl,
+			data : {
+			src : 'img/02.jpg',
+			text : '绽放的桃花'}
+		}
+	})
+	.excute({
+		command : "display",
+		"param" : {
+			id :"minling"			
+		}
+	})
+	
+	</script>
+</div>
+
+<h3>2. 迭代器模式</h3>
+<p>
+	迭代器模式是一种用来顺序处理聚合对象中各个元素，而又不暴露该对象的内部的模式
+</p>
+
+<p>
+针对迭代器，这里有几个特点： <br />
+访问一个聚合对象的内容而无需暴露它的内部。 <br />
+为遍历不同的集合结构提供一个统一的接口，从而支持同样的算法在不同的集合结构上进行操作。<br />
+遍历的同时更改迭代器所在的集合结构可能会导致问题。<br />
+简单的说：封装实现，然后迭代器的聚合对象不用关心迭代的过程，从而符合SRP原则。<br />
+</p>
+<h4>2.1 数组迭代器：</h4>
+<p>1 Jquery中each-》回调函数中的第一个参数表示索引值，第二个参数表示值，他的this既不是指向window，也不是指向数组本身</p>
+<p>2 高级浏览器中，forEach数组迭代器，他的第一个参数表示是值，第二个表示索引值。他的this指向window</p>
+<p>3 我们自定义数组迭代器，希望他this可以指向数组本身，在循环体中执行回调函数时，我们直接传入参数时候，那么实现forEach方法。如果我们将该回调函数在数组的作用域下执行，那么this就指向了原数组，此时，我们就可以在回调函数中通过this来访问元素组了</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//数组迭代器
+	var arr = [3,4,6,7]
+	function arrEach(arr,callback){
+		if(arr.length>0){
+			for (var i=0, len = arr.length;i<len;i++){
+				//通过call方法把回调函数中的this绑定为这个数组
+				callback && callback.call(arr,arr[i],i,arr)
+			}
+		}
+	}
+	
+	</script>
+</div>
+<h4>
+	2.2 对象迭代器
+</h4>
+<p>
+	用来遍历一个对象的内部属性
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//对象迭代器
+	/**
+	* @obj  传入的对象
+	* @cb   回调函数
+	*/
+	function objEach(obj,cb){
+		for(var k in obj){
+		cb && cb.call(obj,obj[k],k,obj);		
+		}
+	}	
+	</script>
+</div>
+
+<h4>2.3 面向对象中的迭代器</h4>
+<p>
+	面向对象中有时我们需要遍历实例化对象中的自身属性，过滤掉原型上的属性，此时我们可以通过hasOwnProperty来实现
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//面向对象中的迭代器
+	/**
+	* @obj 	要遍历的对象
+	* @cb   回调函数
+	*/
+	function objEach(obj,cb){
+
+		for(var k in obj){
+			//只输出构造函数中的属性, 不输出原型中的属性
+			//hasOwnProperty 用来检测一个属性是不是函数自身构造函数中的的属性
+			if(obj.hasOwnProperty(k)){
+				cb && cb.call(obj,obj[k],k,obj) 
+			}	
+		}
+	}
+
+
+	//应用举例
+	var Ball = function(x,y,vx,vy){
+		this.x = x;
+		this.y = y;
+		this.vx = vx;
+		this.vy = vy;
+	}
+	Ball.prototype = {
+		"color" : "red",
+		"move"  : function(){
+			console.log("moving")
+		}
+	}
+
+	var b = new Ball(10,20,30,40);
+	//遍历对象b的属性
+	objEach(b,function(value,key,obj){
+		console.log(value,key,obj,this); 
+	})
+
+	</script>
+</div>
+<h4>2.4 DOM迭代器</h4>
+<p>用来遍历dom元素; 如jQuery中的 $ 获取元素的方法</p>
+<p>$("div:last") ; $("div : first")等</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	//模拟jQuery中的 DOM 迭代器($获取元素的方法)
+
+	var Iterator = function Iterator(id){
+		this.container = document.getElementById(id);
+		this.items = this.container.getElementsByTagName("li");
+		this.index = 0;
+		this.length = this.items.length;
+	}
+	Iterator.prototype = {
+		//获取当前元素
+		getCurrent : function(){
+			return this.items[this.index];
+		},
+		//获取第一个
+		first : function(){
+			return this.items[0];
+		},
+		last : function(){
+			return this.items[this.length-1];
+		},
+		//获取前一个元素
+		pre : function(){
+			if(this.index <= 0){
+				return this.last;
+			}
+			this.index = this.index - 1;
+			return this.getCurrent();
+		},
+		//获取后一个
+		next : function(){
+			if(this.index >= this.length - 1){
+				return this.first;
+			}	
+			this.index = this.index + 1;
+			return this.getCurrent();
+		},
+		//不设置index 返回所选元素
+		get : function(index){
+			var num = (index % this.length + this.length) % this.length;
+			return this.items[num];
+		},
+		//需要设置index元素
+		set : function(index){
+			var num = (index % this.length + this.length) % this.length;
+			this.index = num;
+			return this.getCurrent();
+		},
+		/**
+		 * 操作某个元素
+		 * @idnex 	表示第i个元素
+		 * @fn 		表示处理该元素的回调函数
+		 */
+		 dealItem : function(index,fn){
+		 	var dom = this.get(index);
+		 	//把回调函数中的this绑定为现在操作的dom
+		 	fn.call(dom,index,dom);
+		 	//返回 Iterator 这个函数方便链式调用
+		 	return this;
+		 },
+		 /**
+		 * 处理每一个元素
+		 * @fn 处理每个元素回调函数
+		 */
+		 each : function(fn){
+		 	//遍历所有的元素
+		 	for(var i = 0; i<this.length;i++){
+		 		/**
+		 		* @param1 把回调的this绑定为所获取的dom
+		 		* @param2 所处理的元素的索引值
+		 		* @param3 当前所处理的元素的dom
+		 		*/
+		 		fn.call(this.get(i),i,this.get(i))
+		 	}
+		 	return this;
+		 },
+		 //过滤器
+		 /**
+		 * 过滤某些元素并执行
+		 * @arr 	过滤元素的数组
+		 * @arrFn 	过滤元素执行的回调函数
+		 * @allFn 	所有元素执行的回调函数 
+		 */
+		 // filter(5, fucntion(){}, function() {})
+		 // filter([5, 6, 7], fucntion(){}, function() {})
+		 filter : function(arr,arrFn,allFn){
+		 	//其他元素要执行的动作
+		 	allFn && this.each(allFn);
+		 	//如果第一个参数是一个数组
+		 	if(arr instanceof Array){
+		 		//遍历传进来的数组
+		 		for(var i= 0; i<arr.length; i++){
+		 			this.dealItem(arr[i],arrFn);
+		 		}
+		 	}else {
+		 		//传进来的是一个值,不是数组
+		 		this.dealItem(arr,arrFn);
+		 	}
+		 }
+	}
+
+	//测试: 
+	
+	var lis = new Iterator("list");
+	console.log(Iterator("list"))
+	lis.get(2).style.backgroundColor = "green";
+	//下面的方法也可以链式调用
+	lis.dealItem(4,function(){
+		this.style.backgroundColor = "yellow";
+	}).each(function(){
+		this.style.color = "red";
+	})
+
+	lis.get(2).onclick = function(e){
+		console.log(e)
+	}
+
+	
+	</script>
+</div>
+
+<h3>3. 同步变量</h3>
+<p>
+	通常后端会为我们变量供我们使用，但是我们不知道变量里面的具体内容。
+这种情况下，我们贸然直接获取会报错（改变不存在的时候）
+我们通过迭代器一级一级的去寻找，如果某一级不存在该属性了，我们就直接返回，这样避免错误的发生，
+如果一级一级下去之后，一直存在，我们直接将其返回。
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var AIterator = function(str){
+	//把属性路径中一级一级转为数组. 如 "A.server.site" 转为了[server,title]
+	var path = str.replace(/^A\./,"").split(".");
+	var result = A; //拿到的数据的第一级;
+	for(var i = 0; i<path.length;i++){
+		// path[i] A的第i级属性
+		// result[path[i]] 如果是undefined，那么我们就没有必要对其进行循环查询，直接返回
+		if(result[path[i]] === undefined){
+			return undefined;
+		}else {
+			//一级一级查看
+			result = result[path[i]];
+		}
+	}
+	return result;
+}
+
+// 测试
+//后台提供的数据如下
+var A = {
+	server: {
+		site: 'www.x3927.com',
+		title: '嘻嘻哈哈'
+	},
+	client: {
+		username: 'x3927',
+		uid: 123
+	},
+	common: {
+		local: 'zh'
+	}
+};
+console.log(AIterator("A.server.title")); // 嘻嘻哈哈
+console.log(AIterator("server.title")); // 嘻嘻哈哈
+console.log(AIterator("A.b.c")); // undefined;
+	
+	</script>
+</div>
+<h3>4. 委托模式</h3>
+<p>
+	定义： 是将多个对象接收并处理的请求，统一委托给另外一个对象处理.
+</p>
+<h3>解决的问题:</h3>
+<h4>4.1 事件绑定数量的问题。</h4>
+<p class="hhns">	解决事件绑定数量的问题，我们为一堆元素绑定事件，通过for循环遍历绑定，无形中绑定了n个事件，这样在内存中造成一定的开销。
+我们可以通过这些元素公共的父元素，对其绑定事件，通过e.target事件触发的目标元素的某些属性来确认是哪些元素需要绑定事件来解决上面的问题。
+通常我们可以判断元素的名称，类名，id，及其属性。
+通过对子元素的某些特性判断，来实现对该元素的事件的绑定。
+</p>
+<h4>4.2 未来元素事件绑定问题</h4>
+<p class="hhns">传统式方式通过for循环，只能对现有元素进行事件绑定，当我们在后面添加新的元素的时候，该方案不能对新元素绑定事件。
+委托模式，通过将子元素的事件绑定委托给父元素，事件对子元素事件绑定的效果，这样，在父元素中添加新的子元素，同样可以获取绑定事件的效果	
+</p>
+<h4>4.3 jQuery 事件委托</h4>
+<p class="hhns">	Jquery中给我提供了一个专用来是做事件委托事件绑定方法，delegate，它实质上是通过事件的on方法实现的
+</p>
+<h4>4.4 解决内存外泄露</h4>
+<p class="hhns">	在低版本IE浏览器中，内存只会清理哪些没有被javascript引用的dom元素.
+所以在对元素定义事件时候，如果将元素清理一定要将该元素绑定的事件解除，因此我们要在事件内部显性清除事件绑定，但这就要写在原有事件内部，
+更好的解决方案是对该元素的父元素委托绑定事件，这样当我们清理该元素时候，由于没有事件的绑定，该元素即会被清理
+</p>
+<h4>4.5 数据分发</h4>
+<p class="hhns">
+	动态页面中，页面中的每个模块会对应一个数据请求，然而如果页面中的这类模块很多，我们就要发送多个请求，但是并发请求的个数是有限的 ，因此后面的请求就会被堵塞，为了解决这类问题，我们可以将这些请求委托给父请求统一处理，当接收数据后，解析数据，并派发给各个子模块中，供其使用
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//委托模式的应用
+
+	// html结构
+	// <ul id="list">
+	// 	<li>1</li>
+	// 	<li class = "a">2</li>
+	// 	<li class = "b">3</li>
+	// 	<li>6</li>
+	// </ul>
+	// <div id="box"><button>点击显示信息</button></div>
+
+	//js代码
+	var ul = document.getElementById("list");
+	var lis = ul.getElementsByTagName("li");
+
+	//1. 用委托模式解决绑定事件数量太多的问题
+	//把多个元素的事件绑定给一个元素,通过条件判断来操作真正需要绑定事件的元素.
+	ul.onclick = function(e){
+
+		//给第2个,第3个元素绑定相同的事件;
+		if(e.target.tagName.toLowerCase() == "li" ){
+
+			lis[1].style.backgroundColor = "yellow";
+			lis[2].style.backgroundColor = "yellow";
+		}
+		if(e.target.className.indexOf("a")>=0){
+			e.target.style.color = "red";
+		}else if(e.target.className.indexOf("b")>=0){
+			e.target.style.color = "blue";
+		}	
+
+	}
+
+
+	//2. 内存外泄的问题
+	//点击按钮修改div中的文字,并且清空button 按钮
+
+	//传统的事件绑定方法
+	var oBox = document.getElementById("box");
+	var oBtn = oBox.getElementsByTagName("button")[0];
+	//这种方法虽然从dom中删除了button;但是由于button被事件所引用, 在IE等低版本浏览器中并不能从内存中释放,会浪费系统资源
+	oBtn.onclick = function(){
+		oBox.innerHTML = "哈哈哈哈哈";
+	}
+
+
+	//解决方法1
+	//在点击事件完成后把btn所绑定的事件清空,这样button元素就可以从内存释放了.
+	//但是这种方法不是最好的方法
+	oBtn.onclick = function(){
+		oBtn.onclick = null;
+		oBox.innerHTML = "哈哈哈哈哈";
+	}
+
+	//解决方法2
+	//用委托模式来解决元素删除后内存不能被释放的问题
+	
+	// oBox.onclick = function(e){
+	// 	if(e.target.tagName.toLowerCase() == "button"){
+	// 		oBox.innerHTML = "哈哈哈哈哈";
+	// 	}
+	// }
+
+
+
+	//3. 委托模式来做请求分发
+	// 例如要获取banner, aside, article 三部分的数据并渲染在页面中.如果每个部分都发一个ajax请求会影响效率,
+	// 可以通过委托模式来只发送一个请求,请求3部分的数据,数据回来后再对数据进行解析并分发
+	//请求处理策略
+	function dealStrategy = function(){
+		banner : function(data){
+			$(".banner").html = data;
+		},
+		aside : function(data){
+			$(".aside").html = data;
+		},
+		article : function(data){
+			$(".article").html = data;
+		}
+	}
+
+	//数据解析器，解析数据，并派发给每个子模
+	function Deal(data){
+		//解析数据
+		for(var k in data){
+		// data[i]表示i模块对应的数据，将data[i]传入的我们处理方法中
+			dealStrategy[i](data[i]);
+		}
+	}
+
+	//发送ajax请求
+	$.get("./data/alldata",function(res){
+		if(res.errno === 0 ){
+			Deal(res.data);
+		}
+	})	
+	
+	</script>
+</div>
+<h3>5. 节流模式</h3>
+<p>
+	定义：对重复的业务逻辑进行节流控制，执行最后一次操作并取消其他操作，以提高性能。
+</p>
+<p class="hhns">
+<b>特点:</b>
+1. 通过计时器延迟程序的执行
+通过计时器，使程序异步执行，避免开销大的程序造成的堵塞
+2. 使用条件
+2.1 程序可控：即取消后是否可以继续执行
+2.2 异步执行：即程序是否可以异步执行
+</p>
+<h4>5.1 节流器</h4>
+<p class="hhns">
+节流器通常给我们提供两种使用方式
+1 清除操作，
+2 触发操作
+</p>
+<h4>
+	5.2 例如返回顶部按钮
+</h4>
+<p class="hhns">
+当为返回按钮添加动画时候，通常有以下几种情况
+1 jquery 的animate 方法，但是我们发现，使用时，每次滑动，按钮不停的在运动
+2 通过jquery的stop方法禁止动画的排队，但是对于滚动这种高频事件，每次执行都会添加动画
+4 通过节流模式，短时间内触发多次动画时，前面动画被取消添加，这样只执行最后一次，来提高性能
+</p>
+<h4>
+	5.3 icon浮层
+</h4>
+<p>
+	对于鼠标滑过这类高频事件，我们在处理浮层显隐时，常常会产生闪烁的现象，为了解决这类问题，我们可以通过节流模式，当鼠标稳定划过时显示浮层，提高交互体验
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//节流模式
+
+/**
+ * 节流器Throttle
+ * 触发操作
+ * @arg[0] 	表示函数名称
+ * @arg[1]	选项;json格式,{time : time , context : .. , data : data}
+ *
+ * 取消操作
+ * @arg[0] 	boolean true表示取消操作
+ * @arg[1] 	函数的名称
+ */
+var Throttle = function(){
+
+// isClear 表示是否清除操作，
+// fn 表示函数的名称
+//判断传进来的第一个参数
+var isClear = arguments[0],fn; //逗号语法定义了2个变量
+if(isClear === true){
+	fn = arguments[1]; //如果第一个参数传的是true; 就把第二个参数赋值给fn;
+	if(fn._throtle != undefined){
+	clearTimeout(fn._throtle);		
+	}
+
+}else{
+	//第一个参数传进来的是函数, 设置延时器
+	fn = arguments[0];
+	// o表示选项，里面保存用户使用时添加的计时器的时间， 以及函数的作用域，以及fn执行值传递的数据
+	var o = arguments[1] || { };
+	//参数适配,把传进来的o参数适配给内部参数param
+	var param = {
+		time : o.time || 200,
+		context : o.context || null,
+		data : o.data || {}
+	}
+	//清除之前的延时器
+	//方法1
+	// clearTimeout(fn._throtle); 
+
+	//方法2, 直接调用自身穿进去true走第一个分支清除定时器
+	arguments.callee(true,fn); 
+
+	//设置延时器
+	fn._throtle = setTimeout(function(){
+		fn.call(param.context,param.data);
+	}, param.time)
+}
+}
+
+// //测试
+// var haha = function(text){
+// 	console.log(text);
+// }
+// //设置1500毫秒后执行haha函数
+// Throttle(haha,{
+// 	time : 1500,
+// 	data : "嘻嘻嘻"
+// })
+// //取消
+// Throttle(true,haha);
+
+
+//节流器在返回顶部按钮中的应用
+function goTop(sT){
+	$(".goTop").animate({
+			"top" : sT + 200
+		},200)	
+}
+
+window.onscroll = function(e){
+	var sT = document.body.scrollTop;
+	// goTop(sT)
+	//用节流器
+	Throttle(goTop,{
+		"time" : 200,
+		data : sT
+	});
+}
+	</script>
+</div>
+
+<h3>6. 中介者模式</h3>
+<p>
+	中介者是一个行为设计模式，通过提供一个统一的接口让系统的不同部分进行通信。一般，如果系统有很多子模块需要直接沟通，都要创建一个中央控制点让其各模块通过该中央控制点进行交互。中介者模式可以让这些子模块不需要直接沟通，而达到进行解耦的目的。
+
+打个比方，平时常见的机场交通控制系统，塔台就是中介者，它控制着飞机（子模块）的起飞和降落，因为所有的沟通都是从飞机向塔台汇报来完成的，而不是飞机之前相互沟通。中央控制系统就是该系统的关键，也就是软件设计中扮演的中介者角色。
+</p>
+<p>MVC中的控制器相当于是一个中介者来处理各个模块的请求.</p>
+
+<p>中介者和观察者</p>
+<p>到这里，大家可能迷糊了，中介者和观察者貌似差不多，有什么不同呢？其实是有点类似，但是我们来看看具体的描述：
+观察者模式，没有封装约束的单个对象，相反，观察者Observer和具体类Subject是一起配合来维护约束的，沟通是通过多个观察者和多个具体类来交互的：每个具体类通常包含多个观察者，而有时候具体类里的一个观察者也是另一个观察者的具体类。</p>
+
+<p>而中介者模式所做的不是简单的分发，却是扮演着维护这些约束的职责。
+</p>
+
+<p>中介者和外观模式
+</p>
+<p>很多人可能也比较迷糊中介者和外观模式的区别，他们都是对现有各模块进行抽象，但有一些微妙的区别。
+</p>
+<p>中介者所做的是在模块之间进行通信，是多向的，但外观模式只是为某一个模块或系统定义简单的接口而不添加额外的功能。系统中的其它模块和外观模式这个概念没有直接联系，可以认为是单向性。</p>
+
+
+<h3>8. 享元模式 </h3>
+<p>享元模式主要用来减少程序所需的对象个数. 有一个例子, 我们这边的前端同学几乎人手一本《javascript权威指南》. 从省钱的角度讲, 大约三本就够了. 放在部门的书柜里, 谁需要看的时候就去拿, 看完了还回去. 如果同时有4个同学需要看, 此时再去多买一本.
+在webqq里面, 打开QQ好友列表往下拉的时候，会为每个好友创建一个div( 如果算上div中的子节点, 还远不只1个元素 ).</p>
+
+<p>如果有1000个QQ好友, 意味着如果从头拉到尾, 会创建1000个div, 这时候有些浏览器也许已经假死了. 这还只是一个随便翻翻好友列表的操作.
+所以我们想到了一种解决办法, 当滚动条滚动的时候, 把已经消失在视线外的div都删除掉. 这样页面可以保持只有一定数量的节点. 问题是这样频繁的添加与删除节点, 也会造成很大的性能开销, 而且这种感觉很不对味.</p>
+<p>现在享元模式可以登场了. 顾名思义, 享元模式可以提供一些共享的对象以便重复利用. 仔细看下上图, 其实我们一共只需要10个div来显示好友信息,也就是出现在用户视线中的10个div.这10个div就可以写成享元.
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+// 伪代码如下.
+  var getDiv = (function(){
+    var created = [];
+    var create = function(){
+          return document.body.appendChild( document.createElement( 'div' ) );
+    }
+    var get = function(){
+         if ( created.length ){
+              return created.shift();
+          }else{
+                return create();
+           }
+     }
+/* 一个假设的事件，用来监听刚消失在视线外的div，实际上可以通过监听滚                                     动条位置来实现 */
+      userInfoContainer.disappear(function( div ){
+              created.push( div );
+        })
+ })()
+  var div = getDiv();
+  div.innerHTML = "${userinfo}";
+	
+	</script>
+</div>
+<p>原理其实很简单, 把刚隐藏起来的div放到一个数组中, 当需要div的时候, 先从该数组中取, 如果数组中已经没有了, 再重新创建一个. 这个数组里的div就是享元, 它们每一个都可以当作任何用户信息的载体.
+当然这只是个示例,实际的情况要复杂一些, 比如快速拖动的时候, 我们可能还得为节点设置一个缓冲区</p>
+
+<h3>9. 职责链模式</h3>
+<p>职责链模式是一个对象A向另一个对象B发起请求，如果B不处理，可以把请求转给C，如果C不处理，又可以把请求转给D。一直到有一个对象愿意处理这个请求为止。</p>
+<p>打个比方，客户让老板写个php程序。老板肯定不写，然后老板交给了部门经理。部门经理不愿意写，又交给项目经理。项目经理不会写，又交给程序员。最后由码农来完成。</p>
+
+<p>在这个假设里， 有几条职责链模式的特点。
+</p>
+<p>1 老板只跟部门经理打交道，部门经理只联系项目经理，项目经理只找码农的麻烦。</p>
+<p>2 如果码农也不写，这个项目将会流产。</p>
+<p>3 客户并不清楚这个程序最后是由谁写出来的。</p>
+<p>js中的事件冒泡就是作为一个职责链来实现的。一个事件在某个节点上被触发，然后向根节点传递， 直到被节点捕获。
+</p>
+<h3>10.备忘录模式</h3>
+<p>备忘录模式在js中经常用于数据缓存. 比如一个分页控件, 从服务器获得某一页的数据后可以存入缓存。以后再翻回这一页的时候，可以直接使用缓存里的数据而无需再次请求服务器。</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>
+
+<!-- 代码自动高亮模板 -->
+<div class="daima"  id="haha">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+	//用命令模式来创建视图.
+	var tpl = "<div><img src='Zz{src}zZ' alt=''><p>Zz{text}zZ</p></div>"
+
+	var productData = [
+	{
+		src : './images/img/01.jpg',
+		text : '迎着朝阳的野菊花'
+	},
+	{
+		src : './images/img/02.jpg',
+		text : '绽放的桃花'
+	},
+	{
+		src : './images/img/03.jpg',
+		text : '阳光下的温馨'
+	},
+	{
+		src : './images/img/04.jpg',
+		text : '镜头前的绿色'
+	}
+	];
+
+//视图创建命令. 传入要创建的样式,就可以创建相应的dom结构
+var viewCommand = (function haha(){
+	/**
+	*模板生成函数
+	* @tpl 		模板字符串
+	* @data 	要传入的数据
+	*/
+	function formatString(tpl,data){
+
+		var result = tpl.replace(/Zz{(\w+)}zZ/g,function(match,	key){
+			//如果这个k值不存在返回""
+			data[key] ? data[key] : "";
+			return data[key];
+		})
+		return result;
+	}
+	var html = "";  //保存dom字符串
+
+	//cmd 命令集合, 存放所有的命令
+	var cmd = {
+
+		/**
+		* 接受模板和数据后生成dom字符串
+		* @obj.tpl  //模板字符串
+		* @obj.data //要生成的数据
+		*/
+		create : function(obj){
+		
+			//如果传入的obj.data是数据,需要遍历生成dom
+			if(obj.data instanceof Array){
+				for(var i = 0; i<obj.data.length;i++){
+					html += formatString(obj.tpl,obj.data[i]);
+				}
+			}else{
+				//是obj不是数组,执行一次即可
+				html += formatString(obj.tpl,obj.data);
+			}
+		},
+
+		/**
+		 * 将html字符串渲染页面中
+		 * @obj.id 	页面中渲染字符串容器id 必须
+		 * @obj.tpl	模板
+		 * @obj.data 
+		 */
+		display : function(obj){
+			if(obj.tpl && obj.data){
+				this.create(obj);
+			}
+			var dom = document.getElementById(obj.id);
+			dom.innerHTML += html;
+			html = "";
+		}
+	}
+
+
+	return{
+	/**
+	* excute 执行命令的接口,接受传进来的命令名称,调用命令集合里的命令并执行.
+	* obj.command //要执行的命令的名称
+	* obj.param   //执行该命令所需的参数
+	* obj.param.data //create命令所需要的目标数据
+	* obj.param.id //display命令所需要的目标节点id	
+	*/
+	 excute : function(obj){
+		//调用命令执行
+		//用户所传入的命令
+		var command = cmd[obj.command];
+		//执行命令
+		command.call(cmd,obj.param);
+		return this; //返回this方便链式调用. 这个this就是renturn后面的这个obj,返回的this也拥有excute方法
+	}
+}
+})()
+
+	// 测试
+
+	//create命令创建数据节点,display命令显示创建的节点
+	viewCommand.excute({
+		command : "create",
+		"param" : {
+			tpl : tpl,
+			data : productData
+		}
+	})
+	.excute({
+		command : "create",
+		param : {
+			tpl : tpl,
+			data : {
+			src : './images/img/02.jpg',
+			text : '绽放的桃花'}
+		}
+	})
+	.excute({
+		command : "display",
+		"param" : {
+			id :"minling"			
+		}
+	})
+	</script>
+
+	
+
+
+</body>
+</html>

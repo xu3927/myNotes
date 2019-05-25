@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "webpack webpack.config.js"
+    "serve": "gitbook serve",
+    "build": "gitbook build"
   },
   "repository": {
     "type": "git",
@@ -20,16 +21,12 @@
   },
   "homepage": "https://github.com/xu3927/myNotes#readme",
   "devDependencies": {
-    "copy-webpack-plugin": "^4.0.1",
-    "file": "^0.2.2",
-    "file-loader": "^0.9.0",
-    "html-webpack-plugin": "^2.28.0",
-    "markdown-loader": "^2.0.0",
-    "node-loader": "^0.6.0",
-    "node-sass": "^4.0.0",
-    "sass-loader": "^4.1.0",
-    "string-replace-webpack-plugin": "0.0.3",
-    "style-loader": "^0.13.1",
-    "webpack": "^2.6.1"
+    "gitbook-cli": "^2.3.2",
+    "gitbook-plugin-folding-chapters": "^0.0.9",
+    "gitbook-plugin-page-toc": "^1.1.1",
+    "gitbook-plugin-prism": "^2.4.0",
+    "gitbook-plugin-splitter": "^0.0.8",
+    "gitbook-plugin-theme-code": "^0.0.24",
+    "gitbook-plugin-url-embed": "^1.0.0"
   }
 }

@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>javascript中replace方法的详细介绍</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+	<h1>js中replace 方法的最详细介绍</h1>
+
+	<p>replace主要用于替换父字符串中匹配的子串</p>
+	<p>replace的哲学，就是能动态替换</p>
+	
+	<p>语法: <br />
+	stringObject.replace(regexp/str,replacement)	
+	<br />
+	stringObject: 父字符串; <br />
+	regexp/str: 必须,将被替换的字符,可以用正则来匹配; <br />
+	replacement: 必须要,一个字符串值,规定了替换文本或生成替换文本的函数。
+	</p>
+	<p>
+		返回值:该方法返回一个新的字符串,是用 replacement 替换了 regexp 的第一次匹配或所有匹配之后得到的。
+	</p>
+	<p class="">注意: <br />
+	字符串 stringObject 的 replace() 方法执行的是查找并替换的操作。它将在 stringObject 中查找与 regexp 相匹配的子字符串，然后用 replacement 来替换这些子串。<span class="cu">如果 regexp 具有全局标志 g，那么 replace() 方法将替换所有匹配的子串。否则，它只替换第一个匹配子串。</span>
+	<br />
+	replacement 可以是字符串，也可以是函数。</p>
+
+	<p>replace方法最常用的是传入2个字符串,这种方法有一个缺陷,只能匹配替换一次</p>
+	<p>第一个参数可以传入正则,来实现多次匹配</p>
+	<h3>1. replace第二个参数为字符串时的情况</h3>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//str.replace(str_match,str_replace);
+	//在str中查询 str_match 这个字符, 用 str_replace 来代替 str_match 
+	//并返回匹配后的新字符串
+	
+
+	//1. 2个参数都为字符串
+	var str = "abc123def456ghi789";
+	var str_new = str.replace("def","FFFF");
+	console.log(str_new);
+	//输出 abc123FFFF456ghi789
+
+
+	//2. 第一个参数是正则,第二个参数是字符串
+	var str_new = str.replace(/[\d]+/g,"###");
+	console.log(str_new);
+	//输出 abc###def###ghi###
+
+	//3. 第一个参数是带分组捕获的正则, 则第二个参数可以用 "$1..$99 " 来获取相应分组内容
+	var str = "fagabcabc1212abldougabcabcabc1235adlfo";
+	var str_new = str.replace(/(abc)+(\d+)+/g,"#$1#$2#");
+	//表示匹配原字符串中(abc)连续出现多次并且数字连续出现多次 的情况
+	//$1表示分组捕获到的第一个分组内容即abc连续出现的情况
+	//$2表示捕获到的分组(\d+)多个数字连续出现的情况
+	console.log(str_new);
+
+	//输出 fag#abc#1212#abldoug#abc#1235#adlfo
+	//(abc) 每次捕获到的都是abc,
+	//(\d+) 第一段中匹配到的是1212, 后面匹配到的是1235. 所以输出了以上的结果
+
+
+	</script>
+	</div>
+	
+	
+	<h3 class="red cu">2. replace 第二个参数为函数function时的详细介绍举例</h3>
+	
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+
+	//replace 第二个参数为函数function时的详细介绍举例
+	//function可以传入4个参数
+	//第一个参数是匹配到的字符串
+	//第二个参数是有分组捕获时分组捕获到的内容,若正则没有分组则没有该参数
+	//第三个参数是当前匹配到的字符串在原字符串中的索引值
+	//第四个参数是原字符串
+	//str_yuan.replace(regExp,function(match,str,index,str_yuan){  })
+	
+	var str = "abc<%123%>def<%45678%>ghi<%789%>" //原字符串
+
+	//================================
+	//1. 没有分组匹配的情况
+	var reg1 = /\d+/g ; //匹配多个数字的情况,贪婪匹配
+	var str_new  = str.replace(reg1,function(a,b,c,d){
+		// 参数a: 匹配到的值
+		// 参数b: 匹配到的值在原字符中的索引
+		// 参数c: 原字符串
+		// 参数d: undefined
+		console.log("【a】" + a,"【b】" + b,"【c】" + c,"【d】" + d);
+		//返回的值是把匹配到的项要替换成的字符
+		return "####";
+	})
+	console.log("【str_new】" + str_new );
+
+	//输出结果:
+
+	// 【a】123 【b】5 【c】abc<%123%>def<%45678%>ghi<%789%> 【d】undefined
+	// 【a】45678 【b】15 【c】abc<%123%>def<%45678%>ghi<%789%> 【d】undefined
+	// 【a】789 【b】27 【c】abc<%123%>def<%45678%>ghi<%789%> 【d】undefined
+	// 【str_new】abc<%####%>def<%####%>ghi<%####%>
+
+
+
+
+	//================================
+	//2. 分组匹配的情况
+
+	var reg2  = /<%([^%><]+)%>/g ;
+	//表示匹配 前面是 "<%" , 中间多个不是"%<>" 的字符,后面是 "%>"
+	//中间有一个分组
+	var str_new = str.replace(reg2,function(a,b,c,d,e){
+		//正则中有1个分组捕获, 所以第2个参数b是分组([^%><]+)捕获到的内容,为多个数字
+		//如果没有分组,则没有第二个参数
+		console.log("【a】" + a,"【b】" + b,"【c】" + c,"【d】" + d,"【e】" + e);
+		return "####"; //返回值是把匹配到的项要替换成的字符
+
+	})
+	console.log("【str_new】" + str_new );
+	//输出结果
+	//【a】<%123%> 【b】123 【c】3 【d】abc<%123%>def<%45678%>ghi<%789%> 【e】undefined
+	//【a】<%45678%> 【b】45678 【c】13 【d】abc<%123%>def<%45678%>ghi<%789%> 【e】undefined
+	//【a】<%789%> 【b】789 【c】25 【d】abc<%123%>def<%45678%>ghi<%789%> 【e】undefined
+	//【str_new】abc####def####ghi####
+
+
+	//======================================
+	//3.  多个分组匹配时的情况
+
+	var reg2 = /(<%)([^%><]+)%>/g 
+	//2个分组捕获,表示匹配 前面是 "<%" , 中间多个不是"%<>" 的字符,后面是 "%>"
+	//分组 (...) 小括号表示里面的字符作为整体进行匹配
+	var str_new = str.replace(reg2,function(a,b,c,d,e){
+		//正则中有2个分组捕获, 所以第2,3个参数b,c是分组(<%),([^%><]+)捕获到的内容
+		//如果没有分组,则没有第二个参数
+		console.log("【a】" + a,"【b】" + b,"【c】" + c,"【d】" + d,"【e】" + e)
+		c = parseInt(c / 2); //修改分组捕获到的第2项
+		return b + c; //返回值是把匹配到的项要替换成的字符
+
+	})
+	console.log("【str_new】" + str_new );
+	
+	//输出:
+
+	//【a】<%123%> 【b】<% 【c】123 【d】3 【e】abc<%123%>def<%45678%>ghi<%789%>
+	//【a】<%45678%> 【b】<% 【c】45678 【d】13 【e】abc<%123%>def<%45678%>ghi<%789%>
+	//【a】<%789%> 【b】<% 【c】789 【d】25 【e】abc<%123%>def<%45678%>ghi<%789%>
+	//【str_new】abc<%61def<%22839ghi<%394
+
+
+
+	</script>
+	</div>
+
+
+</body>
+</html>

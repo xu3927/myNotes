@@ -146,3 +146,28 @@ zt可以置顶当前行，通常用来查看完整的下文，比如函数、类
 ?xx可以反向查找，q/, q?可以列出查找历史。
 
 
+## 主题配置
+
+配置 solarized
+
+```
+$ git clone git://github.com/altercation/solarized.git
+```
+
+拷贝颜色文件
+
+```
+$ cd solarized
+$ cd vim-colors-solarized/colors
+$ mkdir -p ~/.vim/colors
+$ cp solarized.vim ~/.vim/colors/
+```
+
+更改 vim 配置
+
+```
+$ vi ~/.vimrc
+syntax enable
+set background=dark
+colorscheme solarized
+```

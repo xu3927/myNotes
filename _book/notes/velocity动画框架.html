@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>velocity动画框架</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+		a{
+			text-decoration: none;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<h1>velocity动画框架</h1>
+	<p>velocity动画框架是一个动画引擎, 可以独立于jQuery运行, 也可以与jQuery结合, 给jQuery对象一个velocity方法. 也就是说 velocity.js 可以认为是jQuery插件。</p>
+	<p>官网： <a href="http://www.julian.com/research/velocity/">http://www.julian.com/research/velocity/</a>  </p>
+	
+	<p>velocity给jQuery对象增加了velocity方法，API和jQuery中的animate函数一样</p>
+	<p>demo:</p>
+
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	$("img").velocity({"width":400,"height":400},1000,function(){
+	$(this).hide();
+	}); 	</script>
+</div>
+
+	<p>velocity 的动画还是利用了js中的定时器,不过与jquery相比, 它拓展了jquery中的animate函数</p>
+	<p>velocity 可以实现css3中的3D属性, 如rotate的动画 </p>
+	<p>velocity 可以实现背景颜色的改变, </p>
+	<div class="daima pd">
+		$("img").velocity({"rotateX":"40deg"},1000); <br />
+		$("body").velocity({"backgroundColor":"#123"},10000); <br />
+		$("img").velocity({"rotateZ":"40deg"},1000);
+	</div>
+
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// 200ms之后在200ms的时间内，透明度变到50%
+$element.velocity({ opacity: "50%" }, { delay: 200, duration :200 });
+
+	//200ms的时长，easing是swing，最后加个回调函数
+$element.velocity({left:”1000px”},200,”swing”，function(){console.log(“ok”)});
+
+//等价于
+$element.velocity({left:”1000px”},{“duration”:200,”easing”:”swing”,”complete”:function(){console.log(“ok”);})
+
+//下面这个用法是错的，俩种风格不能混用
+$element.velocity({ left: "50px" }, 500, "ease-in-out", function () { alert("done") }, { delay: 200 });
+
+//改为：
+$element.velocity({left:”50px”},{“easing”:”ease-in-out”,”duration”:500,”complete”:function(){alert(“done”);}});
+
+	
+	</script>
+</div>
+
+
+	<h3>总结:</h3>
+	<p>velocity放弃了所有能够用过渡实现的动画效果。连rotateX这种3D的变化，都用定时器实现了。所以感觉是一种“退化”，明明用transition能实现，为什么还要用定时器呢？毕竟我们之前说过，transition的效率比定时器高过了。这就叫做“舍得”，有舍才有得，velocity放弃了效率，但是赢回了<b class="red">“正向编程”</b>编程的快感。你会发现，动画时间不用写在css里面了，也有了回调函数。
+	一定要记住velocity就是jQuery的插件，丰富了jQuery中animate函数的功能。</p>
+	<div class="daima pd">
+		$("img").velocity({ <br />
+		"rotateX":"40deg"  <br />
+		},1000,function(){ <br />
+
+	})
+	</div>
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+
+</body>
+</html>

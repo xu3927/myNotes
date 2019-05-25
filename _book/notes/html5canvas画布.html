@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<title>html5-canvas画布</title>
+	<style type="text/css">
+	canvas{
+		border: 1px solid #eee;
+	}
+	
+	canvas.canvas4{
+		
+	}
+
+	table,td,tr{
+		border-collapse: collapse;
+		border: 1px solid #aaa;
+	}
+	table{
+		border: 5px solid #ccc;
+	}
+	canvas.guaguale{
+		background-image: url(images/chatu/guaguale.jpg);
+		cursor: pointer;
+	}
+
+	</style>
+</head>
+<body>
+	<h1>canvas画布使用</h1>
+	<p>canvas 是一个可以使用脚本(通常为JavaScript)在其中绘制图形的 HTML 元素.它可以用于制作照片集或者动画</p>
+	<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	//html内容
+	//canvas的宽高通常写在行内, 写在其他位置会出现渲染不准确
+	// canvas标签内的文本在不支持canvas的浏览器中会显示
+	<canvas width="600" height="400">这里的内容是给不支持canvas的浏览器看的</canvas>	
+
+	//============================
+	//js内容
+	//获取画布
+	var canvas = 	document.getElementsByTagName("canvas")[0];
+	//得到上下文,之后所有的操作都是直接作用于ctx的;
+	var ctx = canvas.getContext("2d"); 
+
+	//画一个矩形
+	//设置填充色
+	ctx.fillStyle="#ccc";
+	//4个参数分别是画布中的left,top坐标, 矩形的width,height;
+	ctx.fillRect(50,50,170,80);
+	</script>
+</div>
+
+	<canvas width="400" height="200">这里的内容是给不支持canvas的浏览器看的</canvas>
+
+	<h3>1 canvas常用API</h3>
+	<h3>1.1 绘制图形</h3>
+	<p>HTML中的元素canvas只支持一种原生的图形绘制：矩形。所有其他的图形的绘制都至少需要生成一条路径。不过，我们拥有众多路径生成的方法让复杂图形的绘制成为了可能。</p>
+	
+	<h4>canvas中绘制图像有fill填充 和 stroke()笔触两种方法</h4>
+	
+	<h4 class= "red">1.1.1 fillRect(x,y,width,height) 填充一个矩形区域<br>
+	ctx.strokeRect(x,y,width,height) 描边一个矩形区域
+	</h4>
+	<p>绘制并填充矩形, 从画布的x,y坐标开始, 绘制一个宽width, 高height的矩形</p>
+	
+	<h4 >1.1.2 绘制路径 line </h4>
+	<p>
+	<b class="red">
+		ctx.beginPath(); 开始绘制路径 <br>
+		ctx.moveTo(x,y); 笔触移动到画布x,y的位置<br>
+		ctx.lineTo(x,y); <br>
+		ctx.lineTo(x2,y2); 绘制到新位置x2,y2<br> 
+		.... <br>
+		ctx.closePath(); 封闭路径(也可以不封闭) <br>
+		ctx.strokeStyle = "rgba(255,0,0,0.4)" 设置描边的画笔颜色<br>
+		ctx.fillStyle = "yellow"  设置填充的颜色 <br>
+		ctx.stroke() 描边路径 <br>
+		ctx.fill() 填充路径
+	</b>
+	<p></p>
+
+	<h4>1.1.3 绘制圆弧</h4>
+	<p class="red">ctx.arc(x,y,radius,startAngle,endAngle,anticlockwise)</p>
+	<p>画一段弧线, 圆心(x,y),半径为radius,起始弧度到结束弧度,逆时针还是顺时针画(默认是false顺时针)</p>
+
+
+	<h4 >1.1.4 画圆</h4>
+	<p class="red">
+		ctx.arc(200,80,40,0,6.3,false);  
+		ctx.fill();
+	</p>
+	<p>绘制一段封闭的圆弧, 并填充;</p>
+
+	
+	<h4>1.1.5 线的属性</h4>
+	<p class="red">
+		ctx.strokeStyle = "rgba(255,0,255,0,7)" 设置线的颜色(可以设置透明度)<br>
+		ctx.lineWidth = "30" 设置线的宽度(不需要单位)
+		<br>
+	</p>
+	<p>更多的属性可以查看手册<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors"> 火狐MDN手册</a></p>
+
+
+
+	
+
+
+	<h3>canvas中有4种方法来绘制矩形</h3>
+
+
+	<canvas  width="400" height="200" id="canvas2"></canvas>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//绘制矩形的四种方法
+	//获取画布
+	var canvas = 	document.getElementsByTagName("canvas")[0];
+	//得到上下文,之后所有的操作都是直接作用于ctx的;
+	var ctx = canvas.getContext("2d"); 
+
+	//画一个矩形
+	//设置填充色
+	ctx.fillStyle="#ccc";
+	//4个参数分别是画布中的left,top坐标, 矩形的width,height;
+	ctx.fillRect(100,50,170,80);
+	//画一个圆弧
+	ctx.strokArc(20,20,10,0,5,false)
+
+
+	// 4种方式绘制矩形
+	var canvas2 = document.getElementById("canvas2");
+	var ctx2 = canvas2.getContext("2d");
+	//方法一. 填充矩形
+	ctx2.fillStyle = "yellow";
+	ctx2.fillRect(10,10,100,60);
+
+	//方法二. 描边矩形边框
+	ctx2.strokeStyle = "#faf";
+	ctx2.strokeRect(130,10,100,60);
+
+	//方法三. 用路径绘制矩形
+	ctx2.beginPath();
+	ctx2.moveTo(10,100);
+	ctx2.lineTo(170,100);
+	ctx2.lineTo(170,180);
+	ctx2.lineTo(10,180);
+	ctx2.closePath();
+	ctx2.fillStyle = "orange";
+	ctx2.fill();
+
+	//方法四, 用擦除的方法绘制矩形
+	ctx2.fillStyle = "purple";
+	ctx2.fillRect(180,100,150,80);
+	ctx2.clearRect(200,120,80,50);	
+	</script>
+</div>
+
+<h3>1.2 绘制文本</h3>
+<p>绘制文本有两种方式</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//设置字体填充的颜色
+	ctx.fillStyle = "#fff";
+	// 设置字号和字体
+	ctx.font = "40px Simsun";
+	// 绘制方式一  设置字体填充
+	ctx.fillText("哈哈",10,40);
+	// 绘制方式二 勾勒字体边框
+	ctx.strokeText("嘻嘻",10,80);	
+	</script>
+</div>
+<h3>1.3 绘制图片</h3>
+<p>图片可以从构造函数Image()生成, 或者获取页面内的节点来获取图片(也可以截取video标签的视频中的某一帧来获得图片,详细参考手册)</p>
+<p>通过构造函数创建图片并绘制的方法如下:</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var img = new Image();
+	img.src = "images/beauty/mogu.jpg";
+	img.onload = function(){
+	//把绘制放在图片的onload事件中, 以防图片没加载完成就绘制而报错
+	ctx.drawImage(img,0,0,910,1118,150,10,170,200);
+	}	
+	</script>
+</div>
+<p>drawImage()方法的参数</p>
+<p><b class="red">ctx.drawimage(img,x,y)</b>img是图片对象, x,y是画布canvas中的起始坐标</p>
+
+<p><b class="red">ctx.drawImage(img,x,y,width,height)</b>width,height是图片画入时图片的宽高,可以用来控制图片的缩放</p>
+<p>
+	<b class="red">ctx.drawImage(img,sx,sy,swidth,sheight,dx,dy,dwidth,dheight)</b>
+	切片方法画入图片, 参数分别是图片对象, 源图片的起始坐标sx,sy和宽高. 画布中的坐标dx,dy和宽高
+</p>
+<img src="images/chatu/Canvas_drawimage.jpg" alt="">
+
+<canvas  width="400" height="200" id="canvas3"></canvas>
+
+<h3>2. canvas动画</h3>
+<p>canvas动画原理:</p>
+<p>画一帧 → 全部擦除 → 重绘 → 全部擦除 → 重绘 → ……</p>
+<p>不运动的部分也要跟着重绘</p>
+<p>不管动画中有多少对象在运动，页面上一共只能有一个setInterval()。
+也就是说，一个setInterval要负责所有的小球的移动，而不是每个小球自己持有自己的定时器。这和之前DOM做游戏不一样。</p>
+<canvas class="canvas4" width="600px" height="400px" id="canvas4"></canvas>
+<p>上面效果的源码</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+// 设置canvas画布的id是canvas4,设置其动画
+var canvas4 = document.getElementById("canvas4")
+//得到上下文
+var ctx4 = canvas4.getContext("2d");
+var colorArr = ["#FFFFCC","#FFCCCC","#FF6666","#FFFF00","#0066CC","#FF0033","#CCCC00"];
+var circleArr = [];
+//画布的宽,高
+var w_canvas4 = canvas4.width; 
+var h_canvas4 = canvas4.height;
+//建立circle类
+//参数分别是画布ctx,在画布中的x,y坐标,
+function circle(ctx,x,y){
+this.ctx = ctx;
+this.x = x;
+this.y = y;
+
+
+//圆的半径r,圆的颜色color,圆的方向由自己生成
+this.r = _.random(10,30);
+this.color = _.sample(colorArr);
+this.direction_x = _.random(-5,5)/3;
+this.direction_y = _.random(-5,5)/3;
+
+//调用其render方法
+this.render();
+//自己进入圆的数组
+circleArr.push(this);
+}
+
+//渲染
+circle.prototype.render = function(){
+this.ctx.beginPath();
+this.ctx.fillStyle = this.color;
+this.ctx.arc(this.x,this.y,this.r,0,6.3,false);
+this.ctx.closePath();
+this.ctx.fill();
+}
+
+//圆的更新方法
+circle.prototype.update = function(){
+	//让自己的半径递减
+	this.r <=0.4 ? this.r=0.4 : this.r -= 0.1;
+	//判断边界,到达边界反弹
+	if(this.x<=this.r || this.x >= w_canvas4 - this.r ){
+		this.direction_x = - this.direction_x;
+	}
+	if(this.y<=this.r || this.y >= h_canvas4 - this.r ){
+		this.direction_y = - this.direction_y;
+	}
+	this.x = this.x + this.direction_x;
+	this.y = this.y + this.direction_y;
+
+}
+
+//圆的自杀方法,把自己从数组中去除, 这样下次渲染画布时就不会有这个圆了
+circle.prototype.killself = function(){
+	if(this.r<=0.5){
+	circleArr = _.without(circleArr,this);
+	return;
+	}
+}
+
+//设置定时器
+//获得当前的帧率与总帧编号
+var fps = 0; //帧率
+var _fps = 0; //临时变量
+var framesNumber = 0;
+var timeStamp = Date.parse(new Date());
+
+var timer;
+canvas4.onmousemove = function(event){
+	var x = event.offsetX;
+	var y = event.offsetY;
+	circleArr.push(new circle(ctx4,x,y));
+	
+}
+
+
+
+//每一帧都清空画布, 并重新绘制圆
+// clearInterval(timer);
+ timer = setInterval(function(){
+
+	//计算当前的帧率
+	console.log()
+	if(timeStamp == Date.parse(new Date())){
+		_fps ++ ;	
+	}else{
+		fps = _fps;
+		_fps = 0;
+	}
+	timeStamp = Date.parse(new Date());
+	// 总帧编号
+	framesNumber>=1000 ? framesNumber = 0 : framesNumber ++ ;
+
+	//清空画布
+	ctx4.clearRect(0,0,9999,99999)
+	//输出帧率
+	ctx4.fillStyle = "#f5f5f5";
+	ctx4.font = "14px Simsun";
+	ctx4.fillText("帧编号 : " + framesNumber,10,20);
+	ctx4.fillText("帧率fps : " + fps,10,40);
+	//遍历数组打印小球
+	_.each(circleArr,function(i){
+		i.update(); //更新半径,位置等数据
+		i.killself(); //半径小于0的小球自杀
+		i.render();  //更新自己的位置
+	})
+		
+},-1)
+	
+	</script>
+</div>
+
+
+<h3>1.3 canvas画布上图形的合成与组合</h3>
+<p>之前的做法是把一个图形绘制在另一个之上, 除此之外, 利用 globalCompositionOperation 方法可以实现图形的组合与合成</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//设置画布上图形的组合模式. 
+ctx.globalCompositeOperation = "destination-in";
+
+	</script>
+</div>
+<p>组合模式一共有12种</p>
+
+
+<p>注意：下面所有例子中，蓝色方块是先绘制的，即“已有的 canvas 内容”，红色圆形是后面绘制，即“新图形”。</p>
+
+<table style="width: 100%;">
+ <tbody>
+  <tr>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>source-over</strong> (default)<br>
+     This is the default setting and draws new shapes on top of the existing canvas content.</p>
+
+    <p>这是默认设置，新图形会覆盖在原有内容之上。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_srcovr.png" alt="Image:Canvas_composite_srcovr.png" class="internal"></p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>destination-over</strong><br>
+     New shapes are drawn behind the existing canvas content.</p>
+
+    <p>会在原有内容之下绘制新图形。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_destovr.png" alt="Image:Canvas_composite_destovr.png" class="internal"></p>
+   </td>
+  </tr>
+  <tr>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>source-in</strong><br>
+     The new shape is drawn only where both the new shape and the destination canvas overlap. Everything else is made transparent</p>
+
+    <p>新图形会仅仅出现与原有内容重叠的部分。其它区域都变成透明的。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_srcin.png" alt="Image:Canvas_composite_srcin.png" class="internal"></p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>destination-in</strong><br>
+     The existing canvas content is kept where both the new shape and existing canvas content overlap. Everything else is made transparent.</p>
+
+    <p>原有内容中与新图形重叠的部分会被保留，其它区域都变成透明的。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_destin.png" alt="Image:Canvas_composite_destin.png" class="internal"></p>
+   </td>
+  </tr>
+  <tr>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>source-out</strong><br>
+     The new shape is drawn where it doesn't overlap the existing canvas content.</p>
+
+    <p>结果是只有新图形中与原有内容不重叠的部分会被绘制出来。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_srcout.png" alt="Image:Canvas_composite_srcout.png" class="internal"></p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>destination-out</strong><br>
+     The existing content is kept where it doesn't overlap the new shape.</p>
+
+    <p>原有内容中与新图形不重叠的部分会被保留。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_destout.png" alt="Image:Canvas_composite_destout.png" class="internal"></p>
+   </td>
+  </tr>
+  <tr>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>source-atop</strong><br>
+     The new shape is only drawn where it overlaps the existing canvas content.</p>
+
+    <p>新图形中与原有内容重叠的部分会被绘制，并覆盖于原有内容之上。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_srcatop.png" alt="Image:Canvas_composite_srcatop.png" class="internal"></p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>destination-atop</strong><br>
+     The existing canvas is only kept where it overlaps the new shape. The new shape is drawn behind the canvas content.</p>
+
+    <p>原有内容中与新内容重叠的部分会被保留，并会在原有内容之下绘制新图形</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_destatop.png" alt="Image:Canvas_composite_destatop.png" class="internal"></p>
+   </td>
+  </tr>
+  <tr>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>lighter</strong><br>
+     Where both shapes overlap the color is determined by adding color values.</p>
+
+    <p>两图形中重叠部分作加色处理。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_lighten.png" alt="Image:Canvas_composite_lighten.png" class="internal"></p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>darker</strong><br>
+     Where both shapes overlap the color is determined by subtracting color values.</p>
+
+    <p>两图形中重叠的部分作减色处理。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_darken.png" alt="Image:Canvas_composite_darken.png" class="internal"></p>
+   </td>
+  </tr>
+  <tr>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>xor</strong><br>
+     Shapes are made transparent where both overlap and drawn normal everywhere else.</p>
+
+    <p>重叠的部分会变成透明。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_xor.png" alt="Image:Canvas_composite_xor.png" class="internal"></p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><strong>copy</strong><br>
+     Only draws the new shape and removes everything else.</p>
+
+    <p>只有新图形会被保留，其它都被清除掉。</p>
+   </td>
+   <td style="padding: 5px; vertical-align: top;">
+    <p><img src="images/chatu/canvas/=Canvas_composite_copy.png" alt="Image:Canvas_composite_copy.png" class="internal"></p>
+   </td>
+  </tr>
+ </tbody>
+</table>
+
+<h3>1.3.1 利用图形的组合特性制作刮刮乐效果</h3>
+<canvas width="470" height="595" class="guaguale" id = "canvas_ggl" >
+
+	
+</canvas>
+
+<h3>刮刮乐源码</h3>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+// 刮刮乐效果
+var canvas_ggl = document.getElementById("canvas_ggl");
+var ctx_ggl = canvas_ggl.getContext("2d");
+
+ctx_ggl.fillStyle = "#aaa";
+ctx_ggl.fillRect(92,295,293,134);
+ctx_ggl.globalCompositeOperation = "destination-out";
+
+canvas_ggl.onmousedown = function(event){
+	var x_old = event.offsetX;
+	var	y_old = event.offsetY;
+	canvas_ggl.onmousemove = function(event){
+	var x_new = event.offsetX;
+	var y_new = event.offsetY;
+	ctx_ggl.fillStyle = "red"
+	ctx_ggl.beginPath();
+	//鼠标移动太快可能会出现断点,以下循环语句可以解决这个问题
+	var x_delta = (x_new - x_old)/5;
+	var y_delta = (y_new - y_old)/5;
+	for(var i =0 ;i<=5;i++){
+	ctx_ggl.arc(x_old += x_delta,y_old += y_delta,10,0,7,false);
+	}
+	ctx_ggl.closePath();
+	ctx_ggl.fill();
+	x_old = x_new;
+	y_old = y_new;
+}
+}
+document.body.onmouseup = function(){
+	canvas_ggl.onmousemove = null;
+}
+
+
+	
+	</script>
+</div>
+
+
+<h3>1.4 canvas画布上图形的状态的保存和恢复 Saving and restoring state</h3>
+<p>save 和 restore 方法是用来保存和恢复 canvas 状态的，都没有参数。Canvas 的画笔,笔触等的状态就是当前画面应用的所有样式和变形的一个快照。</p>
+<p>Canvas 状态是以堆（stack）的方式保存的，每一次调用 save 方法，当前的状态就会被推入堆中保存起来。</p>
+<p>
+这种状态包括：
+当前应用的变形（即移动，旋转和缩放，见下）
+strokeStyle, fillStyle, globalAlpha, lineWidth, lineCap, lineJoin, miterLimit, shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor, globalCompositeOperation 的值 <br>
+当前的裁切路径（clipping path) 
+</p>
+<p>
+	你可以调用任意多次 save 方法。 <br>
+每一次调用 restore 方法，上一个保存的状态就从堆中弹出，所有设定都设定为这次保存的状态。
+</p>
+<canvas width="470" height="200" class="saveAndRestore" id="saveAndRestore">
+	
+</canvas>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//save和restore
+var canvas_SNR = document.getElementById("saveAndRestore");
+var ctx_SNR = canvas_SNR.getContext("2d");
+
+ctx_SNR.fillStyle = "blue";
+ctx_SNR.save();//把当前canvas的状态存到状态堆中
+ctx_SNR.fillRect(30 + 0,30,20,40);
+ctx_SNR.fillStyle = "red";
+ctx_SNR.save();//把当前canvas的状态存到状态堆中
+ctx_SNR.fillRect(30 + 30,30,20,40);
+ctx_SNR.fillStyle = "yellow";
+ctx_SNR.save();//把当前canvas的状态存到状态堆中
+ctx_SNR.fillRect(30 + 60,30,20,40);
+ctx_SNR.restore();//从状态堆中取出最后存储的状态 黄色
+ctx_SNR.fillRect(30 + 90,30,20,40);
+ctx_SNR.restore();//从状态堆中取出最后一项状态,即上上一次的状态 红色
+ctx_SNR.fillRect(30 + 120,30,20,40);
+ctx_SNR.restore();//从状态堆中取出最后一项状态,即上上上一次的状态 蓝色
+ctx_SNR.fillRect(30 + 150,30,20,40);
+ctx_SNR.restore();//从状态堆中取出最后一项状态 即蓝色
+ctx_SNR.fillRect(30 + 180,30,20,40);
+	
+	</script>
+</div>
+
+<h3>1.5 移动 translate</h3>
+<p>
+	<b class="red">ctx.translate(x,y)</b> 移动canvas的坐标原点到x,y的位置. 一般通过移动坐标原来来为需要旋转的图形设置旋转参考点.
+</p>
+<p>为了方便的移动坐标原点并在操作完之后恢复, 可以在用save(), 和 restore() 属性来更方便的恢复到原来的状态</p>
+
+<h3>1.6 旋转 rotate</h3>
+<p>
+	<b class="red">ctx.rotate(angle)</b> 设置旋转的角度, 旋转的中心是canvas的左边原点. 
+</p>
+<p>
+	旋转是画布的整个坐标系都会旋转.
+</p>
+<p>
+<input class="rotate xuanzhuan" type="text"> 输入坐标系旋转的角度. <br>
+<input class="translate_x xuanzhuan" type="text"> 输入坐标圆点移动的x值. <br>
+<input class="translate_y xuanzhuan" type="text"> 输入坐标圆点移动的y值.
+
+</p>
+<canvas class="can_ori" width="400" height="200"></canvas>
+<h3>1.7 缩放 scale</h3>
+<p>
+	<b class="red">ctx.scale(x,y)</b> 对形状位图进行缩放.
+</p>
+<p>
+	传入2个参数,  x,y 分别是横轴和纵轴的缩放倍数. 如0.5表示缩小为原来的0.5倍. 2.0表示放大为原来的2倍
+</p>
+<h3>1.8 变形 transform</h3>
+<p>该属性可以直接对变形矩阵修改</p>
+<p><b class="red">ctx.transform(a,b,c,d,e,f)</b></p>
+<p>
+a	水平缩放 <br>
+b	水平倾斜 <br>
+c	垂直倾斜 <br>
+d	垂直缩放 <br>
+e	水平移动 <br>
+f	垂直移动
+</p>
+<h3>利用canvas的旋转坐标系绘制一个辐射状的同心圆图形</h3>
+<canvas class="tran_rot"  width="470" height="200"></canvas>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+
+//canvas绘图移动和旋转
+//利用canvas的旋转坐标系绘制一个辐射状的同心圆图形
+var tran_rot = document.querySelector(".tran_rot");
+var ctx_xuanzhuan = tran_rot.getContext("2d");
+
+var colorArr_xuanzhuan = ["#ffa","#f0f","#0fc","#ff0"]
+ctx_xuanzhuan.translate(150,100);
+ctx_xuanzhuan.fillStyle
+for(var j = 0 ; j<4;j++){
+ctx_xuanzhuan.fillStyle = colorArr_xuanzhuan[j];
+var L = j *25; //L是每一层的圆的半径.
+//(360/(j*6+1)) 360除的值就是每一层的圆的个数.
+for(var a = 0 ;a < 360 ; a += (360/(j*6+1)) ){
+var rad = 2*3.14 / 360 * a;
+//保存原来的坐标系等状态
+ctx_xuanzhuan.save();
+//这里的旋转是画布的整个坐标系旋转了, 而不是图形旋转.
+ctx_xuanzhuan.rotate(rad);
+ctx_xuanzhuan.beginPath();
+//由于坐标系旋转了,所以L的值就是x的值, y的值为0.
+ctx_xuanzhuan.arc(L,0,10,0,6.3,false);
+ctx_xuanzhuan.closePath();
+ctx_xuanzhuan.fill();
+//恢复画布的坐标系为原来的
+ctx_xuanzhuan.restore();
+
+}
+}
+	
+	</script>
+</div>
+
+
+
+
+<script type="text/javascript" src="js/underscore-min.js"></script>
+<script type="text/javascript">
+
+//===========================
+//绘制canvas的坐标系和坐标原点
+var can_ori = 	document.querySelector(".can_ori");
+var ctx_ori = can_ori.getContext("2d");
+var $inputs = $("input.xuanzhuan");
+$inputs.blur(function(){
+
+	var jiaodu = $inputs.eq(0).val();
+	var tran_x = $inputs.eq(1).val();
+	var tran_y = $inputs.eq(2).val();
+
+
+//保存画布状态
+ctx_ori.save();
+//清空画布
+ctx_ori.clearRect(0,0,1000,1000);
+//旋转坐标系
+ctx_ori.rotate(jiaodu);
+//移动坐标原点
+ctx_ori.translate(tran_x,tran_y);
+//画坐标系及坐标原点
+drawORi();
+//恢复原来的画布状态
+ctx_ori.restore();
+})
+
+
+function drawORi(){
+
+ctx_ori.fillStyle = "#ff0";
+
+ctx_ori.beginPath();
+//填充坐标原点
+ctx_ori.arc(0,0,20,0,6.3,false);
+ctx_ori.closePath();
+ctx_ori.fill();
+//绘制坐标系
+ctx_ori.fillRect(0, 0, 400,3 );
+ctx_ori.fillText("x轴", 100, 15);
+ctx_ori.fillRect(0, 0, 3,300 );
+ctx_ori.fillText("y轴", 15, 100);
+
+}
+
+//===========================================
+//canvas绘图移动和旋转
+//利用canvas的旋转坐标系绘制一个辐射状的同心圆图形
+var tran_rot = document.querySelector(".tran_rot");
+var ctx_xuanzhuan = tran_rot.getContext("2d");
+
+var colorArr_xuanzhuan = ["#ffa","#f0f","#0fc","#ff0"]
+ctx_xuanzhuan.translate(150,100);
+ctx_xuanzhuan.fillStyle
+for(var j = 0 ; j<4;j++){
+ctx_xuanzhuan.fillStyle = colorArr_xuanzhuan[j];
+var L = j *25; //L是每一层的圆的半径.
+//(360/(j*6+1)) 360除的值就是每一层的圆的个数.
+for(var a = 0 ;a < 360 ; a += (360/(j*6+1)) ){
+var rad = 2*3.14 / 360 * a;
+//保存原来的坐标系等状态
+ctx_xuanzhuan.save();
+//这里的旋转是画布的整个坐标系旋转了, 而不是图形旋转.
+ctx_xuanzhuan.rotate(rad);
+ctx_xuanzhuan.beginPath();
+//由于坐标系旋转了,所以L的值就是x的值, y的值为0.
+ctx_xuanzhuan.arc(L,0,10,0,6.3,false);
+ctx_xuanzhuan.closePath();
+ctx_xuanzhuan.fill();
+//恢复画布的坐标系为原来的
+ctx_xuanzhuan.restore();
+
+}
+}
+//============================================
+//save和restore
+var canvas_SNR = document.getElementById("saveAndRestore");
+var ctx_SNR = canvas_SNR.getContext("2d");
+
+
+
+ctx_SNR.fillStyle = "blue";
+ctx_SNR.save();//把当前canvas的状态存到状态堆中
+ctx_SNR.fillRect(30 + 0,30,20,40);
+ctx_SNR.fillStyle = "red";
+ctx_SNR.save();//把当前canvas的状态存到状态堆中
+ctx_SNR.fillRect(30 + 30,30,20,40);
+ctx_SNR.fillStyle = "yellow";
+ctx_SNR.save();//把当前canvas的状态存到状态堆中
+ctx_SNR.fillRect(30 + 60,30,20,40);
+ctx_SNR.restore();//从状态堆中取出最后存储的状态 黄色
+ctx_SNR.fillRect(30 + 90,30,20,40);
+ctx_SNR.restore();//从状态堆中取出最后一项状态,即上上一次的状态 红色
+ctx_SNR.fillRect(30 + 120,30,20,40);
+ctx_SNR.restore();//从状态堆中取出最后一项状态,即上上上一次的状态 蓝色
+ctx_SNR.fillRect(30 + 150,30,20,40);
+ctx_SNR.restore();//从状态堆中取出最后一项状态 即蓝色
+ctx_SNR.fillRect(30 + 180,30,20,40);
+
+
+
+//===============================================
+// 刮刮乐效果
+var canvas_ggl = document.getElementById("canvas_ggl");
+var ctx_ggl = canvas_ggl.getContext("2d");
+
+ctx_ggl.fillStyle = "#aaa";
+ctx_ggl.fillRect(92,295,293,134);
+ctx_ggl.globalCompositeOperation = "destination-out";
+
+//鼠标进入时先清空所有事件
+canvas_ggl.onmouseenter = function(){
+	this.onmousemove = "";
+}
+canvas_ggl.onmousedown = function(event){
+	var x_old = event.offsetX;
+	var	y_old = event.offsetY;
+	canvas_ggl.onmousemove = function(event){
+	var x_new = event.offsetX;
+	var y_new = event.offsetY;
+	ctx_ggl.fillStyle = "red"
+	ctx_ggl.beginPath();
+	var x_delta = (x_new - x_old)/5;
+	var y_delta = (y_new - y_old)/5;
+	for(var i =0 ;i<=5;i++){
+	ctx_ggl.arc(x_old += x_delta,y_old += y_delta,10,0,7,false);
+	}
+	ctx_ggl.closePath();
+	ctx_ggl.fill();
+	x_old = x_new;
+	y_old = y_new;
+}
+}
+document.body.onmouseup = function(){
+	canvas_ggl.onmousemove = null;
+}
+
+
+
+
+
+
+// ==============================================
+
+// 设置canvas4的动画
+var canvas4 = document.getElementById("canvas4")
+//得到上下文
+var ctx4 = canvas4.getContext("2d");
+var colorArr = ["rgba(255,0,255,0.7)","rgba(200,240,0,0.7)","rgba(100,100,250,0.8)","rgba(200,250,250,0.6)","#aa66CC","#FF0033","#f5f5f5"];
+var circleArr = [];
+//画布的宽,高
+var w_canvas4 = canvas4.width; 
+var h_canvas4 = canvas4.height;
+
+
+//建立circle类
+//参数分别是画布ctx,在画布中的x,y坐标,
+function circle(ctx,x,y){
+this.ctx = ctx;
+this.x = x;
+this.y = y;
+
+
+//圆的半径r,圆的颜色color,圆的方向由自己生成
+this.r = _.random(10,30);
+this.color = _.sample(colorArr);
+this.direction_x = _.random(-5,5)/7;
+this.direction_y = _.random(-5,5)/7;
+
+//调用其render方法
+this.render();
+//自己进入圆的数组
+circleArr.push(this);
+}
+
+//渲染
+circle.prototype.render = function(){
+this.ctx.beginPath();
+this.ctx.fillStyle = this.color;
+this.ctx.arc(this.x,this.y,this.r,0,6.3,false);
+this.ctx.closePath();
+this.ctx.fill();
+}
+
+//圆的更新方法
+circle.prototype.update = function(){
+	//让自己的半径递减
+	this.r <=0.4 ? this.r=0.4 : this.r -= 0.08;
+	//判断边界,到达边界反弹
+	if(this.x<=this.r || this.x >= w_canvas4 - this.r ){
+		this.direction_x = - this.direction_x;
+	}
+	if(this.y<=this.r || this.y >= h_canvas4 - this.r ){
+		this.direction_y = - this.direction_y;
+	}
+	this.x = this.x + this.direction_x;
+	this.y = this.y + this.direction_y;
+
+}
+
+//圆的自杀方法,把自己从数组中去除, 这样下次渲染画布时就不会有这个圆了
+circle.prototype.killself = function(){
+	if(this.r<=0.5){
+	circleArr = _.without(circleArr,this);
+	return;
+	}
+}
+
+//设置定时器
+//获得当前的帧率与总帧编号
+var fps = 0; //帧率
+var _fps = 0; //临时变量
+var framesNumber = 0;
+var timeStamp = Date.parse(new Date());
+
+var timer;
+canvas4.onmousemove = function(event){
+	var x = event.offsetX;
+	var y = event.offsetY;
+	circleArr.push(new circle(ctx4,x,y));
+	
+}
+
+
+
+//每一帧都清空画布, 并重新绘制圆
+// clearInterval(timer);
+ timer = setInterval(function(){
+
+	//计算当前的帧率
+	console.log()
+	if(timeStamp == Date.parse(new Date())){
+		_fps ++ ;	
+	}else{
+		fps = _fps;
+		_fps = 0;
+	}
+	timeStamp = Date.parse(new Date());
+	// 总帧编号
+	framesNumber>=1000 ? framesNumber = 0 : framesNumber ++ ;
+
+	//清空画布
+	ctx4.clearRect(0,0,9999,99999);
+	ctx4.fillStyle = "#f0f";
+	ctx4.font = "20px Simsun";
+	ctx4.fillText("鼠标在这里移动会出现炫彩小球", 50,80);
+	//输出帧率
+	ctx4.fillStyle = "#f5f5f5";
+	ctx4.font = "14px Simsun";
+	ctx4.fillText("帧编号 : " + framesNumber,10,20);
+	ctx4.fillText("帧率fps : " + fps,10,40);
+	//遍历数组打印小球
+	_.each(circleArr,function(i){
+		i.update(); //更新半径,位置等数据
+		i.killself(); //半径小于0的小球自杀
+		i.render();  //更新自己的位置
+	})
+		
+},-1)
+
+
+
+
+
+
+
+
+	
+	//获取画布
+	var canvas = 	document.getElementsByTagName("canvas")[0];
+	//得到上下文,之后所有的操作都是直接作用于ctx的;
+	var ctx = canvas.getContext("2d"); 
+
+	//画一个矩形
+	//设置填充色
+	ctx.fillStyle="#ccc";
+	//4个参数分别是画布中的left,top坐标, 矩形的width,height;
+	ctx.fillRect(200,50,170,80);
+	//画一个圆弧
+	ctx.beginPath();
+	ctx.arc(100,100,50,0,5); //没写方向,默认是false顺时针画
+	ctx.strokeStyle = "#f0f";
+	//设置线的宽度
+	ctx.lineWidth = "10";
+	// ctx.fill();
+	ctx.stroke();
+
+
+
+	// 4种方式绘制矩形
+	var canvas2 = document.getElementById("canvas2");
+	var ctx2 = canvas2.getContext("2d");
+	//方法一. 填充矩形
+	ctx2.fillStyle = "yellow";
+	ctx2.fillRect(10,10,100,60);
+
+	//方法二. 描边矩形边框
+	ctx2.strokeStyle = "#faf";
+	ctx2.strokeRect(130,10,100,60);
+
+	//方法三. 用路径绘制矩形
+	ctx2.beginPath();
+	ctx2.moveTo(10,100);
+	ctx2.lineTo(170,100);
+	ctx2.lineTo(170,180);
+	ctx2.lineTo(10,180);
+	ctx2.closePath();
+	ctx2.fillStyle = "orange";
+	ctx2.fill();
+
+	//方法四, 用擦除的方法绘制矩形
+	ctx2.fillStyle = "purple";
+	ctx2.fillRect(180,100,150,80);
+	ctx2.clearRect(200,120,80,50);
+
+	var canvas3 = document.getElementById("canvas3");
+	var ctx3 = canvas3.getContext("2d");
+	//设置字体填充的颜色
+	ctx3.fillStyle = "#0ff";
+	ctx3.strokeStyle = "#ff0";
+	ctx3.lineWidth = "1";
+	// 设置字号和字体
+	ctx3.font = "40px Simsun";
+	// 绘制方式一  设置字体填充
+	ctx3.fillText("哈哈",10,40);
+	// 绘制方式二 勾勒字体边框
+	ctx3.strokeText("3927",10,80);	
+
+	var img = new Image();
+	img.src = "images/beauty/mogu.jpg";
+	img.onload = function(){
+	//把绘制放在图片的onload事件中, 
+	ctx3.drawImage(img,0,0,910,1118,150,10,170,200);
+	}
+
+</script>
+
+
+
+</body>
+</html>
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>

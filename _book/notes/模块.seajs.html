@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>前端模块化开发--seajs</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	
+<h1>前端模块化开发--seajs</h1>
+<p class="hhns">
+	随着团队开发的复杂化，我们依赖的带库会越来越多，会产生很多问题
+	1. 引入的新库与原有的代码库或自己写的代码中的变量名称或方法重合.
+	2. 当我们使用一些代码库的时候，我们就要人肉的将该代码库的依赖写入到页面中
+	3. 通用组更新了前端基础类库，却很难推动全站升级。
+	4. 业务组想用某个新的通用组件，但发现无法简单通过几行代码搞定
+	5. 一个老产品要上新功能，最后评估只能基于老的类库继续开发。
+	6. 公司整合业务，某两个产品线要合并。结果发现前端代码冲突。
+
+	为了解决这类问题, 前端参考node的包管理机制,也产生了一些工具库
+	如seajs，requirejs等
+</p>
+<h3>1. seajs安装</h3>
+<p>
+安装方法:
+安装bower 
+npm install -g bower
+安装seajs
+bower install seajs  
+Github：
+https://github.com/seajs/seajs
+</p>
+<p>
+前端这些模块管理工具的实现是基于AMD规范，实现最终commonjs规范，
+当传递一个参数的时候，我们的写法尊重commonjs规范
+当传递多个参数时候，我们的写法尊重Module transport规范
+模块化开发，每一个文件定义一个模块，同时define方法	
+</p>
+<h3>
+	2. seajs 的使用 use
+</h3>
+<p>
+	seajs 在模块外部引用需要用use方法
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//在模块外部引用模块(如index页面中引用模块)
+	//引用多个模块, 用数组
+	seajs.use(['main', 'header/header'], function (main, header) {
+		console.log(main, header)
+	})
+
+	//引用一个模块, 直接写模块文件的名称(可以不写.js)
+	seajs.use('main', function (main) {
+		console.log(main)
+	})
+	
+	</script>
+</div>
+
+<h3>3. seajs的Define方法</h3>
+<p>定义模块,用define方法</p>
+<p>
+	依赖的模块路径都是从sea.js出发
+</p>
+<p class="hhns">
+当传递一个参数时候，那么这个参数就是一个模块，参数可以是任意类型
+1. 传递一个字符串，那么这个模块就是一个字符串模块
+2. 传递一个对象的时候，那么这个模块就是一个对象模块
+<b>当传递的是对象或字符串时 表示模块的接口就是该对象、字符串。</b>
+3. 传递一个函数（最常用的方式）
+这函数自带三个参数
+Require：引用其他模块的工厂方法
+Exports：返回的接口对象
+Module：模块module属性及	
+</p>
+<p class="cu">define 也可以接受2个或3个参数</p>
+<p class="red">
+	define(id, deps, factory) <br />
+	如: <br />
+	define(‘hello’, [‘jquery’], function(require, exports, module) { <br />
+// 模块代码 <br />
+});
+</p>
+<p>
+	字符串 id 表示模块标识，数组 deps 是模块依赖。在开发阶段，推荐不要手写 id 和 deps 参数，因为这两个参数可以在构建阶段通过工具自动生成。
+</p>
+<p>	
+当传递多个参数时（两个，或者三个）
+如果传递两个参数的时候，
+<p class="red">
+	define(["header/header","header/skin/skin"],function(require,exports,module){
+
+	})
+</p>
+第一个该模块依赖的模块数组集合，最后一个参数是function
+如果传递三个参数的时候:
+第一个表示该模块的名称，第二个参数表示该模块依赖的模块集合，第三个参数就是function
+当传递模块名称的时候，该模块的名称就是该名称
+当不传递模块的名称的时候，该模块的名称就是相对于seajs的路径名，
+通常我们将该模块的名称与该文件的名称保持一致
+通常define只允许我们定义一个模块，当定义多个模块的时候，后面的会覆盖掉前面的。
+</p>
+
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//define 参数可以是如下类型
+	//1. 字符串
+	define("hello")
+	//2. 对象
+	define({
+		color : "red",
+		width : "400"
+	})
+	//3. 函数
+	/** 这函数自带三个参数
+	 * @ Require：引用其他模块的工厂方法
+	 * @ Exports：返回的接口对象
+	 * @ Module：模块module属性
+	 */
+	define(function(require,exports,module){
+		return {
+			color : "yellow"
+		}
+	})
+	//4. 可以传2个或3个参数
+	/**
+	* @ path 参数1 该模块的依赖,可以用数组罗列多个
+	*  @ function 参数2
+	*/
+	define(["header/header","header/skin/skin"],function(require,exports,module){
+
+	})
+	//5. 3个参数
+	/**
+	* 参数1 这个模块的名称
+	* 参数2 模块的依赖, 可以不写
+	* 参数3 function
+	**/
+	define("haha",[],function(require,exports,module){
+
+	})
+	
+	</script>
+</div>
+<h3>4. Require 规定</h3>
+<p>
+	require 是一个方法，接受模块标识作为唯一参数，用来获取其他模块提供的接口。
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+define(function(require, exports) {
+//require 用来获取其他模块的接口
+// 获取模块 a 的接口
+var a = require(‘./a’);
+
+// 调用模块 a 的方法
+a.doSomething();
+
+});	
+	</script>
+</div>
+<p class="hhsp">
+require 有以下规定
+1 require不能简写
+2 require不能被重定义
+2.1 不能赋值: var req = require 错误示例
+2.2 不能定义函数：function require 错误示例
+2.3 不能被子函数当成参数 
+4 不能在子函数作用域内重定义
+3 require的参数只能是完整的字符串 require(‘abc’ + ‘bcd’)是不允许的，
+Require的参数值如何定义
+参数值表示的模块文件的路径，相对于seajs文件所在的目录为根目录。如果加载js文件，后缀名可写可不写
+当require一个已经定义模块名称的模块时，在模块引用的时候，首先在该模块依赖的模块集合将该模块的路径引入进来，然后require该模块的模块名称
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+// header/header 路径下的模块
+define('hehe', [], function () {
+	return {
+		color: 'orange'
+	}
+})
+// 我们在main模块中引用. 先引入路径, 在function内部require该模块的id "hehe"
+define(['header/header'], function (require, exports, module) {
+	var a = require('hehe');
+	console.log(a);
+	
+})
+	
+	</script>
+</div>
+
+<h3>5. Exports 模块的接口</h3>
+<p>
+	exports 是一个对象，用来向外提供模块接口。
+</p>
+<p class="hhns">
+表示模块的接口，跟node中的exports一样的，都是模块对外部的接口
+第一种，直接对exports添加属性，如exports.color = ‘red’
+第二种，通过module来定义，module.exports.color = ‘yellow’
+第三种，通过module来定义，module.exports={color: ‘orange’}
+第四种，通过return来定义， return {color: ‘green’}
+我们在一个模块中定义接口时候要用一种方式，不能混用
+注意，我们不可以直接对exports赋值新对象
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// 对外提供接口的方法
+	define("haha",[],function(require,exports,module){
+		// 1. 对exports添加属性
+		exports.color = "red";
+		exports.do = function(){};
+		// 2. 通过module来定义
+		module.exports.color = "green";
+		// 3. module定义方法2
+		module.exports = {
+			color : "yellow",
+			say : function(){}
+		};
+		//4. 通过return直接返回一个接口
+		return {
+			color : "red",
+			say : function(){}
+		}
+
+	})
+	
+	</script>
+</div>
+<p class="red">
+	注意 : <br />
+	exports 不再等于 module.exports <br />
+console.log(module.exports === exports); // false
+</p>
+
+<h3>6. Module</h3>
+<p class="hhns">
+表示该模块的属性
+Id：表示模块的id
+Uri：表示该模块文件对应的url
+Exports：表示模块返回的接口集合
+Dependencies：表示依赖模块集合（数组表示形式）
+Deps：表示依赖模块集合（对象表示形式）
+我们在不定义模块名称的情况下，id=uri，此时我们通过require（uri）就是引用require（id）
+当我们定义模块名称的时候，id ！= uri，此时我们想应用这个模式我们要做两件事情，第一步引用uri，第二步引用id
+</p>
+<h3>7. config 配置</h3>
+<p>
+	seajs.config 用来配置模块的一些选项参数,接收一个对象，里面的属性值，就是我们配置的选项
+</p>
+<h4>7.1 alias </h4>
+<p>
+用来定义模块的别名的 <br />
+用途，当我们引用一些基础库的时候，常常会遇到基础库升级的情况，此时在每个模块中修改版本的风险很大.此时，我们可以在alias中定义这个模块，引用时候，我们只需要引用这个模块的别名就可以了，这样当基础库升级的时候，我们只需要修改alias中基础库对应的别名配置就可以了
+</p>
+<h4>7.2 paths</h4>
+<p>
+用来定义模块的路径的,把比较复杂的路径映射为一个简短的路径名. <br />
+用途，当我们的一些模块创建的目录结构很深的时候，我们引用这个模块就要写很深的目录层级，写的很麻烦，我们可以将这些层级定义成一个简写path，这样引用这个模块的时候，直接通过path+模块的名称就能快速的得到这个模块了
+</p>
+<h4>7.3 vars</h4>
+<p>
+用来把部分路径存为变量, 以方便引用<br />
+有时候模块的模块的路径比较复杂，此时我们可以对模块的路径简化，通过将路径定义成变量，在通过{}匹配语法来是使用变量
+</p>
+<h4>
+	7.4 map 
+</h4>
+<p>
+用来做文件映射 <br />
+在开发中,有时候开发的文件版本会升级,或压缩后文件名会改变，此时我们可以通过map映射，把文件映射为对应的文件名。
+</p>
+<h4>7.5 base</h4>
+<p>
+用来设置模块加载的基准路径, 这样方便不同的页面引用同一个sea.js文件.	
+</p>
+<p>
+模块的加载路径,默认是从sea.js所在的文件夹出发; 
+</p>
+<p>
+sea.js文件即使移动了位置,只要修改下sea.js的引用路径即可
+</p>
+<h4>7.6 charset</h4>
+<p>
+	charset 方法 设置模块的字符集
+</p>
+<h4>7.7 debug</h4>
+<p>
+debug 方法 查看文件的加载过程 设置为true 会把用到的模块都加载到页面中, 可以在head 标签里查看到.	
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// config 用来配置一些参数方法
+		seajs.config({
+			//1. alias方法 用来适配模块的名称
+			alias : {
+				//把"lib/skin-1.2"的名称适配为"skin",这样在其他的内部模块中引用该模块的时候可以直接引用"skin"; 
+				//这样可以避免其他模块中对这个skin模块名称 "lib/skin-1.2"的依赖, 当版本号更改之后,直接在这个页面中修改一下模块路径就可以了
+				//如skin模块修改为了skin-1.3. 这里改为
+				// skin : "lib/skin-1.3" 就可以了,其他模块中就不需要修改了
+				skin : "lib/skin-1.2"
+			},
+
+			//2. paths方法,用来解决对模块路径的依赖;把比较复杂的路径映射为一个简短的路径名.
+			paths : {
+				//把"lib/header/nav"这个路径映射为了"nav"; 
+				//这样在引用"lib/header/nav/list.js"这个模块的时候可以直接写"nav/list"
+				//注意 : 这个路径不能用于路径描述的中间.  如文件在 "product/lib/header/nav/list.js" ,此时如果引用的时候写"product/nav/list" 是无效的, 要实现这个目的可以用vars方法
+				nav : "lib/header/nav"
+			},
+
+			//3. vars 方法 ; 用来把部分路径存为变量, 以方便引用
+			//引用的时候路径变量要用{ } 包裹
+			vars : {
+				//把"header/nav"这部分路径保存为了变量 "nav_vars"
+				//这样在引用"lib/header/nav/list.js"时,可以直接引用"lib/{nav_vars}/list";
+				nav_vars : "header/nav"
+			},
+
+			//4. map 方法 ; 用来做文件映射
+			map : ["list-min.js","list.js"]
+
+			//5. base 方法 ; 用来设置模块加载的基准路径, 这样方便不同的页面引用同一个sea.js文件.
+			//sea.js文件即使移动了位置,只要修改下sea.js的引用路径即可
+			//默认是从sea.js所在的文件夹出发; 
+			//把其他模块出发的基准路径设定为"js"文件.
+			base : "js",
+
+			//6. charset 方法 设置模块的字符集
+			charset : "utf-8",
+
+			//7. debug 方法 查看文件的加载过程 设置为true 会把用到的模块都加载到页面中, 可以在head 标签里查看到.
+			debug : true,
+	})
+	
+	</script>
+</div>
+
+<h3>
+	8. seajs 的插件
+</h3>
+<p>
+使用方法: <br />
+ 在script标签中 引入 sea.js 文件后在下面的script标签中引入插件,如seajs-preload.js插件
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+// 在script标签中 引入 sea.js 文件后引入seajs-preload.js插件
+&ltscript type="text/javascript" src="sea.js"&gt&lt/script&gt
+//这样就可以引入所需要的插件了
+&ltscript type="text/javascript" src="js/lib/seajs-preload.js"&gt&lt/script&gt
+				
+	</script>
+</div>
+<h4>
+	preload 插件
+</h4>
+<p>
+用来预加载文件的。 <br />
+用途：有时我们的一些文件需要提前加载出来方便使用，此时通过preload插件，我们就可以提前加载。通常这类文件是在全局作用域下执行的。如jquery插件
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+seajs.config({			
+	// preload 预加载模块
+	// 对于一些需要预加载的模块可以引入这个插件,如一些需要全局作用域的, 如 jquery
+	//用法 : preload也需要在config配置里定义
+	//jquery和mvc模块进行预加载
+	preload : ["lib/jquery","lib/MVC"]
+			
+	})
+
+
+//调用main模块
+seajs.use("main",function(main){
+	console.log(main);
+			
+})
+	
+	</script>
+</div>
+
+<h4>css 插件</h4>
+<p>
+用来加载css文件的
+用途，有时我们的某个模块文件生成的页面需要css样式渲染，所以我们就要依赖加载css文件。我们可以通过seajs-css.js来实现该功能
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//CSS 插件  seajs-css.js
+//先在index页面中的script标签中引入这个js文件,然后就可以在模块中引入css文件了
+//如果要在模块中引入css文件, 需要加载这个CSS插件.
+//在模块内就可以引入CSS文件了
+require('module/header/header.css')	
+	</script>
+</div>
+
+<script type="text/javascript">
+	
+
+</script>
+</body>
+</html>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>HTML5中的data-属性</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+	<!-- 自己定义的css样式 -->
+	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+<!-- 插入markDown -->
+
+<xmp>
+# HTML5中的data-key = "value" 属性
+
+### H5中标签新增了data-* 属性, 可以使用 data-* 属性来存储自定义数据：
+
+属性值是字符串
+
+```
+// 用一个span标签的data-属性来存储一个网站的信息
+<span id="webInfo" data-webInfo = "{name : 'x3927',  type : 'blog',  website : 'http://x3927.cn' }"></span>
+
+```
+
+### 利用 getAttribute、setAttribute 存取 dataset
+
+作为HTML元素的标签，dataset的存取也服从getAttribute、setAttribute，而且这两个方法兼容性也最广。
+
+```
+//get 获取数据
+var webInfo = document.getElementById("webInfo").getAttribute("data-webInfo");
+
+//set 设置数据
+document.getElementById("webInfo").setAttribute("data-webInfo","{......}");
+
+```
+如果我们要获得多个自定义的属性值,需要遍历属性.
+
+### 利用data- 的API来存取数据
+
+通过.dataset API，我们可以更方便的获取元素的所有data字段，并以对象的方式，方便存取和遍历
+
+```
+<!-- 多个data- 属性 -->
+<!-- 如一个span标签存储了多个信息 -->
+
+<span id="tianqi" class="tianqi"
+
+data-date="2014"
+
+data-city="北京"
+
+data-temp="35℃"
+
+data-wind="微风" >
+
+</span>
+
+//获取数据
+var oSpan = document.getElementById("tianqi");
+
+var data_bj = oSpan.dataset; //获取元素上全部的data-数据; 返回对象
+
+var data_bj_tep = oSpan.dataset.temp;  //获取单个数据
+
+//添加数据
+oSpan.dataset.pm25 = "130";
+
+//改变数据
+
+oSpan.dataset.temp = "25摄氏度"
+
+console.log(data_bj);
+
+```
+### 用jquery.attr 方法存取 dataset
+
+jQuery有着出色的兼容性。类似get、setAttribute，jQuery的.attr()方法同样可以用在这样的情况下，
+
+对于上面的例子可以这样设置
+
+```
+//attr方法
+$("#tianqi").attr("data-temp") //获取单个数据
+$("#tianqi").attr("data-temp","13摄氏度") //设置单个数据
+
+```
+
+
+### 用jquery.data方法获取数据
+
+```
+var temp = $("#tianqi").data("temp")  //可以获取data-temp的属性值
+
+//设置数据
+$("#tianqi").data("PM10","56") 
+//注意: jquery的data 方法设置数据时会存储在jquery对象上, 不会反应到dom标签上, 即span标签的data-属性中不会发生改变
+
+```
+*注意: jquery的data 方法设置数据时会存储在jquery对象上, 不会反应到dom标签上, 即span标签的data-属性中不会发生改变*
+
+
+
+
+
+</xmp>
+
+<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+<span id="tianqi" class="tianqi" data-date="2014" data-city="北京" data-temp="35℃" data-wind="微风"> </span>
+
+
+<!-- js代码 -->
+<script type="text/javascript">
+
+
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+ -->

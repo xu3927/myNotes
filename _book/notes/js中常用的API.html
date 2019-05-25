@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>原生js中的常用API</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+	<link rel="stylesheet" type="text/css" href="css/base.css" />
+
+	<style type="text/css">
+
+
+
+
+	</style>
+
+</head>
+<body>
+	<h1>原生javascript中的常用API</h1>
+	<h2 class="f32">1 DOM相关</h2>
+	<h2 class="f32">2 日期相关的API</h2>
+	<h3>2.1 new Date() 返回当日的日期和时间</h3>
+	<p class="red">riqi.innerHtml = new Date()</p>
+	<h3>2.2 getTime() 返回时间戳,从1970/1/1至今的毫秒数, 精确到1毫秒 </h3>
+	<p class="red">
+		var date = new Date(); <br />
+		var timeStamp = date.getTime();
+	</p>
+	<h3>2.3 Date.parse(Date()) 同样能返回时间戳, 从1970/1/1至今的毫秒数, 精确到1000毫秒</h3>
+
+	<h3>2.4 操作日期</h3>
+	<p class="red">   </p>
+	<p class="red"> 
+	var date = new Date();  <br />
+		date.setFullYear() 为日期对象设置特定的年份4位 <br />
+		date.setDate() 设置日期 <br />
+		date.setHours() 设置小时 <br />
+		....
+	</p>
+	<h3>2.5 把时间对象转为字符串</h3>
+	<p class="red">Date.toString()</p>
+	<div class="jieguo" id="jg_date"></div>
+	<h3>2.6 parse()</h3>
+	<p>返回1970年1月1日午夜到指定日期（字符串）的毫秒数。</p>
+	<p class="red">Date.parse(datestring)</p>
+
+	<script type="text/javascript">
+	var jg_date = document.getElementById("jg_date");
+	jg_date.innerHTML += "Date() : " + new Date() +"<br/>";
+	jg_date.innerHTML += "getTime : " + (new Date()).getTime() +  " 精确到毫秒" +"<br/>";
+	jg_date.innerHTML += "Date.parse(Date()) : " + Date.parse(Date()) +" 精确到1000毫秒";
+	var date = new Date();
+	
+
+	</script>
+
+	<h2 class="f32">JS中的错误处理</h2>
+	<h3>1. <b class="red">try{……}catch(ex){ }</b></h3>
+	<p>
+		try和catch一般都会成对出现.
+		<br />	
+		js会先执行try语句块里面的语句,在这里遇到错误会控制在catch这个语句块里,不会向浏览器抛出.
+		<br />	
+		catch会捕获try语句块中出现的错误,通过参数 <b class="red">ex</b>
+		传递到语句块内.
+		<br />	
+		然后会执行catch中的语句.
+		<br />	
+		如果catch中没有语句会继续执行后面的语句
+	</p>
+
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//try.. catch(err){ }
+var trycatch = document.getElementById("trycatch");
+    try{
+            trycatch.innerHTML += "123<\/br>";
+            var a = b;  //这行语句有错误，b没有被定义
+//try语句块中错误之前的语句可以执行,错误之后的语句不执行
+            trycatch.innerHTML += "哈哈<\/br>";
+        }catch(err){
+//catch中的语句会执行
+            trycatch.innerHTML += err.message+"<\/br>";
+        }
+        trycatch.innerHTML += "456<\/br>";
+	
+	</script>
+</div>
+
+	<div class="h20"></div>
+	
+		<div class="trycatch jieguo" id="trycatch">
+		<!-- err.message: <br /> -->
+	</div>
+
+	<p><b class="red">throw </b>  语句可以自定义创建或抛出异常<br />
+		throw 和 catch一起用可以控制程序流,并生成自定义的错误消息<br />
+		语法 : throw exception <br />
+		异常可以是 JavaScript 字符串、数字、逻辑值或对象。
+
+	</p>
+
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//throw方法
+var othrow_txt = document.getElementById("throw_txt");
+var othrow_button = document.getElementById("throw_button");
+var othrow_txtarea = document.getElementById("throw_txtarea");
+othrow_button.onclick = function(){
+    var x = othrow_txt.value;
+    othrow_txtarea.innerHTML = "输入:"+x+" ";
+try{
+    if(x=="") throw "值为空";
+    if(x<5) throw "数字太小";
+    if(x>=5&&x<=10) throw "输入正确";
+    if(x>10) throw "输入太大";
+    if(isNaN(x)) throw "输入的不是数字";
+ 
+}catch(err){
+    othrow_txtarea.innerHTML += err;
+}
+}	
+	</script>
+</div>
+
+	<div class="h20"></div>
+	<div class="throw jieguo" id="jieguo">
+		<p>请输入5-10以内的一个数字</p>
+		<input type="text" id="throw_txt"/>
+		<input type="button" value="检测输入的内容" id="throw_button" />
+		<p></p>
+		<textarea name="" class="throw_txtarea" id="throw_txtarea" cols="30" rows="5"></textarea>
+	</div>
+
+
+	<h2 class="f32">其他API</h2>
+	<h3>is系列</h3>
+	<ol>
+		<li>
+			<h3><b class="red">isNaN()</b>--判断一个值是不是数字</h3>
+			<p>isNaN(); 是数字返回false,不是数字返回true</p>
+
+			<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var oisNaN = document.getElementById("isNaN");
+oisNaN.innerHTML += isNaN(NaN) + "<br />";
+oisNaN.innerHTML += isNaN("NaN")+ "<br />";
+oisNaN.innerHTML += isNaN(undefined)+ "<br />";
+oisNaN.innerHTML += isNaN("haha")+ "<br />";
+oisNaN.innerHTML += isNaN(2874)+ "<br />";	
+	</script>
+</div>
+			
+		<div class="h20"></div>
+			<div class="jieguo" id="isNaN" >结果<br /></div>
+		</li>
+		<li>
+			<h3><b class="red">isFinite(number)</b>--判断一个值是不是有限的,有限则返回true,无限返回false.</h3>
+
+			<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+isFinite(123)
+isFinite(-1.23)
+isFinite(5-2)
+isFinite(0)
+isFinite("Hello") //false
+isFinite("2005/12/12") //false	
+	</script>
+</div>
+		
+			<div class="h20"></div>
+			<div class="jieguo" id="isfinite" >结果<br /></div>
+		</li>
+	</ol>
+
+<script type="text/javascript">
+//==================================
+//JS错误处理
+//try.. catch(err){ }
+var trycatch = document.getElementById("trycatch");
+	try{
+			trycatch.innerHTML += "123<\/br>";
+			var a = b;  //这行语句有错误，b没有被定义
+//try语句块中错误之前的语句可以执行,错误之后的语句不执行
+			trycatch.innerHTML += "哈哈<\/br>";
+		}catch(err){
+//catch中的语句会执行
+			trycatch.innerHTML += err.message+"<\/br>";
+		}
+		trycatch.innerHTML += "456<\/br>";
+
+//throw方法
+var othrow_txt = document.getElementById("throw_txt");
+var othrow_button = document.getElementById("throw_button");
+var othrow_txtarea = document.getElementById("throw_txtarea");
+othrow_button.onclick = function(){
+	var x = othrow_txt.value;
+	othrow_txtarea.innerHTML = "输入:"+x+" ";
+try{
+	if(x<5) throw "数字太小";
+	if(x>=5&&x<=10) throw "输入正确";
+	if(x>10) throw "输入太大";
+	if(isNaN(x)) throw "输入的不是数字";
+	if(x=="") throw "值为空";
+
+}catch(err){
+	othrow_txtarea.innerHTML += err;
+}
+}
+
+
+//=====================================
+	// is方法
+	var oisNaN = document.getElementById("isNaN");
+	oisNaN.innerHTML += isNaN(NaN) + "<br />";
+	oisNaN.innerHTML += isNaN("NaN")+ "<br />";
+	oisNaN.innerHTML += isNaN(undefined)+ "<br />";
+	oisNaN.innerHTML += isNaN("haha")+ "<br />";
+	oisNaN.innerHTML += isNaN(2874)+ "<br />";
+	
+	var oisfinite = document.getElementById("isfinite");
+	oisfinite.innerHTML +=(isFinite(123)+ "<br />");
+	oisfinite.innerHTML +=(isFinite(-1.23)+ "<br />");
+	oisfinite.innerHTML +=(isFinite(5-2)+ "<br />");
+	oisfinite.innerHTML +=(isFinite(0)+ "<br />");
+	oisfinite.innerHTML +=(isFinite("Hello")+ "<br />");
+	oisfinite.innerHTML +=(isFinite("2005/12/12")+ "<br />");
+
+
+</script>
+
+<h3 class="red">eval() 函数</h3>
+<p>eval( ) : eval() 函数可计算某个字符串，并执行其中的的 JavaScript 代码。</p>
+<p>在ajax获取到json对象后, 如果json是字符串, js中不能识别, 需要用eval( )转化一次.</p>
+
+<p>因为{ }也是js中语句块的标志, 所以如果不转化, js会将其当做语句块而非对象,</p>
+<p>此时可以用eval("("+data+")")来处理字符串json,  同时json需要用( ) 括起来,</p>
+<p>
+	因为如果不加括号,  eval( { } ) 相当于是执行了{ }中的语句块.  而 
+eval ( "( {  } )" )相当于是先执行({ }) 把对象转变为了字面量
+</p>
+
+<h3 class="red">instanceof </h3>
+<p>a instanceof B ;  判断a 是不是B的实例</p>
+<p class="daima">
+	var arr = new Array(1,2,3); <br />
+	console.log( arr instanceof Array ) // 输出true
+</p>
+
+<h3 class=""><span class="red"> a.constructor </span>输出a的构造函数</h3>
+<p class="daima">
+	var arr = [1,2,3]; <br />
+	arr.constructor //输出function Array(){ } 即arr的构造函数  <br />
+
+</p>
+
+<h3><b class="red">arguments </b>js中函数的arguments属性</h3>
+<p>
+	Arguments ：是进行函数调用时，除了指定的参数外，还另外创建的一个隐藏对象。Arguments是一个类似数组但不是数组的对象，arguments对象存储的是实际传递给函数的参数，而不局限于函数声明所定义的参数列表，而且不能显式创建 arguments 对象。arguments 对象只有函数开始时才可用。
+</p>
+<p>
+	arguments[n] ;可以获得函数中传进去的某个参数;
+</p>
+<p>
+	arguments.callee 属性:
+</p>
+<p>
+	callee 属性是 arguments 对象的一个成员，它表示对函数对象本身的引用，这有利于匿名函数的递归或者保证函数的封装性
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var sum = 0;
+	(function Sum(i){
+		if(i>10){
+			console.log(sum);
+			return;
+		}
+		console.log(i);
+		sum += i ;
+		// Sum(i+1);  为了降低函数名的耦合性或者针对匿名函数可以用下面的方法
+		//arguments.callee可以获取到这个函数本身
+		arguments.callee(i+1);
+	})(0)
+
+	
+	</script>
+</div>
+<h3><b class="red">new Function()</b>function的构造函数</h3>
+<p>
+	
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//最后一个参数是函数的body(函数体),字符串类型
+//前面的参数都是函数的参数,可以有多个	
+var fn = new Function('users', 'salary', 'return users * salary')
+	</script>
+</div>
+<p>这个函数可以用来把字符串的json格式化</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var json_str = '{"name" : "小明" , "age" : 18}';
+//格式化json
+var json_obj = (new Function("","return " + json_str));
+
+	</script>
+</div>
+
+<h3><b class="red">window.location.reload(boolen)</b>让页面重新加载</h3>
+<p class="hhns">
+无参数或参数是false:
+会用 HTTP 头 If-Modified-Since 来检测服务器上的文档是否已改变。如果文档已改变，reload() 会再次下载该文档。如果文档未改变，则该方法将从缓存中装载文档。这与用户单击浏览器的刷新按钮的效果是完全一样的。
+参数设置为 true:
+那么无论文档的最后修改日期是什么，它都会绕过缓存，从服务器上重新下载该文档。这与用户在单击浏览器的刷新按钮时按住 Shift 健的效果是完全一样。
+</p>
+
+
+
+
+</body>
+</html>
+
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+
+	</script>
+</div>

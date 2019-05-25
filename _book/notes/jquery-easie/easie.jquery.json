@@ -1,0 +1,39 @@
+{
+    "name": "easie",
+    "version": "1.0.2",
+    
+    "title": "jQuery Easie",
+    "description": "Css3-like easings for jQuery animations.",
+    
+    "keywords": [
+        "easing",
+        "animation",
+        "css",
+        "css3"
+    ],
+    
+    "dependencies": {
+        "jquery": ">=1.5.2"
+    },
+    
+    "homepage": "http://janne.aukia.com/easie",
+    
+    "author": {
+        "name": "Janne Aukia",
+        "email": "janne@aukia.com",
+        "url": "https://github.com/jaukia"
+    },
+    
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/jaukia/easie/blob/master/MIT-LICENSE.txt"
+        },
+        
+        {
+            "type": "GPL-2.0",
+            "url": "https://github.com/jaukia/easie/blob/master/GPL-LICENSE.txt"
+        }
+        
+    ]
+}

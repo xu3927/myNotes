@@ -1,0 +1,942 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>常见页面布局</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+	<!-- 自己定义的css样式 -->
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+
+
+
+/* -----------布局1---------------  */
+
+#buju1{
+	background: #efefef;
+	overflow: hidden;
+}
+
+#buju1 .left{
+	width: 20%;
+	height: 30px;
+	padding-bottom: 100%;
+	margin-bottom: -100%;
+	background: pink;
+	float: left;
+}
+
+#buju1 .center{
+	width: 50%;
+	height: 100px;
+	background: #ddd;
+	float: left;
+}
+
+#buju1 .right{
+	width: 30%;
+	height: 50px;
+	background: pink;
+	float: left;
+	padding-bottom: 100%;
+	margin-bottom: -100%;
+}
+
+/*-----------------------*/
+
+#buju2{
+	background: #efefef;
+	overflow: hidden;
+}
+
+#buju2 .left{
+	width: 20%;
+	height: 100%;
+	background: pink;
+	float: left;
+}
+
+#buju2 .center{
+	width: 50%;
+	height: 100px;
+	background: #ddd;
+	float: left;
+}
+
+#buju2 .right{
+	width: 30%;
+	height: 100%;
+	background: pink;
+	float: left;
+	
+}
+
+/*--------实现3列布局---------*/
+
+#buju3{
+	width: 100%;
+	height: 200px;
+	background: #efefef;
+}
+
+#buju3 .left{
+	width: 200px;
+	background: pink;
+	height: 100%;
+	float: left;
+}
+
+#buju3 .right{
+	width: 250px;
+	background: pink;
+	height: 100%;
+	float: right;
+}
+
+#buju3 .center{
+	margin: 0 270px 0 220px;
+	background: skyblue;
+	height: 100%;
+}
+
+/*---------3列布局BFC-----------*/
+
+#buju4{
+	width: 100%;
+	height: 200px;
+	background: #efefef;
+}
+
+#buju4 .left{
+	width: 200px;
+	background: pink;
+	height: 100%;
+	float: left;
+
+}
+
+#buju4 .right{
+	width: 250px;
+	background: pink;
+	height: 100%;
+	float: right;
+}
+
+
+#buju4 .center{
+	background: #efefef;
+	height: 100%;	
+	overflow: hidden;
+	padding: 0 20px;
+}
+
+#buju4 .center .content{
+	height: 100%;
+	background: rgb(71, 178, 191);
+}
+
+
+/*-----双飞翼布局------*/
+
+#bird{
+	width: 100%;
+	height: 200px;
+	background: #efefef;
+}
+
+#bird .birdBody{
+	width: 100%;
+	height: 100%;
+	background: skyblue;
+	float: left;
+}
+
+#bird .birdBody .center{
+	margin-left: 200px;
+	margin-right: 250px;
+}
+
+
+#bird .left{
+	float: left;
+	height: 100%;
+	width: 200px;
+	background: pink;
+	margin-left: -100%;
+}
+
+
+#bird .right{
+	height: 100%;
+	float: left;
+	width: 250px;
+	background: pink;
+	margin-left: -250px;
+}
+
+/*------3列flex布局------*/
+#buju6{
+	height: 100px;
+	width: 100%;
+	background: #efefef;
+	display: flex;
+	flex-flow:row;
+}
+
+#buju6 .left{
+	width: 200px;
+	height: 100%;
+	background: pink;
+}
+
+#buju6 .right{
+	width: 250px;
+	height: 100%;
+	background: pink;
+}
+
+#buju6 .center{
+	flex:1;
+	background: #efefef;
+	padding: 0 20px;
+}
+
+#buju6 .center .content{
+	background: skyblue;
+	height: 100%;
+}
+
+/*-------圣杯布局----------*/
+
+
+	/*  设置一些基本样式  */
+	.bd-lft, .bd-rgt, .bd-3-lr, .bd-3-ll, .bd-3-rr {margin:10px 0; min-width:400px;}
+	.main {background-color: pink; color:#ffffff;}
+	.aside, .aside-1, .aside-2 {background-color: skyblue; color:#ffffff;}
+	.bd-lft p, .bd-rgt p, .bd-3-lr p, .bd-3-ll p, .bd-3-rr p {margin:0; padding:20px; text-align: center;}
+
+	/*  头部和底部样式  */
+	#hd,#ft{
+		background: #ccc;
+		padding: 20px 3px;
+		text-align: center;
+		min-width:400px;
+	}
+
+	/*-------布局2------*/
+	.bd-lft {
+		overflow: hidden;
+		padding-left: 210px;
+	}
+
+	.bd-lft .aside{
+		float: left;
+		margin-left: -210px;
+		width: 200px;
+	}
+
+
+	.bd-lft .main{
+		float: right;
+		width: 100%;
+	}
+
+	/*----------布局3---------*/
+	.bd-rgt{
+		overflow: hidden;
+		padding-right: 210px;
+	}
+
+	.bd-rgt .main{
+		width: 100%;
+		float: left;
+	}
+
+	.bd-rgt .aside{
+		width: 200px;
+		float: right;
+		margin-right: -210px;
+	}
+
+	/*------------*/
+
+
+	.bd-3-lr{
+		overflow: hidden;
+		position: relative;
+		padding-left: 210px;
+		padding-right: 210px;
+	}
+
+	.bd-3-lr .main{
+		float: left;
+		width: 100%;
+	}
+
+	.bd-3-lr .aside-1{
+		float: left;
+		width: 200px;
+		margin-left: -100%;
+		position: relative;
+		left: -210px;
+	}
+
+	.bd-3-lr .aside-2{
+		float: right;
+		width: 200px;
+		position: relative;
+		margin-right: -210px;
+	}
+
+	/*---------------*/
+
+	.bd-3-ll{
+		padding-left: 420px;
+		overflow: hidden;
+	}
+
+
+	.bd-3-ll .main{
+		width: 100%;
+		float: left;
+	}
+
+	.bd-3-ll .aside-1{
+		float: left;
+		width: 200px;
+		margin-left: -100%;
+		position: relative;
+		left: -420px;
+	}
+
+	.bd-3-ll .aside-2{
+		float: left;
+		width: 200px;
+		margin-left: -100%;
+		position: relative;
+		left: -210px;
+	}
+
+	/*--------------------*/
+
+	.bd-3-rr{
+		padding-right: 420px;
+		overflow: hidden;
+	}
+
+	.bd-3-rr .main{
+		float: left;
+		width: 100%;
+	}
+
+	.bd-3-rr .aside-1{
+		width: 200px;
+		float: right;
+		margin-right: -210px;
+	}
+
+	.bd-3-rr .aside-2{
+		width: 200px;
+		float: right;
+		margin-right: -420px;
+	}
+
+
+
+	</style>
+</head>
+<body>
+<h1>常见页面布局</h1>
+
+<h3>3列布局左右高度低,中间自适应</h3>
+<p>利用padding-bottom,负margin实现</p>
+
+<div id="buju1">
+	<div class="left">左侧高度低</div>
+	<div class="center">中间高度自适应</div>
+	<div class="right">右侧高度低</div>
+</div>
+<div class="h20"></div>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	#buju1{
+		background: #efefef;
+		overflow: hidden;
+	}
+
+	#buju1 .left{
+		width: 20%;
+		height: 30px;
+		padding-bottom: 100%;
+		margin-bottom: -100%;
+		background: pink;
+		float: left;
+	}
+
+	#buju1 .center{
+		width: 50%;
+		height: 100px;
+		background: #ddd;
+		float: left;
+	}
+
+	#buju1 .right{
+		width: 30%;
+		height: 50px;
+		background: pink;
+		float: left;
+		padding-bottom: 100%;
+		margin-bottom: -100%;
+	}
+	
+	</script>
+</div>
+
+<h3>3列布局. 中间高度自适应, 左右高度低</h3>
+
+<div id="buju2">
+	<div class="left">左侧高度低</div>
+	<div class="center">中间高度自适应</div>
+	<div class="right">右侧高度低</div>
+</div>
+
+
+
+
+<h3>3列布局,左右定宽度, 中间自适应</h3>
+<p>实现1. center元素放到最后渲染, 宽度100% 通过设置 margin 把内容调整到合适位置. 左右设置float</p>
+<div id="buju3">
+	<div class="left">左侧定宽</div>
+	<div class="right">右侧定宽</div>
+	<div class="center">中间自适应</div>
+</div>
+<div class="h20"></div>
+ <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">	
+	#buju3{
+		width: 100%;
+		height: 200px;
+		background: #efefef;
+	}
+
+	#buju3 .left{
+		width: 200px;
+		background: pink;
+		height: 100%;
+		float: left;
+	}
+
+	#buju3 .right{
+		width: 250px;
+		background: pink;
+		height: 100%;
+		float: right;
+	}
+
+	#buju3 .center{
+		margin: 0 270px 0 220px;
+		background: skyblue;
+		height: 100%;
+	}
+
+	</script>
+</div>
+
+<h4>3列布局,左右定宽,中间自适应. 利用BFC</h4>
+<p>BFC不会与浮动元素叠加, 利用此特性完成该布局</p>
+<p>左右元素分别左右浮动, 中间元素放在最后渲染, 并设置overfolow:hidden</p>
+
+<div id="buju4">
+	<div class="left">左侧定宽</div>
+	<div class="right">右侧定宽</div>
+	<div class="center">
+		<div class="content">中间自适应</div>
+	</div>
+
+</div>
+<div class="h20"></div>
+ <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">			
+
+	#buju4{
+		width: 100%;
+		height: 200px;
+		background: #efefef;
+	}
+
+	#buju4 .left{
+		width: 200px;
+		background: pink;
+		height: 100%;
+		float: left;
+
+	}
+
+	#buju4 .right{
+		width: 250px;
+		background: pink;
+		height: 100%;
+		float: right;
+	}
+
+
+	#buju4 .center{
+		background: #efefef;
+		height: 100%;	
+		overflow: hidden; /*触发BFC*/
+		padding: 0 20px;
+	}
+
+	#buju4 .center .content{
+		height: 100%;
+		background: rgb(71, 178, 191);
+	}
+
+	</script>
+</div>
+
+
+
+<h4>实现3. 双飞翼布局方法</h4>
+<p>
+	双飞翼是由淘宝玉伯等前端大牛提出的一种多列布局方法，主要利用了浮动、负边距、相对定位三个布局属性，使三列布局就像小鸟一样，拥有中间的身体和两侧的翅膀。
+</p>
+<h4>布局分析</h4>
+<p class="hhns">
+该布局可以保证中间main部分最先渲染.
+1. body部分在最前面, 下面依次是left,right
+2. 现设置鸟的身体body部分 宽100%, 并左浮动. 进行占位. 
+3. 再安放2个翅膀
+4. 设置left,right 定宽, 并且float:left; 
+5. left部分 margin-left : -100%; 可以使left占到上一层,并位于body上方左侧.
+6. 设置right部分 margin-left : -250px; 安放右翅膀
+7. 给body部分套个内容区, 通过设置body部分的padding调整内容区的位置, 使之不被左右两侧覆盖
+</p>
+
+
+<div id="bird">
+	<div class="birdBody">
+		<div class="center">中间自适应</div>
+	</div>
+	<div class="left">左侧定宽</div>
+	<div class="right">右侧定宽</div>	
+</div>
+<div class="h20"></div>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	#bird{
+		width: 100%;
+		height: 200px;
+		background: #efefef;
+	}
+
+	#bird .birdBody{
+		width: 100%;
+		height: 100%;
+		background: skyblue;
+		float: left;
+	}
+
+	#bird .birdBody .center{
+		margin-left: 200px;
+		margin-right: 250px;
+	}
+
+
+	#bird .left{
+		float: left;
+		height: 100%;
+		width: 200px;
+		background: pink;
+		margin-left: -100%;
+	}
+
+
+	#bird .right{
+		height: 100%;
+		float: left;
+		width: 250px;
+		background: pink;
+		margin-left: -250px;
+	}
+	
+	</script>
+</div>
+
+<h3>3列布局, 利用flex实现</h3>
+<h4>布局分析</h4>
+<p class="hhns">
+	利用弹性盒实现.
+	父盒子设置 display:flex;
+	同时设置 flex-flow : row;
+	左右设置定宽.
+	中间设置 flex:1; 即可自适应宽度.
+</p>
+
+<div id="buju6">
+	<div class="left">左侧定宽</div>
+	<div class="center">
+		<div class="content">中间自适应</div>
+	</div>
+	<div class="right">右侧定宽</div>
+</div>
+<div class="h20"></div>
+ <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">	
+	#buju6{
+		height: 100px;
+		width: 100%;
+		background: #efefef;
+		display: flex;
+		flex-flow:row;
+	}
+
+	#buju6 .left{
+		width: 200px;
+		height: 100%;
+		background: pink;
+	}
+
+	#buju6 .right{
+		width: 250px;
+		height: 100%;
+		background: pink;
+	}
+
+	#buju6 .center{
+		flex:1;
+		background: #efefef;
+		padding: 0 20px;
+	}
+
+	#buju6 .center .content{
+		background: skyblue;
+		height: 100%;
+	}
+	</script>
+</div>
+
+<h3>圣杯布局系列</h3>
+<p class="hhns">
+布局分析:
+通常是2列或3列布局, 其中内容部分宽度自适应,两侧或一侧部分定宽.
+首先保证main部分优先渲染. 故html中main部分位于第一个.
+左中右部分都要设置浮动.
+利用父元素的padding留出固定部分的宽度.
+main部分设置宽度 100%
+两侧固定部分设置 margin 为负,使之浮动到上一层.
+再通过相对定位调整其位置到合适的部分.
+</p>
+
+<div id="hd">头部</div>
+	
+	<div class="bd-lft">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside">
+			<p>侧边栏固定宽度</p>
+		</div>
+	</div>
+
+	<div class="bd-rgt">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside">
+			<p>侧边栏固定宽度</p>
+		</div>
+	</div>
+
+	<div class="bd-3-lr">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside-1">
+			<p>侧边栏1固定宽度</p>
+		</div>
+
+		<div class="aside-2">
+			<p>侧边栏2固定宽度</p>
+		</div>
+	</div>
+
+	<div class="bd-3-ll">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside-1">
+			<p>侧边栏1固定宽度</p>
+		</div>
+
+		<div class="aside-2">
+			<p>侧边栏2固定宽度</p>
+		</div>
+	</div>
+
+	<div class="bd-3-rr">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside-1">
+			<p>侧边栏1固定宽度</p>
+		</div>
+
+		<div class="aside-2">
+			<p>侧边栏2固定宽度</p>
+		</div>
+	</div>
+	
+	<div id="ft">底部</div>
+
+<div class="h20"></div>
+
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	// HTML部分
+
+	<div id="hd">头部</div>
+	
+	<div class="bd-lft">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside">
+			<p>侧边栏固定宽度</p>
+		</div>
+	</div>
+
+	<div class="bd-rgt">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside">
+			<p>侧边栏固定宽度</p>
+		</div>
+	</div>
+
+	<div class="bd-3-lr">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside-1">
+			<p>侧边栏1固定宽度</p>
+		</div>
+
+		<div class="aside-2">
+			<p>侧边栏2固定宽度</p>
+		</div>
+	</div>
+
+	<div class="bd-3-ll">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside-1">
+			<p>侧边栏1固定宽度</p>
+		</div>
+
+		<div class="aside-2">
+			<p>侧边栏2固定宽度</p>
+		</div>
+	</div>
+
+	<div class="bd-3-rr">
+		<div class="main">
+			<p>主内容栏自适应宽度</p>
+		</div>
+
+		<div class="aside-1">
+			<p>侧边栏1固定宽度</p>
+		</div>
+
+		<div class="aside-2">
+			<p>侧边栏2固定宽度</p>
+		</div>
+	</div>
+	
+	<div id="ft">底部</div>
+
+	// CSS部分
+	/*  头部和底部样式  */
+	#hd,#ft{
+		background: #efefef;
+		padding: 20px 3px;
+		text-align: center;
+		min-width:400px;
+	}
+
+	/*-------布局2------*/
+	.bd-lft {
+		overflow: hidden;
+		padding-left: 210px;
+	}
+
+	.bd-lft .aside{
+		float: left;
+		margin-left: -210px;
+		width: 200px;
+	}
+
+
+	.bd-lft .main{
+		float: right;
+		width: 100%;
+	}
+
+	/*----------布局3---------*/
+	.bd-rgt{
+		overflow: hidden;
+		padding-right: 210px;
+	}
+
+	.bd-rgt .main{
+		width: 100%;
+		float: left;
+	}
+
+	.bd-rgt .aside{
+		width: 200px;
+		float: right;
+		margin-right: -210px;
+	}
+
+	/*------------*/
+
+
+	.bd-3-lr{
+		overflow: hidden;
+		position: relative;
+		padding-left: 210px;
+		padding-right: 210px;
+	}
+
+	.bd-3-lr .main{
+		float: left;
+		width: 100%;
+	}
+
+	.bd-3-lr .aside-1{
+		float: left;
+		width: 200px;
+		margin-left: -100%;
+		position: relative;
+		left: -210px;
+	}
+
+	.bd-3-lr .aside-2{
+		float: right;
+		width: 200px;
+		position: relative;
+		margin-right: -210px;
+	}
+
+	/*---------------*/
+
+	.bd-3-ll{
+		padding-left: 420px;
+		overflow: hidden;
+	}
+
+
+	.bd-3-ll .main{
+		width: 100%;
+		float: left;
+	}
+
+	.bd-3-ll .aside-1{
+		float: left;
+		width: 200px;
+		margin-left: -100%;
+		position: relative;
+		left: -420px;
+	}
+
+	.bd-3-ll .aside-2{
+		float: left;
+		width: 200px;
+		margin-left: -100%;
+		position: relative;
+		left: -210px;
+	}
+
+	/*--------------------*/
+
+	.bd-3-rr{
+		padding-right: 420px;
+		overflow: hidden;
+	}
+
+	.bd-3-rr .main{
+		float: left;
+		width: 100%;
+	}
+
+	.bd-3-rr .aside-1{
+		width: 200px;
+		float: right;
+		margin-right: -210px;
+	}
+
+	.bd-3-rr .aside-2{
+		width: 200px;
+		float: right;
+		margin-right: -420px;
+	}	
+	</script>
+</div>
+
+<!-- js代码 -->
+<script type="text/javascript">
+
+
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 生成目录 -->
+<script type="text/javascript" src="js/buildCatalog.js"></script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- 
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+
+ -->

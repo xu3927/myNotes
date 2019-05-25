@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>JavaScript判断IE各版本最完美解决方案</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>JavaScript判断IE各版本最完美解决方案</h1>
+	<p>转自<a href="https://github.com/nioteam/jquery-plugins/issues/12">https://github.com/nioteam/jquery-plugins/issues/12</a></p>
+	<p>
+		IE提供的一套官方的HTML hack方式：
+	</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+<!--[if IE]>
+// 全部IE版本可见
+<![endif]-->
+<!--[if IE 6]>
+// IE6可见
+<![endif]-->	
+	</script>
+</div>
+<p class="hhns">
+依次等等。
+这样的写法在其它浏览器里，完全就是一坨注释而直接遭到无视，但在IE里却不会。IE会分析里面的提到的版本号，并根据版本号确定要不要解析里面的DOM元素和文本内容。等一下！DOM元素？那岂不是可以使用js来获取里面的DOM元素？反正谁看到了，谁就是IE！于是，国外大神就有了下面的写法：
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var isIE = function(){
+    var b = document.createElement('b')
+    b.innerHTML = '<!--[if IE]><i></i><![endif]-->'
+    return b.getElementsByTagName('i').length === 1
+}	
+	</script>
+</div>
+<p>
+	这也太巧妙了！首先生成了一个b元素，设置它的innerHTML为一坨只有IE才认识的注释，注释里只有一个空的标签，然后读取里面的出现的元素i的个数是不是等于1，是不是等于1，是不是等于1。。。。
+这样的写法比其它任何一种都要好。至于为什么生成一个b元素并且里面写一个i元素而不是div或者strong，更多是考虑到前者字节量更小。
+检测各个IE版本的方法也就顺理成章了：
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var isIE6 = function(){
+    var b = document.createElement('b')
+    b.innerHTML = '<!--[if IE 6]><i></i><![endif]-->'
+    return b.getElementsByTagName('i').length === 1
+}
+// var isIE7
+// ...
+	
+	</script>
+</div>
+<h3>更进一步</h3>
+<p>
+	还可以进一步将版本号提取成参数，就能生成一个通用的检测IE版本的函数了：
+</p>
+<p class="cu red">最终版本</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var isIE = function(ver){
+    var b = document.createElement('b')
+    b.innerHTML = '<!--[if IE ' + ver + ']><i></i><![endif]-->'
+    return b.getElementsByTagName('i').length === 1
+}
+
+if(isIE(6)){
+    // IE 6
+}
+// ...
+if(isIE(9)){
+    // IE 9
+}
+	
+	</script>
+</div>
+<p>
+	这样想检测哪个版本都毫无压力。但是，如果只想检测是不是IE，而不关心浏览器版本，那只需要在调用函数的时候，不传递参数即可。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var ie  = isIE()	
+	</script>
+</div>
+
+<h2>判断其他浏览器的方法</h2>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+		function isMac(){
+		str = navigator.platform.toString();
+		if (str == 'MacIntel') {
+			return true;
+		}
+
+		function isIpad(){
+			if (/iPad/i.test(navigator.userAgent)) {
+				return true;
+			}
+		}
+
+
+		function isIE(){
+			if(!!window.ActiveXObject || "ActiveXObject" in window){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		function isFirefox(){
+			if (navigator.userAgent.indexOf("Firefox")>0) {
+				return true;
+			};
+		}
+
+
+		function IEVersion() {
+			  var ua = navigator.userAgent;
+			  var reg = /Trident\/(\d+\.\d+)/;
+			  reg = reg.exec(ua);
+			  if (reg && reg[1]) {
+			  	return +reg[1] + 4;
+			  }
+			  reg = /MSIE\s*(\d+\.\d+)/;
+			  reg = reg.exec(ua);
+			  if (reg && reg[1]) {
+			  	return +reg[1];
+			  }
+			  return -1;
+		}
+
+	</script>
+</div>
+
+
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>
+
+
+
+

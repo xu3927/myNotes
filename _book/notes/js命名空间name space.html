@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>js命名空间namespace</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+	<!-- 自己定义的css样式 -->
+	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+<xmp>
+# JS中的命名空间 namespace
+
+在js中,当程序复杂到一定程度后,全局变量经常会引起命名冲突.此时使用命名空间的方法可以有效的避免这种情况.
+
+利用命名空间还可以减少程序中全局变量的数量.
+
+## 创建命名空间的方法
+
+### 通过函数（function)创建
+
+这是一种比较常见的写法，通过声明一个function实现，函数里设置初始变量，公共方法写入prototype，如：
+
+````
+var NameSpace = window.NameSpace || {};
+/*
+Function
+*/
+NameSpace.Hello = function() {
+  this.name = 'world';
+};
+NameSpace.Hello.prototype.sayHello = function(_name) {
+  return 'Hello ' + (_name || this.name);
+};
+var hello = new NameSpace.Hello();
+hello.sayHello();
+````
+
+这种写法比较冗长，不利于压缩代码（jQuery使用fn代替prototype），而且调用前需要先实例化（new)。使用Object写成JSON形式可以写得紧凑些：
+
+### 通过JSON对象创建Object
+
+```
+/*
+Object
+*/
+var NameSpace = window.NameSpace || {};
+NameSpace.Hello = {
+    name: 'world'
+  , sayHello: function(_name) {
+    return 'Hello ' + (_name || this.name);
+  }
+};
+
+调用
+
+NameSpace.Hello.sayHello('JS');
+> Hello JS;
+```
+
+这种写法比较紧凑，缺点是所有变量都必须声明为公有(public)的，导致所有对这些变量的引用都需要加this指示作用域，写法也略有冗余。
+
+### 通过闭包(Closure)和Object实现
+
+在闭包中声明好所有变量和方法，并通过一个JSON Object返回公有接口：
+```
+var NameSpace = window.NameSpace || {};
+NameSpace.Hello = (function() {
+  //待返回的公有对象
+  var self = {};
+  //私有变量或方法
+  var _name = 'world';
+  //公有方法或变量
+  self.sayHello = function(name) {
+    return 'Hello ' + (_name || name);
+  };
+  //返回的公有对象
+  return self;
+}());
+```
+### Object和闭包的改进型写法
+
+上个例子在内部对公有方法的调用也需要添加self，如：self.sayHello()； 这里可以最后再返回所有公有接口（方法/变量)的JSON对象。
+
+```
+var NameSpace = window.NameSpace || {};
+NameSpace.Hello = (function() {
+  var name = 'world';
+  var sayHello = function(_name) {
+    return 'Hello ' + (_name || name);
+  };
+  return {
+    sayHello: sayHello
+  };
+}());
+```
+### Function的简洁写法
+
+这是一种比较简洁的实现，结构紧凑，通过function实例，且调用时无需实例化（new），方案来自stackoverflow：
+```
+var NameSpace = window.NameSpace || {};
+NameSpace.Hello = new function() {
+  var self = this;
+  var name = 'world';
+  self.sayHello = function(_name) {
+    return 'Hello ' + (_name || name);
+  };
+};
+
+调用
+
+NameSpace.Hello.sayHello();
+```
+</xmp>
+
+
+
+
+
+<!-- js代码 -->
+<script type="text/javascript">
+
+
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+ -->

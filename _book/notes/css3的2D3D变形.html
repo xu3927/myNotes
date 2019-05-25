@@ -1,0 +1,404 @@
+<!DOCTYPE >
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CSS3的2D3D变形和过渡</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+	a{
+		color: #ccc;
+	}
+	#xuanzhaun1{
+		width: 200px;
+		height: 100px;
+		background-image: url("images/screen/3.jpg");
+		background-size: cover;
+		transition:all 1s ease 0s;
+	}
+	#xuanzhaun1:hover{
+		transform:rotate(45deg);
+	}
+	.suofang{
+		width: 200px;
+		height: 150px;
+		background-image: url("images/screen/5.jpg");
+		background-size: cover;
+		transition:all 1s ease 0s;
+	}
+	.suofang:hover{
+		transform:scale(0.5,2);
+	}
+	.xieqie{
+		width: 200px;
+		height: 150px;
+		background-image: url("images/screen/1.jpg");
+		background-size: cover;
+		transition:all 1s ease 0s;
+	}
+	.xieqie:hover{
+		transform:skew(-20deg,60deg);
+	}
+	.mogu{
+		width: 150px;
+		margin-left:80px;
+		transition:all 1s ease 0s;
+		transform-origin:0% 100px;
+
+	}
+	.stage_mogu{
+		perspective:500px;
+	}
+
+	</style>
+</head>
+<body>
+<h1>CSS3中的2D,3D变形和过渡</h1>
+
+<h3> CSS3中最大的更新是</h3>
+<p>①. transition 过渡</p>
+<p>②. transform 变形</p>
+<p>③. animation 动画</p>
+
+<h2>一. transition 过渡</h2>
+<p>该属性可以让一个元素从css状态A 以动画过渡形式转到状态B</p>
+<p>1. 语法: </p>
+<p class="red">	transition : all 1s ease 0s; </p>
+<p>参数1: 选择要参与过渡的属性, all是让所有属性都参与过渡</p>
+<p>参数2: 动画过渡的时间, 单位是秒(s), 单位不能省 </p>
+<p>参数3: 缓冲描述词, ease是不匀速, 匀速是 linear </p>
+<p>参数4: 延迟时间, 0s 是不延迟</p>
+<h4>2. 缓冲描述词可以由<b class="red">贝塞尔曲线</b>来生成.</h4>
+<p>生成网址: <a href="http://cubic-bezier.com/#.17,.67,.83,.67">http://cubic-bezier.com/#.17,.67,.83,.67</a></p>
+<h3>3. 什么属性可以过渡</h3>
+<p>基本所有的css属性都可以过渡.</p>
+<p>background-color、background-position、background-image、border-radius、border、padding、font-size等等。</p>
+<h3>4. 什么时候触发过渡</h3>
+<p><b class="red">一个元素设置过渡后,任何对元素的css改变都可以触发过渡</b></p>
+
+<h3>5. 小知识点</h3>
+<p>动态添加到DOM树上的元素, 设置transition不生效,需要时间准备. <br> 所以需要把transition延迟1ms之后执行, 用 setTimeOut(fun,1) 
+</p>
+<p>给一个元素设置样式后,紧接着再添加transition属性再次设置样式, 第一次设置的样式可能会不生效, 这时给第二步加个setTimeOut(fun,1)即可</p>
+
+<h2>二 2D变形 rotate( val )</h2>
+
+
+<h3>1. 旋转变形 transform</h3>
+<p>语法:</p>
+<p class="red">transform : rotate(45deg)</p>
+<p>让元素旋转45度,顺时针方向为正方向</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	.box{
+		width: 30px;
+		height: 30px;
+		background-color: #aff;
+		transition:all 1s ease 0s;
+	}
+	.box:hover{
+		//transform:rotate(45deg);
+	}	
+	</script>
+</div>
+<p>鼠标移到下面盒子上, 盒子会向正方向旋转45度</p>
+<div class="jieguo">
+	<div id = "xuanzhaun1"></div>
+</div>
+
+<h3>2. 缩放变形scale( val )</h3>
+<p>语法:</p>
+<p class="red">transform : scale(0.1)</p>
+<p>把元素缩小为原来的0.1倍,这个属性的值没有单位</p>
+<p >写一个参数表示元素按比例缩放为原来的多少倍
+	</p>
+	<p class="cu">可以写两个参数,用逗号隔开,表示横向的缩放倍数和纵向的缩放倍数
+	</p>
+<p>scale的属性也可以拆开写:</p>
+<p class="red">scale( 0.5 , 2 ) 等价于 scaleX( 0.5 ) scaleY( 2 )</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	.suofang:hover{
+		transform:scale(0.5,2);
+	}	</script>
+</div>
+<p>	鼠标移上去后下面的盒子横向缩小为原来的0.5倍 . 纵向伸长为原来的2倍.</p>
+<div class="jieguo">
+	<div class="suofang"></div>
+</div>
+
+<h3>3. 斜切变形 skew( val )</h3>
+<p>语法:</p>
+<p class="red">transform : skew(-20deg);</p>
+<p>可以写两个值, 分别表示横向斜切度数, 纵向斜切度数</p>
+<p class="red">transform : skew(-20deg,60deg); <br />
+等价于: <br />
+transform: skewX(-20deg) skewY(60deg)</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	.xieqie:hover{
+		transform:skew(-20deg,60deg);
+	} </script>
+</div>
+<p>图片横向斜切-20度, 纵向斜切60度</p>
+<div class="jieguo">
+	<div class="xieqie">
+		
+	</div>
+</div>
+
+<h3>4. css3中的2D变形就这3个.</h3>
+<div class="daima red pd">
+	transform:rotate(30deg); <br />
+	transform:scale(4,1); <br />
+	transform:skew(30deg,40deg); <br />
+</div>
+<h2>三 3D 变形</h2>
+<h3>1. 3D变形的舞台</h3>
+<p>3D变形需要有舞台的概念, 舞台负责加景深(perspective)属性, 单位是px, 表示观察者与3D变形的舞台的距离.</p>
+
+<h3>2. rotateX, rotateY 旋转角度</h3>
+<p><b class="red">rotateX</b>表示沿着x轴旋转, 后仰是正方向</p>
+<p><b class="red">rotateY</b>表示沿着x轴旋转,地球自转方向为正</p>
+<p><b class="red">rotateZ</b>实际上是平面中旋转, 即是绕着与屏幕垂直的方向为轴旋转,实际上就是rotate属性</p>
+<p>3个属性可以合写</p>
+<p class="red">transform : rotate3d(x,y,z,angle)</p>
+<p>rotate3d()4个参数, 参数1,2,3值为1或0 表示是否沿着x,y,z轴旋转, 是值为1, 不是值为0, 第四个参数表示旋转的角度</p>
+<div class="daima red pd">
+	.mogu{ <br>
+		transform:rotateX(45deg) rotateY(-20deg); <br>
+	}
+</div>
+
+<h3>3. 设置旋转轴</h3>
+<p class="red">transform-origin : 0% 0px</p>
+<p>参数1 表示x轴的位置</p>
+<p>参数2 表示y轴的位置</p>
+<p>可以用百分比或像素来表示. 百分比是相对于舞台的百分比</p>
+
+
+<h4>4 空间移动</h4>
+<p>每个元素在空间中都可以向x, y , z 三个方向移动</p>
+<p>语法:</p>
+<p class="daima red pd bd">
+transform:translateX(300px); <br>
+transform:translateY(300px); <br>
+transform:translateZ(300px);	
+</p>
+<p>三个属性可以合写</p>
+<p class="red"> transform : translate3d(x,y,z)</p>
+
+
+
+<div class="stage_mogu">
+	<img src="images/beauty/mogu.jpg" alt="" class="mogu" id="mogu"/>
+	<br />
+	<input type="range" id="rotx" min = "-180" max="180"/>
+	rotateX :
+	<input type="text" id="rotx_txt">
+	<br />
+	<input type="range" id="roty" min = "-180" max="180"/>
+	rotateY :
+	<input type="text" id="roty_txt" min = "-180" max="180">
+	<br />
+	<input type="range" id="rot" />
+	rotate :
+	<input type="text" id="rot_txt">
+	<br>
+	<input type="range" id="tran_originx" min = "0" max="200"/>
+	x旋转轴的值 :
+	<input type="text" id="tran_originxtxt">
+	<br>
+	<input type="range" id="tran_originy" min = "0" max="100"  />
+	y旋转轴的值 :
+	<input type="text" id="tran_originytxt">
+	<br>
+	
+	<input type="range" id="tran_x" min = "-400" max="400"/>
+	translateX :
+	<input type="text" id="tran_xtxt">
+	<br>
+	<input type="range" id="tran_y" min = "-400" max="400"  />
+	translateY :
+	<input type="text" id="tran_ytxt">
+	<br>
+	<input type="range" id="tran_z" min = "-400" max="400"  />
+	translateZ :
+	<input type="text" id="tran_ztxt">
+
+</div>
+<script type="text/javascript">
+	$mogu = $("#mogu");
+	$rotx_txt = $("#rotx_txt");
+	$roty_txt = $("#roty_txt");
+	$rot_txt = $("#rot_txt");
+	$tran_originxtxt = $("#tran_originxtxt");
+	$tran_originytxt = $("#tran_originytxt");
+	$("#rotx").change(function(){
+		$rotx_txt.val($(this).val()) ;
+		$mogu.css({
+			"transition":"all 1s ease 0s",
+			"transform":"rotateX("+$(this).val()+"deg)"
+		})
+	})
+	$("#roty").change(function(){
+		$roty_txt.val($(this).val()) ;
+		$mogu.css({
+			"transition":"all 1s ease 0s",
+			"transform":"rotateY("+$(this).val()+"deg)"
+		})
+	})
+	$("#rot").change(function(){
+		$rot_txt.val($(this).val()) ;
+		$mogu.css({
+			"transition":"all 1s ease 0s",
+			"transform":"rotate("+$(this).val()+"deg)"
+		})
+	})
+	$("#tran_originx").change(function(){
+		$tran_originxtxt.val($(this).val()+"px") ;
+		$mogu.css({
+			"transform-origin":"50% " + $(this).val()+"px"
+		
+		})
+	})
+	$("#tran_originy").change(function(){
+	$tran_originytxt.val($(this).val()+"%") ;
+	$mogu.css({			
+		"transform-origin":$(this).val()/100 + " 50%"
+		})
+	})
+
+	//translateX
+	$("#tran_x").change(function(){
+	$("#tran_xtxt").val($(this).val()+"px") ;
+	$mogu.css({			
+		"transform":"translateX("+$(this).val() + "px)"
+		})
+	})
+
+	//translateY
+	$("#tran_y").change(function(){
+	$("#tran_ytxt").val($(this).val()+"px") ;
+	$mogu.css({			
+		"transform":"translateY("+$(this).val() + "px)"
+		})
+	})
+
+	//translateZ
+	$("#tran_z").change(function(){
+	$("#tran_ztxt").val($(this).val()+"px") ;
+	$mogu.css({			
+		"transform":"translateZ("+$(this).val() + "px)"
+		})
+	})
+
+
+</script>
+
+<h3>其他一些属性:</h3>
+<p>1. <b class="red">backface-visibility : hidden; </b> 背面不可见 </p>
+<p>2. <b class="red">transform-style : preserve-3d</b> 把一个元素内部的元素作为组合体进行3D运动</p>
+
+<h3>四 animation</h3>
+
+
+<p>之前学习的transition能够实现动画，不过这个动画是需要触发条件的，比如css改变、类名的改变、hover了。</p>
+<p>animation属性，可以让动画更加自由。
+</p>
+<h3>4.1 定义动画</h3>
+<p class="hhns">
+必须先使用
+1@-webkit-keyframes
+定义动画，然后使用animation属性调用动画
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// 定义动画：
+	@-webkit-keyframes yundong{
+		from{
+			left: 100px;
+		}
+		to{
+			left:700px;
+		}
+	}	
+	</script>
+</div>
+
+<p class="hhns">
+@符号表示定义，之前我们学习过iconfont字体图片，我们也用过@符号：@font-family。你就当做死规定记住就行了，没什么大不了。keyframes是关键帧的意思，里面定义的不是每帧的变化情况，而是起点、终点。一会儿你将知道，还能定义一些动画过程中的点。
+yundong就是我们任意取的动画的名字。
+from、to从什么变为什么。
+</p>
+
+<h3>4.2 百分比定义动画</h3>
+
+<p>
+	做简单的动画， 用from{} to{}。还能用百分比，就表示动画时间流逝了这么多的时候，应该所处的状态：
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	@-webkit-keyframes yundong{
+			0%{
+				left:100px;
+			}
+			90%{
+				left: 150px;
+			}
+			100%{
+				left: 700px;
+			}
+		}	
+	</script>
+</div>
+	<p>任何属性都能参与动画，transition能的，animation也能。</p>	
+
+
+<h3>4.3 动画的调用</h3>
+<p>动画的调用，写在div的属性里面：</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	div{
+		animation: yundong 10s linear 0s;
+	}	
+	</script>
+</div>
+
+<p class="hhns">
+animation属性完整的调用一共有7个参数：
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	animation: yundong 1s linear 0s 5 alternate forwards;
+	</script>
+</div>
+<p class="hhns">
+第1个参数： 动画的名字
+第2个参数： 动画的总时长，别忘了写s
+第3个参数： 缓冲
+第4个参数： 延迟时间，注意如果动画进行很多次，只有第一次开始前有延迟
+第5个参数： 运动次数，要无限次写infinite
+第6个参数： 是否来回运动，如果写alternate那么第偶数次将是时间轴的逆向
+第7个参数： forwards表示当运动结束之后让这个元素保留在原地
+</p>
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+
+</body>
+</html>

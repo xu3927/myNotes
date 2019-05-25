@@ -856,7 +856,7 @@ var webpackConfig = {
 
 用于取出文件资源作为一个单独的文件.
 
-```javscript
+```javascript
 
 // 取出所有引入的css文件到一个单独的文件中, 可以减小bundle的体积
 

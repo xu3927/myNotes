@@ -1,0 +1,884 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>highCharts入门教程</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+		
+		table,tr,td{
+			border: 1px solid #f0f0f0;
+			border-collapse: collapse;
+		}
+		th{
+			font-size: 18px;
+			height: 40px;
+		}
+		td {
+			height: 30px;
+		}
+
+
+	</style>
+</head>
+<body>
+	<h1>highCharts入门教程</h1>
+	<h3>1. 概述</h3>
+<p class="hhns">
+简介
+Highcharts是一款纯javascript编写的图表库，能够简单便捷的在Web网站或Web应用中添加交互性的图表，Highcharts目前支持直线图、曲线图、面积图、柱状图、饼图、散点图等多达18种不同类型的图表，可以满足你对Web图表的任何需求 ！
+
+优势:
+
+兼容性：支持目前所有的现代浏览器，包括IE6 +、iPhone/iPad、Android
+开源免费：针对个人用户及非商业用途免费，并提供源代码下载，你可以任意的修改它
+纯Javascript：Highcharts完全基于本地浏览器技术，不需要任何插件
+图表类型丰富：支持直线图、面积图、柱状图、饼图、散点图、瀑布图、雷达图，共18种类型图表
+动态性：在创建图表后对图表的任意点、线和文字等进行增加、删除和修改操作。支持Ajax接口
+图表导出和打印功能：可导出为PNG、JPG、PDF和SVG格式文件或直接在网页上打印出来。
+多轴支持：可以针对每个轴设置其位置、文字和样式等属性
+动态提示框：当鼠标悬停在图表上的数据点时，会显示信息提示框，其内容和样式可以自定义。
+图表缩放：可以设置图表的缩放
+支持外部数据加载：支持多种数据形式，可以是Javascript数组、json文件、json对象和表格数据等，这些数据来源可以是本地、不同页面，甚至是不同网站
+
+获取highcharts
+官方下载：
+<a href="http://www.highcharts.com/download">http://www.highcharts.com/download</a>
+
+Github 开源项目：
+<a href="https://github.com/highslide-software/highcharts.com">https://github.com/highslide-software/highcharts.com</a>
+
+中文API
+<a href="http://www.hcharts.cn/index.php">http://www.hcharts.cn/index.php</a>
+</p>
+
+<h3>2. Highcharts组成部分</h3>
+<p>
+	
+	<img src="./images/chatu/highCharts.png" alt="" />
+</p>
+<p class="hhns">
+1 title，表示图片的标题- subtitle是副标题，显示在标题的下边
+2 series，表示图表中横线
+3 横坐标 xAxis
+4 纵坐标 yAxis
+5 legend 图例，与页面中的线条一一对应的
+6 提示框：tooltip
+7 credits，表示版权信息
+</p>
+
+ <h3>3. 名词解释</h3>
+	<table class= "nameExplain">
+    <tr>
+        <th width="100px">英文名</th>
+        <th width="100px">中文名</th>
+        <th width="500px">描述</th>
+        <th>更多</th>
+    </tr>
+    <tr>
+        <td class="entry">lang</td>
+        <td>语言文字对象</td>
+        <td>所有Highcharts文字相关的设置</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">chart</td>
+        <td>图表</td>
+        <td>图表区、图形区和通用图表配置选项</td>
+        <td><a href="http://www.hcharts.cn/docs/index.php?doc=basic-chart">查看教程</a></td>
+    </tr>
+    <tr>
+        <td class="entry">colors</td>
+        <td>颜色</td>
+        <td>图表数据列颜色配置，是一个颜色数组</td>
+        <td><a href="http://www.hcharts.cn/docs/index.php?doc=basic-color">查看教程</a></td>
+    </tr>
+    <tr>
+        <td class="entry">credits</td>
+        <td>版权信息</td>
+        <td>Highcharts在图表的右下方放置的版权信息及链</td>
+        <td><a href="http://www.hcharts.cn/docs/index.php?doc=basic-credits" target="_blank">查看教程</a></td>
+    </tr>
+    <tr>
+        <td class="entry">drilldown</td>
+        <td>向下钻取</td>
+        <td>向下钻取数据，深入到其中的具体数据</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">exporting</td>
+        <td>导出模块</td>
+        <td>导出功能配置，导出即将图表下载为图片或打印图表</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">labels</td>
+        <td>标签</td>
+        <td>可以放置到图表区域内任何位置的HTML标签</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">legend</td>
+        <td>图例</td>
+        <td>用不同形状、颜色、文字等 标示不同数据列，通过点击标示可以显示或隐藏该数据列</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">loading</td>
+        <td>加载中</td>
+        <td>加载选项控制覆盖绘图区的加载屏的外观和文字</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">navigation</td>
+        <td>导航</td>
+        <td>导出模块按钮和菜单配置选项组</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">noData</td>
+        <td>没有数据</td>
+        <td>没有数据时显示的内容</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">pane</td>
+        <td>分块</td>
+        <td>针对仪表图和雷达图专用的配置，主要设置弧度及背景色</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">plotOptions</td>
+        <td>数据点配置</td>
+        <td>针对不同类型图表的配置。Highcharts所有图表类型请看下表</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">series</td>
+        <td>数据列</td>
+        <td>图表上一个或多个数据系列，比如图表中的一条曲线，一个柱形</td>
+        <td><a href="http://www.hcharts.cn/docs/index.php?doc=basic-series">查看教程</a></td>
+    </tr>
+    <tr>
+        <td class="entry">title</td>
+        <td>标题</td>
+        <td>包括即标题和副标题，其中副标题为非必须的</td>
+        <td><a href="http://www.hcharts.cn/docs/index.php?doc=basic-title" target="_blank">查看教程</a></td>
+    </tr>
+    <tr>
+        <td class="entry">tooltip</td>
+        <td>数据点提示框</td>
+        <td>当鼠标滑过某点时，以框的形式提示改点的数据，比如该点的值，数据单位等</td>
+        <td><a href="http://www.hcharts.cn/docs/index.php?doc=basic-tooltip">查看教程</a></td>
+    </tr>
+    <tr>
+        <td class="entry">Axis</td>
+        <td>坐标轴</td>
+        <td>包括x轴和y轴。多个不同的数据列可共用同一个X轴或Y轴，当然，还可以有两个X轴或Y轴，分别显示在图表的上下或左右。</td>
+        <td><a href="http://www.hcharts.cn/docs/index.php?doc=basic-axis" target="_blank">查看教程</a></td>
+    </tr>
+</table>
+
+ <br>
+
+<table class="datatable">
+    <h3>图表类型</h3>
+    <tr>
+        <th width="200px">英文名</th>
+        <th width="200px">中文名</th>
+        <th>更多</th>
+    </tr>
+    <tr>
+        <td class="entry">line</td>
+        <td>直线图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">spline</td>
+        <td>曲线图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">area</td>
+        <td>面积图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">areaspline</td>
+        <td>曲线面积图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">arearange</td>
+        <td>面积范围图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">areasplinerange</td>
+        <td>曲线面积范围图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">column</td>
+        <td>柱状图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">columnrange</td>
+        <td>柱状范围图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">bar</td>
+        <td>条形图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">pie</td>
+        <td>饼图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">scatter</td>
+        <td>散点图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">boxplot</td>
+        <td>箱线图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">bubble</td>
+        <td>气泡图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">errorbar</td>
+        <td>误差线图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">funnel</td>
+        <td>漏斗图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">gauge</td>
+        <td>仪表图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">waterfall</td>
+        <td>瀑布图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">polar</td>
+        <td>雷达图</td>
+        <td>查看教程</td>
+    </tr>
+    <tr>
+        <td class="entry">pyramid</td>
+        <td>金字塔</td>
+        <td>查看教程</td>
+    </tr>
+</table>
+
+<h3>4. 引用加载</h3>
+<p>
+	 highcharts 依赖jquery库, 所以要先引jquery库,再引highcharts文件
+</p>
+<p>
+	highcharts有exporting.src.js 插件,用来输出图标
+</p>
+<h3>5. 使用</h3>
+<h3>5.1 获取元素并绘制图表 </h3>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//获取元素并绘制图表
+$('#app').highcharts({
+	title: {
+		text: '我的图表',
+		// 通常在style中设置文字的属性
+		style: {
+			color: 'orange',
+			fontWeight: 'bold'
+		}
+	},
+	subtitle: {
+		text: '这是一个子标题',
+		x: 200,
+		y: 100,
+		style: {
+			color: 'green'
+		} 
+	},
+	series: [
+		{
+			data: [8,6,7]
+		},
+		{
+			data: [10, 5, 9]
+		}
+	]
+})	
+	</script>
+</div>
+
+
+<h3>5.2 做的一个PM2.5变化实时图示</h3>
+<div class="jieguo pm25" id="pm25_char">
+	
+</div>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var data_AQI =  [126,168,207,160,136,189,200,56,207,136,112,70,65,89,145];
+
+//设置图表
+$("#pm25_char").highcharts({
+
+	//配置图表区的一些通用参数
+	chart : {	
+		//设置图表的类型
+		//也可以在series中对每个数据单独设置类型
+		type : "column",
+	},
+	//图表的总标题
+	title : {
+		//标题内容
+		text : "6月上旬北京AQI数据",
+		//标题样式
+		style : {
+			color : "#22D212",
+			opacity : "0.6",
+			fontSize: 25
+		}
+	},
+
+	//副标题
+	subtitle : {
+	 	text : "6月上旬AQI最高为207<br>PM2.5最高为145",
+	 	//副标题水平对齐方式
+	 	align  : "right",
+	 	style : {
+	 		color : "red",
+	 		backgroundColor : "black",
+	 		fontSize : 18
+	 	}
+	
+	},
+	//各组数组项
+	series : [
+			{
+			name : "AQI指数",
+			type : "column", //设置图表的类型,也可以在chart属性中设置
+			//用IIFE函数来设置具体的数据样式
+			data : (function () {
+				 var result = [];
+				 for(var i = 0 ;i < data_AQI.length;i++){
+				 	var dataObj = {};
+				 	if(data_AQI[i]>180){
+				 		dataObj.color = "red";
+				 	}else{
+				 		dataObj.color = "skyblue";
+				 	}
+				 	dataObj.y = data_AQI[i];
+				 	result.push(dataObj);
+				 }
+				 return result;
+			})()
+		},
+		{
+			name : "PM2.5指数",
+			data : [30,56,145,134,123,70,68,56,45,33,43,37,69,78,90]
+		}			
+	],
+
+	//x轴横坐标
+	xAxis : {
+		//设置横坐标的标签内容
+		categories : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,"(d)"],
+		//配置标签的样式
+		labels : {
+			//设置横轴标签的隐藏
+			enabled : true,
+			style: {
+				color : "#ccc"
+			}
+		},
+		//横轴的标题
+		title : {
+			text  : "日期",
+		},
+
+	},
+
+	//y轴纵坐标
+	yAxis : {
+		title : {
+			text : "AQI指数",
+			style : {
+				fontSize : 15
+			}
+		}
+	},
+
+	//显示每个数据点的显示细节
+	plotOptions : {
+		series : {
+
+			// dataLabels : {
+			// 	//显示数据点
+			// 	enabled : true,
+			// 	//设置显示的格式
+			// 	// format : "日期:{x}号<br/>AQI:{y}"
+			// }
+		}
+	},
+
+	//设置图表序列的颜色数组,
+	colors: ["skyblue","orange"],
+
+	//数据点的提示框
+	tooltip : {
+		// style: {
+		// 	color: 'red'
+		// },
+		//用函数来渲染
+		// formatter: function () {
+		// 	return 'hello<br>' + '<span style="color: green;">' + this.x + '--' + this.y + '</span>';
+		// },
+		// pointFormatter: function () {
+		// 	// return '<span style="color: green;">' + this.x + '--' + this.y + '</span>'
+		// 	return this.x + '--' + this.y;
+		// 	// console.log(this)
+		// }
+		// 表示用html模板渲染
+		useHTML: true,
+		headerFormat: 'date:{point.x}',
+		pointFormat: '<br><span style="color: ;">{series.name}:{point.y}<span>'
+	},
+
+	// 图例,通过点击它可以显示隐藏对应的数据列
+	legend : {
+		// backgroundColor : "red"
+	},
+
+	//版权署名
+	credits : {
+		enabled : true,
+		text : "X3927",
+		href : "http://x3927.cn/"
+	},
+
+	//国际化,设置导出选项对应的文字信息
+	lang : {
+	   printChart:"打印图表",
+	   contextButtonTitle:"图表导出菜单",
+	   downloadJPEG:"下载JPEG图片",
+	   downloadPDF:"下载PDF文件",
+	   downloadPNG:"下载PNG文件",
+   	   downloadSVG:"下载SVG文件"
+	}
+})
+
+}
+	
+	</script>
+</div>
+
+<h3>6. 数据列</h3>
+<p class="hhns">
+Series，表示图表数据列，图表中可以有多个数据列，所以该属性是个数组。它的每个成员是个对象，表示每个数据列，这个对象有两个属性
+Name： 数据列的名称
+Data：数据列的数据值
+图表的纵坐标的值，在不设置的情况下，会根据我们数据列中的最大值自动生成的
+为数据列添加name属性，会自动添加到，图例上和提示条上
+数据列data成员设置比较自由，
+可以是一个数字表示y值，此时x值就是数据项对应的索引值
+可以是一个数组，数组中第一项表示x值，第二项表示y值
+可以是一个对象，对象中x属性表示x值，y属性表示y值，还可以添加其他属性，比如color表示该点的颜色
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//数据列
+series: [
+		{	//1. 直接用数组传入数据
+			data: [20, 25, 29]
+		}，
+		{	
+			//可以设置name属性
+			name: '北京天气',
+			//格式2.  二维数组,数组中的第一项是x值,第二项是y值
+			data: [['星期一', 30],['星期二', 28],["星期三", 25]]
+		},
+		{
+
+			//格式3. 传入对象, x表示x值,y表示y值; color是这个列的颜色,还可以添加其他属性
+		data: [
+
+			{
+				x: 0,
+				y: 30,
+				color: 'red'
+			}, 
+			{
+				x: 1,
+				y: 28,
+				color: 'green'
+			}, 
+			{
+				x: 2,
+				y: 25,
+				color: 'red'
+			}]	
+		},
+		{
+			name : "PM2.5指数",
+			//格式4. 用一个IIFE根据数据来设置每个列的样式或其他属性
+			data : (function(){
+				//返回的格式为 [{y:80,color:"red"]},{y:30,color:"blue"]}]
+				var result = []; 				
+				console.log(data);
+				for(var i = 0; i < data.length;i++){
+					var dataObj = {};
+					if(data[i]>150){
+						//设置属性值
+						dataObj.color = "red";
+					}else{
+						dataObj.color = "skyblue";
+					}
+					//设置y值
+					dataObj.y = data[i];
+					//设置x值
+					dataObj.x = i;
+					result.push(dataObj); 
+				}
+				console.log(result);
+				return result;
+			})()
+		}			
+	]
+	
+	</script>
+</div>
+<h3>7. 提示框</h3>
+<p class="hhns">
+Tooltip
+可以通过style设置样式
+想设置内容有两种方法，
+一种调用方法，比如
+formatter： 表示渲染整个提示框内部的内容，
+pointFormatter：表示渲染该点的信息内容
+一种调用模板， 比如
+headerFormat：渲染提示框的标题
+pointFormat：渲染该点的信息内容
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+tooltip: {
+		style: {
+			color: 'red'
+		},
+		// 表示渲染整个提示框内部的内容，
+		// formatter: function () {
+		// 	return 'hello<br>' + '<span style="color: green;">' + this.x + '--' + this.y + '<pan>';
+		// },
+
+		//表示渲染该点的信息内容
+		// pointFormatter: function () {
+		// 	// return '<span style="color: green;">' this.x + '--' + this.y + '</span>'
+		// 	return this.x + '--' + this.y;
+		// }
+		
+		// 表示用html模板渲染
+		useHTML: true,
+		//渲染提示框的标题
+		headerFormat: 'hello',
+		//渲染该点的信息内容
+		pointFormat: '<span style="color: green;">{point.y} -- {point.x}<span>'
+	}
+	
+	</script>
+</div>
+<h3>8. events 为图表添加事件交互</h3>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+$('#app').highcharts({
+	chart: {
+		type: 'spline',
+		// events 为图表添加事件交互
+		events: {
+			// load事件表示图表加载完成
+			load: function () {
+				// 将数据列保存下来
+				var series = this.series[0];
+				// 添加完数据列i的值
+				var i = 10;
+				// 循环计时器，定期去后端请求数据
+				setInterval(function () {
+					// 发送异步请求，将数据请求下来
+					$.get('data/random.json', function (res) {
+						if (res.errno === 0) {
+							/////////////////
+							// 为数据列添加新的点
+							series.addPoint({
+								x: i++,
+								y: res.data * Math.random()
+							}, true, true)
+						}
+					})
+					
+				}, 1000)
+			}
+		}
+	},
+	title: {
+		text: '我的图表'
+	},
+	// 定义x坐标轴
+	xAxis: {
+		// 设置标签内容
+		// categories: ['星期一', '星期二', '星期三'],
+	},
+	// 纵坐标
+	yAxis: {
+		// 设置标题
+		title: {
+			text: '天气的温度'
+		},
+	},
+	series: [
+		{
+			name: '数字',
+			data: (function () {
+				// 定义一个数组
+				var data = [];
+				// 遍历数组
+				for (var i = 0; i < 10; i++) {
+					// 创建每个数组成员
+					data.push({
+						x: i,
+						y: 10 * Math.random()
+					})
+				}
+				// 此时执行完循环i是10了
+				return data;
+			})()
+		}
+	]
+})
+	
+	</script>
+</div>
+
+
+<h3>9. addPoint 动态添加数据点</h3>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	/**
+	* @ 参数1 要添加的数据点
+	* @ 参数2 布尔值 表示是否重新绘制图表
+	* @ 参数3 布尔值, 表示是否删除前面的点(true 添加几个则从开始地方删除几个) 
+	*/
+	series.addPoint({
+		x: 10,
+		y: 5
+	}, true, false)
+		
+	</script>
+</div>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/highcharts.js"></script>
+<script type="text/javascript" src="js/exporting.src.js"></script>
+
+<script type="text/javascript">
+	var data_AQI =  [126,168,207,160,136,189,200,56,207,136,112,70,65,89,145];
+
+	var data_PM25 = [30,56,145,134,123,70,68,56,45,33,43,37,69,78,90];
+
+$("#pm25_char").highcharts({
+
+	//配置图表区的一些通用参数
+	chart : {	
+		//设置图标的类型
+		type : "column",
+	},
+	//图表的总标题
+	title : {
+		//标题内容
+		text : "6月上旬北京AQI数据",
+		//标题样式
+		style : {
+			color : "#22D212",
+			opacity : "0.6",
+			fontSize: 25
+		}
+	},
+
+	//副标题
+	subtitle : {
+	 	text : "6月上旬AQI最高为207<br>PM2.5最高为145",
+	 	//副标题水平对齐方式
+	 	align  : "right",
+	 	style : {
+	 		color : "red",
+	 		backgroundColor : "black",
+	 		fontSize : 14
+	 	}
+	
+	},
+	//各组数组项
+	series : [
+		{
+			name : "AQI指数",
+			//用IIFE函数来设置具体的数据样式
+			data : (function () {
+				 var result = [];
+				 for(var i = 0 ;i < data_AQI.length;i++){
+				 	var dataObj = {};
+				 	if(data_AQI[i]>180){
+				 		dataObj.color = "red";
+				 	}else{
+				 		dataObj.color = "skyblue";
+				 	}
+				 	dataObj.y = data_AQI[i];
+				 	result.push(dataObj);
+				 }
+				 return result;
+			})()
+		},
+		{
+			name : "PM2.5指数",
+			data : [30,56,145,134,123,70,68,56,45,33,43,37,69,78,90],
+		}				
+	],
+
+	//x轴横坐标
+	xAxis : {
+		//设置横坐标的标签内容
+		categories : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,"(d)"],
+		//配置标签的样式
+		labels : {
+			//设置横轴标签的隐藏
+			enabled : true,
+			style: {
+				color : "#ccc"
+			}
+		},
+		//横轴的标题
+		title : {
+			text  : "日期",
+		},
+
+	},
+
+	//y轴纵坐标
+	yAxis : {
+		title : {
+			text : "AQI指数",
+			style : {
+				fontSize : 15
+			}
+		}
+	},
+
+	//显示每个数据点的显示细节
+	plotOptions : {
+		series : {
+
+			// dataLabels : {
+			// 	//显示数据点
+			// 	enabled : true,
+			// 	//设置显示的格式
+			// 	// format : "日期:{x}号<br/>AQI:{y}"
+			// }
+		}
+	},
+
+	//设置图表序列的颜色数组,
+	colors: ["skyblue","orange"],
+
+	//数据点的提示框
+	tooltip : {
+		// style: {
+		// 	color: 'red'
+		// },
+		//用函数来渲染
+		// formatter: function () {
+		// 	console.log(this);
+		// 	return 'hello<br>' + '<span style="color: green;">' + this.x + '--' + this.y + '</span>';
+		// },
+		// pointFormatter: function () {
+		// 	// return '<span style="color: green;">' + this.x + '--' + this.y + '</span>'
+		// 	return this.x + '--' + this.y;
+		// 	// console.log(this)
+		// },
+		// 表示用html模板渲染
+		useHTML: true,
+		headerFormat: 'date:{point.x}',
+		pointFormat: '<br><span style="color: ;">{series.name}:{point.y}<span>'
+	},
+
+	// 图例,通过点击它可以显示隐藏对应的数据列
+	legend : {
+		// backgroundColor : "red"
+	},
+
+	//版权署名
+	credits : {
+		enabled : true,
+		text : "X3927",
+		href : "http://x3927.cn/"
+	},
+
+	//国际化,设置导出选项对应的文字信息
+	lang : {
+	   printChart:"打印图表",
+	   contextButtonTitle:"图表导出菜单",
+	   downloadJPEG:"下载JPEG图片",
+	   downloadPDF:"下载PDF文件",
+	   downloadPNG:"下载PNG文件",
+   	   downloadSVG:"下载SVG文件"
+	}
+})
+
+
+
+</script>
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>

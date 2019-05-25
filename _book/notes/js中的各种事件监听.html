@@ -1,0 +1,570 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>js中的各种事件监听</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+
+	<style type="text/css">
+	div.mousewheel{
+		width: 500px;
+		height: 300px;
+		border: 3px solid #ccc;
+	}
+	.backtotop{
+		display: block;
+		width: 130px;
+		height: 50px;
+		margin: 10px;
+		background-color: #aee;
+		text-decoration: none;
+		color: #c33;
+		font-size: 25px;
+		line-height: 50px;
+		text-align: center;
+	}
+	
+
+	</style>
+
+</head>
+<body>
+	<h1>JavaScript事件</h1>
+	<h2 class= "f32">JavaScript 事件流</h2>
+	<p>js中的事件发生分为捕获阶段(capture pahse)和冒泡阶段(bubbling phase)</p>
+	<img src="images/chatu/shijianliu.png" alt="" />
+	<h3>DOM0级事件绑定方式</h3>
+	oDiv.onclick = function(){ }; <br />
+	这种为DOM0级事件添加方法, 只能监听冒泡阶段.
+	<p>在IE9,chrome里,事件会冒泡到window对象;而IE6,7,8中仅仅冒泡到document对象</p>
+	<p>DOM0级绑定的监听, this是触发这个事件的元素,没有兼容问题</p>
+	<p>DOM0级的时间还可以直接写在HTML标签里面,不过耦合性很强,一般不会用.</p>
+	<p>要删除一个元素的事件,可以把这个元素的事件设置为null,如下</p>
+	<p><b class="red">oDiv.onclick = null; </b>  这样可以取消oDiv元素的监听事件</p>
+	<p class="h10"></p>
+	<p>用DOM0级添加的监听,如果添加给了同一个元素,监听只会执行后面一个,如下面这个例子,后面的语句会覆盖之前的语句,弹出"嘻嘻"</p>
+	<p class="bd">
+	box1.onclick = function(){ <br />
+	alert("哈哈"); <br />
+	} <br />
+
+	box1.onclick = function(){ <br />
+	alert("嘻嘻"); <br />
+	} <br />	
+	</p>
+	<p></p>
+	<h3>DOM2级事件绑定方法</h3>
+	<p>语法格式:</p>
+	<p><b class="red">oDiv.addEventListener(事件名称,执行函数,是否监听捕获阶段)</b></p>
+	<p></p>
+	<p>参数1: 事件名,可以不写on,用双引号包裹. 如click/mouseover/mouseout 等</p>
+	<p>参数2: 执行函数, 可以是匿名函数,也可以是有名函数</p>
+	<p>参数3: 布尔值,false监听冒泡阶段, true监听捕获阶段</p>
+	<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	box1.addEventListener("click", function(){
+alert("box1被点击，捕获阶段");
+}, true);
+</script>
+</div>
+
+
+
+	<p>addEventListener添加的监听要取消元素需要使用 <b class="red">removeEventListener</b>方法, 并且两个方法传入的参数需要完全一样,  <br />因此如果是添加的事件处理函数是匿名函数, 则无法取消事件监听.</p>
+	<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	//取消DOM2级监听方法
+   var oDiv = document.getElementById("div");
+   oDiv.addEventListener("click",function(){
+       alert("哈哈");
+   },false);
+   //看似两个函数相同,实际上由于添加的是匿名函数,
+   //所以两个函数并不相同,下面的语句不能移除oDiv的监听事件.
+   oDiv.removeEventListener("click",function(){
+       alert("哈哈");
+   },false);     //无效
+ 
+   //正确的移除DOM2级监听的方法
+   function handler(){
+       alert("haha");
+   }
+   oDiv.addEventListener("click",handler,false);
+   oDiv.removeEventListener("click",handler,false);//有效
+
+</script>
+</div>
+	<p>addEventListener可以重复添加相同事件名的事件<br />
+		下面的案例给box1添加了2个相同的时间,两个事件不会覆盖,会先弹出"嘻嘻", 再弹出"哈哈";
+	</p>
+<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	var oshijianbuhuo = document.getElementById("shijianbuhuo");
+    var shijianbuhuozhixing = document.getElementById("shijianbuhuozhixing")
+    shijianbuhuozhixing.addEventListener("click", function(){
+     oshijianbuhuo.innerHTML = "嘻嘻" + "<br />";
+   }, false);
+  
+   shijianbuhuozhixing.addEventListener("click", function(){
+      oshijianbuhuo.innerHTML +="哈哈";
+   }, false);
+</script>
+</div>
+	
+	<div class="h10"></div>
+	<input type="button" value="运行代码" id="shijianbuhuozhixing" />
+	<div class="h10"></div>
+	<div class="jieguo" id = "shijianbuhuo" >
+		点击上面按钮执行上面的代码在这里显示结果.
+	</div>
+	<h3>IE6,7,8中的事件绑定方法</h3>
+	<p>IE6,7,8中没有addEventListener, 它们使用的是attachEvent</p>
+	<p><b class="red">oDiv.attachEvent(eventType, function)</b></p>
+	<p>参数1: 事件类型. 必须写on</p>
+	<p>参数2: 事件处理函数</p>
+	<p>没有第三个参数, 这个方法不能监听捕获,只能监听冒泡阶段</p>
+	<p>IE6,7,8中事件处理函数里面的this,不是触发事件的对象,而是window对象</p>
+	<p class="bd">
+		box1.attachEvent("onclick", function(){ <br />
+	 	alert(this === window);   //true <br />
+ 		});		
+	</p>
+	<p>
+		同一个事件名的多个监听,会反着执行.
+	</p>
+
+<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	//给同一个事件添加多个监听不会覆盖,会反着执行
+    var duogejianting = document.getElementById("duogejianting");
+    var duogejiantingzhixing = document.getElementById("duogejiantingzhixing");
+    box1.attachEvent("onclick", function(){
+        jieguo.innerHTML += "1" + "<br />";
+    });
+ 
+    box1.attachEvent("onclick", function(){
+        jieguo.innerHTML += "2" + "<br />";
+    });
+ 
+    box1.attachEvent("onclick", function(){
+        jieguo.innerHTML += "3" + "<br />";
+    });
+</script>
+</div>
+	
+	<div class="h20"></div>
+	
+	<div class="jieguo" id="duogejianting">输出 <br />
+		3 <br />2 <br />1</div>
+	
+ 	<h3>事件流总结:</h3>
+ 	<p class="bold">DOM0级事件 <b class="red">oDiv.onclick = function(){}:</b> </p>
+	<p>
+	只能监听冒泡阶段,高版本浏览器会冒泡到window对象, 低版本浏览器冒泡到document对象. 事件名加"on" this是触发事件的对象 <br />
+ 	不能有同名事件, 同名的两个事件后面的会覆盖前面的.
+ 	</p>
+ 	<br />
+ 	<p class="bold">DOM2级事件 <b class="red">oDiv.addEventListener(eventtype,fn,use capture):</b> </p>
+	<p> 	
+ 		能监听捕获和冒泡阶段, 事件名不加"on"; <br />第三个参数为true, 监听捕获, 为false, 监听冒泡. 会冒泡到window <br />
+ 		this是触发事件的元素; <br />
+ 		可以有同名事件, 顺序执行.
+ 	</p>
+ 	<br />
+ 	<p class="bold">IE6,7,8中的DOM2级事件使用自己的方法: <b class="red">oDiv.attachEvent()</b></p>
+ 	<p>这个方法没有第三个参数, 只能监听冒泡阶段, 不能监听捕获. 会反着执行</p>
+ 	<p>事件名需要写on, 可以有同名事件, 不覆盖</p>
+ 	<p>事件只会冒泡到document</p>
+ 	<p>这个方法中事件处理函数会在全局作用域内运行 , 因此事件处理函数的this是window.</p>
+ 	<p>DOM0 级事件中的事件处理函数在其所属元素的作用域内运行,内部this是元素自己</p>
+
+
+
+
+
+	<h2 class="f32">JavaScript中的事件对象</h2>
+	<h3>事件对象是什么?</h3>
+	<p>我们把事件的处理函数,当做一个回调函数, 当(如click)事件发生时才调用这个函数.</p>
+	<p>浏览器在调用时间处理函数的时候会传进去一个实际参数 <br />
+	这个参数是一个对象, 里面包含这个事件发生时的一些属性和方法:如,发生的位置,发生的对象等. <br />
+	因此, 事件处理函数需要一个形式参数来接收.
+	</p>
+	<h4 class="f24">event对象</h4>
+	<p>Event 对象代表事件的状态，比如事件在其中发生的元素、键盘按键的状态、鼠标的位置、鼠标按钮的状态。
+事件通常与函数结合使用，函数不会在事件发生前被执行！</p>
+	<h4>1. event对象的鼠标当前位置</h4>
+	<ol>
+		<li>
+			<p>
+			获得鼠标的当前位置: <b class="red"> event.clientX , event.clientY</b>; <br />
+			得到的是鼠标相对于浏览器边缘(视口)的距离;
+			</p>
+		</li>
+		<li>
+
+		<p>
+			获得鼠标在盒子内的位置: <b class="red"> event.offsetX, event.offsetY</b>; <br />
+			得到的是鼠标在触发点击事件的盒子内的相对位置;<br />
+			之前的火狐不兼容,不过新版本已经兼容这个属性.
+		</p>
+	</li>
+	<li>
+		<p>获得鼠标到屏幕的位置: <b class="red">event.screenX, event.screenY</b>; <br />	
+		</p>
+	</li>
+	</ol>
+	<div class="jieguo" id="shijianhanshu">
+		点击盒子得到事件发生时的一些属性 <br />
+	</div>
+	<div class="h20">	</div>
+	<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	//事件处理函数的一些event属性
+    var oshijianhanshu = document.getElementById("shijianhanshu");
+    shijianhanshu.onclick = function(event){
+    //由于IE6,7,8中event绑定给了window对象,这句用来解决兼容性问题
+    event=event||window.event;
+    oshijianhanshu.innerHTML += "clientX:" + event.clientX + ", clientY:" + event.clientY + "<br />";
+    oshijianhanshu.innerHTML += "offsetX: "+ event.offsetX + ", offsetY: "+ event.offsetY+"<br />";
+    oshijianhanshu.innerHTML += "screenX: "+ event.screenX + ", screenY: "+ event.screenY+"<br />";
+    }
+</script>
+</div>
+	
+	<h4>2 event方法:</h4>
+	<p>1. 阻止默认事件 </p>
+	<p><b class="red">event.preventDefault()</b></p>
+	<p>IE6,7,8中用<b class="red">event.returnValue = false</b>代替</p>
+	<p>例如鼠标滚轮滚动时阻止默认的页面滚动</p>
+	<p>用能力检测来解决兼容问题</p>
+	
+	<p>2.  停止传播事件流</p>
+	<p><b class="red">event.stopPropagation()</b></p>
+	<p>IE6,7,8中用<b class="red">event.cancelBubble=true</b>代替</p>
+	<p>终止事件在传播过程的捕获、目标处理或起泡阶段进一步传播。调用该方法后，该节点上处理该事件的处理程序将被调用，事件不再被分派到其他节点。</p>
+	<p>用能力检测来解决兼容问题</p>
+
+
+	<p>3. 返回事件的目标节点(触发该事件的节点)</p>
+	<p><b class="red">event.target</b></p>
+	<p>IE6,7,8中用<b class="red">event.srcElement</b>代替</p>
+	<p>返回事件的目标节点（触发该事件的节点），如生成事件的元素、文档或窗口。</p>
+	<p>属性的兼容问题可以用一个短路语法来解决兼容性问题</p>
+	<p>var targetElem = event.target || event.srcElement;</p>
+
+	<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+//方法的兼容问题可以利用能力检测来解决兼容性问题
+	//阻止默认事件
+if(event.preventDefault){
+    event.preventDefault();
+}else{
+    event.returnValue = false;
+}
+ 
+//阻止事件在传播过程中的捕获
+if(event.stopPropagation){
+    event.stopPropagation()
+}else{
+    event.cancelBubble=true
+}
+</script>
+</div>
+
+
+
+	<h1>javascript中的各种事件监听</h1>
+	
+	<h2>窗口卷动事件: <b class="red">window.onscroll</b></h2>
+	<p>当窗口卷动时触发
+		</p>
+		<p>
+			兼容问题: 高级浏览器中, 窗口卷动值认为是body对象的. <br />
+			在IE6,7,8中窗口卷动认为是html标签的 <br />
+			兼容性解决方法: <br />
+			document.body.scrollTop||document.documentElement.scrollTop 
+		</p>
+		<p>窗口卷动值即可以读取,也可以设置,还可以设置为动画效果</p>
+		<p>设置窗口卷动值时的兼容性问题: <br />
+		<b class="red">
+		document.body.scrollTop = document.documentElement.scrollTop = 0 ; <br />
+		利用变量连等的方式来设置卷动值, 以解决兼容性问题;
+		</b>
+		</p>
+
+	<div class="jieguo" id="juandongzhi" >
+		
+	</div>
+
+	<div class="h20"></div>
+
+<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	//窗口卷动值
+    var juandongzhi = document.getElementById("juandongzhi");
+    window.onscroll = function(event){
+        juandongzhi.innerHTML = "当前窗口卷动值scrollTop为:" +"<br />" + document.body.scrollTop||document.documentElement.scrollTop;
+    }
+</script>
+</div>
+
+
+	<a href="javascript:;" id="backtotop" class="backtotop" >回到顶部</a>
+	<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	//设置回到顶部
+    var backtotop = document.getElementById("backtotop");
+    backtotop.onclick = function(){
+        //100毫秒回到顶部
+        scrollanimate(0,100);
+    }
+ 
+    //设置页面卷动动画
+    function scrollanimate(target,time){
+    var start = document.body.scrollTop || document.documentElement.scrollTop; // 初始的页面卷动值 
+    var step = 20; //每帧运动的距离
+    var frame = start - target / step; //帧数
+    var nowtop = start;  
+    //当前的top值,作为信号量
+    var interval = time / frame; //动画间隔时间
+    var scrolltimer = setInterval(function(){
+    nowtop -= step;
+    document.body.scrollTop = document.documentElement.scrollTop = nowtop;
+    if(nowtop<=target){
+        clearInterval(scrolltimer);
+    }
+    },interval)     
+    }
+</script>
+</div>
+	
+	
+
+	<h2>鼠标滚轮事件: <b class="red">onmousewheel</b></h2>
+	<h3>1. 当鼠标滚轮滚动时触发,不一定引发页面滚动</h3>
+	<p>该事件中比较重要的属性是wheelDelta .  可以获得一个值与鼠标滚轮滚动的方向有关</p>
+	<p>在高级浏览器中<b class="red">event.wheelDelta</b>:<br />向上滚返回120,<br />向下滚返回-120 <br />滚动快速可以返回更大的值</p>
+	<p>在火狐上用的是自己的鼠标滚轮事件DomMouseWheel,并且这个事件只能通过标准的DOM2级事件绑定方式添加. 
+		<br />表示滚动方向的属性是event.detail ,  该属性得到的值是反着的
+		<br />向上滚动为-3<br />向下滚动为3</p>
+		<p>兼容性解决方法. 添加浏览器不认识的事件浏览器会静默,不会报错,因此可以添加两个监听来解决</p>
+	<div class="mousewheel" id="mousewheel" >
+		在盒子内滚动鼠标输出统一后的方向
+	</div>
+	<div class="h20"></div>
+<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	//鼠标滚轮事件, 只要滚轮滚动就能触发window.onmousewheel
+    var mousewheel = document.getElementById("mousewheel");
+    //火狐和其他浏览器添加监听方式不一样,所以添加了2种监听方式
+ 
+    mousewheel.onmousewheel = mousewheelhandler;
+    //火狐
+    mousewheel.addEventListener("DOMMouseScroll", mousewheelhandler, false)
+ 
+ 
+    //获得鼠标滚轮滚动方向并排除兼容性影响的函数
+    function mousewheelhandler(event){
+        //IE中event属性是绑给window对象的
+        event=event||window.event; 
+        mousewheel.innerHTML = event.wheelDelta;
+    //解决阻止默认事件的兼容性问题,能力检测
+    if(event.preventDefault){
+        //高级浏览器的方法
+        event.preventDefault();
+    }else{
+        //IE6,7,8的方法
+        event.returnValue = false;
+    }
+ 
+    //解决火狐和其他浏览器获取滚轮方向属性的不同
+    //Chrome、IE用的是event.wheelDelta;
+        var direction;
+        if(event.wheelDelta){
+         direction = event.wheelDelta>0?1:-1;
+    //火狐用的是event.detail;
+        }else if(event.detail){
+         direction = event.detail>0?-1:1;
+        }
+        if(direction == 1){
+        mousewheel.innerHTML = "向上: " + direction;
+        }
+        if(direction == -1){
+        mousewheel.innerHTML = "向下: " + direction;
+        }   
+    }
+</script>
+</div>
+
+
+
+
+	<h2>按键按下事件: <b class="red">onkeydown</b></h2>
+	<p>支持该事件的JS对象有 document, image, link, textarea</p>
+	<p>该事件会返回属性: event.keyCode 表示当前按下的键</p>
+	<div class="jieguo" id="keydown" >
+		按下的键为
+	</div>
+	<div class="h20"></div>
+	<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	//按键事件 onkeydown
+var okeydown = document.getElementById("keydown");
+document.onkeydown = function(event){
+okeydown.innerHTML = "当前按下的键为: " + event.code;
+}
+</script>
+</div>
+
+	<h2>延迟加载事件: <b class="red">window.onload</b></h2>
+	<p>延迟加载, 在页面中所有元素加载完毕之后, 触发这个事件</p>
+	<p>用DOM2级事件绑定的方式可以添加多个window.onload事件</p>
+	<p>window.onload在应对几个以下情况的时候, 非常有用.</p>
+	<p>1. 表单验证</p>
+	<p>2. onscroll事件.</p>
+	<p>其他的刚性的, 事关不穿帮, 事关安全的事件, 都应该写在window.onload里面</p>
+
+<h2>事件发生的目标元素 <b class="red">event.target</b>  </h2>
+<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	oDiv.onclick = function(event){
+		//这是发生事件的最小元素.如果是多层嵌套的关系,那么target是触发事件的最小子元素
+		event.target 
+		// 可以通过下面的方法返回节点名称
+		event.target.tagName; //tagName只能用于元素标签上
+		event.target.nodeName; //nodeName可以在所有的节点上使用,如文本节点
+	}
+	
+</script>
+</div>
+
+
+<!-- ///////////////// -->
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+	
+</script>
+</div>	
+
+
+	
+
+
+
+<script type="text/javascript">
+	
+
+
+	//DOM2级事件绑定方法
+	var oshijianbuhuo = document.getElementById("shijianbuhuo");
+	var shijianbuhuozhixing = document.getElementById("shijianbuhuozhixing")
+	shijianbuhuozhixing.addEventListener("click", function(){
+   	oshijianbuhuo.innerHTML = "嘻嘻" + "<br />";
+ 	}, false);
+ 
+ 	shijianbuhuozhixing.addEventListener("click", function(){
+  	oshijianbuhuo.innerHTML +="哈哈";
+ 	}, false);
+
+ 
+
+
+
+
+
+//按键事件 onkeydown
+var okeydown = document.getElementById("keydown");
+document.onkeydown = function(event){
+okeydown.innerHTML = "当前按下的键为: " + event.code;
+}
+
+	//事件处理函数的一些event属性
+	var oshijianhanshu = document.getElementById("shijianhanshu");
+	shijianhanshu.onclick = function(event){
+	//由于IE6,7,8中event绑定给了window对象,这句用来解决兼容性问题
+	event=event||window.event;
+	oshijianhanshu.innerHTML += "clientX:" + event.clientX + ", clientY:" + event.clientY + "<br />";
+	oshijianhanshu.innerHTML += "offsetX: "+ event.offsetX + ", offsetY: "+ event.offsetY+"<br />";
+	oshijianhanshu.innerHTML += "screenX: "+ event.screenX + ", screenY: "+ event.screenY+"<br />";
+	}
+
+	//窗口卷动值
+	var juandongzhi = document.getElementById("juandongzhi");
+	window.onscroll = function(event){
+		juandongzhi.innerHTML = "当前窗口卷动值scrollTop为:" +"<br />" + document.body.scrollTop||document.documentElement.scrollTop;
+	}
+
+	//设置回到顶部
+	var backtotop = document.getElementById("backtotop");
+	backtotop.onclick = function(){
+		//100毫秒回到顶部
+		scrollanimate(0,100);
+	}
+
+	//设置页面卷动动画
+	function scrollanimate(target,time){
+	var start = document.body.scrollTop || document.documentElement.scrollTop; // 初始的页面卷动值 
+	var step = 20; //每帧运动的距离
+	var frame = start - target / step; //帧数
+	var nowtop = start;	
+	//当前的top值,作为信号量
+	var interval = time / frame; //动画间隔时间
+	var scrolltimer = setInterval(function(){
+	nowtop -= step;
+	document.body.scrollTop = document.documentElement.scrollTop = nowtop;
+	if(nowtop<=target){
+		clearInterval(scrolltimer);
+	}
+	},interval)		
+	}
+
+	
+
+	//鼠标滚轮事件, 只要滚轮滚动就能触发window.onmousewheel
+	var mousewheel = document.getElementById("mousewheel");
+	//火狐和其他浏览器添加监听方式不一样,所以添加了2种监听方式
+
+	mousewheel.onmousewheel = mousewheelhandler;
+	//火狐
+	mousewheel.addEventListener("DOMMouseScroll", mousewheelhandler, false)
+
+
+	//获得鼠标滚轮滚动方向并排除兼容性影响的函数
+	function mousewheelhandler(event){
+		//IE中event属性是绑给window对象的
+		event=event||window.event; 
+		mousewheel.innerHTML = event.wheelDelta;
+	//解决阻止默认事件的兼容性问题,能力检测
+	if(event.preventDefault){
+		//高级浏览器的方法
+		event.preventDefault();
+	}else{
+		//IE6,7,8的方法
+		event.returnValue = false;
+	}
+
+	//解决火狐和其他浏览器获取滚轮方向属性的不同
+	//Chrome、IE用的是event.wheelDelta;
+		var direction;
+		if(event.wheelDelta){
+		 direction = event.wheelDelta>0?1:-1;
+	//火狐用的是event.detail;
+		}else if(event.detail){
+		 direction = event.detail>0?-1:1;
+		}
+		if(direction == 1){
+		mousewheel.innerHTML = "向上: " + direction;
+		}
+		if(direction == -1){
+		mousewheel.innerHTML = "向下: " + direction;
+		}	
+	}
+
+
+</script>
+</body>
+</html>

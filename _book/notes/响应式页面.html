@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>响应式页面</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+
+
+
+</head>
+<body>
+
+	<h1>响应式页面</h1>
+	<p>后台通过检测上行的HTTP请求报文头中的User-Agent属性也可以判断出访问的设置, 根据设备来发送相应的页面(手机站或电脑站)进行跳转</p>
+	<p>响应式网站,responsive web design（RWD）,指的是根据用户浏览器的视口宽度不同，来设置不同的版心。这样的话，大屏幕用户感觉自己的屏幕被撑满了，网站大气，能够看见更多的内容。小屏幕用户，不会出现横向滚动条。</p>
+	<h3>1 原理</h3>
+	<h3>1.1 检测屏幕宽度</h3>
+	<p>js方法:	</p>
+	
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//获取当前页面宽度
+	document.documentElement.clientWidth; 
+	//或者
+	window.innerWidth; 	</script>
+</div>
+<p>利用js根据当前的屏幕宽度给一个link标签设置href属性</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//link标签需要加id. 屏幕宽度改变后修改这个link标签的href属性
+	<link rel="stylesheet" href="" id="rwdlink" />
+
+	var rwdlink = document.getElementById("rwdlink");
+
+	setCSS();
+	//屏幕宽度改变后重新设置css样式表的引用
+	window.onresize = setCSS;
+
+	//完整的案例
+	function setCSS(){
+		var windowWidth = document.documentElement.ientWidth;
+		if(windowWidth >= 1200){
+			rwdlink.href = "";
+		}else if(windowWidth >= 980){
+			rwdlink.href = "css/index980.css";
+		}else if(windowWidth >= 640){
+			rwdlink.href = "css/index640.css";
+		}else{
+			rwdlink.href = "css/index320.css";
+		}
+	}
+	
+	</script>
+</div>
+
+
+
+<p>css媒体查询方法:</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//利用css的媒体查询, 判断当前页面的宽度是否满足相应的范围, 并使用相应的样式表.
+	@media screen and(min-width:1200px){}	
+
+	//完整的利用媒体查询的样式表引用案例;
+	<link rel="stylesheet" type="text/css" href="css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="css/index1200.css" />
+	<link rel="stylesheet" type="text/css" href="css/index980.css" media="screen and (min-width:980px) and (max-width:1200px)"/>
+	<link rel="stylesheet" type="text/css" href="css/index640.css" media="screen and (min-width:640px) and (max-width:980px)"/>
+	<link rel="stylesheet" type="text/css" href="css/index320.css" media="screen and (max-width:640px)"/>	
+	
+	</script>
+</div>
+
+
+
+	<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+
+
+</body>
+</html>

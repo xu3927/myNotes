@@ -1,0 +1,527 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>前端的MVC分层思想</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>前端的MVC分层思想</h1>
+	<h3>1. MVC在后端语言中的实践</h3>
+	<p class="hhns">
+Model（模型）表示应用程序核心（比如数据库记录列表）。
+是应用程序中用于处理应用程序数据逻辑的部分。通常模型对象负责在数据库中存取数据。
+View（视图）显示数据（数据库记录）。
+是应用程序中处理数据显示的部分。通常视图是依据模型数据创建的
+Controller（控制器）处理输入（写入数据库记录）
+是应用程序中处理用户交互的部分。通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。
+	</p>
+	<h3>2. 在前端语言中的应用</h3>
+<p class="hhns">
+前端MVC实践中分层
+Model，页面数据的存取操作
+View，渲染出给人看的页面操作
+Controller，页面的交互对视图的更改以及对数据的更改
+	</p>
+<p>MVC模型图
+<br />
+<img src="images/chatu/mvc.png" alt="" />
+</p>
+<p class="hhns">View层通过model渲染数据，所以view层可以访问model层
+Controller层可以对model写入读取数据，所以controller可以访问model层
+
+Controller层可以命令view层打开弹层，浮层等交互，所以controller可以访问view层
+
+在前端的框架中，很多框架是基于MVC模式实现的，比如backbone
+它将MVC进行了一些改造，比如他允许Model层可以访问View层，实现数据层的更新通知view层视图的渲染 </p>
+<h3>3. 自己写的一个MVC框架</h3>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+  <!--自己的MVC框架-->
+    //MVC 分3块. MODEL层  VIEW层  control 控制层
+    /*每层的方法
+    * M add 添加数据,向框架中添加数据
+    * M Get 获取数据,
+    * V add 添加创建视图的方法. 即传入数据和模板, 根据模板来生成dom结构,
+     * V Create 调用视图创建方法，创建视图.
+     * C 控制器模块,1. 可以操作数据, 控制视图的创建; 2 控制视图中的交互部分
+     * C add 添加控制器,
+     * C init 初始化控制器
+     */
+
+    var MVC = {};
+    //Model 层
+    /**
+     * 用法:
+     * MVC.add("a.b.c",data)  把data数据绑定到对象a的 a.b.c属性上
+     *
+     * */
+    MVC.model = (function () {
+        var M = {} //定义一个空对象,用来存储数据层面的数据
+        //Model层的数据存储树类似
+//        M = {
+//            header : {
+//                logo : {
+//                    src : ""
+//                },
+//                nav : [
+//                    {
+//                        name : "新闻",
+//                        href : "",
+//                        child : {
+//                             guoji : {
+//                                     name : "国际新闻",
+//                                     href : ""
+//                                 },
+//                             guonei : {
+//                                     name : "国内新闻",
+//                                     href :""
+//                                 }
+//                        }
+//                    },
+//                    {
+//                        name : "娱乐",
+//                        href : ""
+//                    },
+//                    {
+//                        name : "科技",
+//                        href : ""
+//                    }
+//                ]
+//            },
+//        artical : {
+//            hd : {
+//               title : "",
+//               href : "#"
+//            },
+//           bd : {
+//
+//            }
+//            }
+//        }
+
+        return {
+            /**
+             * add方法 把数据存储到 Model中的数据树上
+             * @ str 存储数据的属性路径
+             * @ data 要存储的数据;
+             * 如传入的是 header.nav.news 即要把data数据存储到 M.header.nav.news 上;
+             * 这个方法要实现的目的是 M{header : {nav : { news : data }} }
+             */
+            add : function(str,data){
+            var result = M; //用来中转数据
+            var path = []; //用来存储路径
+            path = str.replace(/^\./,"").split("."); //例子中此时得到 [header,nav,news]
+            //把属性路径拆分为数组,方便处理; replace是为了处理用户传入类似".header.nav"这样的路径
+            for(var i = 0; i < path.length - 1; i++){
+                //如果路径path[i]层是一个值, 不是对象,这个值下不能保存数据,抛出错误; 如model中M.header.nav = "123",此时这个下面不能保存数据
+                if(result[path[i]] != undefined && typeof result[path[i]] != "object"){
+                    throw new Error("非对象类不能保存数据")
+                }
+                //如path[i] = nav; 而 M.header = { }  下面是空对象,那么M.header.nav = undefined  此时创建一个M.header.nav = { }  来继续保存数据
+                if(result[path[i]] === undefined){
+                    result[path[i]] = {};
+                }
+                result = result[path[i]];
+            };
+            result[path[i]] = data; //保存数据结束; 由于是引用类型, 所以修改 result 值的时候也修改了 M 的值
+                return this; //返回MVC对象方便后面的链式操作
+            },
+            /**
+             * get 方法,用来获取所需要的数据,同样需要遍历属性路径,判断所输的路径是否正确以及是否有值
+             * str 要获取的数据的存储路径
+             * 例如: get("header.nav.news") 就是要获取这个路径上存储的数据data M: {header: {nav : {news : data } } }
+             */
+            get : function(str){
+                var result = M;
+                var path = [];
+                path = str.split(".");
+                for(var i = 0 ;i<path.length;i++){
+                    if(result[path[i]] === undefined){
+                       result[path[i]] = null;
+                    }
+                    result = result[path[i]]; //循环读取每一层的路径
+                }
+                return result; //返回读取到的值
+            }
+        }
+    })()
+
+    /////////VIEW层///////////
+    /**
+     * view 视图层用来创建视图提供2个方法
+     * add 添加视图的创建方法 2个参数, id 创建方法的名称, method 视图创建方法
+     * create 创建视图, 1个参数 id.调用名称为"id"的创建方法来创建视图
+     * 如: Mvc.view.add("nav",function(){ }) //添加名为"nav"的视图创建方法;
+     * MVC.view.create("nav") 调用view的"nav"创建方法来创建视图
+     */
+
+    MVC.view = (function(){
+        var V = {}; //用来保存视图的创建方法
+        return  {
+
+            /**
+             * 添加创建视图方法
+             * @ id  创建视图的方法的名称,方便调用
+             * @ method 创建视图的方法
+             * 使用方法 MVC.view.add("nav",function(model,template){ var data = model.get("nav"); var domString = template(tpl , data) })
+             */
+           add : function(id,method){
+                V[id] = method;
+                return this;
+            },
+
+            /**
+             * 调用创建视图的方法
+             * @ id 方法名称
+             * 调用方法 MVC.view.create
+             */
+            create : function(id){
+                var V_method = V[id];
+                //返回名称为 id 的创建方法,为了方便使用,把创建方法中的this绑定为MVC,并传入model数据层, 以及模板生成函数.
+                return V_method.call(MVC, MVC.model, MVC.template);
+
+            }
+        }
+    })()
+
+/////////CONTROL层//////////
+
+    /**
+     * control层负责程序的控制
+     * 1. 操作数据model层,获取或写入数据;获取数据后传给view层以创建dom
+     * 2. 操作视图view层, 控制视图层的交互事件
+     * control层有2个方法: 1. 添加要控制的动作,2.初始化执行动作
+     */
+
+    MVC.control = (function(){
+        var C = {} //用来保存control层的动作
+        return {
+            /**
+             * 添加控制器
+             * @ id 控制器的名称
+             * @ method 控制器的方法
+             */
+            add : function(id,method){
+                C[id] = method;
+                return this; //返回this 方便后续的操作
+            },
+
+            //初始化所有控制器
+            init : function(){
+                for(var k in C ) {
+                    //调用并执行C[id]方法,把this绑定为MVC,并传入 model 和view方便操作
+                    C[k].call(MVC, MVC.model, MVC.view , MVC.Observer)
+                }
+            }
+
+        }
+
+    })()
+    // 避免control.init直接在外部访问,创建一个install方法来加载所有的控制器
+    MVC.install = function () {
+        window.onload = function () {
+            MVC.control.init();
+        }
+    }
+
+    //简化MVC的add方法的调用
+    MVC.addModel = function(str,data){
+        MVC.model.add(str,data);
+        // 将当前对象MVC，我们将他返回出来，那么我们就可以链式添加了
+        return this;
+    }
+    MVC.addView = function(id,method){
+        MVC.view.add(id,method);
+        return this;
+    }
+    MVC.addCtrl = function(id,method){
+        MVC.control.add(id,method);
+        return this;
+    }
+
+
+    //MVC补充功能
+    ///////////////
+    //模块引擎函数
+    /**
+     * 用来根据模板把数据匹配到模板里面
+     * @ tpl 要匹配的模板
+     * @ data 要做匹配的数据
+     * 这里用的模板识别格式是 "{#内容# }"
+     * 这里的模板与其他的有区别,这里的模板中标记的key可能包含层级
+     * 如: < a href = "{#header.nav.src#}" >{#header.nav.title#}< / a>
+     * 需要判断层级
+     */
+    MVC.template = (function(){
+
+        return function(tpl,data){
+            //得到的key值需要判断层级
+           var str = tpl.replace(/\{\#([\w\.]+)\#\}/g,function(match,key,c,d){
+                var resulte = data ;
+                var path = [];
+                path = key.split(".");
+
+                for(var i = 0; i < path.length;i++){
+                    resulte = resulte[path[i]];
+                    if(resulte === undefined){
+                        return ""; // 因为格式是字符串，所以不存在时我们要返回空字符串
+                    }
+                }
+                return resulte;
+            })
+            return str;
+        }
+    })()
+
+//  在MVC 中增加观察者模式,用来做不同模块之间的消息传递
+    /**
+     * Observer中的方法:
+     * 1. regist 消息订阅接受id消息名称,type消息类型2个参数;
+     * 2. fire 触发消息接受id data 二个参数 ;
+     * 3. remove 用来移除消息
+     * 用法:
+     * 订阅 MVC.Observer.regist("haha",function(data){console.log(data.type,data.data)})
+     * 触发 MVC.Observer.fire("haha","xixixixi");
+     */
+    MVC.Observer = (function(){
+
+        var _message = {} //消息管道,用来存储消息
+
+        return {
+            /**
+             * 订阅消息(添加消息)
+             * @ type 消息类型(消息名称)
+             * @ cb 回调函数(要执行的方法),这个消息对应的行为
+             */
+            regist : function(type,cb){
+                // console.log("reg:"+type)
+                //如果消息管道中已经有该类消息, 则继续追加;
+                if(_message[type]){
+                    _message[type].push(cb);
+                }else{
+                    //如果没有这类消息, 则添加这类消息,以数组形式保存, 方便后面继续添加
+                    _message[type] = [cb];
+                }
+              
+                return this; //返回MVC对象
+            },
+
+            /**
+             * 发布消息(触发消息),让type消息执行
+             * @ type 要触发的消息类型
+             * @ data 消息传递的参数
+             */
+            fire : function(type,data){
+                //重组传递进来的data,将消息类型追加上去,一起传递给回调函数,方便在回调函数中使用
+                // console.log("fire:【"+type+"】" + _message[type])
+                var _e = {
+                    type : type,
+                    data : data
+                }
+                if(_message[type]){
+                    //遍历消息管道中该类型的消息, 一个一个调用回调函数执行,传进去组合的参数 _e;
+                    for(var i =0 ; i< _message[type].length; i++){
+                        _message[type][i](_e);
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * 移除消息
+             * @ type 要移除的消息类型
+             * @ cb 该消息对应的回调函数
+             */
+            remove : function(type,cb){
+            //遍历该类型的消息数组,如果有该回调,则从数组中删除它
+                for(var i = 0 ;i < _message[type].length; i++){
+                    if(_message[type][i]===cb){
+                        // 删除这个回调函数
+                        _message[type].splice(i,1);
+                    }
+                }
+                return this;
+            }
+        }
+    })()
+
+	
+	</script>
+</div>
+<h3>用法举例</h3>
+<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+var MVC = {};
+// 数据层业务逻辑
+/**
+ * model要读取数据与写入数据，所以我们要定义两个方法
+ * get 读取数据的方法
+ * add 添加数据的方法
+ */
+
+ MVC.Model =(function(){
+    var M = {};
+    return {
+    /**
+    * get方法  读取数据的方法（参考迭代器模式的同步变量案例）
+    * @str  表示属性层级的字符串
+    *
+    * eg： get('a.b.c') => M.a.b.c
+    */
+    get : function(str){
+        var path = str.replace(/^\./,"").split("."); //得到形式如[a,b,c]
+        var result = M;
+        for(var i = 0 ;i < path.length ; i++){
+            result = result[path[i]];
+            if(result === undefined){
+                // 说明这一层没有数据.
+                return null;
+            }
+        }
+        return result;
+    },
+    /**
+     * 为模型添加数据
+     * @str     表示属性层级的字符串
+     * @value   表示添加的数据值
+     * 
+     * eg: M 是 {a: {b: {c: 111}}} 
+     *      add('a.b.c', 111)
+     *      add('a.b', {c: 111})
+     */
+     add : function(str,value){
+        var path = str.split(".");
+        var result = M;
+        // 比如我们先给M添加成 {a: {b: {c: 111}}}
+        // 第一步，M没有a属性 先添加a属性 M.a = {}
+        // 第二步 {a:{}} M.a 有b属性 M.a.b = {}
+        // 第三步 {a:{b:{}}} M.a.b 有c属性么 
+        // 第四步 M.a.b.c = 111
+
+        // 遍历path， 最后是赋值参数value值，它是已知的，所以我们要特殊处理，所以遍历path.lenght-1
+        for(var i = 0; i<path.length-1;i++){
+            if(result[path[i]] != undefined && typeof result[path[i]] != "object"){
+                throw new Error("非对象类不可以添加属性")
+            }
+
+            if(result[path[i]] === undefined){
+
+                M[path[i]] = {}
+            }
+        }
+        result[path[i]] = value;
+        return this;
+     }
+
+    }
+ })() 
+
+
+ ////////////////////////////
+
+//为MVC添加数据
+MVC.Model.add ("demo",{
+    title: "这是一个标题",
+    item: {
+        key: '这是个key',
+        value: '这是个value'
+    }
+});
+//获取数据
+var m = MVC.Model.get("demo");
+console.log(m);
+
+//格式化模板字符串
+MVC.template = function(tpl,data){
+
+    return tpl.replace(/\{#([\w\.]+)#\}/g , function(match,key){
+        // 现在匹配到的key已经不是简单的属性了，它是一个层级属性
+        // 切分遍历层级属性
+        var path = key.split(".");
+        // 缓存参数中的data
+        var result = data;
+        for(var i =0 ;i<path.length;i++){
+            result = result[path[i]];
+            if (result === undefined) {
+                // 因为是在格式在字符串，所以我们要返回字符串
+                return '';
+            }
+        }
+        return result;
+    })
+}
+
+
+
+/////////////////////view模块
+/**
+ * 视图模块
+ * create:  创建某个视图的
+ * add： 添加视图创建方法的
+ */
+
+MVC.View = (function(){
+    // 保存创建视图的所有方法的容器
+    var V = {};
+    return {
+        /**
+     * 创建某个视图的方法
+     * @id  表示视图的模块
+     */
+     create : function(id){
+        var view = V[id];
+        view.call(MVC,MVC.Model,MVC.template)
+     },
+        /**
+         * 添加视图创建方法的
+         * @id      创建方法的名称
+         * @method  创建视图的方法
+         */  
+    add : function(id,method){
+        V[id] = method; //调用相应的创建方法
+        return this;
+    }
+    }
+})()
+
+// 添加demo视图模块的创建方法
+// 如果我们将model和template方法可以引入进来，我们使用的就比较方便了，我们在哪里引用呢？
+
+MVC.View.add("demo",function(model,template){
+    // 第一步，创建模块容器元素
+    var dom = $('<div class="demo" id="demo"></div>');
+    // 第二步，获取模块数据
+    var data = this.model.get("demo");
+    // 第三步，书写视图模板
+    var tpl = '<h1>{#title#}<span>{#item.key#}</span><span>{#item.value#}</span></h1>';
+    // 第四步，定义模块字符串
+    var html = "";
+    // 第五步，格式化视图模板
+    html = template(tpl,data);
+    // 第六步，完成视图的创建
+    dom.html(html);
+    dom.appendTo('#app')
+    // 第七步, 返回dom 方便控制器中的使用
+    return dom;
+})
+
+MVC.View.create('demo')
+    
+</script>
+</div>  
+
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>

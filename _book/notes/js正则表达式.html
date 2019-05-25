@@ -1,0 +1,579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>js正则表达式</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+	table,tr,th,td{
+		height: 25px;
+		text-align: center;
+		border-collapse: collapse;
+		border: 1px solid #ccc;
+	}
+	</style>
+</head>
+<body>
+	<h1>正则表达式</h1>
+	<h3>1. 创建正则表达式</h3>
+	<p>1.1 正则字面量的方式创建 <b class="red">var re = /abc/g</b></p>
+	<p>1.2 构造函数的形式创建 <b class="red">var re = new RegExp("abc","g")</b></p>
+	<p>正则构造函数创建接收2个参数, 格式都为字符串, 第一个表示要匹配的字符串模式; <br />
+	<span class="red">注意，第一个参数中的转义字符要用双反斜杠’\\’,原因是第一个参数是字符串不是正则表达式。</span>
+		第二个表示可选的标志字符串</p>
+	<p class="bd">
+		<br />
+		<b class="red">var re1 = /\[ab\]c/g;</b> <br />
+		//在全局匹配"[ab]c"这个字符,方括号需要转义 <br />
+		<b class="red">var re2 = new RegExp("\\[ab\\]c","g") </b><br />
+		//与第一个含义一样,但是字符串中的"\"也需要转义 
+		<br /><br />
+	</p>
+
+	<h3>2. 正则相关方法</h3>	
+	<h4>2.1 正则相关方法: exec(), test()</h4>
+	<h4>2.1.1 exec()方法</h4>
+	<p>检索字符串中的指定值,返回被找到的值,如果没有发现匹配,则返回null.</p>
+	<p>exec是英语execute的意思，CEO首席执行官，E就是executive执行的
+		“执行”  把正则式放到字符串上执行
+		每次执行结果按序输出，不管结果有几个，一次只输出一个</p>
+	
+	<p>语法: <br />
+	reg.exec(待测字符);
+
+	</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+		// 匹配abc字符串
+		var reg1 = /abc/g;
+		var reg2 = new RegExp('abc', 'g')
+		var demo = 'aaaabccccbacabc';
+		jg_exce.innerHTML += reg1.exec('abcd')+"<br/>"; 
+		jg_exce.innerHTML += reg1.exec(demo)+"<br/>";	
+		jg_exce.innerHTML += reg2.exec('abcd') +"<br/>";
+ 		jg_exce.innerHTML += reg2.exec('aaaabccccbacabc')+"<br/>"
+ 	</script>	
+	</div>
+	<div class="jieguo pd mg" id="jg_exce" >
+		结果: <br />
+	</div>
+	<script type="text/javascript">
+		var reg1 = /abc/g;
+		var reg2 = new RegExp('abc', 'g')
+		var demo = 'aaaabccccbacabc';
+		jg_exce.innerHTML += reg1.exec('abcd')+"<br/>"; 
+		jg_exce.innerHTML += reg1.exec(demo)+"<br/>";	
+		jg_exce.innerHTML += reg2.exec('abcd') +"<br/>";
+ 		jg_exce.innerHTML += reg2.exec('aaaabccccbacabc')+"<br/>";
+	</script>
+
+	<p>exec哲学，就是match的反面，match能把所有结果在数组中输出
+		exec是将所有结果通过while()迭代输出</p>
+
+
+	<h4>2.1.2 test() 方法</h4>
+	<p>它用来检测该字符串（参数）是否匹配我们的正则规则。检索字符串中的指定值,返回true或者flase;</p>
+	<p>语法:</p>
+	<p>正则式.test(待检测字符); → 返回true/false</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var reg = /hello/;
+	var str = "helloc 3927";
+	reg.test(str);	
+	/haha/.test(str);
+	</script>
+	</div>
+	<div class="jieguo mg pd" id="jg_test">
+		结果:
+		<br />
+	</div>
+	<script type="text/javascript">
+	var jg_test = document.getElementById("jg_test");
+	var reg = /hello/;
+	var str = "helloc 3927";
+	jg_test.innerHTML += reg.test(str)+"<br/>";
+	jg_test.innerHTML += /haha/.test(str);
+	</script>
+	
+	<h3>2.2 字符串中正则参与的相关方法: search, match, split, replace</h3>
+	<h4>2.2.1 search方法</h4>
+	<p>用来寻找字符串在父字符串中的位置, 可以传递字符串,也可以传递正则</p>
+	<p>语法: <br />
+		父字符串.search(子字符/或正则); 返回符合条件的子字符的第一个位置		
+	</p>
+	<p>哲学： search就是能用正则式的indexOf。</p>
+	
+
+	<h4>2.2.2 match()方法</h4>
+	<p>在父字符串中寻找匹配字符串，它是一个字符串方法，参数是配置字符串或者匹配的规则。</p>
+	<p>语法:
+		<br />
+	父字符串.match(子串/或正则); &nbsp 返回父字符串中所有匹配的子串,正则中有"/g"时返回的是一个数组;
+	</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+		var str = "今年是2016年我涨工资了，工资变为2000元了，房贷还有-4.5万，我又长了1岁。哈哈3.么么哒";
+		var reg1 = /-?\d+\.?\d*/g; //带g 全局搜索返回结果数组
+		var reg2 = /-?\d+\.?\d*/;  //不带g 返回匹配到的第一项,返回一个类数组对象
+		var array1 = str.match(reg1);
+		var array2 = str.match(reg2);
+		console.log(array1);	
+		console.log(array2);
+	</script></div>
+	<div class="jieguo mg" id="jg_match" >
+		结果:
+	</div>
+	<p>match 也可以用分组捕获</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//()捕获一个三位的数字，\1就表示这第一个捕获
+		var str = "188-564-133-653-653-986-534";
+		var reg = /(\d{3})\-\1+/g;
+		var array = str.match(reg);
+		console.log(array);
+	
+	</script>
+</div>
+<div class="jieguo mg">
+	输出: <br />
+	["653-653"]
+</div>
+
+
+
+	
+	
+	<script type="text/javascript">
+	var jg_match = document.getElementById("jg_match");
+		var str = "今年是2016年我涨工资了，工资变为2000元了，房贷还有-4.5万，我又长了1岁。哈哈3.么么哒";
+		var reg1 = /-?\d+\.?\d*/g;
+		var reg2 = /-?\d+\.?\d*/;
+		var array1 = str.match(reg1);
+		var array2 = str.match(reg2);
+		console.log(array1);	
+		console.log(array2);	
+		jg_match.innerHTML ="array1输出结果 : " + "\['2016', '2000', '4.5', '1', '3.'\]" +"<br/>";
+		jg_match.innerHTML += "array1输出结果 : " +'\["2016", index: 3, input: "今年是2016年我涨工资了，工资变为2000元了，房贷还有-4.5万，我又长了1岁。哈哈3.么么哒"\]'
+	</script>
+
+<p>利用match来寻找连续相同子串</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var str = "ABCCCDDDDDEFFFFFFFFFFFFGGGGHHIIII";
+	var reg = /(\w)\1+/g;
+	var array = str.match(reg);
+	var maxLength = 0;
+	var maxchar = "";
+	for (var i = 0; i < array.length; i++) {
+		if(array[i].length > maxLength){
+			maxLength = array[i].length;
+			maxchar = array[i];
+		}
+	};
+	console.log(maxchar);
+	</script>
+</div>
+<div class="jieguo mg">
+	输出: <br /> FFFFFFFFFFFF
+</div>
+
+
+
+	<p>正则中没有"/g"时返回的是一个类数组对象,此时效果与exec()完全一样.</p>
+
+
+	<h4>2.2.3 replace() 方法</h4>
+	<p>替换父字符串中匹配的子串</p>
+	<p>replace的哲学，就能能动态替换</p>
+	
+	<p>语法: <br />
+	stringObject.replace(regexp/substr,replacement)	
+	<br />
+	stringObject: 父字符串; <br />
+	regexp/substr: 必须,将被替换的字符,可以用正则来匹配; <br />
+	replacement: 必须要,一个字符串值,规定了替换文本或生成替换文本的函数。
+	</p>
+	<p>
+		返回值:该方法返回一个新的字符串,是用 replacement 替换了 regexp 的第一次匹配或所有匹配之后得到的。
+	</p>
+	<p class="">注意: <br />
+	字符串 stringObject 的 replace() 方法执行的是查找并替换的操作。它将在 stringObject 中查找与 regexp 相匹配的子字符串，然后用 replacement 来替换这些子串。<span class="cu">如果 regexp 具有全局标志 g，那么 replace() 方法将替换所有匹配的子串。否则，它只替换第一个匹配子串。</span>
+	<br />
+	replacement 可以是字符串，也可以是函数。如果它是字符串，那么每个匹配都将由字符串替换。但是 replacement 中的 $ 字符具有特定的含义,它说明从模式匹配得到的字符串将用于替换。
+	</p>
+
+	<h3>replace 方法详细介绍</h3>
+	<p>strObj.replace(str[regExp] , replacement)</p>
+	<p>2.2.3.1 最常用的是传入2个字符串,这种方法有一个缺陷,只能匹配替换一次</p>
+	<p>第一个参数可以传入正则,来实现多次匹配</p>
+	<p>以下是第二个参数为字符串时的情况</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//str.replace(str_match,str_replace);
+	//在str中查询 str_match 这个字符, 用 str_replace 来代替 str_match 
+	//并返回匹配后的新字符串
+	
+
+	//1. 2个参数都为字符串
+	var str = "abc123def456ghi789";
+	var str_new = str.replace("def","FFFF");
+	console.log(str_new);
+	//输出 abc123FFFF456ghi789
+
+
+	//2. 第一个参数是正则,第二个参数是字符串
+	var str_new = str.replace(/[\d]+/g,"###");
+	console.log(str_new);
+	//输出 abc###def###ghi###
+
+	//3. 第一个参数是带分组捕获的正则, 则第二个参数可以用 "$1..$99 " 来获取相应分组内容
+	var str = "fagabcabc1212abldougabcabcabc1235adlfo";
+	var str_new = str.replace(/(abc)+(\d+)+/g,"#$1#$2#");
+	//表示匹配原字符串中(abc)连续出现多次并且数字连续出现多次 的情况
+	//$1表示分组捕获到的第一个分组内容即abc连续出现的情况
+	//$2表示捕获到的分组(\d+)多个数字连续出现的情况
+	console.log(str_new);
+
+	//输出 fag#abc#1212#abldoug#abc#1235#adlfo
+	//(abc) 每次捕获到的都是abc,
+	//(\d+) 第一段中匹配到的是1212, 后面匹配到的是1235. 所以输出了以上的结果
+
+
+	</script>
+	</div>
+	
+
+	
+	<h3 class="red cu">replace 第二个参数为函数function时的详细介绍举例</h3>
+	
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+
+	//replace 第二个参数为函数function时的详细介绍举例
+	//function可以传入4个参数
+	//第一个参数是匹配到的字符串
+	//第二个参数是有分组捕获时分组捕获到的内容,若正则没有分组则没有该参数
+	//第三个参数是当前匹配到的字符串在原字符串中的索引值
+	//第四个参数是原字符串
+	//str_yuan.replace(regExp,function(match,str,index,str_yuan){  })
+	
+	var str = "abc<%123%>def<%45678%>ghi<%789%>" //原字符串
+
+	//================================
+	//1. 没有分组匹配的情况
+	var reg1 = /\d+/g ; //匹配多个数字的情况,贪婪匹配
+	var str_new  = str.replace(reg1,function(a,b,c,d){
+		// 参数a: 匹配到的值
+		// 参数b: 匹配到的值在原字符中的索引
+		// 参数c: 原字符串
+		// 参数d: undefined
+		console.log("【a】" + a,"【b】" + b,"【c】" + c,"【d】" + d);
+		//返回的值是把匹配到的项要替换成的字符
+		return "####";
+	})
+	console.log("【str_new】" + str_new );
+
+	//输出结果:
+
+	// 【a】123 【b】5 【c】abc<%123%>def<%45678%>ghi<%789%> 【d】undefined
+	// 【a】45678 【b】15 【c】abc<%123%>def<%45678%>ghi<%789%> 【d】undefined
+	// 【a】789 【b】27 【c】abc<%123%>def<%45678%>ghi<%789%> 【d】undefined
+	// 【str_new】abc<%####%>def<%####%>ghi<%####%>
+
+
+
+
+	//================================
+	//2. 分组匹配的情况
+
+	var reg2  = /<%([^%><]+)%>/g ;
+	//表示匹配 前面是 "<%" , 中间多个不是"%<>" 的字符,后面是 "%>"
+	//中间有一个分组
+	var str_new = str.replace(reg2,function(a,b,c,d,e){
+		//正则中有1个分组捕获, 所以第2个参数b是分组([^%><]+)捕获到的内容,为多个数字
+		//如果没有分组,则没有第二个参数
+		console.log("【a】" + a,"【b】" + b,"【c】" + c,"【d】" + d,"【e】" + e);
+		return "####"; //返回值是把匹配到的项要替换成的字符
+
+	})
+	console.log("【str_new】" + str_new );
+	//输出结果
+	//【a】<%123%> 【b】123 【c】3 【d】abc<%123%>def<%45678%>ghi<%789%> 【e】undefined
+	//【a】<%45678%> 【b】45678 【c】13 【d】abc<%123%>def<%45678%>ghi<%789%> 【e】undefined
+	//【a】<%789%> 【b】789 【c】25 【d】abc<%123%>def<%45678%>ghi<%789%> 【e】undefined
+	//【str_new】abc####def####ghi####
+
+
+	//======================================
+	//3.  多个分组匹配时的情况
+
+	var reg2 = /(<%)([^%><]+)%>/g 
+	//2个分组捕获,表示匹配 前面是 "<%" , 中间多个不是"%<>" 的字符,后面是 "%>"
+	//分组 (...) 小括号表示里面的字符作为整体进行匹配
+	var str_new = str.replace(reg2,function(a,b,c,d,e){
+		//正则中有2个分组捕获, 所以第2,3个参数b,c是分组(<%),([^%><]+)捕获到的内容
+		//如果没有分组,则没有第二个参数
+		console.log("【a】" + a,"【b】" + b,"【c】" + c,"【d】" + d,"【e】" + e)
+		c = parseInt(c / 2); //修改分组捕获到的第2项
+		return b + c; //返回值是把匹配到的项要替换成的字符
+
+	})
+	console.log("【str_new】" + str_new );
+	
+	//输出:
+
+	//【a】<%123%> 【b】<% 【c】123 【d】3 【e】abc<%123%>def<%45678%>ghi<%789%>
+	//【a】<%45678%> 【b】<% 【c】45678 【d】13 【e】abc<%123%>def<%45678%>ghi<%789%>
+	//【a】<%789%> 【b】<% 【c】789 【d】25 【e】abc<%123%>def<%45678%>ghi<%789%>
+	//【str_new】abc<%61def<%22839ghi<%394
+
+
+
+	</script>
+	</div>
+
+	
+
+
+	<h4>2.2.4 split( ) 方法</h4>
+	<p>切割字符串转为数组的方法，我们通常传递字符或者字符串来切割字符串，此时我们通常传递的参数是能看到的摸得着，是比较具体的，
+	当我们不能用一个完整的字符串表达这个切个符号的时候，但是我们能提炼换一个规则来切割，此时我们就可以用正则表达式来表示这个规则，切割字符串。</p>
+	<p>语法: <br />
+	字符串.split(分割字符/或正则); &nbsp 返回一个数组
+	</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var jg_zf = document.getElementById("jg_zf");
+	var str = "abcdef 123456 aaaabccccbbbacabbc";
+	jg_zf.innerHTML += str.search(/de/g)+"<br/>";
+	jg_zf.innerHTML += str.search("de")+"<br/>";
+	jg_zf.innerHTML += str.match("cc")+"<br/>";
+	jg_zf.innerHTML += str.match(/b+/g)+"<br/>";
+	jg_zf.innerHTML += str.replace(/b+/g,"#")+"<br/>";
+	//下面这是一个数组
+	jg_zf.innerHTML += str.split(/\s/)+"<br/>";	</script>
+	</div>
+
+	<div class="jieguo pd mg" id="jg_zf">
+		结果: <br />
+
+	</div>
+	<script type="text/javascript">
+	var jg_zf = document.getElementById("jg_zf");
+	var str = "abcdef 123456 aaaabccccbbbacabbc";
+	jg_zf.innerHTML += "search : "+str.search(/de/g)+"<br/>";
+	jg_zf.innerHTML += "search : "+ str.search("de")+"<br/>";
+	jg_zf.innerHTML += "match : " + str.match("cc")+"<br/>";
+	jg_zf.innerHTML += "match : " + str.match(/b+/g)+"<br/>";
+	jg_zf.innerHTML += "replace : " + str.replace(/b+/g,"#")+"<br/>";
+	jg_zf.innerHTML += "split : " + str.split(/\s/)+" : 这是一个数组"+"<br/>";
+	</script>
+	<h3>三 正则表达式语法:</h3>
+	<h4>3.1 特殊字符</h4>
+	<p>正则表达式由普通字符和特殊字符(元字符)组成.</p>
+	<p>普通字符包括:字母,数字,_等</p>
+	<p>特殊字符:( ) [ ] { } ^ *? \ | + 这些在正则中有特定的含义.</p>
+	<p>普通字符可以直接用,要匹配特殊字符需要转义.</p>
+	<h4>3.2 预定义特殊字符</h4>
+	<table>
+		<tr>
+			<th>字符</th>
+			<th>转义字符</th>
+			<th>含义</th>
+		</tr>
+		<tr>
+			<td>\t</td>
+			<td>/\t/</td>
+			<td>制表符</td>
+		</tr>
+		<tr>
+			<td>\n</td>
+			<td>/\n/</td>
+			<td>回车符</td>
+		</tr>
+		<tr>
+			<td>\f</td>
+			<td>/\f/</td>
+			<td>换页符</td>
+		</tr>
+		<tr>
+			<td>\b</td>
+			<td>/\b/</td>
+			<td>回退字符</td>
+		</tr>
+	</table>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// 匹配制表符
+	var str = 'a         b';
+	var reg = /\t/;
+	console.log(reg.test(str)); //输出false;
+	
+	// 匹配回车符
+	var str2 = `a\nb`;
+	var reg2 = /\n/;
+	console.log(str2) //\n换行符 
+	console.log(reg2.test(str2)); //输出true 	</script>
+	</div>
+	<h4>3.3 字符集</h4>
+	<p>Javascript的正则表达式中有四类字符集</p>
+	
+	<ol>
+		<li>
+			<h4>简单类:</h4>
+			简单类是由一一对应的字符组成的集合，通过[]包裹住，来表示这几个字符组成的一个集合 <br />
+			如： [abDF45]表示由abDF45六个字符组成的一个集合
+		</li>
+		<li>
+			<h4>范围类:</h4>
+			<p>通过首尾字母与"-"组成的一个范围集合</p>
+			<p>如: [a-z] 表示小写字母集合. <br />
+			 [A-Z] 表示大写字母集合. <br />
+			 [0-9] 表示数字集合.
+			</p>				
+		</li>
+		<li>
+			<h4>负向类</h4>
+			<p>通过在"[ ]"内部最前面添加"^"来表示选择不包含该集合的字符集</p>
+			<p>如: <br />
+			[^0-9] 表示除数字以为的其他所有字符. <br />
+			[^abc] 表示不包括abc的其他字符集合.
+			</p>
+		</li>
+		<li>
+			<h4>组合类</h4>
+			<p>
+				通过"[ ]" 将几个集合拼接在一起表示一个组合的集合.</p>
+			<p>如: [a-zA-Z0-9]表示大小写字母以及数字的集合.
+			</p>
+		</li>
+	</ol>
+	<h4>3.4 分界</h4>
+	<p>字符串是有边界的,即字符串的首尾.</p>
+	<p>
+		"^" 表示字符串的起始位置; <br />
+		"$" 表示字符串的结束位置; <br />
+		"\b" 表示单词的分界; <br />
+		"\B" 表示非单词分隔符.
+	</p>
+	<h4>3.5 预定义类</h4>
+	<p>正则中提供了几个常用的预定义类来匹配常见的字符</p>
+	<table>
+		<tr>
+			<tr><td>.</td>		<td>[^\n\r]	</td>		<td>除了换行和回车之外的任意字符</td></tr>
+			<tr><td>\d</td>		<td>[0-9]</td>		<td>数字字符</td></tr>
+			<tr><td>\D</td>		<td>[^0-9]</td>		<td>非数字字符</td></tr>
+			<tr><td>\s</td>		<td>[ \t\n\x0B\f\r]</td>		<td>空白字符</td></tr>
+			<tr><td>\S</td>		<td>[^ \t\n\x0B\f\r]</td>		<td>非空白字符</td></tr>
+			<tr><td>\w</td>		<td>[a-zA-Z_0-9]</td>		<td>单词字符(所有的字母)</td></tr>
+			<tr><td>\W</td>		<td>[^a-zA-Z_0-9]</td>		<td>非单词字符</td></tr>		
+	</table>
+	<h4>3.6 量词</h4>
+	<p>表示字符或集合出现次数的特殊字符 <br />
+		一般用大括号{ 数字 } 表示重复的次数.
+	</p>
+	<table>
+		<tr>
+			<td>?</td>
+			<td>软性量词</td>
+			<td>出现零次或一次</td>
+		</tr>
+		<tr>
+			<td>*</td>
+			<td>软性量词</td>
+			<td>出现零次或多次(任意次)</td>
+		</tr>
+		<tr>
+			<td>+</td>
+			<td>软性量词</td>
+			<td>出现一次或多次（至少一次）</td>
+		</tr>
+		<tr>
+			<td>{n}</td>
+			<td>硬性量词</td>
+			<td>对应零次或者n次</td>
+		</tr>
+		<tr>
+			<td>{n,m}</td>
+			<td>软性量词</td>
+			<td>至少出现n次但不超过m次(中间不能有空格)</td>
+		</tr>
+		<tr>
+			<td>{n,}</td>
+			<td>软性量词</td>
+			<td>至少出现n次(+的升级版)</td>
+		</tr>
+
+	</table>
+
+	<h4>3.7 修饰符</h4>
+	<p>g 表示全局匹配</p>
+	<p>i 忽略大小写</p>
+	<p>m 多行匹配</p>
+	<h4>3.8 其他</h4>
+	<p>[\u4e00-\u9fa5]表示中文集</p>
+	<p>| 表示或者的意思</p>
+
+	<div class="daima pd">
+	alert(/a|b/.test('b')) =》 true <br />
+	alert(/a|b/.test('c')) =》 false
+	</div>
+
+	<h4>3.9 分组</h4>
+	<p>有时候我们希望使用量词的时候匹配多个字符，而不是像上面例子只是匹配一个，比如希望匹配Byron出现20次的字符串，我们如果写成 Byron{20} 的话匹配的是Byro＋n出现20次，怎么把Byron作为一个整体呢？使用()就可以达到次目的，我们称为分组.
+		
+</p>
+<p><img src="images/chatu/reg_fenzu.png" /></p>
+<p> 如果希望匹配Byron或Casper出现20次该怎么办呢？可以使用字符 ｜ 达到或的功效
+(Byron|Casper){20}
+</p>
+<p>
+	<img src="images/chatu/reg_fenzu2.png" alt="" />
+</p>
+
+
+
+
+
+		
+		
+		
+		
+		
+		
+
+
+
+
+  
+	   
+		
+	   
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+	
+</body>
+</html>

@@ -195,6 +195,13 @@ https://www.npmjs.com/package/shelljs
 
 执行shell命令的js库, 兼容windows/linux/OS X
 
+### ora
+
+命令行 loading
+
+[https://www.npmjs.com/package/ora](https://www.npmjs.com/package/ora)
+
+
 ## Browserify 浏览器环境
 
 ### superagent HTTP请求库
@@ -210,6 +217,53 @@ https://www.npmjs.com/package/shelljs
 [https://www.npmjs.com/package/winston](https://www.npmjs.com/package/winston)
 
 A multi-transport async logging library for node.js. 
+
+### debug 打印日志库
+
+[debug](https://www.npmjs.com/package/debug)
+
+node log 工具，也可以用于浏览器环境
+
+![](images/chatu/2019-05-06-17-12-13.png)
+
+### inquirer 交互式命令行库
+
+[inquirer](https://www.npmjs.com/package/inquirer) 命令行交互式库
+
+![](images/chatu/2019-05-06-17-13-32.png)
+
+### ware
+
+中间件工具，一个库如果以中间件的形式执行任务，可以用该库实现
+
+
+[文档](https://github.com/segmentio/ware)
+
+```
+var ware = require('ware');
+var middleware = ware()
+  .use(function (req, res, next) {
+    res.x = 'hello';
+    next();
+  })
+  .use(function (req, res, next) {
+    res.y = 'world';
+    next();
+  });
+
+middleware.run({}, {}, function (err, req, res) {
+  res.x; // "hello"
+  res.y; // "world"
+});
+```
+
+### MetalSmith
+
+以插件的形式处理静态文件。
+常用做脚手架中的模板替换工具
+
+[https://www.npmjs.com/package/metalsmith](https://www.npmjs.com/package/metalsmith)
+
 
 
 ----
@@ -320,3 +374,8 @@ A multi-transport async logging library for node.js.
 
 [https://www.npmjs.com/package/react-styleguidist](https://www.npmjs.com/package/react-styleguidist)
 
+### semver
+
+语义化版本判断库
+
+[https://www.npmjs.com/package/semver](https://www.npmjs.com/package/semver)
