@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>nodejs基础</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>nodejs</h1>
+	<h3>1. 建立服务器</h3>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//引用http模块
+var http = require("http");
+//建立服务器
+var server = http.createServer(function(req,res){
+
+    console.log("有人来访");
+    //设置返回报文头
+    res.setHeader("Content-Type","text/html;charset=UTF-8");
+    //设置返回内容
+    res.end("ok");
+})
+//设置服务器监听端口号和ip
+server.listen(3000,"127.0.0.1");
+	
+	</script>
+</div>
+
+<h3>2.  http 模块</h3>
+<p>引用http模块</p>
+<p class="red">var http = require("http");</p>
+<p>和http模块相关的类</p>
+<p>Class: http.Server</p>
+<p class="red">var server = http.createServer();</p>
+<p>这个server就是http.Server类的实例。</p>
+<p>Class: http.ServerResponse</p>
+<p class="red">
+	var server = http.createServer(function(req,res){ <br />
+	});
+</p>
+<p>这个res就是 http.ServerResponse类的实例。</p>
+<p>Class: http.IncomingMessage</p>
+<p class="red">
+	var server = http.createServer(function(req,res){  <br />
+	});
+</p>
+<p>这个req就是http.IncomingMessage类的实例。</p>
+<h3>3. server 对象 </h3>
+<p>nodejs中可以用<b class="red">on</b>来监听某个事件, 把要执行的事情写在回调函数里  </p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//监听server的request事件,当收到返回时,执行后面的回调函数
+server.on("request",function(req, res){
+    if(req.url == "/"){
+        res.setHeader("Content-Type","text/html;charset=UTF-8");
+        res.end("这是首页11");
+    }else{
+        res.setHeader("Content-Type","text/html;charset=UTF-8");
+        res.end("没有这个页面");
+    }
+});
+	
+	</script>
+</div>
+
+<h3>3.1 req对象</h3>
+<p>req就是每次上行请求的对象</p>
+<p class="cu red">req.header   HTTP上行请求头</p>
+<p class="cu red">req.httpVersion    http请求的版本。现在基本上都是1.1</p>
+<p class="cu red">req.method    	“GET”、”POST”就是请求的类型</p>
+<p>可以根据用户不同的请求类型返回不同的结果</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//如果是get请求,返回以下结果
+ if(req.method.toLowerCase() == "get"){
+    res.end("您无权查看该页面");
+ //如果是post请求,返回下面结果
+ }else if(req.method.toLowerCase() == "post"){
+    res.end("提交成功");
+}	
+	</script>
+</div>
+
+<p class="cu red">req.url 用户请求的网址</p>
+<p>当用户输入这样的网址</p>
+<p>http://localhost:3000/?xingming=xiaoming&age=18#15</p>
+<p>req.url 返回以下结果</p>
+<p>/?xingming=xiaoming&age=18</p>
+
+
+<h3>3.2 res对象</h3>
+<p>res就是下行响应对象</p>
+<p> <b class="red">res.end() </b>  每次都要有这个语句，表示这次的发送已经结束，如果没有浏览器小菊花会一直转。</p>
+<p>参数必须是string 或 buffer（图片、文件类型）。</p>
+<p class="red">res.write()    就是写HTTP下行请求的body：</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+res.write("<h1>123</h1>");
+res.write("<h1>456</h1>");
+res.end("<h1>789</h1>");		
+	</script>
+</div>
+
+<p class="red">res.setHeader()   设置返回的报文头部</p>
+<p class="red"> res.statusCode = 404;   设置状态码 </p>
+<p class="red"> res.writeHead()		 和res.setHeader差不多 </p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//288 返回的是状态码,可以自己设置, 后面的下行是报文头
+	//text/plain 表示纯文本格式
+	res.writeHead(288 , {"Content-Type":"text/plain"});	
+
+	</script>
+</div>
+
+<h3>4. url模块,querystring模块、path模块</h3>
+
+<p>4.1 url模块</p>
+<p>
+url模块用来解析地址用的。必须先引包： <br />
+<b class="red">var url = require("url"); </b> <br />
+url模块就一个方法常用，就是parse方法。 <br />
+</p>
+<p>url.parse()就是用来解析网址，接收一个字符串，返回一个JSON：</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//js程序是
+var obj = url.parse("http://localhost:3000/a/b/c/1.html?xingming=xiaoming&age=12");
+
+//返回的结果
+{
+  protocol: 'http:',
+  slashes: true,
+  auth: null,
+  host: 'localhost:3000',
+  port: '3000',
+  hostname: 'localhost',
+  hash: null,
+  search: '?xingming=xiaoming&age=12',
+  query: 'xingming=xiaoming&age=12',
+  pathname: '/a/b/c/1.html',
+  path: '/a/b/c/1.html?xingming=xiaoming&age=12',
+  href: 'http://localhost:3000/a/b/c/1.html?xingming=xiaoming&age=12' 
+}
+	
+	</script>
+</div>
+
+<p>url.parse方法第二个参数如果是true，那么返回的对象中的query就是json</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//js程序是. parse的第二个参数是true
+var obj = url.parse("http://localhost:3000/a/b/c/1.html?xingming=xiaoming&age=12",true);	
+
+//返回的结果
+{
+  protocol: 'http:',
+  slashes: true,
+  auth: null,
+  host: 'localhost:3000',
+  port: '3000',
+  hostname: 'localhost',
+  hash: null,
+  search: '?xingming=xiaoming&age=12',
+  //这一行返回了一个json文件. 这一行是get请求网址后面追加的信息
+  query: { xingming: 'xiaoming', age: '12' },
+  pathname: '/a/b/c/1.html',
+  path: '/a/b/c/1.html?xingming=xiaoming&age=12',
+  href: 'http://localhost:3000/a/b/c/1.html?xingming=xiaoming&age=12' 
+}
+	
+	</script>
+</div>
+
+<h3>4.2 querystring模块</h3>
+<p>querystring模块是专门用来解析GET请求的查询字符串的。</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//程序
+var obj = querystring.parse("xingming=xiaoming&age=12&hobby=zuqiu&hobby=lanqiu");
+
+//结果
+{ xingming: 'xiaoming', age: '12', hobby: [ 'zuqiu', 'lanqiu' ] }
+	</script>
+</div>
+<h3>4.3 path模块</h3>
+<p>path模块是专门处理路径的</p>
+<p class="red"> path.basename()   返回路径中的文件名</p>
+<p class="red">path.dirname()   返回路径中的文件夹名 </p>
+<p class="red"> path.extname()   返回路径的拓展名</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//js程序
+
+   //返回文件名
+    var basename = path.basename(req.url.toString());
+    //返回文件夹名
+    var dirname = path.dirname(req.url);
+    //返回扩展名
+    var extname = path.extname(req.url);
+    console.log("basename: " + basename);
+    console.log("dirname: "+ dirname);
+    console.log("extname: "+extname);
+
+ //运行结果
+ 	basename: haha.html
+	dirname: /aaa/bbb
+	extname: .html
+	
+	</script>
+</div>
+
+<h3>5. fs模块</h3>
+<p>文件处理模块，可以读文件，也可以写文件。比较常用的方法：</p>
+<p class="red"> fs.readFile();		读取文件</p>
+<p class="red"> fs.readDir();			读取文件夹</p>
+<p class="red"> fs.appendFile();	在文件中追加内容(不覆盖原有的)</p>
+<p class="red"> fs.writeFile();		写入文件 （覆盖原有的）</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">	
+//引用fs模块
+var fs = require("fs");
+//读取文件
+fs.readFile("./static/fs.txt",function(err,data){
+    if(err) throw err;
+    console.log(data.toString())
+});
+
+//写入文件
+fs.writeFile("./static/fs.txt","write的内容\n",function(err){
+if(err){
+    console.log("写入失败")
+}
+})
+
+//追加文件
+fs.appendFile("./static/fs.txt","追加的内容\n",function(err){
+    if(err){
+        console.log("追加失败")
+    }
+})
+	
+	</script>
+</div>
+
+<h3>5.1 fs.stats 获取文件类型 </h3>
+<p class="red">
+  fs.stat(path,callback);
+</p>
+<p>
+  callback(err,data);  <br />接受两个参数,第二个参数返回一个对象,类似下面的
+</p>
+
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+  {
+  dev: 2114,
+  ino: 48064969,
+  mode: 33188,
+  nlink: 1,
+  uid: 85,
+  gid: 100,
+  rdev: 0,
+  size: 527,
+  blksize: 4096,
+  blocks: 8,
+  atime: Mon, 10 Oct 2011 23:24:11 GMT,
+  mtime: Mon, 10 Oct 2011 23:24:11 GMT,
+  ctime: Mon, 10 Oct 2011 23:24:11 GMT,
+  birthtime: Mon, 10 Oct 2011 23:24:11 GMT
+}
+
+  
+  </script>
+</div>
+
+<h3>5.2 判断一个文件是不是文件</h3>
+
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+ var fs = require('fs'),  
+ //判断文件是否存在
+ function exists(path){  
+     return fs.existsSync(path) || path.existsSync(path);  
+} 
+
+//判断是不是文件：
+ function isFile(path){
+     return exists(path) && fs.statSync(path).isFile();
+ }
+
+ //判断是不是目录：
+ function isDir(path){  
+    return exists(path) && fs.statSync(path).isDirectory();  
+}  
+
+  
+  </script>
+</div>
+<h3>5.3 fs.rename 重命名文件,如果修改了路径会删除剪切原来路径的文件粘贴到新的路径下</h3>
+<p class="red">fs.rename(oldPath, newPath, callback)</p>
+<p>这个方法可以重命名文件并且能够修改文件路径,设置的新路径与原路径不同, 则会修改文件路径</p>
+
+
+<h3>6. 练习GET表单的处理</h3>
+<p>当表单用get方法提交的时候，就是写在了URL里面。</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var http = require("http");
+var url = require("url");
+var fs = require("fs");
+//创建服务器
+var server = http.createServer(function(req,res){
+    res.setHeader("Content-Type","text/html;charset=UTF-8")
+
+    //url.parse第二个参数是true返回的query属性是一个对象
+    var urlobj = url.parse(req.url,true);
+    //设置路由
+    switch (urlobj.pathname){
+//当用户输入根目录的时候，呈递静态表单页面，表单页面存放在static/biaodan.html里面
+//也就是说，用户访问的网址是http://192.168.1.250:3000/
+//实际上读取的是static/biaodan.html页面
+        case "/" :
+            //读取表单页面并呈递
+        fs.readFile("./05 biaodan.html",function(err,data){
+            if(err){
+                res.end("对不起, 服务器故障, 请稍后再试");
+                return;
+            }
+            res.setHeader("Content-Type","text/html;charset=UTF-8")
+            //呈递页面
+            res.end(data);
+        });
+        break;
+        case "/tijiao":
+// /tijiao不是用户访问的，而是表单自动往里面跳转的。表单是GET请求提交. 所以是用query string的方式来获取提交的信息.
+            var obj = url.parse(req.url.toString(),true).query;
+            var str = "姓名 : " + obj.xingming + "\r\n";
+            str += "性别 : " + obj.sex + "\r\n";
+            str += "爱好 : " + obj.aihao + "\r\n";
+
+            fs.appendFile("./05 表单数据.txt",str,function(err){
+                if(err){
+                    console.log("提交失败, 请稍后在试");
+                }
+            })
+            res.end("提交成功");
+            break;
+        default:
+            res.end("没有这个页面！");
+
+    }
+
+})
+server.listen(3000,"localhost");
+	
+	</script>
+</div>
+
+<h3>7. 静态文件的处理,自动补全路径并设置下行请求头</h3>
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+  var http = require("http");
+var fs = require("fs");
+var path = require("path");
+var url = require("url");
+
+//先读mime.json文件, 。所谓的mime类型就是Content-Type
+
+fs.readFile("./06 mime.json",function(err,data){
+   console.log("mime读取成功")
+    //把读取到的字符串转为json;
+    var mime =JSON.parse(data);
+    //创建服务器
+    var server = http.createServer(function(req,res){
+        //整理url
+        var urlobj = url.parse(req.url);
+        //得到用户输入的路径和文件名
+        var pathname = urlobj.pathname;
+        //得到拓展名
+        var extname = path.extname(pathname);
+        //如果没有拓展名，就是访问的是文件夹。形如127.0.0.1/xuchao
+
+        if(extname == ""){
+            //path.normalize规整路径
+            pathname = path.normalize(pathname + "/index.html");
+            console.log(pathname);
+        }
+
+        console.log(pathname);
+        //这里需要用绝对地址
+        fs.readFile("./static" + pathname,function(err,data){
+        if(err){
+
+            res.writeHead(404,{
+                "Content-Type":"text/plain;charset=UTF-8"
+            })
+            res.end("文件不存在");
+            return;
+        }
+            //根据扩展名, 自动设置mime类型
+            res.setHeader("Content-Type",mime[extname] + ";charset=UTF-8");
+            res.end(data);
+        })
+    })
+    server.listen(3000,"localhost");
+})
+  
+  </script>
+</div>
+
+<h3>8. post请求的处理</h3>
+<p>/post请求发送的内容比较多时采用的是数据块发送, 所以需要把一个个数据块连接起来再转化.</p>
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+//post请求发送的内容比较多时采用的是数据块发送, 所以需要把一个个数据块连接起来再转化.
+var http = require("http");
+var querystring = require("querystring");
+
+var server = http.createServer(function(req,res){
+    var data = "";
+
+    if(req.url=="/tijiao" && req.method.toLowerCase() == "post"){
+        //每传完一块数据会触发"data"事件
+        req.on("data",function(datachunk){
+            data += datachunk.toString();
+        });
+        //传输完毕会触发"end"事件
+        req.on("end",function(err){
+            if(err){
+                res.end("wrong");
+                return;
+            }
+            res.end("ok");
+            console.log(querystring.parse(data));
+
+        })
+    }
+})
+server.listen(3000,"localhost");
+
+  
+  </script>
+</div>
+
+
+<h3>9. 自定义模块(module)</h3>
+<p>nodejs中可以引用模块, 系统有一些内置的模块如"http","url","fs"模块等</p>
+<p>同时也可以自己编写模块.所谓的模块，就是一个个js文件可以看做小模块，js文件彼此之间有关联，又可以看做一个大模块。</p>
+<h3>9.1 require的作用域</h3>
+<p>require引用另一个js文件，它会执行那个js文件中的语句。</p>
+<p>但是一个js文件相当于一个闭包, 声明的函数,变量只在这个js文件内部有作用域</p>
+<h3>9.2 exports 暴露变量</h3>
+<p>nodejs中, 一个js文件中的变量、函数都是在自己这个js文件中有定义。如果自己的变量、函数想向外暴露，那么就必须写exports.*** = ***;  暴露出去。接收的时候，比如用a变量来接收，a变量就是exports对象。
+</p>
+
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+  //a.js模块中有以下语句
+  var sum = 100;
+  exports.sum = sum ; //这样就可以把exports.sum变量给暴漏出去了.
+
+  //主文件中的引用
+  var a = require("a.js"); //用a来接收上面暴漏的exports变量
+  console.log(a.sum)  //可以输出100
+
+  </script>
+</div>
+
+<h3>9.3 module.exports 暴露</h3>
+<p>当一个js文件并不需要向外暴露很多东西的时候，可以使用 <b class="red">module.exports = ****;</b>的语法向外暴露唯一的一个东西。</p>
+<p>接收的时候，这个变量就是****。而不是这个变量的某个属性。</p>
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+  //自定义People模块
+function People(name,sex,age){
+this.name = name;
+this.age = age;
+this.sex = sex;
+}
+People.prototype.sayHello = function(){
+    console.log("我是"+this.name+"性别:"+this.sex+"年龄:"+this.age)
+}
+//向外暴露People变量
+module.exports = People;
+
+
+
+
+//主文件
+var People = require("./08people.js");
+var xiaoming = new People("小明","男",12);
+xiaoming.sayHello();
+
+
+
+//输出
+我是小明性别:男年龄:12
+
+  
+  </script>
+</div>
+
+<h3>9.4 自定义模块js包的默认路径</h3>
+<p>
+  如果我们引用模块时没有写明路径，只写了文件名：
+<b class="red">require(xuchao.js”);</b>
+那么默认就表示读取 <b class="red"> node_moduels </b>文件夹里面的 xuchao.js文件。
+</p>
+<p>也可以直接省略路径、省略文件名，只写文件夹名，比如:  <br />
+  <b class="red">require(“aaa”);</b> <br />
+实际上引用的是node_moduels文件夹里面的aaa文件夹里面的index.js文件。
+</p>
+<p>一般的，我们做项目的时候，别人的模块我们都放在node_moduels文件夹里面，自己的一些我们用自己的文件夹存放。</p>
+
+<h3>10. NPM</h3>
+<p>NPM 是 node.js pakage management   node.js包管理器。<br />
+  官网<a href="https://www.npmjs.com/">https://www.npmjs.com/</a>  <br />
+  国内镜像 <a href="https://npm.taobao.org/">https://npm.taobao.org/</a>
+</p>
+<h3>10.1 NPM 安装</h3>
+<p>
+  npm命令已经被集成在node.js中了，你安装完node就有npm了。 <br />
+在npmjs.org网站上搜索你需要的包，然后在cmd中输入以下命令就可以安装部署相应的npm包了：<br />
+<b class="red">npm install ***</b>
+</p>
+<p>部署完成后可以用require引用它</p>
+<p class="red">var _ = require("underscore"); </p>
+<h3>10.2 package.json</h3>
+<p> 任何一个包都必须有一个package.json文件，里面可以规定很多内容。package.json就是这个包的身份证。</p>
+<p>当你把你的包发布到npm上的时候，下面的信息非常有用：</p>
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+{
+  "name": "my_package",   //项目名字
+  "version": "1.0.0",    //版本号
+  "main": "index.js",   //入口文件
+  "keywords": [],       //关键词，就是搜索什么npm上能够显示你
+  "author": "ag_dubs",   //作者
+  "license": "ISC",      //版权协议
+  "repository": {             //代码托管仓库，这个会自动生成一个连接
+   "type": "git",
+    "url": "https://github.com/ashleygwilliams/my_package.git"
+  },
+  "bugs": {               //如果发现bug应该交给谁
+    "url": "https://github.com/ashleygwilliams/my_package/issues"
+  },
+  //包的依赖, 这是最重要的信息,显示这个包需要引用的其他包
+  "dependencies": {
+   "underscore": "*",
+"date-format" : "0.0.2"
+ },
+   "homepage": "https://github.com/ashleygwilliams/my_package"   //个人网站
+}
+
+  
+  </script>
+</div>
+
+<p>每个项目的依赖都要写在package.json里面。当我们不输入具体安装什么包的时候，只需要在cmd中输入</p>
+<p class="red"> npm install </p>
+<p>就能够自动找到package.json，然后安装它的依赖。</p>
+<p>在cmd中输入 <b class="red">npm init</b> 可以打开引导创建项目的package.json文件</p>
+
+<h3>11. formidable 包</h3>
+<p>如果要制作图片上传, 文件上传, 一般都用formidable这个包</p>
+<p>官网<a href=" https://www.npmjs.com/package/formidable"> https://www.npmjs.com/package/formidable</a></p>
+<h3>11.1 文件上传并修改名称</h3>
+<p>form表单如果提交文件的话需要设置 form 的 enctype 属性</p>
+<p>
+  enctype (encode type) 编码方式, multipart/form-data 表示数据被编码为一条消息, 整体发送, 在传输附件的时候用到 
+</p>
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+  //上传文件的话enctype 属性必须设置
+  //enctype (encode type) 编码方式, multipart/form-data 表示数据被编码为一条消息, 整体发送, 在传输附件的时候用到 
+  <form action="" method = "post"  enctype = "multipart/form-data">
+  
+  </form>
+
+  
+  </script>
+</div>
+
+
+<div class="daima">
+  <script type="syntaxhighlighter" class="brush: csharp;">
+var http = require("http");
+var formidable = require("formidable");
+var df = require("date-format");
+var fs = require("fs");
+var server = http.createServer(function(req,res){
+    if(req.url == "/"){
+        res.setHeader("Content-Type","text/html;charset=UTF-8");
+        fs.readFile("./09 文件上传.html",function(err,data){
+            if(err){
+                console.log(err);
+            }
+            res.end(data);
+        });
+    }else if(req.url == "/tijiao" && req.method.toLowerCase()=="post"){
+        //使用formidable处理表单
+        var form = new formidable.IncomingForm();
+        //设置上传路径
+        form.uploadDir = "./static/uploads";
+
+        form.parse(req,function(err,fields,files){
+            //fields是普通域,就是普通的文本框,单选按钮,复选按钮,textarea都存在这个对象里面
+           //files是上传的文件信息
+
+            // df是获取当前的时间作为文件夹名
+            var newname = df('yyMMddhhmmssSSS',new Date());
+            //文件重命名
+            fs.rename(files.touxiang.path,"./static/uploads/" + newname + ".jpg",function(err){
+                if(err){
+                    res.end("error");
+                    return;
+                }
+            })
+            res.end("ok");
+        })
+    }
+    else{
+        res.end("您访问的页面不存在");
+    }
+
+})
+server.listen(3000,"localhost");
+
+  
+  </script>
+</div>
+
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>PHP笔记</title>
+
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css" />
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+
+	<link rel="stylesheet" type='text/css' href="css/base.css" />
+
+	<style type="text/css">
+
+	</style>
+</head>
+
+<body>
+	<h2 class="f32">I PHP笔记</h2>
+	<h3 class="f24">一 基本概念</h3>
+	<p>1. 语法: </p>
+	<p class="red">
+		&lt?php &nbsp ?&gt
+	</p>
+	<h3>2. 变量</h3>
+	<p>PHP中变量不用提前定义, 直接"$a"就可以<br />
+		<div class="daima2">
+			&lt?php
+			$a = 5; <br />
+			$b = "aaa"; <br />
+			$c = true; <br />
+
+			echo $a ; <br />
+			echo $b ; <br />
+			echo $c ; <br />
+			?&gt
+		</div>
+	</p>
+	<h3>3. 作用域</h3>
+	<p>function是有作用域限制的。但是php非常的有意思，一个全局变量，在一个函数内部，是不默认认识的。 <br />
+		如果想在一个函数内部，认识一个全局变量，要在函数内部写<b class="red">global</b>关键字：</p>
+	<p>
+		<div class="daima2">
+			&lt?php <br />
+			$a = 300; <br />
+
+			function fun(){ <br />
+			<b class="red">global $a; </b> <br />
+			echo $a;<br />
+			} <br />
+
+			fun(); <br />
+			?&gt
+		</div>
+	</p>
+
+	<h3>4. 数组</h3>
+	<p>4.1 echo语句不能输出数组的全貌，必须要使用print_r函数</p>
+	<p>4.2 数组长度要用count()函数：</p>
+
+	<div class="daima2">
+
+		$a = array("东","南","西","北","中"); <br />
+		print_r($a); <br />
+		echo count($a); <br />
+
+	</div>
+
+	<h3>5. 函数</h3>
+	<p>函数声明头提升是JS特有的，PHP里面必须先定义函数，然后调用函数。<br />
+		函数只有()一种调用方式。<br />
+		函数的传参、返回值和JS是一样的。<br /></p>
+
+	<h3 class="f24">二 PHP操作数据库</h3>
+	<h3>1. 连接数据库</h3>
+	<div class="daima">
+		<script type="syntaxhighlighter" class="daima brush: csharp;">
+	<?php
+        //连接数据库，PHP和MySQL是好兄弟，只需要一行命令，就能链接数据库！
+        //phpnow 的默认的用户名是root，密码是123456
+        //$con就是一个变量，表示一次连接.
+        $con = mysql_connect("localhost","root","123456");
+        //括号里是(要连接的数据库,数据库用户名,数据库密码)
+         
+       echo "\$con:".$con."<br/>";
+       //选择链接哪个库？
+       //选择要连接的表单
+        mysql_select_db("kaoladeshujuku", $con);
+ 
+        //更改数据操作字符集
+        mysql_query("SET NAMES UTF8");
+ 
+        //执行SQL语句，就把检索结果放到了$result变量中
+        $result = mysql_query("SELECT * FROM tongxue");
+ 
+        //循环读取
+        while($row = mysql_fetch_array($result)){
+          echo $row['xingming'];
+          echo $row['qqhao'];
+          echo $row['shoujihao'];
+          echo "<br />";
+        }
+ 
+        //关闭数据库
+        mysql_close($con);
+    ?> 	</script>
+	</div>
+
+	<h3>2. GET请求</h3>
+	<p>语法:</p>
+	<p>提交数据的时候在网址后面加上<span class="red">?k=v&k=v&k=v;</span>这些k,v对儿就是提交的get请求,中间以<span class="red">&</span>连接</p>
+	<p>例如: <br />
+		http://127.0.0.1/my1chulibiaodan.php <span
+			class="red">>?name=%E5%B0%8F%E6%98%8E&age=16&sex=%E7%94%B7&phone=189477&qq=899</span>
+	</p>
+	<h3>PHP获取GET请求的值方法</h3>
+	<p class="red">$_GET["nianling"];</p>
+
+	<h3>3. POST请求</h3>
+	<p>语法:</p>
+	<div class="daima pd">
+		$_POST["xingming"];
+	</div>
+	<p>POST请求也可以让用户的数据传输到服务器上，但是不是利用URL，而是利用HTTP request报文头。</p>
+	<p>HTTP是报文，requst、response都是以报文的形式传输的。报文的内容就是&lthtml &gt &lt body &gt &lt /body &gt&lt /html &gt就是页面的内容，而报文的头部携带有很多信息。
+	</p>
+	<p>GET请求非常好产生，我们每一次输入网址打开网站都是一次GET请求，GET请求利用的是URL。 <br />
+		POST请求非常难于自己产生，必须借助表单。</p>
+	<h3>4. POST请求与GET请求的异同优劣对比</h3>
+	<p class="cu f20">GET请求</p>
+	<p>1. 容易产生</p>
+	<p>2. 便于分享网址.</p>
+	<p>3. 信息量有限制,不能传递太多的内容</p>
+	<p>4. 暴漏隐私</p>
+
+	<p class="cu f20">POST请求</p>
+	<p>1. 安全, 不会通过网址导致泄露表单信息</p>
+	<p>2. 传输量大,POST请求是可以无限量的.</p>
+	<p>3. 不利于分享网址,post请求不影响url</p>
+	<p class="cu f20">总结:</p>
+	<p>一般GET 请求用于检索数据库的某一个条目.</p>
+	<p>POST 请求一般用于提交表单</p>
+	<div class="daima">
+		<script type="syntaxhighlighter" class="daima brush: csharp;">
+	<?php
+	//把表单中name为sex的标签获得的值存到了变量$sex中;
+	$sex = $_POST["sex"];
+	$phone = $_POST["phone"];
+	$message = $_POST["message"];
+	echo $sex;
+	echo $phone;
+	echo $message;
+	?>	 </script>
+	</div>
+
+
+	<h3>5. PHP 操作 SQL</h3>
+	<h3>5.1 查询检索数据库</h3>
+	<p>语法:</p>
+	<div class="pd daima">
+		从xuesheng表中检索所有数据.
+		<br />
+		<span class="red">
+			SELECT * FROM xuesheng;
+		</span>
+	</div>
+	<br />
+	<div class="daima pd">
+		如果想检索某一条条目用WHERE子句： <br />
+		<span class="red">
+			SELECT * FROM xuesheng WHERE xingming = “小明”;
+		</span>
+	</div>
+	<h3>5.2 数据库的写入<b class="red">增</b></h3>
+	<div class="daima pd ">
+		INSERT INTO 表名(字段1,字段2,字段3) VALUES (值1,值2,值3) <br />
+		<span class="red">
+			INSERT INTO xuesheng(xingming,nianling,qqhao) VALUES ('徐超',20,87339875)
+		</span>
+	</div>
+
+	<h3>6 PHP和JSON</h3>
+	<p>6.1 PHP中数组可以非常轻松的通过<span class="red">json_encode()</span>来转为JSON</p>
+	<div class="daima">
+		<script type="syntaxhighlighter" class="daima brush: csharp;">
+		//用json_encode把数组转为对象
+		$a = array("东","西","南","北");
+ 		$b = json_encode($a);
+
+		print_r($b);
+	</script>
+	</div>
+	<p>输出结果:</p>
+	<div class="jieguo pd">
+
+		["\u4e1c","\u897f","\u5357","\u5317"]
+		<br /> <br />
+		//php把数组转为对象的时候会把中文转为uft8编码,为了避免在传输过程中出现问题,在js中输出即可得到字符.
+	</div>
+	<p>6.2 <span class="red">foreach(数组名 as $key => $value){ }</span>遍历数组</p>
+	<div class="daima">
+		<script type="syntaxhighlighter" class="daima brush: csharp;">
+	$a = array("name" => "xuchao" , "age" => 25 , "qqhao" => 134324);
+	//遍历数组
+	foreach ($a as $key => $value) {
+		echo $key.":";			
+		echo $value;
+		echo "<br/>";
+	}
+	echo "<br/>"; 
+	//把 $a转为了数组
+	$b = json_encode($a);
+	print_r($b);
+	</script>
+	</div>
+	<p>输出结果:</p>
+	<div class="jieguo pd">
+		name:xuchao
+		<br />
+		age:25
+		<br />
+		qqhao:134324
+		<br /> <br />
+		{"name":"xuchao","age":25,"qqhao":134324}
+	</div>
+
+
+	<h3 class="f24">php中常用API</h3>
+	<h3>1. <b class="red">print_r, print, echo的异同</b></h3>
+	<p>echo和print 都可以用作输出.</p>
+	<p>echo不是函数,没有返回值,只能输出字符串.</p>
+	<p>print是一个函数,有返回值, 可以输出变量的相关信息.</p>
+	<p>print_r 可以打印出复杂类型变量的值(如数组,对象) 可以把一个变量的所有易于理解的信息输出 </p>
+
+	<h2 class="f32">II MySQL笔记</h2>
+	<h3 class="f24">一 基本概念</h3>
+	<p>SQL全称Structor Query Language结构化查询语言</p>
+	<h3>1. 读取数据</h3>
+	<p class="red">SELECT * FROM 表名字</p>
+	<p>SQL要求所有语句都是大写字母！！</p>
+
+	<div class="daima">
+		<script type="syntaxhighlighter" class="daima brush: csharp;">
+	//注释  哈哈哈 
+		for(var i=0;i &lt 10;i++){ }
+	</script>
+	</div>
+</body>
+
+</html>

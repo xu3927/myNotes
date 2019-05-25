@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>angular-ui-select练习</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+	<!-- 自己定义的css样式 -->
+	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+<!-- 插入markDown -->
+
+<xmp>
+# angular-ui-select 插件
+ 本插件依赖 angular,  angular-sanitize(ng-bind-html指令用于在html中插入非转义的html结构), bootstrap(提供样式)
+
+ 官网地址:
+
+[http://angular-ui.github.io/ui-select/#documenation](http://angular-ui.github.io/ui-select/#documenation)
+
+API文档:
+
+[https://github.com/angular-ui/ui-select/wiki/ui-select](https://github.com/angular-ui/ui-select/wiki/ui-select)
+
+
+### 基本用法
+
+```
+/* ng-model 绑定select选定的数据 */
+<ui-select ng-model="selected.value">
+    <ui-select-match>
+        <span ng-bind="$select.selected.name"></span>
+    </ui-select-match>
+    <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id">
+        <span ng-bind="item.name"></span>
+    </ui-select-choices>
+</ui-select>
+<script type="text/javascript">
+	angular.module('app')
+	.controller('ctrl', ['$scope', function ($scope){
+	    $scope.itemArray = [
+	        {id: 1, name: 'first'},
+	        {id: 2, name: 'second'},
+	        {id: 3, name: 'third'},
+	        {id: 4, name: 'fourth'},
+	        {id: 5, name: 'fifth'},
+	    ];
+
+	    $scope.selected = { value: $scope.itemArray[0] };
+	}]);
+</script>
+```
+
+### 多选
+
+增加 multiple属性, 同时ui-match 用 $item 获取值
+
+![multiple](./images/chatu/ui-select多选.png)
+
+```
+<ui-select  ng-model="ctrl.selectVal"
+			on-select="ctrl.selectEve($item, $model)"
+			multiple>
+	<!-- ui-select-match 下来列表的输入框. -->
+	<!--  要选择多项时用$item获取所选择的数据 -->
+	<ui-select-match placeholder="输入一个值">{{$item.name}}</ui-select-match>
+	<!-- ui-select-choices 下拉列表的选项. 通过repeat指令来重复. 其中可以插入下来列表中所显示的每项内容. -->
+	<ui-select-choices repeat="country in ctrl.countries track by $index">
+		<div ng-bind-html="country.name | highlight: $select.search"></div>
+	</ui-select-choices>
+</ui-select>
+```
+
+### 主要属性
+
+```
+// 依赖的样式包
+<link rel="stylesheet" href="bootstrap.css">
+<link rel="stylesheet" href="./select2.css">
+<link rel="stylesheet" href="./selectize.default.css">
+<link rel="stylesheet" href="./ui-select.css">
+
+<div ng-app="app">
+
+	<div ng-controller="demoCtrl as ctrl">
+		<h3>angular-ui-select</h3>
+		<p>选中的值:{{" 国家:" + ctrl.selectVal.name + " 缩写:" + ctrl.selectVal.code}}</p>
+		<!--
+		ng-model: 下来列表双向绑定的数据
+		theme: 设置所采用的样式, 默认是"bootstrap", 可选"select2, selectize" 需要提前引入相应的css包 
+		close-on-select: Boolean, 选择选项后是否关闭下拉列表, 默认是true(关闭)
+		ng-disabled: select控件是否可用,  为true则不能用
+		search-enabled: 输入框的功能是否可用. 默认是true(可用), 为false时输入框不能输入文字
+		multiple: 用来多选
+		limit="3" tagging : 限制最多在输入框中显示几个标签
+		remove-selected="true" : 为true 则该选项被选择后会从下拉列表中移除.(仅对于支持多项选择时有效(multiple))
+		tagging-label="new" : 下来列表中已经选择的项是否标记处来. 值为false(不标记), 为 "new" 标记出
+		
+		/**********/
+		绑定的事件
+		on-select: 当选择选项后执行, 可以传入$item, $model. 两个值都可以获得当前所选取的元素
+		on-remove: 当输入框中的标签按X被移除后触发
+		-->
+		<div class="row">
+		<div class="col-md-5 col-md-offset-2">
+		<ui-select  ng-model="ctrl.selectVal"
+					title="标题: 选择一项" 
+					theme="bootstrap"
+					close-on-select="true"
+					ng-disabled="false"
+					search-enabled="true"
+					class="col-md-8"
+					reset-search-input="true"
+					on-select="ctrl.selectEve($item, $model)"
+					on-remove="ctrl.removeEve($item, $model)"
+					multiple tagging
+					limit="3"
+					remove-selected="true"
+					tagging-label="new"
+					>
+					
+			<!-- ui-select-match 下来列表的输入框. -->
+			<!--  $select 是整个select对象, 包含了select的各个属性, 其中的$select.selected 是当前选中的数据 -->
+			<ui-select-match placeholder="输入一个值">{{$select.selected.name}}{{$item.name}}</ui-select-match>
+			<!-- ui-select-choices 下拉列表的选项. 通过repeat指令来重复. 其中可以插入下来列表中所显示的每项内容. -->
+			<ui-select-choices repeat="country in ctrl.countries track by $index">
+				<div ng-bind-html="country.name | highlight: $select.search"></div>
+			</ui-select-choices>
+		</ui-select>
+		</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="angular-1.5.8/angular.js"></script>
+<script type="text/javascript" src="angular-1.5.8/angular-sanitize.js"></script>
+<script type="text/javascript" src="ui-select.js"></script>
+
+<script>
+var app = angular.module('app', ['ui.select', 'ngSanitize'])
+	app.controller('demoCtrl', function ($scope, $http) {
+		var vm = this;
+		vm.selectEve = function () {
+			console.log(arguments);
+		}
+		vm.removeEve = function () {
+			console.log("remove: ", arguments);
+		}
+
+		vm.countries =[ 
+    {name: 'Afghanistan', code: 'AF'},
+    {name: 'Åland Islands', code: 'AX'},
+    {name: 'Albania', code: 'AL'},
+    {name: 'Algeria', code: 'DZ'},
+    {name: 'American Samoa', code: 'AS'},
+    {name: 'Andorra', code: 'AD'}]
+	});
+	
+</script>
+```
+
+</xmp>
+
+
+
+<!-- js代码 -->
+<script type="text/javascript">
+
+
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 生成目录 -->
+<script type="text/javascript" src="js/buildCatalog.js"></script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+ -->

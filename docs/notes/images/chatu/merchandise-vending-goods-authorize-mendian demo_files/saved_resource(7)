@@ -1,0 +1,44 @@
+.vending-transfer {
+  display: -ms-flexbox;
+  display: flex;
+}
+.vending-transfer .left-panel,
+.vending-transfer .right-panel {
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+  min-height: 600px;
+  border: 1px solid #efefef;
+}
+.vending-transfer .operator {
+  width: 50px;
+  font-size: 20px;
+  -ms-flex: 0 0 50px;
+      flex: 0 0 50px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+}
+.vending-transfer .operator .center .next-btn {
+  padding: 0 9px;
+  font-size: 40px;
+  min-width: initial!important;
+}
+.vending-transfer .content {
+  margin-top: 20px;
+}
+
+#mapContainer:-webkit-full-screen {
+  width: 100%!important;
+}
+#mapContainer:-moz-full-screen {
+  width: 100%!important;
+}
+#mapContainer:-ms-fullscreen {
+  width: 100%!important;
+}
+#mapContainer:fullscreen {
+  width: 100%!important;
+}

@@ -1,0 +1,1004 @@
+[TOC]
+
+# vue 不熟悉的知识整理
+
+### 1. 单次插值 {{ *msg }}
+
+Mustache 语法
+
+```html
+
+<div id="app">
+	<div>{{ *msg }}</div>
+</div>
+<script type="text/javascript">
+obj = {
+	msg : "值1"
+}
+new Vue({
+	el : "#app",
+	data : obj
+})	
+obj.msg = "修改值" //由于是单次插值，该次不会修改Vue中的msg的值。
+</script>
+
+```
+### 2. {{{ msg }}} 插值会渲染值里面的HTML标签
+
+三层花括号{{{ msg }}}插值会把HTML标签渲染为为HTML标签。
+二层花括号{{ msg }}会把HTML标签作为字符串来进行处理
+
+```html
+<div id="app">
+	<div>{{{msg}}}</div>
+</div>
+
+<script type="text/javascript">
+	new Vue({
+		el : "#app",
+		msg : "<strong>【天气】</strong>北京有雨"  //变量中有html标签，但是插入到页面中后会渲染html标签
+	})
+</script>
+```
+
+
+### 3. 计算属性 computed
+
+在HTML模板中表达式非常便利，但是它们实际上只用于简单的操作。模板是为了描述视图的结构。在模板中放入太多的逻辑会让模板过重且难以维护。这就是为什么 Vue.js 将绑定表达式限制为一个表达式。如果需要多于一个表达式的逻辑(即该值需要更复杂的计算再输出到页面中)，应当使用计算属性。
+
+computed属性中定义的变量相当于是一个getter方法(不过是vue包装后的getter,不是原生的getter方法). 计算属性持续计算该变量getter方法中依赖的其他变量(vue中注册的变量), 当属性所依赖的变量值发生改变时会触发computed中的函数。如果所依赖的变量没有在vue中注册,即使发生了改变也不会触发computed方法
+
+```html
+
+<div id="app">
+		<p>{{msg}}</p>
+		<p>{{msg2}}</p>
+		<p>{{msg_com}}</p>
+		<p>{{msg2_com}}</p>
+	</div>
+
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+
+		var obj = {
+			msg : "1",
+			msg2 : "2",
+			msg_com : 5,
+			msg2_com : 222
+		}
+		
+		var xx = new Vue({
+			el : "#app",
+			data : obj,
+			computed : {
+				// 值可以是一个函数，默认是getter函数。当函数内的变量被修改后会触发该函数
+				msg_com : function(){
+					console.log(arguments);	// 可以接受一个参数，为vue实例
+					console.log(this); // this对象为vue实例
+					return this.msg + " [修改后的]"; // return 的值为msg_com 的值。
+				},
+				// 接受一个对象， 有两个属性， get， set;
+				msg2_com : {
+					get : function(){
+						this.msg2 ++
+						this.msg + "修改"
+						console.log("get MSG2 的值");
+						return this.msg + "get";
+					},
+					// 直接设置该参数的时候会触发set方法。 可以传入一个参数， 参数为新设置的值。在其中可以修改其他变量的值
+					set : function(newVal){
+						this.msg = newVal.substr(2,5)
+						console.log(this.msg);
+						console.log("set MSG2 的值");
+					}
+				}
+			}
+		})
+
+	</script>
+
+
+```
+
+Vue.js 的计算属性不是简单的 getter。计算属性持续追踪它的响应依赖。在计算一个计算属性时，Vue.js 更新它的依赖列表并缓存结果，只有当其中一个依赖发生了变化，缓存的结果才无效。因此，只要依赖不发生变化，访问计算属性会直接返回缓存的结果，而不是调用 getter。
+
+为什么要缓存呢？假设我们有一个高耗计算属性 A，它要遍历一个巨型数组并做大量的计算。然后，可能有其它的计算属性依赖 A。如果没有缓存，我们将调用 A 的 getter 许多次，超过必要次数。
+
+由于计算属性被缓存了，在访问它时 getter 不总是被调用。考虑下例：
+
+```javascript
+var vm = new Vue({
+  data: {
+    msg: 'hi'
+  },
+  computed: {
+    example: function () {
+      return Date.now() + this.msg
+    }
+  }
+})
+```
+
+计算属性 example 只有一个依赖：vm.msg。Date.now() 不是 响应依赖，因为它跟 Vue 的数据观察系统无关。因而，在访问 vm.example 时将发现时间戳不变，除非 vm.msg 变了。
+
+有时希望 getter 不改变原有的行为，每次访问 vm.example 时都调用 getter。这时可以为指定的计算属性关闭缓存：
+
+```javascript
+computed: {
+  example: {
+    cache: false,
+    get: function () {
+      return Date.now() + this.msg
+    }
+  }
+}
+```
+
+现在每次访问 vm.example 时，时间戳都是新的。但是，只是在 JavaScript 中访问是这样的；数据绑定仍是依赖驱动的。如果在模块中这样绑定计算属性 {{example}}，只有响应依赖发生变化时才更新 DOM。
+
+
+### vs.$watch 监听方法
+
+Vue.js 提供了一个方法 $watch，它用于观察 Vue 实例上的数据变动。当一些数据需要根据其它数据变化时， $watch 很诱人 —— 特别是如果你来自 AngularJS。不过，**通常更好的办法是使用计算属性** 而不是一个命令式的 $watch 回调。
+
+
+```javascript
+var vm = new Vue({
+  el: '#demo',
+  data: {
+    firstName: 'Foo',
+    lastName: 'Bar',
+    fullName: 'Foo Bar'
+  }
+})
+
+vm.$watch('firstName', function (val) {
+  this.fullName = val + ' ' + this.lastName
+})
+
+vm.$watch('lastName', function (val) {
+  this.fullName = this.firstName + ' ' + val
+})
+
+```
+
+在vue组件模块中使用 $watch
+
+```javascript
+var _data = {
+        msg:'12345',
+        msg2 : '',
+        msg3 : '我是哈哈'
+    }
+
+export default {
+        data(){
+            return _data
+        },
+        ready () {
+        	// 使用 $watch 方法
+            this.$watch('msg', function (val) {
+                console.log('watch:',val)
+                this.msg2 = '通过watch改变属性值'
+            })
+
+        }
+    }
+```
+
+### 类与样式的绑定
+
+|类别|数组|对象|
+|----|-----:|-----|
+|类  |值是名称|属性值是布尔|
+|举例| [color] | {Show : isShow} |
+|样式|值是样式对象|值是具体样式|
+|举例|[cur, highLight] | {border:bd, color: cor}|
+
+v-bind:class 指令可以与普通的 class 特性共存：
+
+```html
+<div class="static" v-bind:class="{ 'class-a': isA, 'class-b': isB }"></div>
+```
+
+
+### data 属性
+
+```javascript
+var data = { a: 1 }
+var vm = new Vue({
+  data: data
+})
+
+vm.a === data.a // -> true
+
+// 设置属性也会影响到原始数据
+vm.a = 2
+data.a // -> 2
+
+// ... 反之亦然
+data.a = 3
+vm.a // -> 3
+
+```
+注意只有这些被代理的属性是响应的。如果在实例创建之后添加新的属性到实例上，它不会触发视图更新。
+
+```html
+
+<div class='pageone'>
+    <p>{{msg}}</p>
+    <p>{{msg2}}</p>
+    <button class='btn' @click='clickBtn'>改变_data值</button>
+</div>
+<script>
+ var _data = {
+        msg:'组件一',
+    }
+export default {
+    data(){
+        return _data
+    },
+    methods : {
+    	// msg2的值在组件初始化的时候没有设置, 在初始化之后才设置,这样无法在视图中渲染
+        clickBtn () {
+            _data.msg2 = 'haha'
+            console.log(this.msg2)
+        }
+    }
+}
+</script>
+```
+
+### 指令的参数, 冒号后面加参数 :参数 
+
+指令用 v-指令名称 表示
+
+可以用冒号 :参数 来为指令传递参数
+
+如:
+
+```html
+<!-- 这里的指令是 v-bind 参数是 href -->
+<a v-bind:href='url'></a>
+
+```
+
+### 指令的修饰符 点后面加 .修饰符
+
+```html
+ <!-- .后面的为指令修饰符 -->
+<a v-on:keydown.enter="doSearch"></a>
+
+```
+
+### 指令缩写 
+
+v-bind 指令可以缩写为 :
+v-on 指令 缩写为 @
+
+如
+
+```html
+
+<p v-bind:href='url'></p>
+// 等价于
+<p :href='url'></p>
+<button v-on:click='clickBtn'></button>
+// 等价于
+<button @click='clickBtn'></button>
+
+```
+
+### vue中的数组变动检测
+
+通过 v-for 指令可以循环渲染一个数组中的数据
+
+#### 1. vue中操作数组数据的方法
+
+Vue.js 包装了被观察数组的变异方法，故它们能触发视图更新。被包装的方法有：
+
+```
+push()
+pop()
+shift()
+unshift()
+splice()
+sort()
+reverse()
+
+```
+
+如:
+
+```html
+<template>
+	<ul>
+		<li v-for='item in arr'>{{ item }}</li>
+	</ul>
+	<button @click='clickBtn'>点击查看数组的属性</button>
+</template>
+<script>
+export default {
+	data () {
+		return {
+			 arr : ['aaa','bbb','ccc','ddd']
+		}
+	},
+	methods : {
+		clickBtn () {
+			// 查看数组,及其方法
+			console.log(this.arr);
+			// 调用数组的push方法,会改变页面中的值
+			this.arr.push('eee')
+		}
+	}
+}
+</script>
+```
+#### 2.  数组的问题
+
+1. 直接用下标设置数组无法更新页面, 如 vm.items[0] = '哈哈'；
+2. 修改数据的长度也无法同步到页面，如 vm.items.length = 0。
+
+解决方法 :
+
+#### 3. 数组的 $set 方法
+
+为了解决问题 (1)，Vue.js 扩展了观察数组，为它添加了一个 $set() 方法：
+
+// 与 `example1.items[0] = ...` 相同，但是能触发视图更新
+example1.items.$set(0, { childMsg: 'Changed!'})
+至于问题 (2)，只需用一个空数组替换 items。
+
+#### 4. 数组的 $remove 方法
+
+除了 $set()， Vue.js 也为观察数组添加了 $remove() 方法，用于从目标数组中查找并删除元素，在内部它调用 splice() 。因此，不必这样：
+
+```
+var index = this.items.indexOf(item)
+if (index !== -1) {
+  this.items.splice(index, 1)
+}
+
+```
+
+只用这样：
+
+```
+this.items.$remove(item)
+```
+
+使用 Object.freeze()
+
+在遍历一个数组时，如果数组元素是对象并且对象用 Object.freeze() 冻结，你需要明确指定 track-by。在这种情况下如果 Vue.js 不能自动追踪对象，将给出一条警告。
+
+#### 5. v-for 渲染数组的 track-by 属性
+
+v-for 默认通过数据对象的特征来决定对已有作用域和 DOM 元素的复用程度，这可能导致重新渲染整个列表。但是，如果每个对象都有一个唯一 ID 的属性，便可以使用 track-by 特性给 Vue.js 一个提示，Vue.js 因而能尽可能地复用已有实例。
+
+例如，假定数据为：
+
+```
+{
+  items: [
+    { _uid: '88f869d', ... },
+    { _uid: '7496c10', ... }
+  ]
+}
+```
+
+然后可以这样给出提示：
+
+```html
+<div v-for="item in items" track-by="_uid">
+  <!-- content -->
+</div>
+```
+
+然后在替换数组 items 时，如果 Vue.js 遇到一个包含 _uid: '88f869d' 的新对象，它知道它可以复用这个已有对象的作用域与 DOM 元素。
+
+#### track-by $index
+
+如果没有唯一的键供追踪，可以使用 track-by="$index"，它强制让 v-for 进入原位更新模式：片断不会被移动，而是简单地以对应索引的新值刷新。这种模式也能处理数据数组中重复的值。
+
+这让数据替换非常高效，但是也会付出一定的代价。因为这时 DOM 节点不再映射数组元素顺序的改变，不能同步临时状态（比如 <input> 元素的值）以及组件的私有状态。因此，如果 v-for 块包含 <input> 元素或子组件，要小心使用 track-by="$index"
+
+其实 Vue 也完全可以全量赋值的，唯一需要的小优化就是给 v-repeat 列表一个 track-by 属性，提示一下如何判断两个对象是否是同一份数据。如果是没有复杂交互的列表，可以直接 track-by="$index" 原地复用 DOM 元素。
+
+
+### v-for 作用域内的特殊变量 $key , $index
+
+可以在 v-for 作用域内获取 数组的下标, 或 对象的索引值并循环渲染对象
+
+```html
+<template>
+	<ul>
+		<!-- 可以为数组索引值起一个别名,则作用域内能够访问到该索引变量 -->
+		<li v-for='(index,item) in arr'>{{ index + '-' + item }}</li>
+	</ul>
+	
+	 <ul>
+        <!-- v-for作用域内可以使用 $index 表示数组的下标 -->
+	    <li v-for='item in arr'>{{$index + ':' + item}}</li>
+    </ul>
+    
+     <!-- 通过 v-for 来循环渲染对象, $key 是对象的索引 -->
+    <p v-for='val in obj'>{{ $key }} {{ val }}</p>
+
+	<button @click='clickBtn'>点击查看数组的属性</button>
+</template>
+<script>
+export default {
+	data () {
+		return {
+			 arr : ['aaa','bbb','ccc','ddd'],
+        	arr2 : [
+	            {'id' : 'd11', 'weight' : '10kg' },
+	            {'id' : 'd22', 'weight' : '15kg' },
+	            {'id' : 'd33', 'weight' : '20kg' },
+        	],
+        	obj :  {'id' : 'd11', 'weight' : '10kg' },
+		}
+	},
+	methods : {
+		clickBtn () {
+			// 查看数组,及其方法
+			console.log(this.arr);
+			// 调用数组的push方法,会改变页面中的值
+			this.arr.push('eee')
+		}
+	}
+}
+</script>
+
+```
+
+### vue 事件修饰符
+
+vue中的事件修饰符有4个, prevent, stop, capture, self
+
+>1. prevent 阻止默认事件
+>2. stop 阻止冒泡
+>3. capture 添加事件监听捕获阶段
+>4. self  只当事件在该元素本身（而不是子元素）触发时触发回调
+
+>* 修饰符可以串联
+>* 也可以只有修饰符没有事件回调
+
+
+```html
+<!-- 阻止单击事件冒泡 -->
+<a v-on:click.stop="doThis"></a>
+
+<!-- 提交事件不再重载页面 -->
+<form v-on:submit.prevent="onSubmit"></form>
+
+<!-- 修饰符可以串联 -->
+<a v-on:click.stop.prevent="doThat"></a>
+
+<!-- 只有修饰符 -->
+<form v-on:submit.prevent></form>
+
+<!-- 1.0.16 添加了两个额外的修饰符： -->
+
+<!-- 添加事件侦听器时使用 capture 模式 -->
+<div v-on:click.capture="doThis">...</div>
+
+<!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
+<div v-on:click.self="doThat">...</div>
+
+```
+
+### 组件
+
+#### 属性
+
+replace 属性, 是否替换标签挂载元素
+
+el, data 属性 在组件中需要是一个函数.
+
+#### props 属性
+
+组件实例的作用域是孤立的。这意味着不能并且不应该在子组件的模板内直接引用父组件的数据。可以使用 props 把数据传给子组件。
+
+“prop” 是组件数据的一个字段，期望从父组件传下来。子组件需要显式地用 props 选项 声明 props：
+
+
+>* 用法:
+
+```javascript
+Vue.component('child', {
+  // 声明 props
+  props: ['msg'],
+  // prop 可以用在模板内
+  // 可以用 `this.msg` 设置
+  template: '<span>{{ msg }}</span>'
+})
+
+// 在使用组件的时候然后向它的属性中传入一个普通字符串：
+
+<child msg="hello!"></child>
+```
+
+>* 动态传递数据 v-bind:msg-child='msgParent'
+
+```html
+<div>
+  <input v-model="parentMsg">
+  <br>
+  <child v-bind:my-message="parentMsg"></child>
+</div>
+
+// 可简写为
+  <child :my-message="parentMsg"></child>
+
+```
+
+#### 同步传递数据, 或单次绑定数据
+
+子组件接受父组件的数据, 但是不会影响到父组件, 
+如果子组件数据的改变要同步到父组件, 可以用修饰符'sync','once'
+
+
+#### 局部注册
+
+不需要全局注册每个组件。可以让组件只能用在其它组件内，用实例选项 components 注册：
+
+```javascript
+var Child = Vue.extend({ /* ... */ })
+
+var Parent = Vue.extend({
+  template: '...',
+  components: {
+    // <my-component> 只能用在父组件模板内
+    'my-component': Child
+  }
+})
+```
+
+```javascript
+// 父组件中
+
+ <p>
+    父组件中的msgParent的值: <input type="text" v-model='msgParent' />
+</p>
+<p>{{ msgParent }}</p>
+// 1. 此时只绑定了字符串, 非动态绑定, 所以子组件中会渲染字符串 'msgParent' , 且不会跟随父组件的值的改变而变化
+<page-one-one msg-child='msgParent'></page-one-one>
+
+// 2. 动态绑定, 父组件中msgParent值的改变会同步到子组件中, 子组件中 msgChild 值的改变只能影响子组件的作用域, 不影响父组件
+<page-one-one :msg-child='msgParent'></page-one-one>
+
+// 3. 修饰符 sync 表示双向绑定, 此时父组件的 msgParent 与子组件的 msgChild 变量同步, 子组件的改变能影响父组件
+<page-one-one :msg-child.sycn='msgParent'></page-one-one>
+
+// 4. 修饰符 once 首次绑定后不随父子组件中的值的变化而变化, 默认值就是once
+<page-one-one :msg-child.once='msgParent'></page-one-one>
+
+
+Vue.extend('parentComponent',{
+	data () {
+		return {
+			 msgParent : '我是msgParent'
+		}
+	}
+})
+
+/******/
+
+// 子组件中
+
+<h3>通过prop同步父组件中的数据</h3>
+<p>{{ msgChild }}</p>
+<p>通过input修改子组件中props属性绑定的值</p>
+<p>
+    <input type="text" v-model='msgChild'/>
+</p>
+
+
+Vue.extent('childComponent',{
+	data () {
+		return {
+
+		}
+	},
+	// msgChild 在props属性中, 所以子组件中的msgChild 会到属性中去寻找值
+	props : ['msgChild'] 
+})
+
+```
+#### props 属性验证类型
+
+当props中的属性需要验证类型时, props 是对象格式
+
+```javascript
+
+// 父组件中
+
+<page-one-one :msg-child.sync='msgParent'></page-one-one>
+
+
+Vue.extend('parentComponent',{
+	data () {
+		return {
+			 msgParent : '我是msgParent'
+		}
+	}
+})
+
+/***********/
+
+// 子组件中
+
+<h3>通过prop同步父组件中的数据</h3>
+<p>{{ msgChild }}</p>
+<p>通过input修改子组件中props属性绑定的值</p>
+<p>
+    <input type="text" v-model='msgChild'/>
+</p>
+
+
+Vue.extent('childComponent',{
+	data () {
+		return {
+
+		}
+	},
+	// msgChild 在props属性中, 所以子组件中的msgChild 会到属性中去寻找值	
+	// 数据类型验证
+	props : {
+		// 'msgChild' : String, // 只允许字符串
+		// 'msgChild' : [String, Number], // 允许多种类型
+		// 'msgChild' : {
+			type : String,
+			required : true  // 只允许字符串, 且该属性是必须的
+		}, 
+
+		// 'msgChild' : {
+			type : Number,
+			default : 99  // 该属性是数值类型, 且默认值是99 (即父组件中没有定义该值时值为99, 当父组件中定义该值时会覆盖掉子组件中的默认值)
+
+		}, 
+		// 对象/数组的默认值应当由一个函数返回
+	    propD: {
+	      type: Object,
+	      default: function () {
+	        return { msg: 'hello' }
+	      }
+	    },
+	    // 指定这个 prop 为双向绑定
+	    // 如果绑定类型不对将抛出一条警告
+	    propE: {
+	      twoWay: true
+	    },
+	    // 自定义验证函数
+	    propF: {
+	      validator: function (value) {
+	        return value > 10
+	      }
+	    },
+	    // 转换函数（1.0.12 新增）
+	    // 在设置值之前转换值
+	     // 在该函数内不要修改值的值, 特别是双向绑定的时候, 否则子组件的改变同步到父组件再同步到子组件会进入死循环
+	    propG: {
+            coerce (val) {
+                return val + '' // 将值转为字符串.
+            }
+	    },
+	    propH: {
+	      coerce: function (val) {
+	        return JSON.parse(val) // 将 JSON 字符串转换为对象
+	      }
+	    }
+
+	}
+})
+
+
+```
+
+type 可以是下面原生构造器：
+
+String
+Number
+Boolean
+Function
+Object
+Array
+type 也可以是一个自定义构造器，使用 instanceof 检测。
+
+当 prop 验证失败了，Vue 将拒绝在子组件上设置此值，如果使用的是开发版本会抛出一条警告。
+
+
+
+#### 注册语法糖
+
+为了让事件更简单，可以直接传入选项对象而不是构造器给 Vue.component() 和 component 选项。Vue.js 在背后自动调用 Vue.extend()：
+
+```html
+// 在一个步骤中扩展与注册
+Vue.component('my-component', {
+  template: '<div>A custom component!</div>'
+})
+
+// 局部注册也可以这么做
+var Parent = Vue.extend({
+  components: {
+    'my-component': {
+      template: '<div>A custom component!</div>'
+    }
+  }
+})
+
+```
+### 父子组件的通信
+
+子组件通过 this.$parent 能够访问到父组件,  或 this.$root 访问到根组件
+
+父组件通过 this.$children 能够访问到子组件.
+
+尽管可以访问父链上任意的实例，不过子组件应当避免直接依赖父组件的数据，尽量显式地使用 props 传递数据。另外，在子组件中修改父组件的状态是非常糟糕的做法，因为：
+
+这让父组件与子组件紧密地耦合；
+
+只看父组件，很难理解父组件的状态。因为它可能被任意子组件修改！理想情况下，只有组件自己能修改它的状态。
+
+### vue 中的自定义事件
+
+同angular一样. 
+vue中的自定义事件相关方法有4个
+
+通过自定义事件系统可以实现不同组件间的通信
+
+>* $on 监听事件
+>* $emit 在元素身上触发事件
+>* $broadcast 广播事件，事件向下传导给所有的后代。
+>* $dispatch 派发事件，事件沿着父链冒泡；
+
+### 子组件索引 v-ref
+
+通过 vm.$refs.索引 可以访问到子组件
+
+尽管有 props 和 events，但是有时仍然需要在 JavaScript 中直接访问子组件。为此可以使用 v-ref 为子组件指定一个索引 ID。例如：
+
+```html
+<div id="parent">
+  <user-profile v-ref:profile></user-profile>
+</div>
+var parent = new Vue({ el: '#parent' })
+// 访问子组件
+var child = parent.$refs.profile
+```
+
+v-ref 和 v-for 一起用时，ref 是一个数组或对象，包含相应的子组件。
+
+
+### slot 属性
+
+把未知元素插入到模板中. 类似angular的 transclude 属性
+
+```html
+// 例子
+
+// 子组件中的模板
+<template>
+	<!-- slot 标签. 当子组件在父组件中使用时,如果子组件标签内有内容会插入到slot标签中 -->
+   <slot>如果没有内容显示这个.</slot>
+</template>
+
+// 父组件中使用方式
+<parent-component>
+	<p>我是父组件</p>
+	<child-component :msg-child.sync='msgParent' v-show='showChild'>
+	    <p>我是父组件中插入到子组件中的内容1</p>
+	    <p>我是父组件中插入到子组件中的内容2</p>
+	</child-component>
+</parent-component>
+
+```
+
+### 具名slot
+
+< slot > 元素可以用一个特殊特性 name 配置如何分发内容。多个 slot 可以有不同的名字。具名 slot 将匹配内容片段中有对应 slot 特性的元素。
+
+仍然可以有一个匿名 slot，它是默认 slot，作为找不到匹配的内容片段的回退插槽。如果没有默认的 slot，这些找不到匹配的内容片段将被抛弃。
+
+```html
+<!--  子组件中的模板 -->
+<template>
+	<div>
+	  <slot name="one"></slot>
+	  <slot></slot>
+	  <slot name="two"></slot>
+	</div>
+</template>
+
+<!-- 父组件中使用 -->
+<parent-component>
+	<p>我是父组件</p>
+	<child-component>
+	    <p slot="one">One</p>
+  		<p slot="two">Two</p>
+ 		<p>Default A</p>
+	</child-component>
+</parent-component>
+
+<!-- 渲染结果为： -->
+
+<div>
+  <p slot="one">One</p>
+  <p>Default A</p>
+  <p slot="two">Two</p>
+</div>
+
+```
+### 动态渲染组件 v-bind:is='component' 属性
+
+多个组件可以使用同一个挂载点，然后动态地在它们之间切换。使用保留的 <component> 元素，动态地绑定到它的 is 特性：
+
+```javascript
+
+new Vue({
+  el: 'body',
+  data: {
+    currentView: 'home'
+  },
+  components: {
+    home: { /* ... */ },
+    posts: { /* ... */ },
+    archive: { /* ... */ }
+  }
+})
+
+<component :is="currentView">
+  <!-- 组件在 vm.currentview 变化时改变 -->
+</component>
+```
+
+### keep-alive
+
+如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。为此可以添加一个 keep-alive 指令参数：
+
+```html
+
+<component :is="currentView" keep-alive>
+  <!-- 非活动组件将被缓存 -->
+</component>
+```
+
+### activate 钩子
+
+在切换组件时，切入组件在切入前可能需要进行一些异步操作。为了控制组件切换时长，给切入组件添加 activate 钩子：
+
+```javascript
+
+Vue.component('activate-example', {
+  activate: function (done) {
+    var self = this
+    loadDataAsync(function (data) {
+      self.someData = data
+      done()
+    })
+  }
+})
+```
+
+注意 activate 钩子只作用于动态组件切换或静态组件初始化渲染的过程中，不作用于使用实例方法手工插入的过程中。
+
+### transition-mode
+
+transition-mode 特性用于指定两个动态组件之间如何过渡。
+
+在默认情况下，进入与离开平滑地过渡。这个特性可以指定另外两种模式：
+
+in-out：新组件先过渡进入，等它的过渡完成之后当前组件过渡出去。
+
+out-in：当前组件先过渡出去，等它的过渡完成之后新组件过渡进入。
+
+示例：
+
+```html
+<!-- 先淡出再淡入 -->
+<component
+  :is="view"
+  transition="fade"
+  transition-mode="out-in">
+</component>
+
+.fade-transition {
+  transition: opacity .3s ease;
+}
+.fade-enter, .fade-leave {
+  opacity: 0;
+}
+```
+
+### 组件和 v-for
+
+自定义组件可以像普通元素一样直接使用 v-for：
+
+```html
+<my-component v-for="item in items"></my-component>
+<!-- 但是，不能传递数据给组件，因为组件的作用域是孤立的。为了传递数据给组件，应当使用 props： -->
+
+<my-component
+  v-for="item in items"
+  :item="item"
+  :index="$index">
+</my-component>
+
+<!-- 不自动把 item 注入组件的原因是这会导致组件跟当前 v-for 紧密耦合。显式声明数据来自哪里可以让组件复用在其它地方。 -->
+
+```
+
+### 编写可复用组件
+
+在编写组件时，记住是否要复用组件有好处。一次性组件跟其它组件紧密耦合没关系，但是可复用组件应当定义一个清晰的公开接口。
+
+Vue.js 组件 API 来自三部分——prop，事件和 slot：
+
+prop 允许外部环境传递数据给组件；
+
+事件 允许组件触发外部环境的 action；
+
+slot 允许外部环境插入内容到组件的视图结构内。
+
+使用 v-bind 和 v-on 的简写语法，模板的缩进清楚且简洁：
+
+```html
+<my-component
+  :foo="baz"
+  :bar="qux"
+  @event-a="doThis"
+  @event-b="doThat">
+  <!-- content -->
+  <img slot="icon" src="...">
+  <p slot="main-text">Hello!</p>
+</my-component>
+```
+
+### 异步组件
+
+在大型应用中，我们可能需要将应用拆分为小块，只在需要时才从服务器下载。为了让事情更简单，Vue.js 允许将组件定义为一个工厂函数，动态地解析组件的定义。Vue.js 只在组件需要渲染时触发工厂函数，并且把结果缓存起来，用于后面的再次渲染。例如：
+
+```javascript
+Vue.component('async-example', function (resolve, reject) {
+  setTimeout(function () {
+    resolve({
+      template: '<div>I am async!</div>'
+    })
+  }, 1000)
+})
+```
+
+工厂函数接收一个 resolve 回调，在收到从服务器下载的组件定义时调用。也可以调用 reject(reason) 指示加载失败。这里 setTimeout 只是为了演示。怎么获取组件完全由你决定。推荐配合使用 Webpack 的代码分割功能：
+
+```javascript
+
+Vue.component('async-webpack-example', function (resolve) {
+  // 这个特殊的 require 语法告诉 webpack
+  // 自动将编译后的代码分割成不同的块，
+  // 这些块将通过 ajax 请求自动下载。
+  require(['./my-async-component'], resolve)
+})
+
+```
+### 递归组件
+
+组件在它的模板内可以递归地调用自己，不过，只有当它有 name 选项时才可以：
+
+```javascript
+
+var StackOverflow = Vue.extend({
+  name: 'stack-overflow',
+  template:
+    '<div>' +
+      // 递归地调用它自己
+      '<stack-overflow></stack-overflow>' +
+    '</div>'
+})
+
+```
+
+上面组件会导致一个错误 “max stack size exceeded”，所以要确保递归调用有终止条件。当使用 Vue.component() 全局注册一个组件时，组件 ID 自动设置为组件的 name 选项。
+

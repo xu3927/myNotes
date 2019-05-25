@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>css3的选择器及一些属性</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	<style type="text/css">
+		
+		div.xuanzefu p{
+		width: 100px;
+		height: 20px;
+		margin-top: 10px;
+	}
+		div.xuanzefu h3~p{
+			background-color: red;
+		}		
+		div.xuanzefu div{
+			width: 100%;
+			height: 100%;
+		}
+
+	/*表示选择p标签中类名属性中以para开头的标签.*/
+	div.shuxingxuanze p[class ^= "para"]{
+		color: red;
+	}
+
+
+	/*表示选择p标签中类名属性中以para结尾的标签.
+	可以选择上 ;  */
+	div.shuxingxuanze p[class $= "para"]{
+		background-color: yellow;
+	}
+
+	
+	/*示类名值中包含para, 可以出现在类名中的任意部分*/
+	div.shuxingxuanze p[class *= "para"]{
+		font-size: 20px;
+	}
+
+
+	</style>
+</head>
+<body>
+	<h1>I css3的选择器</h1>
+	<h2>1. 关系选择符</h2>
+	<p>css3中新增的关系选择符有: </p>
+	<p>
+		&gt 只能选择儿子,不能选择其他后代; <br>
+		+ 选择一个兄弟, next sibling; <br>
+		~ 选择所有的兄弟, next all siblings;  <br>
+		注意:用关系选择符的时候不要加空格,虽然加空格也不错,但是css中的空格有后代的意思,所以容易误解;
+	</p>
+	<h4>1.1 儿子选择符 " >"</h4>
+	<p class="red">.box>p</p>
+	<p>表示选择类名为box的元素的儿子p</p>
+	<p>Ie7开始兼容</p>
+
+	<h4>1.2 下一个兄弟选择" + "</h4>
+	<p class="red">h3+p{ color : red ;}</p>
+	<p>选择h3标签的下一个兄弟元素p, 并且这个p需要是h3的第一个兄弟</p>
+	<div class="daima">
+		&lt h3 &gt &lt /h3 &gt <br>
+		&ltdiv &gt &lt /div &gt <br>
+		&lt p &gt &lt/p &gt <br>
+		//这种情况, h3+p{ } 不能选择到p.
+		// h3+div{ } 可以选择到div
+	</div>
+
+	<h4>1.3  选择后面所有兄弟"~" next all siblings</h4>
+	<p class="red">h3~p</p>
+	<p>表示选择页面上所有的 h3元素后面的p, 可以跨选择器</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+		//css样式
+		div.xuanzefu p{
+		width: 100px;
+		height: 20px;
+		margin-top: 10px;
+		}
+		div.xuanzefu h3~p{
+			background-color: red;
+		}	
+
+
+		//html结构
+		<h3>h 1</h3>
+		<p>p1</p>
+		<p>p2</p>
+		<h3>h 2</h3>
+		<div>div</div>
+		<p>p3</p>
+		<div>
+			<p>p4</p>
+		</div>
+		<p>p5</p>				</script>
+	</div>
+	<p>结果:</p>
+	<div class="jieguo">
+	<div class='xuanzefu'>
+		<h3>h 1</h3>
+		<p>p1</p>
+		<p>p2</p>
+		<h3>h 2</h3>
+		<div>div</div>
+		<p>p3</p>
+		<div>
+			<p>p4</p>
+		</div>
+		<p>p5</p>
+	</div>
+	</div>
+
+	<p class="bold f20">注意: 在jQuery中 也可以使用以上的选择符, 没有兼容性问题</p>
+
+
+
+	<h2>2. 属性选择器</h2>
+	<p>css2.1中, 只能通过id, class 属性来选择元素;在css3中可以通过任意属性来选择元素了</p>
+	
+	<h3>2.1 语法: 属性选择器用方括号 [ ] </h3>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	/*css2.1中的id选择器*/
+	div.box{  }
+	div[class="box"]{ }
+	/*css3中支持任意属性*/
+	img[src = "ulr"]{ }
+	/*css3中支持自定义属性*/
+	div[xuchao = "3927"]{ } 	</script> 	</div>
+
+	
+	<h3>2.2 css3中选择器的扩展</h3>
+	<h4>2.2.1  <b class="red">^</b>表示以val开头</h4>
+	<p class="red">p[class ^= "para"]{ }</p>
+	<p>表示所有类名中包含以para开头的类名的元素</p>
+	<h4>2.2.2 <b class="red"> $ </b>表示以val结尾的</h4>
+	<p class="red">p[class $= "para"]{ } </p><p>表示所有类名中包含以para结尾的类名的元素</p>
+
+	<h4>2.2.3 <b class="red">*</b>表示属性值中包含val,可以出现在属性值中的任意部位</h4>
+	<p class="red">p[class *= "para"]{ }</p>
+	<p>表示类名值中包含para, 可以出现在类名中的任意部分</p>
+	
+	<h4>2.2.4 <b class="red">| </b>表示以val开头,后面紧跟一个"-"</h4>
+	<p > p[class <b class="red">|= </b>"para"]{ }</p>
+	<p>可以选择类名为 "para-haha" "para-" 之类的元素</p>
+
+	<h4>2.2.5 <b class="red">~</b> 表示选择val是独立词汇的元素</h4>
+	<p class="red"> p[class ~= "para"] </p>
+	<p>等价于 p.para{ } <br>
+		表示选择类名中含有para的元素p</p>
+
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+	<style type="text/css">
+
+	/*表示选择p标签中类名属性中以para开头的标签.*/
+	p[class ^= "para"]{
+		color: red;
+    }
+
+	/*表示选择p标签中类名属性中以para结尾的标签.
+	可以选择上 ;  */
+	p[class $= "para"]{
+		background-color: yellow;
+	}
+	
+	/*示类名值中包含para, 可以出现在类名中的任意部分*/
+	p[class *= "para"]{
+		font-size: 20px;
+	}	
+	</style>
+
+	/*html结构*/
+	<p class="para">1</p>
+	<p class="para-first">2</p>
+	<p class="parahaha hehepara">3</p>
+	<p class="lastpara">4</p>
+	<p class="par haha">5</p>  		</script>
+</div>
+	
+	<p>结果:</p>
+	<div class="jieguo shuxingxuanze">
+	<p class="para">1</p>
+	<p class="para-first">2</p>
+	<p class="parahaha hehepara">3</p>
+	<p class="lastpara">4</p>
+	<p class="par haha">5</p>
+		
+	</div>
+
+	<h3>3. 儿子选择器/序号选择器</h3>
+	<p>这类选择器用<b class="red">" : "</b>冒号来选择一个元素的儿子元素</p>
+	
+	<h3>3.1 first-child, last-child</h3>
+	<div class="daima pd red">
+		p : last-child
+	</div>
+	<p>只要一个p是页面上某元素的最后一个儿子就选择它 <br>
+		会选择页面上所有的是最后一个儿子的p
+	</p>
+
+	<h3>3.2 儿子选择器通过序号选择<b class="red"> ( nth-child( 1 ) )</b></h3>
+	<p class="red">3.2.1 p:nth-child(1)</p>
+	<p>p是某个元素的第一个子元素的话就选择它</p>
+	<p class="red">3.2.2 p:nth-child(3n+8)</p>
+	<p> 只要一个p是某一个元素的第8、11、14、17……个儿子，那么选择它</p>
+	<p class="red">3.2.3 p:nth-last-child(3) </p>
+	<p> 只要一个p是某个元素的倒数第3个儿子，那么选择它 </p>
+	<p class="red">3.2.4 .haha:nth-of-type(2) </p>
+	<p>只要一个元素有haha类并且是同种标签的第2个儿子，那么选择它</p>
+	<p>nth-of-type 表示同类型标签</p>
+
+	<p class="red">3.2.5 p:nth-child(4)~p</p>
+	<p>从第5个p开始后面所有个人都选中：</p>
+	
+
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	//1. 选择器 
+	p:first-child{
+		color:red;
+	}
+	p:last-child{
+		color:blue;
+	}
+
+	//html结构
+	<p>A</p> //变红
+	<div>
+		<p>B</p>  //变红
+		<p>C</p>  //变蓝
+	</div>
+	<p>D</p>
+	<ul>
+		<li>		
+			<li>
+				<p>E</p>  //变蓝
+			</li>
+			<li>
+				<p>F</p>  //变蓝
+			</li>				
+		</li>
+	</ul>
+
+
+	//3. 选择器
+	p:nth-child(3n){
+		background-color: red;
+	}
+
+	//html结构
+	<div>
+		<p></p>
+		<p></p>
+		<p></p>  //变红
+		<p></p>
+		<p></p>
+		<p></p> //变红
+		<p></p>
+	</div>
+	-------
+	<div>
+		<p></p>
+		<p></p>
+		<p></p> //变红
+		<p></p>
+		<p></p>
+		<p></p> //变红
+		<p></p>
+	</div>
+
+
+
+	//4 选择器 , 选择有haha类并且是同种标签的第2个儿子的标签
+	.haha:nth-of-type(2){
+		background-color: red;
+	}
+
+	//html结构
+	<p class="haha"></p>
+	<p class="haha"></p>  //变红
+	<p class="haha"></p>
+	<div>
+		<h3></h3>
+		<h3 class="haha"></h3> //变红
+		<h3 class="haha">h3</h3>
+		<h3 class="haha">h3</h3>
+		<h3 class="haha">h3</h3>
+		<h3 class="haha">h3</h3>
+	</div> 	
+
+	//5 选择器, 从第5个儿子开始选择后面所有p
+	p:nth-child(4)~p{
+		background-color: red;
+	}
+
+	//html结构
+	<div>div</div>
+	<p></p>
+	<div>div</div>
+	<p></p>
+	<p></p>  //变红
+	<p></p>  //变红
+	<p></p>  //变红
+	<p></p>  //变红
+	<p></p>  //变红
+	<p></p>  //变红
+	</script>
+</div>
+
+
+	
+
+	
+
+
+
+	
+
+	<h1>II css3中的一些属性</h1>
+	<h3>css3中的用过的一些杂七杂八的属性方法</h3>
+	<h3>1. <b class="red"> text-overflow : ellipsis ; </b> : 设置字体溢出段落后发生的事情.</h3>
+	<p>值有:</p>
+	<p ><b class="red">text-overflow : clip ; </b> 默认值, 溢出时直接修剪文本, 不设置代替符号</p>
+	<p><b class="red">text-overflow : ellipsis ; </b> 表示文本溢出时修剪文本, 并用省略号来代表被修剪的文本</p>
+	<p><b class="red">text-overflow : string ; </b>表示溢出时修剪文本, 用指定的字符串来代表被修剪的文本</p>
+
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//css样式
+	/*单行文本的溢出隐藏*/
+	.txtoverflow p:nth-child(2){
+		width: 70%;
+		border: 1px solid #f2f2f2;
+		overflow: hidden;
+		/*让段落内的文本一行显示, 不换行*/
+		white-space:nowrap; 
+		/*溢出的文本隐藏并用省略号代表被隐藏的文本*/
+		text-overflow:ellipsis;
+	}
+	/*多行文本的溢出隐藏*/
+	.txtoverflow p:nth-child(4){
+		width: 70%;
+		border: 1px solid #f2f2f2;
+		overflow: hidden;
+		/*溢出的文本隐藏并用省略号代表被隐藏的文本*/
+		text-overflow:ellipsis;
+		/*设置盒子为弹性盒模型*/
+		display:-webkit-box;
+		/*box-orient:设置盒子内的元素的排列方式(水平或垂直排列);*/
+		/*vertical值表示子元素从上向下垂直排列*/
+		-webkit-box-orient: vertical;
+		/*clamp : 夹紧; 设置一共显示几行*/
+		-webkit-line-clamp: 3;
+	}
+
+	//html结构
+	<p>单行文本的省略号:</p>
+	<p>很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多</p>
+	<p>多行文本的省略号:</p>
+	<p>很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多字很多文字很多文字很多</p>
+	</script>
+</div>
+
+	<style type="text/css">
+	.txtoverflow{
+		width: 500px;
+		
+	}
+	/*单行文本的溢出隐藏*/
+	.txtoverflow p:nth-child(2){
+		width: 70%;
+		border: 1px solid #f2f2f2;
+		overflow: hidden;
+		/*让段落内的文本一行显示, 不换行*/
+		white-space:nowrap; 
+		/*溢出的文本隐藏并用省略号代表被隐藏的文本*/
+		text-overflow:ellipsis;
+	}
+	/*多行文本的溢出隐藏*/
+	.txtoverflow p:nth-child(4){
+		width: 70%;
+		border: 1px solid #f2f2f2;
+		overflow: hidden;
+		/*溢出的文本隐藏并用省略号代表被隐藏的文本*/
+		text-overflow:ellipsis;
+		/*设置盒子为弹性盒模型*/
+		display:-webkit-box;
+		/*box-orient:设置盒子内的元素的排列方式(水平或垂直排列);*/
+		/*vertical值表示子元素从上向下垂直排列*/
+		-webkit-box-orient: vertical;
+		/*clamp : 夹紧; 设置一共显示几行*/
+		-webkit-line-clamp: 3;
+	}
+	</style>
+	<div class="bd pd txtoverflow">
+		<p>单行文本的省略号:</p>
+		<p>很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多</p>
+		<p>多行文本的省略号
+			:</p>
+		<p>很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多文字很多字很多文字很多文字很多</p>
+	</div>
+
+
+
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+	
+</body>
+</html>

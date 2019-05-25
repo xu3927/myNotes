@@ -1,0 +1,682 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>js中比较重要的知识和重要模型</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel='stylesheet' type='text/css' href='css/代码着色-jsEmacs.css'/>
+	<link rel="stylesheet" type="text/css" href="css/base.css" />
+	
+<style type="text/css">
+	.box1{
+		width: 500px;
+		height: 300px;
+		border: 2px solid #ccc;
+		position: relative;
+	}
+	.box2{
+		width: 50px;
+		height: 50px;
+		background-color: #ff8;
+		position: absolute;
+	}
+	.box2:hover{
+		cursor: pointer;
+	}
+	
+	.box3{
+		width: 500px;
+		height: 300px;
+		border: 2px solid #ccc;
+		position: relative;
+	}
+	.box3:hover{
+		cursor: crosshair;
+	}
+	.gungunping{
+		width: 700px;
+		height: 300px;
+		border: 5px solid #999;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		overflow: hidden;
+	}
+	.gungunping ul{
+		list-style: none;
+		height: 3500px;
+		width: 700px;
+		margin: 0;
+		padding: 0;
+	}
+	.gungunping ul li{
+		width: 700px;
+		height: 300px;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		display: none;
+	}
+	.gungunping ul li.no0{
+		background-color: yellowgreen;
+		display: block;
+	}
+	.gungunping ul li.no1{
+		background-color: #3ae;
+	}
+	.gungunping ul li.no2{
+		background-color: #aae;
+	}
+	.gungunping ul li.no3{
+		background-color: #fee;
+	}
+	.gungunping ul li.no4{
+		background-color: #eaf;
+	}
+	.gungunping ul li img{
+		display: none;
+		/*position: absolute;*/
+		
+	}
+
+</style>
+
+
+
+</head>
+<body>
+	<h1>javascript中比较重要的知识和重要模型</h1>
+	<h2 class="f32">I 重要知识</h2>
+	<h3>1. JS中的同步和异步</h3>
+	<p>程序按语句的顺序依次执行为同步(synchronous)</p>
+	<p>程序遇到耗费时间的语句会先执行后面的语句为异步(Asynchronous)</p>
+	<p class="red">JS中实现异步的语句有, setInterval, setTimeout, Ajax, Node.js...</p>
+	<h3>2. 回调函数</h3>
+	<p>回调函数是异步的语句执行完毕之后要做的事情</p>
+	<p>一般在异步的语句中的合适位置进行调用</p>
+	
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//回调函数的用法
+        var count = 0;
+        //异步语句
+        var timer = setInterval(function(){
+            console.log("★");
+            count++;
+            if(count == 300){
+                clearInterval(timer);
+                callback();
+            }
+        },20);
+ 
+        //回调函数
+        function callback(){
+            alert("全部星星输出完毕");
+        }	
+	</script>
+</div>
+
+
+	<h3>3. <b class="red">setTimeout()</b></h3>
+	<p>setInterval(fn,t)是设置定时器,每间隔t毫秒执行一次</p>
+	<p>setTimeout(fn,t)是设置延时器,t毫秒后再执行函数</p>
+	<p>setInterval和setTimeout都是window对象的方法, 可以不写window</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//setTimeout的设置与清除
+    var otimeout = document.getElementById("timeout_shuchu");
+    var timeout_btn = document.getElementById("timeout_btn");
+    var cltimeout_btn = document.getElementById("cltimeout_btn");
+    var timeout_timer;
+    timeout_btn.onclick = function(){
+        //设置延时器
+        timeout_timer = 
+        setTimeout(function(){
+        otimeout.innerHTML += "★"+ "<br />";
+        },500)
+    }
+    //清除延时器
+    cltimeout_btn.onclick = function(){
+        clearTimeout(timeout_timer);
+    }
+	</script>
+</div>
+
+	<a href="javascript:;" class="btn" id="timeout_btn" >延迟500ms输出"★"</a>
+	<a href="javascript:;" class="btn" id="cltimeout_btn">清除延时器</a>
+	<div class="jieguo" id="timeout_shuchu">
+		在这里输出结果: <br />
+	</div>
+	<h3>4. 函数节流</h3>
+	<p>所谓函数节流,就是我们希望一些函数不要连续的触发. 甚至规定一个函数间隔触发时间,就是函数节流</p>
+	<h4>方法1: 给函数上锁lock</h4>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//函数节流方法
+//给函数上锁
+var lock = true; //true上锁跳出,false执行
+setInterval(function(){     
+    if(lock) return;
+    ....
+    ....
+    lock = false; //语句执行完毕后更改lock的值  
+	},200)
+	</script>
+</div>
+
+	<h4>方法2:  在运动框架里增加判断是否在运动的属性,例如"isanimated"
+	</h4>
+	<p>元素在运动时,设为true. 运动结束设置为false;</p>
+	<h4>方法3: jQuery中的运动方法有stop属性</h4>
+	<p>stop(boolen,boolen),stop中有2个参数,都为布尔值. <br /> 
+		第一个参数表示是否停止当前的运动队列. <br />
+		第二个参数表示是否立即完成当前的动画</p>
+
+	<h3>5. js中跨标签的函数声明头提升</h3>
+	<p>js中函数声明头的提升不能跨script标签. </p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	&lt script type="text/javascript" &gt
+		fun();	//会报错，因为函数声明头的提升，不能跨<script> 标签
+	&lt /script &gt
+
+	&lt script type="text/javascript" &gt
+	 	function fun(){
+			alert("123");
+		}
+	&lt /script &gt
+	</script>
+</div>
+
+<h3>
+	6. js中静态变量的模拟 (static)
+</h3>
+<p>静态变量是被定义之后可以获得它的值但是不能对其进行修改的变量. </p>
+<p>js中模拟静态变量需要利用闭包, 把静态变量定义在闭包中, 只定义取值器,不定义赋值器, 来实现静态变量</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var Conf = (function(){
+		//在闭包内部定义的变量, 外界访问不到
+		var _conf = {
+			//这里存放的是静态变量的值.
+			MAX_NUM : 100,
+			COUNT : 1000,
+			obj{
+				a:1,
+				b:2
+			}
+		}
+		//通过将返回函数定义成取值器, 这样就能在外界通过该函数来访问到静态变量了.
+		return function(name){
+			return _conf[name];
+		}
+	}())	
+	//测试
+	var c = Conf("obj");
+	c.a = 3 ; //此时修改了c变量, 但是不影响闭包里面的变量
+	console.log(Conf("obj")); //还是{a : 1, b : 2}
+	</script>
+</div>
+
+<h3>
+	7. js中 this的指向
+</h3>
+<p class="hhns">
+	js中的this有4种情况:
+	1. 在全局中或普通的函数调用时,this指向window(全局对象)
+	2. 对象打点调用时, this指向该对象
+	3. apply和call可以设置this的指向为传入的第一个参数
+	4. 构造函数中的this指向与其调用时的情况有关.
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// 1.  普通情况
+	console.log(this);//输出window
+    
+    function foo(){
+        console.log(this);
+    }
+    foo();//输出window
+
+    // 2. 对象调用
+    var obj = {name:'test'};
+    
+    function foo(){
+        console.log(this);
+    }
+    obj.foo = foo;
+    
+    obj.foo();//输出obj 
+
+    // 3. call或apply调用时
+    var obj = {name:'test'};
+    
+    function foo(){
+        console.log(this);
+    }
+    
+    foo.call(obj);//输出obj
+    foo.apply(obj);//输出obj
+
+    //4. 构造函数中
+     function C(){
+        this.name = 'test';
+        this.age = 18;
+        console.log(this);
+    }
+    var c = new C();//输出 c
+    console.log(c);//输出 c 
+	
+	</script>
+</div>
+
+<h3>8. new 创建实例时的过程</h3>
+<p class="hhns">
+	
+	new Func() 会进行几个步骤
+	1. 创建一个空对象
+	2. 把这个空对象的原型指向函数Func的原型链
+	3. 把this绑定到这个空对象上
+	4. 返回这个空对象
+
+	构造函数中不允许有return;
+	如果有return值的话,若返回值是基本类型(Number,String,Boolean,undefined,null)时，会忽略掉此return并返回this(this引用的对象),如果返回值是引用类型(对象)，则返回该引用类型对象，this会被忽略
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	function NewFunc () {
+		//创建一个空对象
+		 var _obj = {};
+		 //把空对象的原型指向构造函数的原型
+		 if(func.prototype !== null){
+		 	_obj.__proto__ = func.prototype;
+		 } 
+		 //将对象作为函数的 this 传进去。如果有 return 出来东西是对象的话就直接返回 return 的内容，没有的话就返回创建的这个对象
+		 var ret = func.apply(_obj,Array.prototype.slice.call(arguments,1));
+		 //
+		 if((typeof ret === "object"  || typeof ret === "function" ) && ret !== null ){
+		 	return ret ; //如果原构造函数返回的是对象,且不是null 那么仍然返回这个对象
+		 }
+		 //如果原构造函数return值不是对象(值类型或没有return值), 那么就返回新创建的这个对象
+		 return obj;
+	}
+
+	</script>
+</div>
+
+<h3>9. 获取一个对象中的所有属性</h3>
+
+<div class="daima">
+<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+<script>
+    /*首先有个人*/
+    var Person = function(){
+        /*对象本身拥有的属性*/
+        this.name = '小明';
+    };
+
+    Person.prototype = {
+        /*通过原型继承的属性*/
+        age:10
+    };
+
+    var person  = new Person();
+
+    /*首先我们遍历下 student的属性*/
+    var forin = [];
+    for(var o in person){
+        forin.push(o);
+    }
+    console.log(forin);
+    /*这个时候我们发现  for in 的形式拿的是 所有的属性 包括  原型继承的*/
+    console.log(Object.keys(person));
+    /*发现  Object.keys 拿到的是  不包含 原型继承的  并且不包含非枚举属性*/
+    console.log('-------------------------------------');
+
+
+
+    /*什么是属性枚举性 enumerable  什么是非枚举属性*/
+
+    /*怎么定义非枚举属性 enumerable*/
+    Object.defineProperty(person,'sex',{value:'男',enumerable:false});
+    /*非枚举属性有什么特别*/
+    console.log(person.sex);
+    person.sex = '女';
+    console.log(person.sex);//说明什么？  非枚举属性   不能重新定义值
+    console.log('-------------------------------------');
+
+    
+    /*那么怎么获取枚举属性*/
+    console.log(Object.keys(person));
+    /*getOwnPropertyNames  获取自身的所有属性  不包含原型继承*/
+    console.log(Object.getOwnPropertyNames(person));
+
+    var fields = Object.getOwnPropertyNames(person);
+    /*  我们  两个  比价一下就可以了  getOwnPropertyNames keys */
+
+</script>
+
+</script>
+</div>
+
+
+
+	<h2 class="f32">II 重要模型</h2>
+
+	<h3>1 鼠标跟随拖拽模型(大盒子套小盒子)</h3>
+	<p>在点击的小盒子的时候得到鼠标位置与小盒子top值的差值deltaY, 利用这个值来得到鼠标在大盒子中的位置 </p>
+	<div class="box1" id="box1" >
+		<div class="box2" id="box2" ></div>
+	</div>
+	<div class="h30"></div>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//大小盒子鼠标拖拽模型
+    var obox1 = document.getElementById("box1");
+    var obox2 = document.getElementById("box2");
+     
+    obox2.onmousedown = function(event){
+    event = event||window.event;
+    var deltaY = event.clientY - obox2.offsetTop;
+    var deltaX = event.clientX - obox2.offsetLeft;
+        document.onmousemove = function(event){
+        event = event||window.event;
+ 
+        obox2.style.top = event.clientY - deltaY +"px";
+        obox2.style.left = event.clientX - deltaX+"px";
+        }
+        document.onmouseup = function(){
+            document.onmousemove = null;
+        }
+    }
+	</script>
+</div>
+
+
+	<h3>2 得到鼠标在当前盒子中的位置</h3>
+	<p>盒子到页面顶端的距离 - 页面卷动值可以得到盒子到浏览器顶端的距离, 让鼠标的clientY - 这个值就可以得到鼠标在盒子内的位置</p>
+	
+	<div class="box3" id="box3"></div>
+	
+	<div class="h30"></div>
+
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//得到鼠标在当前盒子中的位置
+    var obox3 = document.getElementById("box3");
+    obox3.onmousedown = function(event){
+        event = event||window.event;
+        var x = event.clientX - obox3.offsetLeft;
+        var y = event.clientY - (getAllTop(obox3) - document.body.scrollTop);
+        obox3.innerHTML = "x:"+x+" y:"+y;
+    }
+	</script>
+</div>
+
+
+
+	<h3>3 轮子,近似得到一个元素到页面顶端的距离</h3>
+
+	<p>遍历元素的所有定位参考父元素,得到各个定位父元素的offsetTop值累加就可以得到该元素到页面顶端的top值,但是这个值没有计算border</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//轮子: 得到一个元素到页面顶端的top值
+    function getAllTop(obj){
+        var alltop = obj.offsetTop;
+        while(obj.offsetParent){
+            console.log(alltop);
+            obj = obj.offsetParent;
+            alltop += obj.offsetTop;
+        }
+        return alltop;
+    }
+	</script>
+</div>
+
+
+	<h3>4 滚滚屏模型</h3>
+	<p>元素不同时间进场可以使用delay来对其设置延迟<br />
+	事件需要添加到鼠标滚轮事件上. <br />
+	由于火狐和其他浏览器监听方式不同,需要添加两个监听<br />CSS从小到大都是height:100%; 撑高为浏览器屏幕高度
+
+	</p>
+	<div class="gungunping" id="gungunping" >
+		<ul class="container">
+			<li class="no0">
+				no0
+			</li>
+			<li class="no1">no1
+				<img src="images/renwu/0.png" alt="" />
+				<img src="images/renwu/1.png" alt="" />
+				<img src="images/renwu/7.png" alt="" />
+			</li>
+			<li class="no2">no2</li>
+			<li class="no3">no3</li>
+			<li class="no4">no4</li>
+		</ul>
+	</div>
+	<div class="h20"></div>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//滚滚屏模型
+    var ogungunping = document.getElementById("gungunping");
+    var ogungunpinglis = ogungunping.getElementsByTagName('li');
+    //IE和高级浏览器的监听
+    ogungunping.onmousewheel = gunpinhandler;
+    //给火狐添加监听
+    ogungunping.addEventListener("DOMMouseScroll", gunpinhandler, false)
+ 
+    var gunpinidx = 0; //滚滚屏信号量
+    var lock = false;
+    function gunpinhandler(event){
+        event = event||window.event;
+        //阻止默认事件
+        if(event.preventDefault){
+            event.preventDefault();
+        }else{
+            event.returnValue = false;
+        }
+        //统一火狐和其他浏览器的方向
+        var direction;
+        if(event.wheelDelta){
+            direction= event.wheelDelta>0?1:-1;
+        }else if(event.detail){
+            direction = event.detail>0?-1:1;
+        }
+ 
+        //锁, 防运动积累
+        if (lock==true) return;
+        lock = true;
+        //滚轮向上滚动,图片上移
+        if(direction>0){
+         
+        $(".gungunping li").eq(gunpinidx).animate({"top":"-300px"},400,function(){
+                this.style.display= "none";
+        });
+        gunpinidx += direction;
+        if(gunpinidx>4)  gunpinidx =0;      
+        $(".gungunping li").eq(gunpinidx).css({"top":"300px","display":"block"});
+        $(".gungunping li").eq(gunpinidx).animate({"top":"0"},400,function(){
+            if(gunpinidx==1){
+                $(".gungunping li.no1 img").each(function(){
+                    $(this).delay($(this).index()*150).fadeIn(200);
+                })
+            }
+            lock = false;
+        });
+        }
+        //滚轮向下滚动,图片下移
+        if(direction<0){     
+        $(".gungunping li").eq(gunpinidx).animate({"top":"300px"},400,function(){
+            this.style.display= "none";
+        });
+        gunpinidx += direction;
+        if(gunpinidx<0)  gunpinidx =4;      
+        $(".gungunping li").eq(gunpinidx).css({"top":"-300px","display":"block"});
+        $(".gungunping li").eq(gunpinidx).animate({"top":"0"},400,function(){
+            lock = false;
+        });
+        }
+    }
+	</script>
+</div>
+
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+	<script type="text/javascript">
+
+	//函数节流方法
+	
+
+
+
+	//setTimeout的设置与清除
+	var otimeout = document.getElementById("timeout_shuchu");
+	var timeout_btn = document.getElementById("timeout_btn");
+	var cltimeout_btn = document.getElementById("cltimeout_btn");
+	var timeout_timer;
+	timeout_btn.onclick = function(){
+		//设置延时器
+		timeout_timer = 
+		setTimeout(function(){
+		otimeout.innerHTML += "★"+ "<br />";
+		},500)
+	}
+	//清除延时器
+	cltimeout_btn.onclick = function(){
+		clearTimeout(timeout_timer);
+	}
+
+	
+
+	//大小盒子鼠标拖拽模型
+	var obox1 = document.getElementById("box1");
+	var obox2 = document.getElementById("box2");
+	
+	obox2.onmousedown = function(event){
+	event = event||window.event;
+	var deltaY = event.clientY - obox2.offsetTop;
+	var deltaX = event.clientX - obox2.offsetLeft;
+		document.onmousemove = function(event){
+		event = event||window.event;
+
+		obox2.style.top = event.clientY - deltaY +"px";
+		obox2.style.left = event.clientX - deltaX+"px";
+		}
+		document.onmouseup = function(){
+			document.onmousemove = null;
+		}
+	}
+
+
+	//得到鼠标在当前盒子中的位置
+	var obox3 = document.getElementById("box3");
+	obox3.onmousedown = function(event){
+		event = event||window.event;
+		var x = event.clientX - obox3.offsetLeft;
+		var y = event.clientY - (getAllTop(obox3) - document.body.scrollTop);
+		obox3.innerHTML = "x:"+x+" y:"+y;
+	}
+
+
+
+
+	//轮子: 得到一个元素到页面顶端的top值
+	function getAllTop(obj){
+		var alltop = obj.offsetTop;
+		while(obj.offsetParent){
+			console.log(alltop);
+			obj = obj.offsetParent;
+			alltop += obj.offsetTop;
+		}
+		return alltop;
+	}
+
+	// ================================================
+	//滚滚屏模型
+	var ogungunping = document.getElementById("gungunping");
+	var ogungunpinglis = ogungunping.getElementsByTagName('li');
+	//IE和高级浏览器的监听
+	ogungunping.onmousewheel = gunpinhandler;
+	//给火狐添加监听
+	ogungunping.addEventListener("DOMMouseScroll", gunpinhandler, false)
+
+	var gunpinidx = 0; //滚滚屏信号量
+	var lock = false;
+	function gunpinhandler(event){
+		event = event||window.event;
+		//阻止默认事件
+		if(event.preventDefault){
+			event.preventDefault();
+		}else{
+			event.returnValue = false;
+		}
+		//统一火狐和其他浏览器的方向
+		var direction;
+		if(event.wheelDelta){
+			direction= event.wheelDelta>0?1:-1;
+		}else if(event.detail){
+			direction = event.detail>0?-1:1;
+		}
+
+		//锁, 防运动积累
+		if (lock==true) return;
+		lock = true;
+		//滚轮向上滚动,图片上移
+		if(direction>0){
+		
+		$(".gungunping li").eq(gunpinidx).animate({"top":"-300px"},400,function(){
+				this.style.display= "none";
+		});
+		gunpinidx += direction;
+		if(gunpinidx>4)	gunpinidx =0;		
+		$(".gungunping li").eq(gunpinidx).css({"top":"300px","display":"block"});
+		$(".gungunping li").eq(gunpinidx).animate({"top":"0"},400,function(){
+			if(gunpinidx==1){
+				$(".gungunping li.no1 img").each(function(){
+					$(this).delay($(this).index()*150).fadeIn(200);
+				})
+			}
+			lock = false;
+		});
+		}
+		//滚轮向下滚动,图片下移
+		if(direction<0){		
+		$(".gungunping li").eq(gunpinidx).animate({"top":"300px"},400,function(){
+			this.style.display= "none";
+		});
+		gunpinidx += direction;
+		if(gunpinidx<0)	gunpinidx =4;		
+		$(".gungunping li").eq(gunpinidx).css({"top":"-300px","display":"block"});
+		$(".gungunping li").eq(gunpinidx).animate({"top":"0"},400,function(){
+			lock = false;
+		});
+		}
+	}
+
+
+
+	</script>
+
+<!-- 
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+ -->
+<!-- 生成目录 -->
+<script type="text/javascript" src="js/buildCatalog.js"></script>
+
+</body>
+</html>

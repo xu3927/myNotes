@@ -1,0 +1,483 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>MVVM框架思想</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+		.ui-sliderbar{
+			width: 80%;
+			height: 18px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			position: relative;
+			margin: 35px 0;
+			
+		}
+		.ui-sliderbar .bar{
+			background-color: #ff0;
+			height: 18px;
+		}
+		.ui-sliderbar .btn{
+			background-color: #aac;
+			height: 28px;
+			width: 20px;
+			position: absolute;
+			top: -4px;
+			border-radius: 3px;
+		}
+		.ui-sliderbar .num_total{
+			display: block;
+			width: 50px;
+			height: 25px;
+			line-height: 25PX;
+			text-align: center;
+			font-size: 18px;
+			position: absolute;
+			top: -3PX;
+			right: -70px;
+			border: 1px solid #aaa;
+		}
+
+		.ui-sliderbar .num_up{
+			display: block;
+			width: 40px;
+			height: 20px;
+			text-align: center;
+			font-size: 18px;
+			vertical-align: center;
+			position: absolute;
+			top: -30px;
+			transform: translateX(-10PX);
+			border: 1px solid #aaa;
+		}
+
+
+		.ui-processBar {
+			width: 80%;
+			height: 18px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			position: relative;
+			margin: 15px 0;
+		}
+		.ui-processBar .bar{
+			background-color: #ff0;
+			height: 18px;
+			width: 50px;
+		}
+		
+
+	</style>
+</head>
+<body>
+	<h1>MVVM框架思想</h1>
+	<p>
+		MVVM（Model-View-ViewModel）框架的由MVP（Model-View-Presenter）模式与WPF结合演变过来的一种新型架构框架。
+	</p>
+<p class="hhns">
+三层结构
+Model：数据层
+View：视图层
+View-Model: 数据模型层
+</p>
+<p>
+	<img src="images/chatu/mvvm.png" alt="" />
+</p>
+<p class="hhns">
+viewModel可以调度view，也可以调度model
+View和model是分离的
+交互实现
+View想用mode数据，要通过viewmodel读取
+Mode的变化想更改view，要通过viewmodel
+</p>
+
+<div class="jieguo">
+	<div bind-data = "type : 'sliderBar',data:demo"></div>
+	<div bind-data = "type:'sliderBar',data:demo1" ></div>
+	<div bind-data = "type:'processBar',data:demo3"></div>
+	<div bind-data = "type:'sliderBar',data:demo4" ></div>
+</div>
+
+<h3>自己用MVVM写的一个滑动条</h3>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	/////////////////
+	// CSS样式
+	.ui-sliderbar{
+			width: 80%;
+			height: 18px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			position: relative;
+			margin: 35px 0;
+			
+		}
+		.ui-sliderbar .bar{
+			background-color: #ff0;
+			height: 18px;
+		}
+		.ui-sliderbar .btn{
+			background-color: #aac;
+			height: 28px;
+			width: 20px;
+			position: absolute;
+			top: -4px;
+			border-radius: 3px;
+		}
+		.ui-sliderbar .num_total{
+			display: block;
+			width: 50px;
+			height: 25px;
+			line-height: 25PX;
+			text-align: center;
+			font-size: 18px;
+			position: absolute;
+			top: -3PX;
+			right: -70px;
+			border: 1px solid #aaa;
+		}
+
+		.ui-sliderbar .num_up{
+			display: block;
+			width: 40px;
+			height: 20px;
+			text-align: center;
+			font-size: 18px;
+			vertical-align: center;
+			position: absolute;
+			top: -30px;
+			transform: translateX(-10PX);
+			border: 1px solid #aaa;
+		}
+
+
+		.ui-processBar {
+			width: 80%;
+			height: 18px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			position: relative;
+			margin: 15px 0;
+		}
+		.ui-processBar .bar{
+			background-color: #ff0;
+			height: 18px;
+			width: 50px;
+		}
+
+
+	/////////////////
+	//HTML部分
+	<div bind-data = "type : 'sliderBar',data:demo"></div>
+	<div bind-data = "type:'sliderBar',data:demo1" ></div>
+	<div bind-data = "type:'processBar',data:demo3"></div>
+	<div bind-data = "type:'sliderBar',data:demo4" ></div>
+
+
+	/////////////////
+	// js代码
+	//js中数据生成方法
+	var demo = {position : 80};
+	var demo1 = {position:30};
+	var demo3 = {position:70};
+	//带总量的滑动条
+	var demo4 = {position:38,total:500};
+
+	var bar1 = {position:50};
+
+	var VM  = (function(){
+		/**
+		 * 滚动条的VM模块
+		 * @dom: 	视图中的元素
+		 * @data：  视图中的模型数据
+		 */
+		// 第一步创建元素
+		// 第二步获取宽度
+		// 第三步将元素添加到页面中
+		// 第四步设置类名以及位置
+
+		var Method = {
+			sliderBar : function(dom,data){
+				dom.className = "ui-sliderbar";
+				var bar = document.createElement("div");
+				bar.className = 'bar';
+				var btn = document.createElement("div");
+				btn.className = 'btn';
+				var width = dom.offsetWidth;
+				var realWidth = (data.position || 100)/100 * width;
+				
+				//如果有data中total属性则创建有总值的滑动条
+				if(typeof data.total != "undefined" ){
+					//右侧的总量数值
+					var num_total = document.createElement("span");
+					num_total.className = "num_total";
+					num_total.innerHTML = data.total;
+					//滑块上面跟随滑动的数值
+					var num_up = document.createElement("span");
+					num_up.className = "num_up";			
+					//追加到dom中
+					dom.appendChild(num_total);
+					dom.appendChild(num_up);
+					setNumUp(data.position)
+
+				}
+			
+				//设置初始的位置
+				setPosition(realWidth);	
+				//绑定事件
+				bindEvent();
+
+				//把bar,btn追加到dom上
+				dom.appendChild(bar);
+				dom.appendChild(btn);
+
+				
+
+
+				function setPosition(w){
+					bar.style.width = w + "px";
+					btn.style.left = w - 10 + "px";
+					if(typeof data.total !== "undefined" ){			
+						num_up.style.left = w - 10 + "px";
+					}
+				}	
+
+				function setNumUp(num){
+					num_up.innerHTML = parseInt(num*100)/100 + "%";
+				}
+
+				function bindEvent () {
+					
+					btn.onmousedown = function(event){
+						//获取当前的位置
+						var deltaX = event.clientX - this.offsetLeft;
+						document.onmousemove = function(event){
+						var nowX = event.clientX - deltaX;
+						//控制边缘
+						if(nowX<=dom.offsetLeft + 10){
+							nowX = 10;
+						}else if(nowX>=dom.clientWidth - 10){
+							nowX = dom.clientWidth-5;
+						}
+						setPosition(nowX);
+						//设置滑块上面的数字
+						if(typeof data.total !== "undefined" ){
+							var num = btn.offsetLeft/(dom.clientWidth-15)*100;
+								setNumUp(num);
+							}
+						}		
+
+					}
+					document.onmouseup = function(){
+						document.onmousemove = null;
+					}
+					}
+
+			},
+
+			//进度条
+			processBar : function(dom,data){
+			dom.className = "ui-processBar";
+			var width = dom.offsetWidth;
+			var realWidth = width/100 * data.position;
+			//第一步建立内部的div元素
+			var bar = document.createElement("div");
+			bar.className = "bar";
+			bar.style.width = realWidth + "px";
+			//创建的div追加到dom中
+
+			dom.appendChild(bar);
+
+			}
+  		}
+
+		// 获取绑定的数据
+			function getBindData(dom){
+				var attr = dom.getAttribute("bind-data");
+			// 将字符串转化成对象
+			// var obj = eval('({'+attr+'})');
+			// 得到的对象数据
+				var obj = (new Function("return ({" + attr + "})"))();
+				Method[obj.type] && Method[obj.type](dom,obj.data);
+			}	
+
+		return function(){
+					//获取所有元素
+					var dom = document.getElementsByTagName("*");
+		// 保存页面中所有绑定bind-data的元素
+					var result = [];
+					for(var i = 0, len = dom.length; i < len ; i++){
+						if(dom[i].getAttribute("bind-data")){
+							result.push(dom[i]);
+						}
+					}
+					for(var i = 0 ;i<result.length; i ++ ){
+						getBindData(result[i]);
+					}
+				
+				}
+
+	})()
+
+	VM();
+
+	</script>
+</div>
+
+
+<script type="text/javascript">
+	//js中数据生成方法
+	var demo = {position : 80};
+	var demo1 = {position:30};
+	var demo3 = {position:70};
+	//带总量的滑动条
+	var demo4 = {position:38,total:500};
+
+	var bar1 = {position:50};
+
+	var VM  = (function(){
+		/**
+		 * 滚动条的VM模块
+		 * @dom: 	视图中的元素
+		 * @data：  视图中的模型数据
+		 */
+		// 第一步创建元素
+		// 第二步获取宽度
+		// 第三步将元素添加到页面中
+		// 第四步设置类名以及位置
+
+		var Method = {
+			sliderBar : function(dom,data){
+				dom.className = "ui-sliderbar";
+				var bar = document.createElement("div");
+				bar.className = 'bar';
+				var btn = document.createElement("div");
+				btn.className = 'btn';
+				var width = dom.offsetWidth;
+				var realWidth = (data.position || 100)/100 * width;
+				
+				//如果有data中total属性则创建有总值的滑动条
+				if(typeof data.total != "undefined" ){
+					//右侧的总量数值
+					var num_total = document.createElement("span");
+					num_total.className = "num_total";
+					num_total.innerHTML = data.total;
+					//滑块上面跟随滑动的数值
+					var num_up = document.createElement("span");
+					num_up.className = "num_up";			
+					//追加到dom中
+					dom.appendChild(num_total);
+					dom.appendChild(num_up);
+					setNumUp(data.position)
+
+				}
+			
+				//设置初始的位置
+				setPosition(realWidth);	
+				//绑定事件
+				bindEvent();
+
+				//把bar,btn追加到dom上
+				dom.appendChild(bar);
+				dom.appendChild(btn);
+
+				function setPosition(w){
+					bar.style.width = w + "px";
+					btn.style.left = w - 10 + "px";
+					if(typeof data.total !== "undefined" ){			
+						num_up.style.left = w - 10 + "px";
+					}
+				}	
+
+				function setNumUp(num){
+					num_up.innerHTML = parseInt(num*100)/100 + "%";
+				}
+
+				function bindEvent () {
+					
+					btn.onmousedown = function(event){
+						//获取当前的位置
+						var deltaX = event.clientX - this.offsetLeft;
+						document.onmousemove = function(event){
+						var nowX = event.clientX - deltaX;
+						//控制边缘
+						if(nowX<=dom.offsetLeft + 10){
+							nowX = 10;
+						}else if(nowX>=dom.clientWidth - 10){
+							nowX = dom.clientWidth-5;
+						}
+						setPosition(nowX);
+						//设置滑块上面的数字
+						if(typeof data.total !== "undefined" ){
+							var num = btn.offsetLeft/(dom.clientWidth-15)*100;
+								setNumUp(num);
+							}
+						}		
+
+					}
+					document.onmouseup = function(){
+						document.onmousemove = null;
+					}
+					}
+
+			},
+
+			//进度条
+			processBar : function(dom,data){
+			dom.className = "ui-processBar";
+			var width = dom.offsetWidth;
+			var realWidth = width/100 * data.position;
+			//第一步建立内部的div元素
+			var bar = document.createElement("div");
+			bar.className = "bar";
+			bar.style.width = realWidth + "px";
+			//创建的div追加到dom中
+
+			dom.appendChild(bar);
+
+			}
+  		}
+
+		// 获取绑定的数据
+			function getBindData(dom){
+				var attr = dom.getAttribute("bind-data");
+			// 将字符串转化成对象
+			// var obj = eval('({'+attr+'})');
+			// 得到的对象数据
+				var obj = (new Function("return ({" + attr + "})"))();
+				Method[obj.type] && Method[obj.type](dom,obj.data);
+			}	
+
+		return function(){
+					//获取所有元素
+					var dom = document.getElementsByTagName("*");
+		// 保存页面中所有绑定bind-data的元素
+					var result = [];
+					for(var i = 0, len = dom.length; i < len ; i++){
+						if(dom[i].getAttribute("bind-data")){
+							result.push(dom[i]);
+						}
+					}
+					for(var i = 0 ;i<result.length; i ++ ){
+						getBindData(result[i]);
+					}
+				
+				}
+
+	})()
+
+	VM();
+
+
+
+
+
+	</script>
+</body>
+</html>

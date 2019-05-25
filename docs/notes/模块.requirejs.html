@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>前端模块开发requirejs</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	
+<h1>前端模块开发requirejs</h1>
+<p>
+官网：<a href="http://requirejs.org/">http://requirejs.org/</a> <br />
+官网中文：<a href="http://www.requirejs.cn/">http://www.requirejs.cn/</a>
+</p>
+<p>
+ RequireJS 是一个前端的模块化管理的工具库，遵循AMD规范，它的作者就是AMD规范的创始人 James  Burke。所以说RequireJS是对AMD规范的阐述一点也不为过。
+
+</p>
+<p>
+	 RequireJS 的基本思想为：通过一个函数来将所有所需要的或者说所依赖的模块实现装载进来，然后返回一个新的函数（模块），我们所有的关于新模块的业务代码都在这个函数内部操作，其内部也可无限制的使用已经加载进来的以来的模块。
+</p>
+
+<h3>1. seajs 与 requirejs 的异同</h3>
+<p>
+1.1 seajs是以CMD规范设计 <br />
+Requirejs是以AMD规范设计的
+</p>
+<p>
+1.2 引入模块文件时候，seajs是根据seajs文件所在的目录， <br />
+requirejs是根据引用了require文件的script标签中data-main属性对应的文件所在的目录
+</p>
+<p>
+1.3	seajs中可以对define传递一个字符串参数定一个模块，但是requirejs不能
+</p>
+<h3>2. requirejs的引用</h3>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//引用方式
+&lt script type="text/javascript" data-main="js/app.js" src="lib/require.js"&gt&lt/script&gt
+
+	</script>
+</div>
+<p class="hhns">
+RequireJS API 存在于RequireJS载入时创建的命名空间requirejs下。它的API主要是下面三个函数:
+define– 该函数用于创建模块。每个模块拥有一个唯一的模块ID，它被用于RequireJS的运行时函数，define函数是一个全局函数，不需要使用requirejs命名空间.
+require– 该函数用于读取依赖。同样它是一个全局函数，不需要使用requirejs命名空间.
+require.config– 该函数用于配置RequireJS.
+</p>
+<h4>2.1 data-main</h4>
+<p>在引入requirejs文件的时候 用data-main属性来定义requirejs的入口点(entry-point)文件
+</p>
+<h4>工作原理:</h4>
+<p>
+	当RequireJS被加载的时候,会搜索data-main属性去加载入口脚本文件,同时给所有的脚本文件设置一个根路径。根据这个根路径，RequireJS将会去加载所有相关的模块。
+</p>
+<p>因此默认情况下requirejs中引用的依赖模块的路径是从data-main所引用的这个脚本文件所在的目录出发的,即将这个目录设置为脚本文件的基准路径</p>
+<p>基准路径也可以在config里面进行配置</p>
+<h3>3. require 函数</h3>
+<p>根据AMD规范, require也是一个全局变量, 可以用来加载模块. <br />
+在入口文件中用require()函数来加载模块依赖,但并不会创建一个模块。用require.config()来做一些配置</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//入口点文件中用下面这2个函数
+//require.config 配置模块的一些基本信息
+require.config({
+	baseUrl: 'js', //模块引用的基准路径
+	//map用来做模块文件映射
+	map: {
+		// modules模块下的dom模块引用的是lib/dom
+		'modules': {
+			'dom': 'lib/dom'
+		},
+		// modules-new模块下的dom模块引用的是lib/dom.2.0
+		'modules-new': {
+			'dom': 'lib/dom.2.0'
+		}
+	}
+});
+
+//require函数用来引用依赖模块, 多个模块在数组中列出即可
+require(['modules-new/main'], function (main) {
+	// 执行程序的入口
+	main.init();
+})	
+	</script>
+</div>
+<h3>4. require.config() 配置模块</h3>
+
+
+
+<h4>4.1 baseUrl</h4>
+<p>
+	baseUrl 配置模块的基准路径,与 seajs 的base参数一样
+</p>
+<p>
+	用途：有时我们启动文件不在我们的预期位置，此时我们就可以通过baseUrl来设置根目录
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//把基准路径配置为"js"文件夹,这样加载其他模块需要从这个路径出发
+	require.config{
+		baseUrl : 'js' //这个路径的出发路径是引用require.js的html页面所在的文件夹
+	}
+	
+	</script>
+</div>
+
+<h4>4.2 paths</h4>
+<p>
+	同seajs中paths一样，是用来简写路径的
+</p>
+<p>
+	用途： 有时我们模块的目录很深，此时我们写完整的比较麻烦，那么就可以将该目录定义出来，写在paths里，来方便对模块的引用
+</p>
+<h4>4.3 map属性</h4>
+<p>
+	seajs中使用来映射的，不过在require定义的语法不一样了，
+</p>
+<p>
+	用途：当我页面需要根据情况引用不同的代码库时，此时我们可以通过map进行配置，加载不同的代码库文件
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+require.config({
+	basrUrl : "js", //配置模块的基准路径
+	//paths用来简写路径
+	paths : {
+		"jquery" : "lib/jqurey.1.12.3-min",
+		"hd" : "static/header"  //把header目录简写为hd;这样里面的skin.js模块可以直接这样引用"hd/skin"
+	},
+	//map用来映射模块
+	//下面的例子中把2个不同版本的代码库映射为同一个入口,这样根据情况需要加载不同的dom库时不影响后面的依赖
+	map : {
+		"modules" : {
+			"dom" : "lib/dom"
+		},
+		"modules-login" : {
+			"dom" : "lib/dom.2.0"
+		}
+	}
+})
+	
+	</script>
+</div>
+
+<h4>4.4 shim属性 用来配置不兼容的模块</h4>
+<p>
+	理论上，require.js加载的模块，必须是按照AMD规范、用define()函数定义的模块。但是实际上，虽然已经有一部分流行的函数库（比如jQuery）符合AMD规范，更多的库并不符合。此时可以用shim方法来对库进行配置; shim配置的模块引用后拥有全局作用域
+</p>
+<p>
+	举例来说，underscore和backbone这两个库，都没有采用AMD规范编写。如果要加载它们的话，必须先定义它们的特征。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+  /**
+   * 用shim属性来配置不兼容的库(模块)
+   * exports 定义接口名称
+   * deps 数组,罗列该模块所依赖的模块
+   */
+   //下面是对"underscore,backbone,jQuery库的配置"
+　require.config({
+　　　　shim: {
+
+　　　　　　'underscore':{
+　　　　　　　　exports: '_' 
+　　　　　　},
+　　　　　　'backbone': {
+　　　　　　　　deps: ['underscore', 'jquery'],
+　　　　　　　　exports: 'Backbone'
+　　　　　　},
+			'jquery' : {
+				exports : "$"
+			},
+			//jquery插件库的配置
+			'jqury.scroll' : {
+				deps : ['jquery']
+				exports : 'jquery.fn.scroll'
+			}
+　　　　}
+　　});
+	
+	</script>
+</div>
+<h3>5. Define 定义加载模块(Define a Module)</h3>
+
+<h4>5.1 定义模块的方法</h4>
+<p class="hhns">
+	有三种方法,
+	1. 可以直接传递一个对象
+	2. 1个参数,函数式定义(AMD规范定义模块)
+	3. 传递2个参数,
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//定义模块的方法
+	//方法1. 直接传递一个对象
+	define({
+		color : "red"
+	})
+
+
+	//方法2. CMD规范定义模块 函数式定义(实际是用的commonJS规范,不过CMD规范也支持commonJS规范的这种写法)
+	/**
+	* @ require 依赖的模块数组
+	* @ exports 要暴露的接口
+	* @ module 这个模块
+	*/
+	define(function (require, exports, module) {
+		require('header/skin'); //这个模块的依赖
+		var skin = require("header/skin") //可以用变量接受skin模块的返回值
+		//require可以传一个回调函数,在模块加载完成再执行回调中的语句,此时依赖需要数组形式
+		var hd = require(["header/skin"],function(){})
+		exports.color = "red"; //暴露的接口
+		exports.changecolor = function(){}
+	})	
+
+	//2.1 对于不需要依赖的直接运行的模块,函数可以不传参数; 
+	//用return 来返回接口
+	define(function(){
+		return {
+			color : "red",
+			height : 18
+		}
+	})
+
+	//方法3,AMD规范定义模块 传递2个参数
+
+	/**
+	* @ param1 依赖的模块,用数组列出
+	* @ param2 函数
+	* @ 函数体中的参数可以接受前面@param1引用的依赖模块返回的值
+	* @ 该模块的接口通过return返回
+	*/
+	define(["header/nav/nav","header/skin"],function(nav,sk){
+		var text = "我是header模块中的文字"
+		//返回的接口可以是对象或function; function在调用时的作用域还是在这个模板中
+		return function(color){
+			document.body.style.backgroundColor = color;
+			document.body.innerHTML = text;
+		}
+	})
+	
+	</script>
+</div>
+<h3>6. exports 模块接口的定义</h3>
+<p class="hhns">
+CMD规范定义接口 方法
+1 exports添加属性
+2 module.exports 添加属性
+3 module.exports = 对象
+4 return 返回对象。
+</p>
+<p class="hhns">
+AMD规范定义接口
+在AMD规范定义的模块中，没有exports参数了，所以我们只能通过return将接口暴漏出来
+1 return 对象，这种方式我们可以将模块内部的多个属性多个方法暴漏出来
+2 return 方法，这种方式我们将一个方法返回出来，引用这个模块就是引用这个接口方法，所以在他的父模块（引用他的模块中）我们可以直接调用该方法。</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//一. CMD规范定义模块 
+	define(function(require,exports,module){
+	//接口返回方法
+	//1 直接为exports添加属性
+	exports.color = "blue"; 
+	exports.name = "header";
+	//2 module.exports
+	module.exports.fontsize = "20px";
+	//3. module.exports = 对象,会覆盖前面的接口
+	module.exports = {
+		height : 100
+	} 
+	//4 通过return返回接口,会覆盖前面的接口
+	return {
+		age : 18
+	}
+})
+
+	//注意:不能直接给exports赋值
+	//如:
+	//错误演示
+	exports = {
+		color : "red",
+		changecolor = function(){}
+	}
+	//正确的做法是给module.exports赋值,如上面的方法3
+
+
+	//二. AMD规范定义的模块的接口需要通过return 来返回
+	define([],function(){
+		//接口通过return 返回
+		return {
+
+		}
+	})
+
+	</script>
+</div>
+
+<h3>7. CSS插件</h3>
+<p class="hhns">
+与seajs的css插件不同，seajs中css插件是在页面中，通过script标签引入进来的，在requirejs中，引入css插件要在配置文件中。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+// 在配置项中的map属性中加载css插件
+require.config({
+	map: {
+		// '*' 匹配所有文件
+		'*': {
+			// 里面加载所有的css文件都要用到lib下面的css
+			'css': 'lib/css'
+		}
+	}
+})
+//在模块中引用css文件的时候，要在css文件前面加上css！前缀
+define(['css!main.css'], function () {
+	
+})
+	
+	</script>
+</div>
+
+
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>

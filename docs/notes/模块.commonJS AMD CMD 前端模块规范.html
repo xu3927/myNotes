@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf8">
+	<title>commonJS AMD CMD 前端模块规范</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	
+<h1>commonJS AMD CMD 前端模块规范</h1>
+<p>
+模块化是一种把复杂系统分解为代码结构更合理，可维护性更高的可管理的模块的方式。
+</p>
+<p>
+有了模块，我们就可以更方便地使用别人的代码，想要什么功能，就加载什么模块。 <br />
+但是，这样做有一个前提，那就是大家必须以同样的方式编写模块，否则你有你的写法，我有我的写法，岂不是乱了套！考虑到Javascript模块现在还没有官方规范，这一点就更重要了。
+</p>
+<p>
+	目前，通行的Javascript模块规范共有两种：CommonJS和AMD,CMD等
+</p>
+<p class="hhns">
+CommonJS 是node.js 所采用的模块定义规范
+AMD 是 RequireJS 在推广过程中对模块定义的规范化产出。
+CMD 是 SeaJS 在推广过程中对模块定义的规范化产出。
+</p>
+<h3>1. CommonJS</h3>
+<p>
+	node.js的模块系统使用的是commonJS模块规范
+</p>
+<p>
+	CommonJS定义的模块分为:{模块引用(require)} {模块定义(exports)} {模块标识(module)}
+</p>
+<p>
+	require()用来引入外部模块；exports对象用于导出当前模块的方法或变量，唯一的导出口；module对象就代表模块本身。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//commonJS的模块举例 封装一个math模块math.js
+
+	//引用一个sum模块
+	var sum = require("sum");
+
+	//exports用来暴露接口 可以这样引用 math.zonghe() ;
+	exports.zonghe = function(num){
+		return sum(num);
+	}
+	//module是这个模块本身
+	//也可以通过module的exports属性暴露接口
+	module.exports.suijishu = function(){
+		return parseInt(Math.random()*10);
+	}
+	
+	</script>
+</div>
+<p>
+	CommonJS主要用于后端, 不太适合前端,. <br />
+	因为commonJS中引用模块后,需要等模块加载完成才能执行后面的语句. <br />
+	这对服务器端不是一个问题，因为所有的模块都存放在本地硬盘，可以同步加载完成，等待时间就是硬盘的读取时间。但是，对于浏览器，这却是一个大问题，因为模块都放在服务器端，等待时间取决于网速的快慢，可能要等很长时间，浏览器处于"假死"状态。 <br />
+因此，浏览器端的模块，不能采用"同步加载"（synchronous），只能采用"异步加载"（asynchronous）。这就是AMD规范诞生的背景。
+</p>
+<h3>2. AMD</h3>
+<p>
+	AMD: Asynchronous Module Definition， 异步模块定义.   
+</p>
+<p>
+使用AMD的库有RequireJS 、curl 、Dojo 、bdLoad、JSLocalnet 、Nodules 等 <br />
+也有很多库支持AMD规范，即将自己作为一个模块存在，如MooTools 、jQuery 、qwery 、bonzo  甚至还有 firebug 。
+</p>
+
+<p>
+	 AMD规范中所有的模块将被异步加载，模块加载不影响后面语句运行。所有依赖某些模块的语句均放置在回调函数中。等到加载完成之后，这个回调函数才会运行。
+</p>
+<h4>2.1 define</h4>
+<p>
+	AMD规范定义了一个自由变量或者说是全局变量 define 的函数
+</p>
+<p class="red">
+	define( id?, dependencies?, factory );    
+</p>
+<p class="hhns">
+第一个参数 id 为字符串类型，表示了该模块标识，为可选参数。若不存在则模块标识应该默认定义为该模块的文件名。如果存在，那么模块标识必须为顶层的或者一个绝对的标识(即各个模块的id不能重复)。
+
+第二个参数，dependencies ，是当前模块的依赖。可以是数组; 可以省略
+  
+第三个参数，factory，可以是一个函数或者对象。也就是这个模块本身的内容
+</p>
+<h4>模块id的格式</h4>
+<p class="hhns">
+1. id 是字符串
+2. id中不能有文件后缀名".js"
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//1. 创建有名模块(即有id的模块);
+//参数1 id要求与模块的文件名一致,方便开发结束后工程化工具处理.
+//一般不推荐这种方法, 一般由打包工具合并多个模块到一个js文件中时使用。
+//创建id为header的模块, 依赖"nav","skin"模块
+//在函数体内可以用变量来接受引用的依赖模块所返回的值
+// 参数2 是一个数组,可以传入require,exports,以及所依赖的模块; 这样在函数中就可以用require,exports及相应的模块名称接收这几个参数
+//参数2中的require,exports可以不写
+	define("header", ["require","exports", "nav", "skin" ], function( require,exports,nav,skin ){
+	    //通过return来返回接口
+	    return {
+	    	.....
+	    }
+	});
+
+
+	//2. 定义无名模块
+	define(['base'], function(base) {
+    return {
+        show: function() {
+            // todo with module base
+        }
+  	  }
+	});
+
+
+	//3. 定义无依赖模块
+	define(function() {
+    return {
+        mix: function(source, target) {
+   	    	 }
+    	};
+	});
+
+	//4. 定义数据对象模块
+	define( {
+    add : function( x, y ){
+        return x + y ;
+   		 }
+	} );
+
+
+	//5. 可以使用类似commonJS的方式定义
+	define( function( require, exports, module){
+		//require 来引用依赖的模块
+		//exports 来设置对外的接口
+		//module 是这个模块本身,有exports等属性
+    	var a = require('a'),
+         	b = require('b');
+    	exports.action = function(){};
+
+	} );
+
+	</script>
+</div>
+<h3>2.2 require</h3>
+<h4>2.2.1 作为全局变量</h4>
+<p>
+	require 函数也是一个全局变量，像 define一样。 <br />
+	可以直接用来实现模块加载调用,也可以不实现
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+// 如: 
+require(['header/header'], function (header) {
+	console.log(header)
+})
+//用require方法来加载header模块, 这样可以不用define
+	
+	</script>
+</div>
+
+<h4>2.2.2 require也可以作为局部变量</h4>
+<p>
+	局部的 require 需要在AMD模式中的 define 工厂函数中传入 require。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	define( ['require'], function( require ){
+	  ...
+	} );
+
+	// or：
+
+	define( function( require, exports, module ){
+	  ...
+	} );
+	
+	</script>
+</div>
+
+<h3>3. CMD</h3>
+<p>
+	CMD（Common Module Definition）; 在 Sea.js 中，所有 JavaScript 模块都遵循 CMD（Common Module Definition） 模块定义规范。该规范明确了模块的基本书写格式和基本交互规则。
+</p>
+<p>
+	在 CMD 规范中，一个模块就是一个文件。代码的书写格式如下：
+</p>
+<p class="red"> define (factory) </p>
+<h3>3.1 defie 定义模块</h3>
+<p>
+	全局函数define，用来定义模块。<br />
+    参数 factory  可以是一个函数，也可以为对象或者字符串。
+    当 factory 为对象、字符串时，表示模块的接口就是该对象、字符串。
+</p>
+<p>
+	factory 为函数的时候，表示模块的构造方法，执行构造方法便可以得到模块向外提供的接口。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	//1. 接收字符串
+	define('I am a template. My name is {{name}}.');
+
+	//2. 对象
+	define({ "foo": "bar" });
+
+	//3. 函数
+	//传递函数时,函数自带3个参数
+	/**
+	* @ require 引用依赖的其他模块
+	* @ exports 暴露接口
+	* @ module 与这个模块相关联的属性方法
+	***/
+	define(function(require, exports, module) {
+
+  	// 模块代码
+
+	});
+	
+	</script>
+</div>
+<h4>define可以传递2个或3个参数</h4>
+<p class="red">define(id?, deps?, factory)</p>
+<p>字符串 id 表示模块标识，数组 deps 是模块依赖</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//定义一个id为"hello", 依赖jquery库的模块	
+define('hello', ['jquery'], function(require, exports, module) {
+
+  // 模块代码
+
+});	
+	</script>
+</div>
+<p>
+id 和 deps 参数可以省略。省略时，可以通过构建工具自动生成。 <br />
+
+注意：带 id 和 deps 参数的 define 用法不属于 CMD 规范，而属于 Modules/Transport 规范。
+</p>
+<h3>3.2 define.cmd 一个空对象 用来判断当前页面是否有CMD模块加载器,如(sea.js) </h3>
+<p>
+	if (typeof define === "function" && define.cmd) {
+  		// 有 Sea.js 等 CMD 模块加载器存在
+	}
+</p>
+<h3>3.3 require 参数</h3>
+<p>require 是 factory(模块工厂函数) 函数的第一个参数</p>
+<p>
+	require 是一个方法，接受 <b class="red">模块标识("id") </b>作为唯一参数，用来获取其他模块提供的接口。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+define(function(require, exports) {
+
+  // 获取模块 a 的接口
+  var a = require('./a');
+
+  // 调用模块 a 的方法
+  a.doSomething();
+
+});	
+	</script>
+</div>
+<h3>require的要求</h3>
+<p class="hhns">
+1 require不能简写(如"req"不可以)
+2 require不能被重定义
+1 不能赋值：(如 :var req = require)
+2 不能定义函数：function require
+3 不能被子函数当成参数 
+4 不能在子函数作用域内重定义
+3 require的参数只能是完整的字符串 require(‘abc’ + ‘bcd’)是不允许的，
+</p>
+<h4>require的参数</h4>
+<p>
+	Require的参数表示的所引用模块文件的路径，相对于seajs文件所在的目录为根目录。如果加载js文件，后缀名可写可不写
+</p>
+<h3>3.4. require.async(id,callback?) 异步加载模块方法</h3>
+<p>require.async 方法用来在模块内部异步加载模块，并在加载完成后执行指定回调。callback 参数可选</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+define(function(require, exports, module) {
+
+  // 异步加载一个模块，在加载完成时，执行回调
+  require.async('./b', function(b) {
+    b.doSomething();
+  });
+
+  // 异步加载多个模块，在加载完成时，执行回调
+  require.async(['./c', './d'], function(c, d) {
+    c.doSomething();
+    d.doSomething();
+  });
+
+  //require方法是同步执行的,会阻塞后面代码的执行.
+  require(["./e"],function(require, exports, module){
+
+  })
+
+});	
+	</script>
+</div>
+<h3>3.5. require.resolve(id)</h3>
+<p>
+	使用模块系统内部的路径解析机制来解析并返回模块路径。该函数不会加载模块，只返回解析后的绝对路径。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+define(function(require, exports) {
+
+  console.log(require.resolve('./b'));
+  // ==> http://example.com/path/to/b.js //得到b模块的路径,是绝对路径
+
+});
+	
+	</script>
+</div>
+<h3>3.6 exports 参数</h3>
+<p>exports 是一个对象，用来向外提供模块接口。</p>
+<p class="hhns">
+第一种，直接对exports添加属性，如exports.color = ‘red’
+第二种，通过module来定义，module.exports.color = ‘yellow’
+第三种，通过module来定义，module.exports={color: ‘orange’}
+第四种，通过return来定义， return {color: ‘green’}
+我们在一个模块中定义接口时候要用一种方式，不能混用
+注意，我们不可以直接对exports赋值新对象	
+</p>
+<h3>3.7 module 参数</h3>
+<p>module 是一个对象，上面存储了与当前模块相关联的一些属性和方法。</p>
+<p class="hhns">
+id：表示模块的id
+uri：表示该模块文件对应的url
+exports：表示模块返回的接口集合
+dependencies：表示依赖模块集合（数组表示形式）
+deps：表示依赖模块集合（对象表示形式）
+</p>
+<p>
+我们在不定义模块名称的情况下，id=uri，此时我们通过require（uri）就是引用require（id）
+当我们定义模块名称的时候，id ！= uri，此时我们想应用这个模式我们要做两件事情，第一步引用uri，第二步引用id	
+</p>
+<p class="cu">
+	 CMD 模块定义规范的所有内容。经常使用的 API 只有 define, require, require.async, exports, module.exports 这五个。
+</p>
+<h3>4. AMD与CMD的区别</h3>
+<p class="hhsp">
+  看了以上 AMD，requireJS 与 CMD， seaJS的简单介绍会有点感觉模糊，总感觉较为相似。因为像 requireJS 其并不是只是纯粹的AMD固有思想，其也是有CMD规范的思想，只不过是推荐 AMD规范方式而已， seaJS也是一样。
+
+    下面是玉伯对于 AMD 与 CMD 区别的解释：
+
+    AMD 是 RequireJS 在推广过程中对模块定义的规范化产出。
+    CMD 是 SeaJS 在推广过程中对模块定义的规范化产出。
+
+    类似的还有 CommonJS Modules/2.0 规范，是 BravoJS 在推广过程中对模块定义的规范化产出还有不少??
+
+    这些规范的目的都是为了 JavaScript 的模块化开发，特别是在浏览器端的。
+    目前这些规范的实现都能达成浏览器端模块化开发的目的。
+
+    区别：
+
+    1. 对于依赖的模块，AMD 是提前执行，CMD 是延迟执行。不过 RequireJS 从 2.0 开始，也改成可以延迟执行（根据写法不同，处理方式不同）。CMD 推崇 as lazy as possible.
+    2. CMD 推崇依赖就近，AMD 推崇依赖前置。看代码：
+
+// CMD
+define(function(require, exports, module) {
+    var a = require('./a')
+    a.doSomething()
+    // 此处略去 100 行
+    var b = require('./b') // 依赖可以就近书写
+    b.doSomething()
+    // ...
+})
+
+// AMD 默认推荐的是
+define(['./a', './b'], function(a, b) { // 依赖必须一开始就写好
+    a.doSomething()
+    // 此处略去 100 行
+    b.doSomething()
+    // ...
+})
+
+虽然 AMD 也支持 CMD 的写法，同时还支持将 require 作为依赖项传递，但 RequireJS 的作者默认是最喜欢上面的写法，也是官方文档里默认的模块定义写法。
+    3. AMD 的 API 默认是一个当多个用，CMD 的 API 严格区分，推崇职责单一。比如 AMD 里，require 分全局 require 和局部 require，都叫 require。CMD 里，没有全局 require，而是根据模块系统的完备性，提供 seajs.use 来实现模块系统的加载启动。CMD 里，每个 API 都简单纯粹。
+    4. 还有一些细节差异，具体看这个规范的定义就好，就不多说了。
+</p>
+
+
+<!-- 自动生成目录 -->
+<script type="text/javascript" src="js/buildCatalog.js"></script>
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>
+
+
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>

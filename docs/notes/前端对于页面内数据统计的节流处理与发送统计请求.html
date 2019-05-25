@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>前端对于页面内数据统计的节流处理与发送统计请求</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	
+<h1>前端对于页面内数据统计的节流处理与发送统计请求</h1>
+<h3>1. 概述</h3>
+<p class="hhns">
+统计主要是为了了解用户对页面的使用习惯或使用方式。
+在页面内添加统计可以用来帮助我们分析用户的使用行为	
+</p>
+<h3>2. 统计的实现</h3>
+<p class="hhns">
+当用户触发一次交互的时候，我们向服务器端发送一条信息，将其记录下来，保存在服务器中,可以实现统计。
+但是由于前端的很多交互，是不需要向服务器端发送请求的，此时，服务器端是不知道这些行为的，所以我们要主动向服务器发送请求来实现统计，
+</p>
+<h3>3. 统计请求方面的考虑，</h3>
+<p class="hhns">
+由于post请求要比get请求发送的时处理事情要多，所以我们在做统计的时候就不考虑post请求了
+什么是get请求
+Ajax可以发送get请求，但是要写好多逻辑代码
+请求文档是一个get请求，但是请求过来的页面中的信息量比较多
+Scrpit标签也是get请求，
+Link标签也是一个get请求
+Img标签也是get请求
+相比较这几种，img的发送成本更低一些
+所以我们在发送统计请求的时候，用img的get请求
+可以创建一个0字节的1.gif 文件,,通过加载这个img文件时的src属性来发送get请求
+</p>
+<h3>4. 请求节流</h3>
+<p class="hhns">
+	我们说页面中的一些高频事件，做统计的时候，会不停的发送统计，会影响程序的性能,此时需要节流
+</p>
+<h3>5. 统计的拼接</h3>
+<p class="hhns">
+如果是一条统计,可以直接这样追加kv对？Type=click&date=123
+如果是两条统计,拼接在一起？Type=click&dat2=123&type=mouseover&date=234，这样的话出现相同的字段了，会影响数据的解析.
+因此我们可以将一条统计作为一个值： ？Log1=type*click|date*123
+拼接两个统计的时候，就可以？Log1=type*click|date*123&log2=type*mouserover|date*234
+</p>
+<h3>自己写的一个统计节流函数</h3>
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+// 节流处理：当发送第一个统计请求的是时候，我们将其缓存下来，当触发的次数达到我们规定的次数再发送
+/**
+ * 一个参数 json格式
+ * @ type 必须 数据类型
+ * @ num 必须 节流的次数,即触发多少次才发送一次get请求
+ * @ 其他参数 要追加的数据
+ */
+var LogPack = (function(){
+	//统计缓存的容器
+	var data = [];
+	var maxNum ;
+	//用图片的get请求来做触发器
+	var img = new Image();
+	var itemSplit = "|"; //不同数据间的间隔符
+	var keyValSplit = "*"; //k=v对分割符
+
+	//传进来的参数是{type : "" , date : ,num : 10 }这种类型的, 所以要进行字符串拼接
+	//发送统计
+	function sendLog(){
+		//数据包,即要发送几个数据,从统计的数组中取maxNum个数据一起发送
+		var logs = data.splice(0,maxNum);
+
+		//拼接字符串
+		//生成这种格式的 "Log1=type*click|date*123&log2=type*mouserover|date*234"
+		var str = "";
+		for(var i = 0; i < logs.length; i ++ ){
+			str += "Log" + i + "=";
+			var _str = "";
+			for(var k in logs[i]){
+				if(k != "num"){
+					_str += k + keyValSplit + logs[i][k] + itemSplit;
+				}				
+			}
+			str += _str;	
+			str = str.slice(0,-1); //去除最后一个连接符 "|"
+			str = str + "&";
+		}
+		//去除最后一个"&"符号
+		str = str.slice(0,-1);
+
+//发出get请求
+//发送的get请求数据格式
+// new Image().src = "a.gif?Log1=type*click|date*1234567&Log2=type*mouseover|date*1234567"
+		img.src = "tongji.gif?" + str;
+	}
+	//调用接口方法
+	/**
+	 * 一个参数 json格式
+ 	 * @ type 必须 数据类型
+ 	 * @ num 必须 节流的次数,即触发多少次才发送一次get请求
+ 	 * @ 其他参数 要追加的数据
+	 */
+	return function(obj){
+	//缓存的次数,触发超过这个次数再发送数据,在用户传入的数据中可以获取到
+	maxNum = obj.num;
+	 data.push(obj);
+	 //触发次数达到设定的最大次数时
+	 if(data.length > maxNum){
+	 	//发送数据
+	 	sendLog();
+	 }
+
+	}
+
+
+})()
+
+//应用
+
+var box = document.getElementById("box");
+
+//高频事件,要节流
+box.onmousemove = function(){
+	LogPack({
+		type : "mousemove",
+		date : new Date().getTime(),
+		num : 30
+	})
+}
+//高频率事件统计,需要节流
+window.onscroll = function(){
+	LogPack({
+		type : "scroll",
+		date : new Date().getTime(),
+		num : 10
+	})
+}
+
+box.onclick = function(){
+//对于低频率事件直接发送统计
+	LogPack({
+		type : "click",
+		date : new Date().getTime(),
+		num : 3
+	})
+	console.log("111");
+}
+	
+	</script>
+</div>
+
+
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>

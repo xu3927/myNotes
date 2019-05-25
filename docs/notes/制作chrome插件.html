@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>制作chrome插件</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>制作chrome插件,应用,扩展</h1>
+
+	<h3>1. 包含的文件</h3>
+	<p class="hhns">
+		一个manifest.json 文件 
+		一个或多个html文件（除非这个应用是一个皮肤）
+		可选的一个或多个javascript文件
+		可选的任何需要的其他文件，例如图片
+	</p>
+	<p class="red">
+		必须的文件有 manifest.json 是配置文件, ;最少一个html文件.其他文件都可以看情况增减
+	</p>
+	<p>
+		在开发应用（扩展）时，需要把这些文件都放到同一个目录下。发布应用（扩展）时，这个目录全部打包到一个应用（扩展）名是.crx的压缩文件中。
+	</p>
+	<p>
+		可以在chrome地址栏中输入 chrome://extensions/ 这里可以打包为.crx后缀的扩展程序. 
+	</p>
+<h3>2. Manifest文件 </h3>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+下面的JSON示例了manifest支持的字段，每个字段都有连接指向专有的说明。必须的字段只有：name和version。
+{
+// 必须的字段
+  "name": "My Extension", //扩展的名称
+  "version": "versionString", //扩展的版本号
+  "manifest_version": 2,  //用整数表示manifest文件自身格式的版本号。从Chrome 18开始，开发者应该（不是必须，但是2012年底左右就必须了）指定版本号为2（没有引号）
+
+
+  // 建议提供的字段
+  "description": "A plain text description", //描述这个插件
+  "icons": { ... }, //列出所需要的图标文件,只能用规定的尺寸
+  "default_locale": "en",  //非必须;国际化支持，支持何种语言的浏览器
+
+  "Permission" : [....], //需要的权限
+
+
+  // 多选一，或者都不提供
+  "browser_action": {...},  //设置扩展信息栏的图标、图标悬浮提示、点击图标是弹出窗口
+  "page_action": {...}, //可以把图标放到地址栏后面
+  "theme": {...}, //主题,用来设置浏览器的主题
+  "app": {...}, //配置这个插件的启动页面url,
+
+  //举例
+  //  "app": {
+  //   "launch": {
+  //     "local_path": "main.html"  //必须
+  //   },
+  		// width : 800, 非必须
+  		// height : 400  非必须
+  // }
+
+  // 根据需要提供
+  "background": {...}, //后台运行的js脚本或html页面,一般只需要js文件
+  "chrome_url_overrides": {...}, //Override替代页; 可以替换浏览器默认的一些页面,如历史记录页,书签管理器等
+  "content_scripts": [...],  //在Web页面内运行的javascript脚本
+  "content_security_policy": "policyString", //默认策略限制
+  "file_browser_handlers": [...],
+  "homepage_url": "http://path/to/homepage",  //这个扩展的主页 url。
+  "incognito": "spanning" or "split", //可选值："spanning"和"split"，指定当扩展在允许隐身模式下运行时如何响应。
+  "intents": {...}
+  "key": "publicKey", //开发者密钥,打包crx文件时会生成.
+  "minimum_chrome_version": "versionString", //app或皮肤需要的chrome的最小版本
+  "nacl_modules": [...], //一个或多个从MIME到处理这个MIME的本地客户端模块之间的映射。
+  "offline_enabled": true, //是否支持脱机运行
+  "omnibox": { "keyword": "aString" }, //地址栏
+  "options_page": "aFile.html", //选项页,用来设置扩展功能
+  "permissions": [...], //用来申请权限
+  "plugins": [...], //安装配置一些插件
+  "requirements": {...}, //指定本应用所需要的特殊功能,如GPU加速
+  "update_url": "http://path/to/updateInfo.xml", //升级链接
+  "web_accessible_resources": [...] //指定本扩展在注入的目标页面上所需使用的资源的路径（相对于扩展的安装根目录）。
+}  
+	
+	</script>
+</div>
+<h3>配置文件中各个字段的含义</h3>
+<p>参考 <a href="http://open.chrome.360.cn/extension_dev/manifest.html">http://open.chrome.360.cn/extension_dev/manifest.html</a> </p>
+<p class="hhns">
+app
+
+可安装的webapp，包括打包过的app，需要这个字段来指定app需要使用的url。最重要的是app的启动页面------当用户在点击app的图标后，浏览器将导航到的地方。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	"app":{
+		"background":{
+			"scripts":["js/background.js"]
+		}
+	},
+	
+	</script>
+</div>
+
+<p class="hhns">
+	background 后台运行的文件
+
+	这是一个比较重要的属性，如果你需要运行一些后台脚本，比如监听用户在扩展信息栏按下你的插件图标，或者你要监听用户新建tab页，这个时候你就需要有一个background的页面。background你可以指定一个HTML页面（如我的插件），也可以指定一个JS文件，
+
+</p>
+<p class="red hhns">
+需要注意两点：
+
+1、是HTML不能写JS代码，JS代码需要写到JS文件中后引入；
+
+2、不能使用jquery（没有详细测试，可能是我没用正确）；
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	 "background": {
+        "page": "background.html"
+    },	
+	</script>
+</div>
+
+
+<p class="hhns">
+<p class="cu">背景页的更多介绍</p>
+
+扩展常常用一个单独的长时间运行的脚本来管理一些任务或者状态。 Background pages to the rescue.
+如同 architecture overview 的解释。背景页是一个运行在扩展进程中的HTML页面。它在你的扩展的整个生命周期都存在，同时，在同一时间只有一个实例处于活动状态。
+在一个有背景页的典型扩展中，用户界面（比如，浏览器行为或者页面行为和任何选项页）是由沉默视图实现的。当视图需要一些状态，它从背景页获取该状态。当背景页发现了状态改变，它会通知视图进行更新。
+清单
+
+请在扩展清单中注册背景页。一般，背景页不需要任何HTML，仅仅需要js文件，比如：
+{
+  "name": "My extension",
+  ...
+  "background": {
+    "scripts": ["background.js"]
+  },
+  ...
+}
+浏览器的扩展系统会自动根据上面scripts字段指定的所有js文件自动生成背景页。
+如果您的确需要自己的背景页，可以使用page字段，比如：
+{
+  "name": "My extension",
+  ...
+  "background": {
+    "page": "background.html"
+  },
+  ...
+}
+如果你需要浏览器更早启动 — 例如，你想显示通知 — 那么，你也许也希望指定"background"权限。
+细节
+
+可以用类似于帧之间通讯的方式，直接使用脚本调用在一个扩展的多个页面之间进行通讯。chrome.extension.getViews() 方法会返回属于你的扩展的每个活动页面的窗口对象列表，而chrome.extension.getBackgroundPage() 方法返回背景页。
+范例
+
+下面的代码片段演示了扩展如何在背景页中与其他页面交互。同时也展示如何使用背景页来处理事件，如用户点击。
+例子中的扩展有一个背景页，多个由image.html创建的view页面。（通过chrome.tabs.create()）。
+//In background.js:
+// React when a browser action's icon is clicked.
+chrome.browserAction.onClicked.addListener(function(tab) {
+  var viewTabUrl = chrome.extension.getURL('image.html');
+  var imageUrl = /* an image's URL */;
+  // Look through all the pages in this extension to find one we can use.
+  var views = chrome.extension.getViews();
+  for (var i = 0; i < views.length; i++) {
+    var view = views[i];
+    // If this view has the right URL and hasn't been used yet...
+    if (view.location.href == viewTabUrl && !view.imageAlreadySet) {
+      // ...call one of its functions and set a property.
+      view.setImageUrl(imageUrl);
+      view.imageAlreadySet = true;
+      break; // we're done
+    }
+  }
+});
+//In image.html:
+<html>
+  <script>
+    function setImageUrl(url) {
+      document.getElementById('target').src = url;
+    }
+  </script>
+  <body>
+    <p>
+    Image here:
+    </p>
+    <img id="target" src="white.png" width="640" height="480">
+  </body>
+</html>
+</p>
+
+<p class="hhns">
+	description
+
+	描述扩展	
+</p>
+
+
+
+
+<p class="hhns">
+	homepage_url
+
+	这个扩展的主页 url
+</p>
+<p class="hhns">
+	icons
+	
+	一个或者多个图标来表示扩展，app，和皮肤。你通常可以提供一个128x128的图标，这个图标将在webstore安装时候使用。扩展需要一个48x48的图标，扩展管理页面需要这个图标。同时，你还可以提供给一个16x16的图标作为扩页面的fa网页图标 。这个16x16的图标，还将显示在实验性的扩展infobar特性上。
+图标要求是png格式，因为png格式是对透明支持最好的。你也可以用其他webkit支持的格式，如BMP,GIF,ICON和JPEG。下面有个例子：
+"icons": 
+  { 
+    "16": "icon16.png",             
+    "48": "icon48.png",            
+    "128": "icon128.png" 
+  },  
+
+</p>
+
+<p class="hhns">
+	browser_action
+
+browser_action可以设置扩展信息栏的图标、图标悬浮提示、点击图标是弹出窗口
+
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+{
+  "name": "My extension",
+  ...
+  "browser_action": {
+    "default_icon": {                    // 浏览器上显示的图标文件
+      "19": "images/icon19.png",           // optional
+      "38": "images/icon38.png"            // optional
+    },
+    "default_title": "Google Mail",      // optional; shown in tooltip
+    "default_popup": "popup.html"        // 点击弹出的页面
+  },
+  ...
+}
+	</script>
+</div>
+
+<p class="hhns">
+	options_page
+
+	options_page指定你的插件设置页面，这个看个人需求而定，可以不设置。
+
+	<p class="red">
+	需要注意两点：
+
+1、你需要将JS写到一个JS文件中后引入；
+
+2、不能有HTML元素的内联事件（如 &lt button onclick="..." &gt ），你需要通过JS给HTML元素绑定事件如：
+	</p>
+</p>
+
+<p class="hhns">
+	permissions
+
+permissions对于manifest.json来说虽然不是必要属性，但是对于我们开发插件来说却是必要的 ，我们总要向chrome申请点权限，才能完成我们的插件；
+
+这里我就只介绍我的插件里面用到的权限（当然其实有点权限我最后也没用）：
+
+"tabs", 访问浏览器选项卡
+"http://localhost:9240/", AJAX访问localhost:9240的权限
+"activeTab", 获取当前活动选项卡
+"notifications", 浏览器通知（基于HTML5的通知实现）
+"storage", 存储,希望存储一些设置的话，就需要用到
+"http://*/" 访问任意域名的权限
+
+</p>
+
+<p class="hhsp">
+	
+permissions
+
+扩展或app将使用的一组权限。每个权限是一列已知字符串列表中的一个，如geolocatioin或者一个匹配模式，来指定可以访问的一个或者多个主机。权限可以帮助限定危险，如果你的扩展或者app被攻击。一些权限在安装之前，会告知用户，具体参考：Permission Warnings.
+如果一个扩展api需要你的声明一个权限在manifest文件，一般的，api的文档将告诉怎么做。例如，Tabs页面告诉你这么声明一个tabs权限。
+这是一个扩展的manifest文件的权限设置的一部分。
+"permissions": 
+[    
+	"tabs",    
+	"bookmarks",    
+	"http://www.blogger.com/",    
+	"http://*.google.com/",    
+	"unlimitedStorage"  
+],  
+下面的表格列举了一个扩展或者app可以使用的权限。
+注意：托管的app能使用权限:xxx,其他的都不能使用。
+
+详细的权限说明 <a href="http://open.chrome.360.cn/extension_dev/permissions.html#type-Permissions">http://open.chrome.360.cn/extension_dev/permissions.html#type-Permissions</a>
+
+</p>
+
+<p class="hhns">
+	update_url
+	
+	update_url指定自动更新地址，如果你是通过chrome官方发布插件，这个属性不需要设置；但如果跟我一样通过非官方发布，这个属性就很有用了；你只需要第一次拖拽安装插件，以后都能自动更新了。这里给一个update_url需要返回的数据格式例子：
+
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+<?xml version='1.0' encoding='UTF-8'?>
+<gupdate xmlns='http://www.google.com/update2/response' protocol='2.0'>
+  <app appid='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'>
+    <updatecheck codebase='http://myhost.com/mytestextension/mte_v2.crx' version='2.0' />
+  </app>
+</gupdate>
+	
+	</script>
+</div>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>
+
+
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>
+
+
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>
