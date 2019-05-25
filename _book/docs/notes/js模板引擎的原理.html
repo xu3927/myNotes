@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>javascript中的模板引擎的原理</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>javascript中的模板引擎的原理</h1>
+
+	<p>大量的拼接字符串很麻烦也容易出错,所以就有工程师在大量的实践中，提出了模板引擎的概念.</p>
+	<p>模板引擎就是在一个完整的字符串中，把未定的量用特殊的语法比如： <span class="red">@xinqing@</span>来表示。然后用数据替换这些标记，这个操作叫做数据绑定。
+	</p>
+	<p><!-- 在工程上，我们使用一个故意写错type的script标签存放模板 --></p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//html结构 也是要追加到的地方
+	<table id="biaoge">
+		<tr>
+			<td>学号</td>
+			<td>姓名</td>
+			<td>年龄</td>
+			<td>性别</td>
+		</tr>
+	</table>
+
+
+	//模板存放标签
+	&lt script type="text/template" id="template">
+		<tr class="neirong">
+				<td>@xuehao@</td>
+				<td>@xingming@</td>
+				<td>@nianling@</td>
+				<td>@xingbie@</td>
+		</tr>	
+	&lt /script>
+
+
+
+	//模板引擎
+
+	var oBiaoge = document.getElementById("biaoge");
+	//获取模板字符串
+	var templateString = document.getElementById("template").innerHTML;
+
+	//生成数据绑定函数
+	var compileFunction = function(templateString,dictionary){
+
+		return templateString.replace(/@(\w+)@/g ,function(match,$1,index,str){
+			//$1参数是分组捕获捕获到的值,这里就是@ **** @ 中间的字符
+			//返回的值就是用字典中下标为$1的项替换原字符串中的$1字符
+			return dictionary[$1];
+		})		
+	}
+
+	//获取字典数据
+	for(var i =0 ;i<studentJson.result.length;i++){
+		//拿到字典
+		var dictionary = studentJson.result[i];
+		//在这步可以根据具体情况来修正字典
+
+		//传入数据绑定函数生成数据
+		var DomString = compileFunction(templateString,dictionary);
+		console.log(DomString)
+		//把生成的html数据添加到dom上
+		oBiaoge.innerHTML += DomString;
+	}
+
+
+
+	//字典数据一般存放在服务器上, 通过ajax或其他方式来获取字典
+	
+	var studentJson  = {
+	"result" : [
+		{
+			"xuehao" 	: 20160001,
+			"xingming" 	: "小明",
+			"nianling" 	: 22,
+			"xingbie" 	: "男"
+		},
+		{
+			"xuehao" 	: 20160002,
+			"xingming" 	: "小红",
+			"nianling" 	: 12,
+			"xingbie" 	: "女"
+		},
+		{
+			"xuehao" 	: 20160003,
+			"xingming" 	: "小蓝",
+			"nianling" 	: 14,
+			"xingbie" 	: "男"
+		},
+		{
+			"xuehao" 	: 20160004,
+			"xingming" 	: "小刚",
+			"nianling" 	: 19,
+			"xingbie" 	: "男"
+		},
+		{
+			"xuehao" 	: 20160005,
+			"xingming" 	: "小粉",
+			"nianling" 	: 11,
+			"xingbie" 	: "女"
+		}
+	]
+	}
+
+
+	
+	</script>
+	</div>
+
+
+
+
+</body>
+</html>

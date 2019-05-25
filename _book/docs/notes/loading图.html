@@ -1,0 +1,815 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>loading图</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+	<!-- 自己定义的css样式 -->
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+
+	
+	
+	<style type="text/css">
+		body{
+			background : #061d43;
+		}
+
+		.loadcon{
+			height: 200px;
+			width: 80%;
+			border: 5px solid #aaa;
+			background: #009688;
+		}
+		.loadcon #loadcon1{
+			padding-top: 70px;
+			width: 100px;
+			margin: 0 auto;
+		}
+
+		/*loading 图2 */
+		
+
+/*加载动画*/
+
+.startAnimation {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    margin-top: -30px;
+    position: relative;
+    z-index: 999;
+}
+
+.spinner {
+    margin: 100px auto;
+    width: 55px;
+    height: 60px;
+    text-align: center;
+    font-size: 10px;
+    /*z-index: 99999999;*/
+}
+
+.spinner > div {
+    background-color: #efefef;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+@-webkit-keyframes stretchdelay {
+    0%,
+    40%,
+    100% {
+        -webkit-transform: scaleY(0.4)
+    }
+    20% {
+        -webkit-transform: scaleY(1.0)
+    }
+}
+
+@keyframes stretchdelay {
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+
+/* loading动画3 */
+.loadcon3{
+	width: 100px;	
+	height: 100px;
+	margin: 0 auto;
+	padding-top: 50px;
+}
+
+.loading3{
+	width: 100px;
+    height: 100px;
+    border: 10px solid #fff;
+    border-top: 10px solid #FF5722;
+    border-radius: 50%;
+    display: block;
+    animation: loading3 2s infinite;
+    -webkit-animation: loading3 2s infinite;
+}
+
+@keyframes loading3{
+    0%{
+        transform:rotateZ(0);
+    }
+    100%{
+        transform:rotateZ(360deg);
+    }
+}
+@-webkit-keyframes loading3{
+    0%{
+        -webkit-transform:rotateZ(0);
+    }
+    100%{
+        -webkit-transform:rotateZ(360deg);
+    }
+}
+   
+
+   /*loading 动画4 */
+   	/*  容器 */
+   	.loadcon4{
+   		width: 100px;
+   		height: 100px;
+   		margin: 0 auto;
+   		margin-top: 50px;
+   	}
+
+	.loading4{
+		position: relative;
+	    width: 100px;
+   		height: 100px;
+   		border: 10px solid #fff;
+   		border-radius: 50%;
+   		display: block;
+	    animation: loading4 2s infinite;
+		-webkit-animation: loading4 2s infinite;
+	}
+	
+	.loading4:before{
+	    position: absolute;
+    	top: 0;
+    	left: 50%;
+    	margin-left: -10px;
+    	margin-top: -15px;
+    	width: 20px;
+    	height: 20px;
+    	border-radius: 50%;
+    	background: #fff;
+    	content: '';
+    	box-shadow: 0 0 10px #fff;
+	}
+	
+
+	/* 定义动画 */
+	@keyframes loading4{
+   		0%{
+   		    transform:rotateZ(0);
+   		}
+   		100%{
+   		    transform:rotateZ(360deg);
+   		 }
+	}
+	@-webkit-keyframes loading4{
+   		 0%{
+   		     -webkit-transform:rotateZ(0);
+   		 }
+   		 100%{
+   		     -webkit-transform:rotateZ(360deg);
+   		 }
+	}
+
+	/* loading 动画5 */
+	.loadcon5{
+		width: 200px;
+		height: 100px;
+		padding-top: 90px;
+		padding-left: 80px;
+		margin: 0 auto;
+	}
+
+	.loading5{display:block;}
+
+	.loading5 i {
+		width: 20px;
+		height: 20px;
+		background: #FFEB3B;;
+		border-radius: 50%;
+		display: inline-block;
+		margin: 0 10px;
+	    animation: loading5 1s infinite;
+	    -webkit-animation: loading5 1s infinite;
+	}
+	.loading5 .delay1{
+		animation-delay: 0.25s;
+    	-webkit-animation-delay: 0.25s;
+	}
+
+	.loading5 .delay2{
+		animation-delay: 0.5s;
+    	-webkit-animation-delay: 0.5s;
+	}
+
+
+
+	/* 定义动画 */
+	 @keyframes loading5{
+            /*0%{
+                transform:scale3d(1,1,1);
+            }*/
+            50%{
+                transform:scale3d(0,0,0);
+            }
+            /*100%{
+                transform:scale3d(1,1,1);
+            }*/
+        }
+        @-webkit-keyframes loading5{
+            /*0%{
+                -webkit-transform:scale3d(1,1,1);
+            }*/
+            50%{
+                -webkit-transform:scale3d(0,0,0);
+            }
+            /*100%{
+                -webkit-transform:scale3d(1,1,1);
+            }*/
+        }
+	
+
+
+	</style>
+</head>
+<body>
+
+<h1>loading图</h1>
+
+<h3>1.</h3>
+<p>需要提供一个有id的容器.直接复制js代码即可实现效果</p>
+
+<div class="loadcon">
+	<div id="loadcon1"></div>
+</div>
+<div class="h20"></div>
+<!-- 源码 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+var loading = (function(){
+	//插入一个css3动画样式
+	var str_box_webkit = "@-webkit-keyframes wave{from{top:20px;}to{top:-20px;}}";
+	var str_box_moz = "@-moz-keyframes wave{from{top:20px;}to{top:-20px;}}";
+	var str_box_ms = "@-ms-keyframes wave{from{top:20px;}to{top:-20px;}}";
+	//loading 后面的点的css3动画
+	var str_dot_webkit = "	@-webkit-keyframes dotting{from{color:#da0dd6;}to{color:#e63f3f;}}";
+	var str_dot_moz = "	@-moz-keyframes dotting{from{color:#da0dd6;}to{color:#e63f3f;}}";
+	var str_dot_ms = "	@-ms-keyframes dotting{from{color:#da0dd6;}to{color:#e63f3f;}}";
+
+	//判断浏览器执行不同的js语句
+	var isMoz=navigator.userAgent.toLowerCase().indexOf('firefox');
+	var isChrome=navigator.userAgent.toLowerCase().indexOf('chrome');
+	var isOpera=navigator.userAgent.toLowerCase().indexOf('opera');
+	var isIE=navigator.userAgent.toLowerCase().indexOf('msie');
+	if(isMoz >= 0){
+		console.log("111")
+		document.styleSheets[0].insertRule(str_box_moz, 0);
+		document.styleSheets[0].insertRule(str_dot_moz, 0);
+	}
+	if(isChrome >= 0){
+		document.styleSheets[0].insertRule(str_box_webkit, 0);
+		document.styleSheets[0].insertRule(str_dot_webkit, 0);
+	}
+	if(isChrome >= 0){
+		document.styleSheets[0].insertRule(str_box_webkit, 0);
+		document.styleSheets[0].insertRule(str_dot_webkit, 0);
+	}	
+
+	//创建dom 并设置各自的css样式
+	var load_dom = document.createElement("div");
+	load_dom.style.cssText = "width: 80px;height: 110px;position: relative;";
+
+	var box0 = document.createElement("div");
+	box0.style.cssText = "animation:wave 0.4s linear 0s infinite alternate forwards;-webkit-animation:wave 0.4s linear 0s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+
+	var box1 = document.createElement("div");
+	box1.style.cssText = "animation:wave 0.4s linear 0.4s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+
+	var box2 = document.createElement("div");
+	box2.style.cssText = "animation:wave 0.4s linear 0s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+
+	var box3 = document.createElement("div");
+	box3.style.cssText = "animation:wave 0.4s linear 0.4s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+
+	var box4 = document.createElement("div");
+	box4.style.cssText = "animation:wave 0.4s linear 0s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+	var p_dom = document.createElement("p");
+	p_dom.innerHTML = "loading."
+	p_dom.style.cssText = "	font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;position: absolute;bottom: 0;left:0;color: #fff;font-size: 18px;animation:dotting 1s linear 0.4s infinite alternate forwards;";
+
+	//组建dom
+	load_dom.appendChild(box0);
+	load_dom.appendChild(box1);
+	load_dom.appendChild(box2);
+	load_dom.appendChild(box3);
+	load_dom.appendChild(box4);
+	load_dom.appendChild(p_dom);
+
+	//dotting的动画
+	var i = 1;
+	var iv = 1;
+	var timer = setInterval(function(){
+		var str = ".....";
+		p_dom.innerHTML = "loading" + str.substr(0,i);
+		i += iv;
+		i == 5 && (iv *= -1);
+		i <= 1 && (iv *= -1);
+	},400)
+
+	return function(dom){
+		dom.appendChild(load_dom);  
+	}
+
+	})()
+
+
+		//获取loading的容器元素
+	var loadContainer = document.getElementById("loadcon1");	
+	loading(loadContainer);
+	
+	</script>
+</div>
+<!-- 代码 -->
+<script type="text/javascript">
+	
+	var loading = (function(){
+	//插入一个css3动画样式
+	var str_box_webkit = "@-webkit-keyframes wave{from{top:20px;}to{top:-20px;}}";
+	var str_box_moz = "@-moz-keyframes wave{from{top:20px;}to{top:-20px;}}";
+	var str_box_ms = "@-ms-keyframes wave{from{top:20px;}to{top:-20px;}}";
+	//loading 后面的点的css3动画
+	var str_dot_webkit = "	@-webkit-keyframes dotting{from{color:#da0dd6;}to{color:#e63f3f;}}";
+	var str_dot_moz = "	@-moz-keyframes dotting{from{color:#da0dd6;}to{color:#e63f3f;}}";
+	var str_dot_ms = "	@-ms-keyframes dotting{from{color:#da0dd6;}to{color:#e63f3f;}}";
+
+	//判断浏览器执行不同的js语句
+	var isMoz=navigator.userAgent.toLowerCase().indexOf('firefox');
+	var isChrome=navigator.userAgent.toLowerCase().indexOf('chrome');
+	var isOpera=navigator.userAgent.toLowerCase().indexOf('opera');
+	var isIE=navigator.userAgent.toLowerCase().indexOf('msie');
+	if(isMoz >= 0){
+		console.log("111")
+		document.styleSheets[0].insertRule(str_box_moz, 0);
+		document.styleSheets[0].insertRule(str_dot_moz, 0);
+	}
+	if(isChrome >= 0){
+		document.styleSheets[0].insertRule(str_box_webkit, 0);
+		document.styleSheets[0].insertRule(str_dot_webkit, 0);
+	}
+	if(isChrome >= 0){
+		document.styleSheets[0].insertRule(str_box_webkit, 0);
+		document.styleSheets[0].insertRule(str_dot_webkit, 0);
+	}	
+
+	//创建dom 并设置各自的css样式
+	var load_dom = document.createElement("div");
+	load_dom.style.cssText = "width: 80px;height: 110px;position: relative;";
+
+	var box0 = document.createElement("div");
+	box0.style.cssText = "animation:wave 0.4s linear 0s infinite alternate forwards;-webkit-animation:wave 0.4s linear 0s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+
+	var box1 = document.createElement("div");
+	box1.style.cssText = "animation:wave 0.4s linear 0.4s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+
+	var box2 = document.createElement("div");
+	box2.style.cssText = "animation:wave 0.4s linear 0s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+
+	var box3 = document.createElement("div");
+	box3.style.cssText = "animation:wave 0.4s linear 0.4s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+
+	var box4 = document.createElement("div");
+	box4.style.cssText = "animation:wave 0.4s linear 0s infinite alternate forwards;width: 12px;height: 30px;border: 2px solid #fff;float: left;position: relative;";
+	var p_dom = document.createElement("p");
+	p_dom.innerHTML = "loading."
+	p_dom.style.cssText = "	font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;position: absolute;bottom: 0;left:0;color: #fff;font-size: 18px;animation:dotting 1s linear 0.4s infinite alternate forwards;";
+
+	//组建dom
+	load_dom.appendChild(box0);
+	load_dom.appendChild(box1);
+	load_dom.appendChild(box2);
+	load_dom.appendChild(box3);
+	load_dom.appendChild(box4);
+	load_dom.appendChild(p_dom);
+
+	//dotting的动画
+	var i = 1;
+	var iv = 1;
+	var timer = setInterval(function(){
+		var str = ".....";
+		p_dom.innerHTML = "loading" + str.substr(0,i);
+		i += iv;
+		i == 5 && (iv *= -1);
+		i <= 1 && (iv *= -1);
+	},400)
+
+	return function(dom){
+		dom.appendChild(load_dom);  
+	}
+
+	})()
+
+
+		//获取loading的容器元素
+	var loadContainer = document.getElementById("loadcon1");	
+	loading(loadContainer);
+
+</script>
+
+<h3>2.</h3>
+
+<div class="loadcon">
+	 <!-- 加载动画 -->
+    <div class="startAnimation">
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+    </div>
+</div>
+
+<div class="h20"></div>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+// css 部分
+<style type="text/css">
+		
+
+/*加载动画*/
+
+.startAnimation {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #ededed;
+    z-index: 999999999;
+}
+
+.spinner {
+    margin: 100px auto;
+    width: 55px;
+    height: 60px;
+    text-align: center;
+    font-size: 10px;
+    /*z-index: 99999999;*/
+}
+
+.spinner > div {
+    background-color: #f6303f;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+@-webkit-keyframes stretchdelay {
+    0%,
+    40%,
+    100% {
+        -webkit-transform: scaleY(0.4)
+    }
+    20% {
+        -webkit-transform: scaleY(1.0)
+    }
+}
+
+@keyframes stretchdelay {
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+</style>
+
+// html 部分
+<!-- 加载动画 -->
+<div class="startAnimation">
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
+</div>
+	
+	</script>
+</div>
+
+
+<h3>3. </h3>
+
+
+
+<div class="loadcon">
+   <div class="loadcon3">
+        <span class="loading3"></span>
+  </div>
+</div>
+
+<div class="h20"></div>
+<!-- 代码 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+	//css部分
+	<style type="text/css">
+		/* 容器 */
+		.loadcon3{
+			width: 100px;	
+			height: 100px;
+			margin: 0 auto;
+			padding-top: 50px;
+		}
+
+		.loading3{
+			width: 100px;
+		    height: 100px;
+		    border: 10px solid #fff;
+		    border-top: 10px solid #FF5722;
+		    border-radius: 50%;
+		    display: block;
+		    animation: loading3 2s infinite;
+		    -webkit-animation: loading3 2s infinite;
+		}
+
+		@keyframes loading3{
+		    0%{
+		        transform:rotateZ(0);
+		    }
+		    100%{
+		        transform:rotateZ(360deg);
+		    }
+		}
+		@-webkit-keyframes loading3{
+		    0%{
+		        -webkit-transform:rotateZ(0);
+		    }
+		    100%{
+		        -webkit-transform:rotateZ(360deg);
+		    }
+		}
+   
+	</style>
+
+	// html
+	 <div class="loadcon3">
+        <span class="loading3"></span>
+ 	 </div>
+	
+	</script>
+</div>
+
+
+<h3>4.</h3>
+
+<div class="loadcon">
+	<div class="loadcon4">
+		<span class="loading4"><i></i></span>
+	</div>
+</div>
+<div class="h20"></div>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+<style type="text/css">
+	/*  容器 */
+   	.loadcon4{
+   		width: 100px;
+   		height: 100px;
+   		margin: 0 auto;
+   		margin-top: 50px;
+   	}
+
+	.loading4{
+		position: relative;
+	    width: 100px;
+   		height: 100px;
+   		border: 10px solid #fff;
+   		border-radius: 50%;
+   		display: block;
+	    animation: loading4 2s infinite;
+		-webkit-animation: loading4 2s infinite;
+	}
+	
+	.loading4:before{
+	    position: absolute;
+    	top: 0;
+    	left: 50%;
+    	margin-left: -10px;
+    	margin-top: -15px;
+    	width: 20px;
+    	height: 20px;
+    	border-radius: 50%;
+    	background: #fff;
+    	content: '';
+    	box-shadow: 0 0 10px #fff;
+	}
+	
+	
+	/* 定义动画 */
+	@keyframes loading4{
+   		0%{
+   		    transform:rotateZ(0);
+   		}
+   		100%{
+   		    transform:rotateZ(360deg);
+   		 }
+	}
+	@-webkit-keyframes loading4{
+   		 0%{
+   		     -webkit-transform:rotateZ(0);
+   		 }
+   		 100%{
+   		     -webkit-transform:rotateZ(360deg);
+   		 }
+	}
+</style>
+
+// html 部分
+// 不支持before伪类的浏览器可以设置 i标签 的样式
+<div class="loadcon4">
+	<span class="loading4"><i></i></span>
+</div>
+	
+	</script>
+</div>
+
+<h3>5. </h3>
+<div class="loadcon">
+	<div class="loadcon5">
+		<span class="loading5">
+		    <i class="scale"></i>
+		    <i class="scale delay1"></i>
+		    <i class="scale delay2"></i>
+		</span>
+		</div>
+</div>
+
+<div class="h20"></div>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+// css 代码
+<style type="text/css">
+	
+/* loading 动画5 */
+	.loadcon5{
+		width: 200px;
+		height: 100px;
+		padding-top: 90px;
+		padding-left: 80px;
+		margin: 0 auto;
+	}
+
+	.loading5{display:block;}
+
+	.loading5 i {
+		width: 20px;
+		height: 20px;
+		background: #FFEB3B;;
+		border-radius: 50%;
+		display: inline-block;
+		margin: 0 10px;
+	    animation: loading5 1s infinite;
+	    -webkit-animation: loading5 1s infinite;
+	}
+	.loading5 .delay1{
+		animation-delay: 0.25s;
+    	-webkit-animation-delay: 0.25s;
+	}
+
+	.loading5 .delay2{
+		animation-delay: 0.5s;
+    	-webkit-animation-delay: 0.5s;
+	}
+
+
+
+	/* 定义动画 */
+	 @keyframes loading5{
+            /*0%{
+                transform:scale3d(1,1,1);
+            }*/
+            50%{
+                transform:scale3d(0,0,0);
+            }
+            /*100%{
+                transform:scale3d(1,1,1);
+            }*/
+        }
+        @-webkit-keyframes loading5{
+            /*0%{
+                -webkit-transform:scale3d(1,1,1);
+            }*/
+            50%{
+                -webkit-transform:scale3d(0,0,0);
+            }
+            /*100%{
+                -webkit-transform:scale3d(1,1,1);
+            }*/
+        }
+	
+</style>
+
+// html 部分
+<div class="loadcon5">
+	<span class="loading5">
+	    <i class="scale"></i>
+	    <i class="scale delay1"></i>
+	    <i class="scale delay2"></i>
+	</span>
+</div>
+	
+	</script>
+</div>
+
+
+
+<!-- js代码 -->
+<script type="text/javascript">
+
+
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 生成目录 -->
+<script type="text/javascript" src="js/buildCatalog.js"></script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- 
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+ -->
+
+
+
+ 

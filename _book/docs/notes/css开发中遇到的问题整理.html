@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>css开发中遇到的问题整理</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+	<!-- 自己定义的css样式 -->
+	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+<!-- 插入markDown -->
+
+<xmp>
+
+# css开发中遇到的问题整理
+
+### 1.  父盒子被撑高的话其它子盒子无法继承该高.
+
+父盒子高是被某个子盒子撑出来高的话; 给其他子盒子设置高100%的话子父盒子无法被撑高.
+
+如: 子元素浮动, 父元素overflow:hidden;  或者子元素设置相对定位(position:absolute),
+父元素获得了高,但是其它子元素高设为100%,无法获得高. 
+```
+
+<style type="text/css">
+.parent{
+	width: 100%;
+	background: #ccc;
+	width: 20%;
+	overflow: hidden;
+}	
+
+.child1{
+	height: 300px;
+	background: red;
+	width: 50%;
+	float: left;
+}
+/* 父元素高为100%, 虽然被child1撑高了, 但是child2的高为100%撑不出来 */
+.child2{
+	height: 100%;
+	float: left;
+	width: 30%;
+	background: purple;
+}
+
+</style>
+<div class="parent">
+	<div class="child1"></div>
+	<div class="child2"></div>
+</div>
+
+```
+2. scale 
+scale属性可以放大元素, 但是元素的属性上的宽度高度并不发生改变,  不占用标准流的位置, 同时能够盖住标准流中的元素. 
+
+3. margin 为负
+margin 为负, 可以使元素移动,类似position:relative的效果. 并且可以使该元素进入父亲的padding里, 但是超过父亲的border的话会被隐藏.
+
+4. 父盒子高度由子盒子决定的方法
+ 
+>* 4.1 父元素 overflow:hidden;
+>* 4.2 子盒子 position : relative;
+>* 4.3 子元素不脱标
+
+
+
+
+
+
+</xmp>
+
+
+
+<!-- js代码 -->
+<script type="text/javascript">
+
+
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 生成目录 -->
+<script type="text/javascript" src="js/buildCatalog.js"></script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+ -->

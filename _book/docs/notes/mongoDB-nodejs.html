@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>node.js操作mongDB基础</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>
+		node.js 与 mongDB 交互基础
+	</h1>
+
+<p>Node.js操作mongoDB的API手册 <a href="https://docs.mongodb.com/getting-started/node/">https://docs.mongodb.com/getting-started/node/</a>
+</p>
+<p> cmd中为node安装所需要的npm包： </p>
+<p class="bd bgc6 pd"> npm install mongodb </p>
+<p>node 操作数据库也需要先在cmd中让数据库开机</p>
+<p>让node连接数据库</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//mongodb的驱动
+	var MongoClient = require("mongodb").MongoClient;
+
+	//数据库连接地址, 并选择数据库 student
+	var url = "mongodb://localhost : 27017/student" ;
+
+	//连接数据库
+	MongoClient.connect(url, function(err,db){
+		if(err){
+			console.log("数据库连接失败");
+			return;
+		}
+		console.log("数据库连接成功");
+		//关闭数据库
+		db.close();
+
+	});
+	
+	</script>
+</div>
+<p>导入数据</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	mongoimport --db test --collection restaurants --drop --file ~/downloads/primer-dataset.json	
+	</script>
+</div>
+
+
+<p>查询数据库</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//查询数据库返回一个游标,保存了这次查询获取到的数据
+	var cursor = db.collection("student").find({}); //查询所有数据
+
+	//游标的遍历, doc参数是获取到的条目
+	cursor.each(function(err,doc){
+		if(doc != null ){
+			console.log(doc.name , doc.score.shuxue );
+		}
+	})
+	
+	</script>
+</div>
+<p>常用的查询方法,参数</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//查询 性别是男的所有数据
+	var cursor = db.collection("student").find({"sex" : "男"});
+
+	//查询 数学成绩在60分以上的数据  $gt 大于 $lt 小于
+	var cursor = db.collection("student").find({"score.shuxue" : {$gt : 60 } });
+
+	// 查询多个条件, 数学大于60, 语文小于80的数据
+	var cursor = db.collection("student").find({
+		$or :[{"score.shuxue" : {$gt : 60}} , {"score.yuwen" : { $lt : 60 }}]
+	});
+
+	//排序 sort 方法, 选择所有学生以数学成绩做倒序排列.
+	//sort 参数1, 排序依据的项, 参数2: 1正序 -1 倒序
+	//sort方法可以追加在find()方法之后, 是对选出的结果进行排序
+	var cursor = db.collection("student").find({}).sort({"score.shuxue" : -1 })
+
+	
+	</script>
+</div>
+<p>添加数据</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+//添加数据
+MongoClient.connect(url,function(err,db){
+    if(err){
+        console.log("数据库连接失败");
+        return;
+    }
+    console.log("数据库连接成功");
+    for(var i= 0; i<=100;i++) {
+        //准备数据
+        var data = {"name": "小徐" + i, "age": (Math.random() * 10 + 10) , "sex": (Math.random() > .5 ? "女" : "男"), "score": (Math.random()*100)};
+        //执行插入数据
+        db.collection("banji").insertOne(data, function (err, result) {
+            if (err) {
+                console.log(err)
+                console.log("数据插入失败");
+                return;
+            }
+            console.log("数据插入成功");
+        });
+        if(i>=100){
+            db.close();
+        }
+    }
+
+});
+
+</script>
+</div>
+<p>更新数据库</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//更新数据库
+MongoClient.connect(url, function(err, db) {
+    if(err){
+        console.log("数据库连接失败");
+        return;
+    }
+    console.log("数据成功连接");
+    //更改数据, 把"name"是"小徐0"的数据的score 改为80
+    db.collection('banji').updateOne({"name":"小徐0"},{$set: {"score":80}},function(err,result){
+        if(err){
+            console.log("genggai失败");
+            return;
+        }
+        console.log("更改成功");
+    });
+    db.close();
+});
+
+	</script>
+</div>
+<p>删除数据</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+//删除数据
+
+MongoClient.connect(url, function(err, db) {
+    if(err){
+        console.log("数据库连接失败");
+        return;
+    }
+    console.log("数据成功连接");
+    //删除score 为50以下的数据
+    db.collection('banji').deleteMany({ "score" : {$lt : 50} },
+        function(err, results) {
+            console.log(results);
+            db.close();
+        }
+    );
+});
+	
+	</script>
+</div>
+
+
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+
+</body>
+</html>

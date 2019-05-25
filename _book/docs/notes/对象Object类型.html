@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>对象Object类型</title>
+	<link rel='stylesheet' type='text/css' href='css/代码着色-jsEmacs.css'/>
+	<link rel="stylesheet" type="text/css" href="css/base.css" />
+	<style type="text/css">
+	
+
+
+
+	</style>
+</head>
+<body>
+<h1>I 对象 object 类型</h1>
+<h3>对象创建方式:</h3>
+<ol>
+	<li>字面量创建:  { } 大括号是对象的界定符, </li>
+	<li><b class="red" >new()</b> 操作符来创建</li>
+</ol>
+
+<h3 class="f24">一  用字面量创建</h3>
+<p>
+	obj = {	
+ 	k:v, 	
+ 	k:v, 	
+ 	k:v 	
+ }	
+</p>
+<div class="daima">
+	<div id="highlighter_68603" class="syntaxhighlighter  js"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="js keyword">var</code>&nbsp;<code class="js plain">obj&nbsp;=&nbsp;{</code></div><div class="line number2 index1 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">name&nbsp;:&nbsp;</code><code class="js string">"考拉"</code><code class="js plain">,</code></div><div class="line number3 index2 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">age&nbsp;:&nbsp;18,</code></div><div class="line number4 index3 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">sex&nbsp;:&nbsp;</code><code class="js string">"男"</code><code class="js plain">,</code></div><div class="line number5 index4 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js string">"study&nbsp;score"</code>&nbsp;<code class="js plain">:&nbsp;100</code></div><div class="line number6 index5 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">}</code></div></div></td></tr></tbody></table></div>
+
+</div>
+<p>
+	对象中 k 可以不加引号, JSON 中k 需要加引号(主要是为了与其他语言最大的兼容,js中不加引号也可以识别)
+</p>
+
+<h3>1. 对象中属性名的特殊情况</h3>
+<h4>以下4种情况对象中的k也必须加引号</h4>
+<ol>
+	<li>  k以数字开头</li>
+	<li>  k是特殊符号</li>
+	<li>  k有空格</li>
+	<li>  k是关键字,保留字</li>
+</ol>
+<p class= "red cu"> 辅助记忆:  叔父恐官  (数字,特殊符合,空格,关键字/保留字)</p>
+
+<h3>2. 对象的属性访问有两种方法</h3>
+<ol>
+	<li class="cu">
+	<h3>点语法 obj.k</h3>
+	<p>访问的属性名不用加引号</p>
+	<p>点语法的缺点:1. 不能访问特殊格式的属性;  2. 不能访问变量属性名 </p>
+	</li>
+	<li class="cu">
+		<h3>方括号obj["k"]</h3>
+		<p>属性需要加引号, 变量类型的属性不加引号</p>
+		<p>优势:1.可以访问特殊格式的属性; 2.可以访问变量属性</p>
+	</li>
+</ol>
+<div class="daima">
+	<div id="highlighter_922045" class="syntaxhighlighter  js"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="js keyword">var</code>&nbsp;<code class="js plain">obj&nbsp;=&nbsp;{</code></div><div class="line number2 index1 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">name&nbsp;:&nbsp;</code><code class="js string">"考拉"</code><code class="js plain">,</code></div><div class="line number3 index2 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">age&nbsp;:&nbsp;18,</code></div><div class="line number4 index3 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">sex&nbsp;:&nbsp;</code><code class="js string">"男"</code><code class="js plain">,</code></div><div class="line number5 index4 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js string">"study&nbsp;score"</code>&nbsp;<code class="js plain">:&nbsp;100</code></div><div class="line number6 index5 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">}</code></div><div class="line number7 index6 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js comments">//&nbsp;console.log(obj."study&nbsp;score");//错误的,会报错</code></div><div class="line number8 index7 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">console.log(obj.name)&nbsp;&nbsp;</code><code class="js comments">//正确</code></div><div class="line number9 index8 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">console.log(obj[</code><code class="js string">"name"</code><code class="js plain">])&nbsp;</code><code class="js comments">//正确</code></div><div class="line number10 index9 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">console.log(obj[name])&nbsp;</code><code class="js comments">//错误&nbsp;返回undefinied</code></div><div class="line number11 index10 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">console.log(obj[</code><code class="js string">"study&nbsp;score"</code><code class="js plain">]);&nbsp;&nbsp; </code><code class="js comments">//正确的</code></div><div class="line number12 index11 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">console.log(obj[</code><code class="js string">"a"</code>&nbsp;<code class="js plain">+&nbsp;</code><code class="js string">"ge"</code><code class="js plain">]);&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="js comments">//正确的</code></div><div class="line number13 index12 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js keyword">var</code>&nbsp;<code class="js plain">a&nbsp;=&nbsp;</code><code class="js string">"sex"</code><code class="js plain">;</code></div><div class="line number14 index13 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">console.log(obj[a]);&nbsp;/正确的,方括号可以访问变量属性名</code></div></div></td></tr></tbody></table></div>
+</div>
+<h3 class="f24" >二  new Object()创建对象</h3>
+<p>这两种方式创建的对象是等价的, 不过字面量的方式更直观,有封装的感觉, 所以一般用字面量的方式来创建对象</p>
+<div class="daima">
+<div id="highlighter_627669" class="syntaxhighlighter  js"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="js comments">/*new&nbsp;Object()&nbsp;创建对象.</code></div><div class="line number2 index1 alt1"><code class="js comments">Object()实际上也是一个构造函数.</code></div><div class="line number3 index2 alt2"><code class="js comments">xiaoming是Object这个构造函数的实例对象</code></div><div class="line number4 index3 alt1"><code class="js comments">*/</code></div><div class="line number5 index4 alt2"><code class="js keyword">var</code>&nbsp;<code class="js plain">xiaoming&nbsp;=&nbsp;</code><code class="js keyword">new</code>&nbsp;<code class="js plain">Object();</code></div><div class="line number6 index5 alt1"><code class="js plain">xiaoming.name&nbsp;=&nbsp;</code><code class="js string">"xiaoming"</code><code class="js plain">;</code></div><div class="line number7 index6 alt2"><code class="js plain">xiaoming.age&nbsp;=&nbsp;18;</code></div><div class="line number8 index7 alt1"><code class="js plain">xiaoming.sayHello&nbsp;=&nbsp;</code><code class="js keyword">function</code><code class="js plain">(){</code></div><div class="line number9 index8 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">alert(</code><code class="js string">"hello"</code><code class="js plain">)</code></div><div class="line number10 index9 alt1"><code class="js plain">}</code></div><div class="line number11 index10 alt2"><code class="js comments">/*sayHello的值是一个函数,&nbsp;这个函数也叫做</code></div><div class="line number12 index11 alt1"><code class="js comments">这个对象的方法.&nbsp;如例:xiaoming具有sayHello方法.*/</code></div><div class="line number13 index12 alt2"><code class="js plain">xiaoming.sayHello();</code></div></div></td></tr></tbody></table></div>
+
+</div>
+<h3 class="f24">三  对象中属性的值</h3>
+<p>对象中的属性的值可以是任意类型,数字,字符串,函数,数组,对象都可以</p>
+<p>当对象中属性的值是函数的时候,称这个函数是对象的方法</p>
+
+
+<h1>II 构造函数 constructor</h1>
+<p>函数可以用new 来调用生成一个新的对象, 此时这个函数称为构造函数</p>
+<h3 class="f24 red">1 用new调用构造函数生成对象的时候会隐秘的发生4件事情</h3>
+<p>1.1 隐秘的创建一个空对象</p>
+<p>1.2 把函数内的this绑定到这个对象上</p>
+<p>1.3 顺序执行函数体内的语句</p>
+<p>1.4 返回这个对象</p>
+
+<div class="daima">
+<div id="highlighter_398902" class="syntaxhighlighter  js"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="js comments">/*构造函数*/</code></div><div class="line number2 index1 alt1"><code class="js keyword">function</code>&nbsp;<code class="js plain">People(name,age){</code></div><div class="line number3 index2 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js keyword">this</code><code class="js plain">.name&nbsp;=&nbsp;name;</code></div><div class="line number4 index3 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js keyword">this</code><code class="js plain">.age&nbsp;=&nbsp;age;</code></div><div class="line number5 index4 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js keyword">this</code><code class="js plain">.sayHello&nbsp;=&nbsp;</code><code class="js keyword">function</code><code class="js plain">(){</code></div><div class="line number6 index5 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">alert(</code><code class="js string">"hello"</code><code class="js plain">);</code></div><div class="line number7 index6 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">}</code></div><div class="line number8 index7 alt1"><code class="js plain">}</code></div><div class="line number9 index8 alt2"><code class="js plain">xiaoming&nbsp;=&nbsp;</code><code class="js keyword">new</code>&nbsp;<code class="js plain">People(</code><code class="js string">"xiaoming"</code><code class="js plain">,18);</code></div><div class="line number10 index9 alt1"><code class="js plain">console.log(xiaoming.name);</code></div><div class="line number11 index10 alt2">&nbsp;</div><div class="line number12 index11 alt1"><code class="js comments">/*用new调用构造函数创建实例相当于隐秘执行了</code></div><div class="line number13 index12 alt2"><code class="js comments">下面这些步骤.&nbsp;下面这段语句可以达到一样的</code></div><div class="line number14 index13 alt1"><code class="js comments">效果,这是工厂模式*/</code></div><div class="line number15 index14 alt2"><code class="js keyword">function</code>&nbsp;<code class="js plain">People(name,age){</code></div><div class="line number16 index15 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">obj&nbsp;=&nbsp;{};</code></div><div class="line number17 index16 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">obj.name&nbsp;=&nbsp;name;</code></div><div class="line number18 index17 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">obj.age&nbsp;=&nbsp;age;</code></div><div class="line number19 index18 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">obj.sayHello&nbsp;=&nbsp;</code><code class="js keyword">function</code><code class="js plain">(){</code></div><div class="line number20 index19 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">alert(</code><code class="js string">"hello"</code><code class="js plain">);</code></div><div class="line number21 index20 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">}</code></div><div class="line number22 index21 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js keyword">return</code>&nbsp;<code class="js plain">obj;</code></div><div class="line number23 index22 alt2"><code class="js plain">}</code></div><div class="line number24 index23 alt1"><code class="js plain">xiaoming&nbsp;=&nbsp;People(</code><code class="js string">"xiaoming"</code><code class="js plain">,18);</code></div><div class="line number25 index24 alt2"><code class="js plain">console.log(xiaoming.name);</code></div></div></td></tr></tbody></table></div>
+</div>
+<h3 class="f24">2 构造函数中的注意事项</h3>
+<p ><b class="red">构造函数中不能有return语句</b>, 如果出现return语句会覆盖掉返回的对象,这样新生成的对象实例无法调用构造函数的属性和方法.</p>
+<p>构造函数中如果没有this语句, 这个构造函数将不能为新创建的实例添加属性和方法,那这个构造函数也就没有意义了</p>
+<p>构造函数名称的首字母一般大写,如function <b class="red">P</b>eople(){  }</p>
+
+<!-- =============分割线===================== -->
+<!-- =============分割线===================== -->
+<!-- =============分割线===================== -->
+<!-- =============分割线===================== -->
+
+<script type="text/javascript">
+
+/*构造函数*/
+// function People(name,age){
+// 	this.name = name;
+// 	this.age = age;
+// 	this.sayHello = function(){
+// 		alert("hello");
+// 	}
+// }
+// xiaoming = new People("xiaoming",18);
+// console.log(xiaoming.name);
+
+/*用new调用构造函数创建实例相当于隐秘执行了
+下面这些步骤. 下面这段语句可以达到一样的
+效果,这是工厂模式*/
+// function People(name,age){
+// 	obj = {};
+// 	obj.name = name;
+// 	obj.age = age;
+// 	obj.sayHello = function(){
+// 		alert("hello");
+// 	}
+// 	return obj;
+// }
+// xiaoming = People("xiaoming",18);
+// console.log(xiaoming.name);
+
+
+
+	
+	// var obj = {
+	// 	name : "考拉",
+	// 	age : 18,
+	// 	sex : "男",
+	// 	"study score" : 100
+	// }
+	// // console.log(obj."study score");//错误的,会报错
+	// console.log(obj.name)  //正确
+	// console.log(obj["name"]) //正确
+	// console.log(obj[name]) //错误 返回undefinied
+	// console.log(obj["study score"]);	//正确的
+	// console.log(obj["a" + "ge"]);		//正确的
+	// var a = "sex";
+	// console.log(obj[a]); //正确的,方括号可以访问变量属性名
+
+
+// /*new Object() 创建对象.
+// Object()实际上也是一个构造函数.
+// xiaoming是Object这个构造函数的实例对象
+// */
+// var xiaoming = new Object();
+// xiaoming.name = "xiaoming";
+// xiaoming.age = 18;
+// xiaoming.sayHello = function(){
+// 	alert("hello")
+// }
+// /*sayHello的值是一个函数, 这个函数也叫做
+// 这个对象的方法. 如例:xiaoming具有sayHello方法.*/
+// xiaoming.sayHello();
+
+	</script>
+</body>
+</html>

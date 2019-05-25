@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>cookis与session</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>cookis与session</h1>
+	<h3>
+		一. Cookie
+	</h3>
+	<p>
+		HTTP是无连接的，就是说你访问一个网站的1.html，然后访问同一个网站的2.html，这是两次链接。你访问2.html的时候，简单的说，服务器是不可能知道你访问过1.html的。
+	</p>
+	<p>
+		当你访问1.html的时候，服务器在下行HTTP response报文头中携带k-v对儿，然后今后每次你发出HTTP的时候，在上行的request报文头中都写明这个k-v对儿。那么2.html页面能够检测这个k-v对儿，实现信息记录的需求。k-v对儿就是Cookie。
+	</p>
+	<p>
+		在Node.js中使用Cookie，很简单，我们首先要安装 npm install cookie-parser
+	</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var cookieParser = require('cookie-parser');
+	</script>
+</div>
+<p>先要在res.cookie中设置一个下行的k-v</p>
+<img src="images/chatu/cookie.png" alt="" />
+<p>
+	第一次http请求 res中的字段：
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	Set-Cookie:name=j%3A%5B%22%E8%80%83%E6%8B%89%22%2C%22%E6%A0%91%E6%87%92%22%2C%22%E4%BC%81%E9%B9%85%22%5D; Path=\/; Expires=Sat, 11 Jun 2016 12:18:29 GMT	
+	</script>
+</div>
+<p>
+	今后所有req的字段：
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	Cookie:name=j%3A%5B%22%E8%80%83%E6%8B%89%22%2C%22%E6%A0%91%E6%87%92%22%2C%22%E4%BC%81%E9%B9%85%22%5D
+	</script>
+</div>
+<p>
+	Cookie非常好用，可以把数组发下去，然后之后收到的cookie都是数组，不变形。虽然cookie使用纯文本k=v形式传输的。
+	</p>
+<p>
+Cookie是明文传输的，所以敏感信息不能通过Cookie保存。Cookie可以被更改，可以用来黑客攻击。
+</p>
+<p>
+	在Node.js中使用Cookie，要先设置中间件：
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	app.use(cookieParser());	
+	</script>
+</div>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var express = require("express");
+	//使用cookie的时候，要用cookie-parser。这个包和express无关。
+	//也就是说原生node.js也可以使用它。
+	var cookieParser = require("cookie-parser");
+	var app = express();
+
+	//cookieParser加上圆括号，就能生成express用的中间件。
+	//放到第一个	
+	app.use(cookieParser());
+	
+	app.get("/",function(req,res){
+	//给response下行请求头中设置cookie; 并设置过期时间
+	res.cookie("name","我是令狐冲",{expires:new Date(Date.now()+900000)})
+
+	//获取cookie中的name的值
+	var name = req.cookies.name || "null";
+
+	res.send(name);
+	})
+	app.listen(3000,"localhost");
+	</script>
+</div>
+
+<h3>二. SESSION</h3>
+<p>
+	SESSION依赖于cookie。我们发现cookie能够被篡改，比如你登陆成功写了一个login=1。但是你没有登录成功，能够用软件改cookie，让上行请求带着login=1上去，服务器认为你登陆成功了。
+	<br />
+SESSION表示会话，是一个鬼点子：你登陆成功之后，服务器给你一个cookie，但是这个cookie是随机乱码，比如user=4309cxig0drlgjlknal; 然后每次你访问这个服务器就会带着这个乱码上去，服务器把这个乱码和自己内存中保存的数据比对，来识别谁是谁。
+</p>
+<p>
+	express中需要借助express-session这个npm包来实现session：
+</p>
+<div class="daima">
+	npm install express-session --save
+</div>
+<p>
+	<a href="https://www.npmjs.com/package/express-session">https://www.npmjs.com/package/express-session</a>
+</p>
+<p>
+	SESSION 是一个乱码： <br />
+	当你登陆成功的时候，服务器让你带一个加密后的乱码下去，同时服务器上的内存记录了这个乱码和你的对应关系。 <br />
+	每次访问这个服务器的时候，都会带着这个乱码上去，服务器识别这个乱码我认不认识。
+
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var express = require("express");
+	//引用session包
+	var session = require("express-session");
+	var app = express();
+
+	//使用session中间件
+	app.use(session({
+		//cookie保持时间
+		cookie : {maxAge : 6000 },
+		//加密的字符串(任意),用来给session加密
+		secret : "x3927"
+	}));
+
+	app.get("/",function(req,res){
+		if(!req.session.name){
+			res.send("您还没有登陆");
+			return;
+		}
+		res.send("欢迎!" + req.session.name + req.session.memeda)
+	})
+
+	//登陆页面
+	app.get("/login/:username",function(req,res){
+		//存入session对象, 可以设置任意参数.
+		//session对象的name属性就是现在登陆的名字
+		req.session.name = req.params.username;
+		req.session.memeda = "么么哒."; 
+		res.send("ok,成功登陆!")
+	})
+
+	app.listen(3000,"localhost");	
+	</script>
+</div>
+
+
+
+</body>
+</html>

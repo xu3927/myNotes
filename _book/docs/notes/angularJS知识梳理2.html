@@ -1,0 +1,1755 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" ng-app="app">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>angularJS知识梳理2</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+
+	<!-- 自己定义的css样式 -->
+	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
+	<style type="text/css">
+		.app1 {
+			width: 50%;
+			height: 130px;
+			/*border: 1px solid #ccc;*/
+		}
+	</style>
+</head>
+<body>
+
+<!-- 插入markDown -->
+
+<xmp>
+
+# angularJS知识梳理2
+
+### 23 directive 自定义指令
+
+接收两个参数
+
+第一个参数表示 指令的名称
+
+第二个参数是一个函数，表示指令的构造函数，在定义自定义指令时，只执行一次，所以说我们可以将一些复杂业务逻辑放在该函数内，最后该函数返回是一个对象（用来描述我们的指令）
+
+返回对象
+
+```
+<!DOCTYPE html>
+<h tml lang="en">
+<h ead>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</h ead>
+<b ody ng-app="app">
+
+<!-- 自定义指令 -->
+<!-- 自定义dom指令 让里面的dom元素重复3次 -->
+<my-directive repeat="3"></my-directive>	
+<script type="text/javascript" src="angular.js"></script>
+<script type="text/javascript">	
+	var app = angular.module("app",[])
+
+	//自定义指令
+	app.directive("myDirective",function () {
+		 // this 指向window
+		 console.log(this,arguments);
+		 // 自定义指令需要返回一个对象
+		 return {
+		 	//指令类型 可选的值有 E A C M
+		 	restrict : "E",
+		 	
+		 	//指令优先级(可选),若在单个DOM上有多个指令，则优先级高的先执行；
+	 		priority: 0,  
+
+	 		//（布尔型），可选参数，可以被设置为true或false，若设置为true，则优先级低于此指令的其他指令则无效，不会被调用(优先级相同的还是会执行)
+	 		terminal : false,
+		 	
+		 	//设置模板, (字符串或function)
+
+		 	template : "<h3>我的指令模板</h3>",
+		 	// template 为函数时, 可接受2个参数(tEle,tAttrs),分别表示使用该指令的元素, 和指令元素上的属性
+		 	// template : function(tEle,tAttrs){
+
+		 	// }
+
+
+		 	//可以设置模板链接
+		 	// 值可以是 字符串或函数. 函数属性同上.
+		 	// templateUrl : "haha.html",
+
+			// replace 设置是否替换绑定指令的元素,true替换,false不替换,默认false
+			//设为true的时候会替换掉绑定指令的元素,此时会影响到controller中的$element,$attrs属性.
+			//设为false,替换指令元素中的内容,不替换指令元素.
+			replace : false,
+			// controller 方法 属性可以获取自定义元素的作用域,值是一个函数, 需要参数注入获取需要的属性.
+			controller : function($scope,$element,$attrs){
+				// $scope 表示的是该指令的作用域
+				// element 表示拥有该指令的元素,得到一个类似jquery中的dom对象
+				// $attrs 表示拥有该指令的元素的属性
+				console.log($element.children());
+				var n = $attrs.repeat;
+				var el = jqlite.children()
+				for(var i = 0; i < n; i++){		
+					el = el.clone();		
+					$$element.append(el);
+
+				}
+			},
+			controllerAs : "mainCtrl"  //设置控制的别名, 在link函数中可以引用. 
+		 }
+
+	})
+
+</script>
+
+</b ody>
+</h tml>
+```
+### 23.1 restrict 属性 表明自定义的类型. 
+
+E，表示该指令只一个自定义元素（element）
+
+A，该指令在元素是属性上（attributes）
+
+C，该指令在元素的类上（class）
+
+M，该指令是一个注释指令（comment）
+
+### 23.2 模板属性
+
+template：传递的是一个字符串或函数
+
+templateUrl，传递的模板文件的路径或函数
+
+```
+<div ng-a pp="app">
+
+<my-zhiling title="haha"></my-zhiling>
+
+<script type="text/ng-template" id="tpl.html">
+	<h3>我的指令模板</h3>
+	<p>我是3927</p>
+</script>
+</div>
+
+<script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript">
+	angular.module("app",[])
+
+	.directive("myZhiling",function(){
+		return {
+			restrict : "EAC",
+			// 值可以是一个函数, 有2个参数, 为指令元素, 指令元素上的属性
+			// template : function(tEle,tAttrs){
+			// 	console.log(tEle,tAttrs);
+			// },
+
+			// 1. 通过该属性可以加载外链的模板文件.
+			// 2. 也可以加载文件内script标签内的模板.
+			// 该script标签需要在ng-app 标签内. <script type="text/ng-template" id="tpl.html"> < / script>
+			// templateUrl : "tpl.html"
+
+			// 也可以是一个函数
+			// templateUrl : function(tEle,tAttrs){
+			// 	console.log(tEle,tAttrs);
+			// }
+		}
+	})
+
+</script>
+
+```
+
+
+
+### 23.3 replace 属性
+
+设置原有元素是否被替换
+
+true会替换掉原有的元素，false，不会替换，
+
+当设置为true时，会对controller中使用的参数$element和$attrs有影响
+
+
+### 23.4 指令中的 controller 属性
+
+controller 定义的方法可以在其他指令中复用.
+
+用来定义自定义指令的作用域
+
+其中的this指向controller{} 空对象
+
+Arguments默认情况下是一个空数组，所以我们想在控制器使用什么数据，就要在参数中注入参数
+
+控制器中常注入以下参数
+>*  $scope 表示该指令的作用域
+>* $element 表示拥有该指令的元素
+>* $attrs 表示拥有该指令的元素的属性
+
+### 23.4 自定义指令 scope 属性
+
+用来隔离作用域.
+
+值可以是true, false 或一个对象
+
+为对象时用来与作用域中的变量做映射
+
+
+```
+<!DOCTYPE html>
+<h tml lang="en">
+<h ead>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</h ead>
+<b ody>
+	
+	<div id="app" ng-app="app">
+		<div ng-controller="main">
+			<h3>父作用域</h3>
+			<div>
+				<input type="text" ng-model="title">
+				<p>title: { {title}}</p>
+				<input type="text" ng-model="title2">
+				<p>title2: { {title2}}</p>
+		
+			</div>
+			<hr>
+			<h3>自定义指令</h3>
+			<!-- my-title 为@修饰符的数据 title为父作用域中的变量. 要用插值的形式 -->
+			<!-- my-title2 为 = 修饰符的数据,  title2 为父作用域中的变量 直接写title2 不能用插值-->
+			<my-directive my-title="{ {title}}" my-title2="title2"></my-directive>
+			
+		</div>
+	</div>
+
+<script type="text/javascript" src="angular.js"></script>
+<script type="text/javascript">
+	var app = angular.module("app",[]);
+	app.controller("main",function ($scope) {
+		 
+		 $scope.title = ""
+	})
+
+	// 自定义指令
+	app.directive("myDirective",function () {
+
+		 // 自定义指令的模板
+		return{
+			restrict : "E",
+			template : "<p>title1<input type='text' ng-model='title'/></p><h1>{ {msg}}{ {title}}</h1>title2 <input type='text' ng-model='title2'/> <h1>{ {msg2}} { {title2}}</h1>",
+
+			// scope的值
+			 //1. scope 为true,创建一个继承自父作用域的子作用域,这就意味着，子指令拥有了自己的作用域，同时可以访问父指令的作用域数据。
+			scope : true,
+			//2. false 不隔离作用域,父作用域与自定义指令中的作用域能相互影响
+			scope : false, 
+			// 3. 为对象时, 创建孤立作用域，这就意味着，与父作用域没有任何联系。可以通过变量映射来访问父作用域中的数据.
+			scope : {
+
+				// 变量映射, 把自定义指令属性中的my-title变量 映射到 模板中的title变量;  
+				// 自定义指令中的my-title变量接受父作用域中的title变量,以此实现了父作用域中的变量到模板中的映射
+				title : "@myTitle",  //@修饰符会到自定义指令的属性中寻找该变量的值  需要用驼峰命名
+				title2 : "=myTitle2"  //= 修饰符 能实现自定义指令与父作用域中的数据双向映射
+
+				say : "&fn" //  "&"符号用来做函数绑定.绑定父作用域中的函数
+
+			},		// 为对象  封闭作用域, 父作用域的改变不会影响到指令作用域, 反之也不会影响
+			controller:function($scope){
+
+				$scope.title = "哈哈哈"
+				$scope.msg = "title1 @修饰符: "
+				$scope.msg2 = "title2 =等号修饰符"
+			}
+		}	
+			  
+	})
+</script>
+
+</b ody>
+</h tml>
+
+```
+
+#### 23.4.1 自定义指令中作用域scope 对 controller的影响
+
+
+自定义指令中，scope属性对controller的影响:	
+
+当scope是true，在controller中，定义与父作用域中相同变量时，自定指令的中的变量不会受到父作用域中变量的影响
+
+当scope是false，在controller中，定义与父作用域中相同变量时，该变量与父作用域中的变量是同步的（同时修改）, 此时不隔离作用域, 即子作用域与父作用域是同一个作用域.
+
+当scope是一个对象，在controller中，定义与父作用域中相同的变量时，自定指令中的变量不会受到父作用域中变量的影响
+
+scope 默认是false
+
+#### 23.4.2 scope属性的修饰符 "@" "=" 
+
+
+可以屏蔽模板中变量去controller作用域中寻找值的过程，而是让其去该自定义指令所在元素的属性中去寻找数据变量
+
+
+> "@" 修饰符
+
+单向映射,会去父作用域中寻找值,但不会影响父作用域中的值
+
+可以屏蔽模板中变量去controller作用域中寻找值的过程，而是让其去该自定义指令所在元素的*属性*中去寻找数据变量
+
+注意：属性值是插值进去的，因此是将该属性作为普通属性处理的，因此一定要加上插值符号{{}}，否则的话就当一个值来处理的，这个就是一个普通的字符串
+
+```
+<my-dirctive my-title="{ {title}}"></my-dirctive>
+
+scope: {
+	// 属性值中要用驼峰式命名
+	// 告诉自定义指令不要再去自己的作用域（controller）中寻找title变量，去自定义指令的所在的元素的属性中去寻找
+	title: '@myTitle'
+}
+
+```
+
+> "=" 修饰符
+
+双向映射,会影响到父作用域中的值
+
+通过在scope属性中定义含有=修饰符的变量时，通过属性映射可以取得父作用域中的变量，
+
+=修饰符与@修饰符的区别
+
+1 "="实现的是一个自定义指令作用域中变量与父作用域中变量的一个双向绑定过程
+
+2 自定义元素中的属性值是一个父作用域中的一个变量，在自定义指令中会当作一个变量来处理
+
+注意：自定义元素属性不能添加插值符号{ {}}
+
+```
+<!DOCTYPE html>
+<h tml lang="en">
+<h ead>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</h ead>
+<b ody>
+	
+	<div id="app" ng-app="app">
+		<div ng-controller="main">
+			<h3>父作用域</h3>
+			<div>
+				<input type="text" ng-model="title">
+				<p>title: { {title}}</p>
+				<input type="text" ng-model="title2">
+				<p>title2: { {title2}}</p>
+		
+			</div>
+			<hr>
+			<h3>自定义指令</h3>
+			<!-- my-title 为@修饰符的数据 title为父作用域中的变量. 要用插值的形式 -->
+			<!-- my-title2 为 = 修饰符的数据,  title2 为父作用域中的变量 直接写title2 不能用插值-->
+			<my-directive my-title="{ {title}}" my-title2="title2"></my-directive>
+			
+		</div>
+	</div>
+
+<script type="text/javascript" src="angular.js"></script>
+<script type="text/javascript">
+	var app = angular.module("app",[]);
+	app.controller("main",function ($scope) {
+		 
+		 $scope.title = ""
+	})
+
+	// 自定义指令
+	app.directive("myDirective",function () {
+
+		 // 自定义指令的模板
+		return{
+			restrict : "E",
+			template : "<p>title1<input type='text' ng-model='title'/></p><h1>{ {msg}}{ {title}}</h1>title2 <input type='text' ng-model='title2'/> <h1>{ {msg2}} { {title2}}</h1>",
+			// scope : true, //scope 为true能隔离作用域, 父作用域与自定义指令中的作用域互不影响
+			// scope : false, //     false 不隔离作用域,父作用域与自定义指令中的作用域能相互影响
+			scope : {
+
+				// 变量映射, 把自定义指令属性中的my-title变量 映射到 模板中的title变量;  
+				// 自定义指令中的my-title变量接受父作用域中的title变量,以此实现了父作用域中的变量到模板中的映射
+				title : "@myTitle",  //@修饰符会到自定义指令的属性中寻找该变量的值  需要用驼峰命名
+				title2 : "=myTitle2"  //= 修饰符 能实现自定义指令与父作用域中的数据双向映射
+
+			},		// 为对象  封闭作用域, 父作用域的改变不会影响到指令作用域, 反之也不会影响
+			controller:function($scope){
+				$scope.title = "哈哈哈"
+				$scope.msg = "title1 @修饰符: "
+				$scope.msg2 = "title2 =等号修饰符"
+			}
+		}
+	
+			  
+	})
+
+</script>
+
+</b ody>
+</h tml>
+
+```
+
+### 23.5 link 属性
+
+function link(scope, iElement, iAttrs, require) { ... }
+
+链接函数负责注册DOM事件和更新DOM。它是在模板被克隆之后执行的，它也是大部分指令逻辑代码编写的地方。
+
+This指向的是window
+
+Arguments：可以注入4个参数
+
+>* scope，表示指令作用域
+
+>* iElement - instance element - 指令所在的元素。只有在postLink函数中对元素的子元素进行操作才是安全的，因为那时它们才已经全部链接好。
+
+>* iAttrs - instance attributes - 实例属性，一个标准化的、所有声明在当前元素上的属性列表，这些属性在所有链接函数间是共享的。
+
+>* require :引用的其它指令或控制器名称;也就是当前指令通过require请求的指令direct2内部的controller。比如：direct2指令中的controller:function(){this.addStrength = function(){}}，那么，在当前指令的link函数中，你就可以通过controller.addStrength进行调用了
+
+```
+<!-- html标签  -->
+<my-directive child-repeat=’3’><h1>demo</h1></my-directive>
+
+//自定义指令
+	app.directive('myDirective', function () {
+		// 返回一个描述指令的对象
+		return {
+			restrict: 'E',
+			// 将h1标签再重复渲染三次 ,
+			/**
+			 * 用来操作自定义指令元素
+			 * @scope 		自定义指令的作用域
+			 * @jqlite 		获取的自定义元素，
+			 * @attrs 		自定义指令元素中的属性
+			 */
+			link: function (scope, jqlite, attrs) {
+				// 要将自定义指令中的子元素重复渲染n，n=》child-repeat="3"
+				// 获取自定义元素中的子元素，为了成功插入元素，我们要对子元素克隆
+				var el = jqlite.children().clone();
+
+				// 循环childRepeat次数
+				for (var i = 0; i < attrs.childRepeat; i++) {
+					// 向自定义元素中插入el元素
+					// el也是对元素的一个引用，因此每次插入时是同一个元素，因此，我们要将该元素复制一下（克隆）
+					jqlite.append(el.clone())
+					// console.log(i)
+				}
+			}
+		}
+	})
+
+```
+
+### 23.6 compile 属性 编译
+
+function compile(tElement, tAttrs, transclude) { ... }
+
+编译函数是用来修改模板的DOM的. 由于大部分指令不需要修改dom, 所以该函数并不常用, 需要用到的例子有 ng-repeat, ng-view 
+
+参数:
+
+tEle :  指令所在元素.
+
+tAttr : 指令所在元素上的属性
+
+transclude  : 一个嵌入的链接函数function(scope, cloneLinkingFn)。
+
+注意：在编译函数里面不要进行任何DOM变形之外的操作。更重要的，DOM监听事件的注册应该在链接函数中做，而不是编译函数中。
+
+
+返回一个对象或函数(即post-link函数,所以compile方法会覆盖掉link方法)
+
+
+
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<h ead>
+	<meta charset="UTF-8">
+	<title></title>
+</h ead>
+<b ody>
+<div ng-app="app">
+	<div class="main" ng-controller="main">
+		<!-- 通过color属性，来设置元素的字体颜色 -->
+		<my-directive color="red">
+			<h1>今天天气很热</h1>
+		</my-directive>
+	</div>
+</div>
+<script type="text/javascript" src="angular.js"></script>
+<script type="text/javascript">
+var app = angular.module('app', []);
+// 定义控制器
+app.controller('main', function ($scope) {
+	$scope.title = '';
+})
+//创建自定义指令
+app.directive('myDirective', function () {
+	// 返回一个描述指令的对象
+	return {
+		restrict: 'E',
+		/**
+		 * 自定义指令的编译方法
+		 * @jqlite 		表示获取的自定义指令元素
+		 * @attrs 		表示自定义指令所在元素上的属性
+		 * return 		是一个方法，就是link
+		 */
+		compile: function (jqlite, attrs) {
+			// 返回的函数就是一个link方法
+			return function (scope, jqlite, attrs) {
+				// 将自定义指令中的字体颜色设置成自定义元素中属性color的值。
+
+				// 获取自定义元素
+				// 就是jqlite
+				
+				// 获取color值
+				var color = attrs.color;
+
+				// 将color值设置在自定元素的style属性
+				jqlite.css('color', color)
+				
+			}
+		}
+	}
+})
+</script>
+</b ody>
+</html>
+```
+compile方法也可以返回2个函数
+```
+compile : function(jqLite,attrs){
+	return {
+		// 先执行pre-link函数
+		pre : function(scope,jqLite,attrs){
+
+		},
+		// 执行完毕后执行post-link函数.
+		//只返回一个函数的话相当于是返回了post-link函数
+		post : function(scope,jqLite,attrs){
+
+		}
+	}
+}
+```
+
+### 23.7 transclude 属性
+
+它告诉自定义指令，要将自定义元素中未知的元素内容插入到已知模板具有ng-transclude指令所在的元素中
+
+
+```
+<my-directive>这里面的元素为未知元素</my-directive>
+
+//定义指令
+	app.directive('myDirective', function () {
+		// 返回一个描述指令的对象
+		return {
+			restrict: 'E',
+			// 为了让自定指令中的未知元素插入到模板中，要在模板中调用ng-transclude指令
+			template: '<div ng-transclude style="color: red"></div>',
+			// 当transclude属性为true的时候，才能插入成功
+			transclude: true
+		}
+	})
+
+```
+### 23.8 require(字符串或者数组) 属性
+
+自定义指令引用其他指令，作为link方法的第四个参数，
+
+例如require ：‘ngModel’， 那么我们就可以在link方法中访问到ngModel中属性值了
+
+字符串代表另一个指令的名字，它将会作为link函数的第四个参数。具体用法我们可以举个例子说明。假设现在我们要编写两个指令，两个指令中的link链接函数中 存在有很多重合的方法，这时候我们就可以将这些重复的方法写在第三个指令的controller中（上面也讲到controller经常用来提供指令间的复用行为）然后在这两个指令中，require这个拥有controller字段的的指令（第三个指令），
+
+最后通过link链接函数的第四个参数就可以引用这些重合的方法了。
+
+```
+<!DOCTYPE html>
+<h tml lang="en">
+<h ead>
+	<meta charset="UTF-8">
+	<title></title>
+</h ead>
+<b ody>
+<div ng-app="app">
+	<div class="main" ng-controller="main">
+		<!-- 通过color属性，来设置元素的字体颜色 -->
+		<input type="text" my-directive ng-model="title">
+	</div>
+</div>
+<script type="text/javascript" src="angular.js"></script>
+<script type="text/javascript">
+var app = angular.module('app', []);
+// 定义控制器
+app.controller('main', function ($scope) {
+	$scope.title = 'hello';
+})
+//创建自定义指令
+app.directive('myDirective', function () {
+	// 返回一个描述指令的对象
+	return {
+		restrict: 'A',
+		// 通过require属性添加ngModel指令
+		require: 'ngModel',
+		// 操作dom了
+		link: function (scope, jqlite, attrs, ngModel) {
+			// 我们引入ngmodel指令是为了监听input元素内容改变
+			// 当ngModel值改变时，触发回调函数
+			scope.$watch(attrs.ngModel, function () {
+				// ngModel上有个属性叫$viewValue,表示input当前值
+				console.log(ngModel.$viewValue)
+			})
+		}
+	}
+})
+</script>
+<  b ody>
+<  html>
+```
+
+案例2, 引用控制器其它指令中的
+
+
+```
+
+<!doctype html> 
+<h tml ng-app="myApp"> 
+<h ead> 
+ <script src="http://cdn.staticfile.org/angular.js/1.2.10/angular.min.js"></script> 
+</h ead> 
+<b ody> 
+  
+   
+ <outer-directive> 
+ <inner-directive></inner-directive> 
+ <inner-directive2></inner-directive2> 
+ </outer-directive> 
+ <script> 
+ var app = angular.module('myApp', []); 
+ app.directive('outerDirective', function() { 
+  return { 
+  scope: {}, 
+  restrict: 'AE', 
+  controller: function($scope) { 
+   this.say = function(someDirective) { 
+   console.log('Got:' + someDirective.message); 
+   }; 
+  } 
+  }; 
+ }); 
+ app.directive('innerDirective', function() { 
+  return { 
+  scope: {}, 
+  restrict: 'AE', 
+  require: '^outerDirective', 
+  link: function(scope, elem, attrs, controllerInstance) { 
+   scope.message = "Hi,leifeng"; 
+   controllerInstance.say(scope); 
+  } 
+  }; 
+ }); 
+ app.directive('innerDirective2', function() { 
+  return { 
+  scope: {}, 
+  restrict: 'AE', 
+  require: '^outerDirective', 
+  link: function(scope, elem, attrs, controllerInstance) { 
+   scope.message = "Hi,shushu"; 
+   controllerInstance.say(scope); 
+  } 
+  }; 
+ }); 
+  
+  
+ </script> 
+  
+< b ody> 
+< html> 
+
+
+```
+
+上面例子中的指令innerDirective和指令innerDirective2复用了定义在指令outerDirective的controller中的方法
+
+也进一步说明了，指令中的controller是用来让不同指令间通信用的。
+
+另外我们可以在require的参数值加上下面的某个前缀，这会改变查找控制器的行为：
+
+（1）没有前缀，指令会在自身提供的控制器中进行查找，如果找不到任何控制器，则会抛出一个error
+
+（2）？如果在当前的指令没有找到所需的控制器，则会将null传给link连接函数的第四个参数
+
+（3）^如果在当前的指令没有找到所需的控制器，则会查找父元素的控制器
+
+（4）?^组合
+
+
+
+### 23.9 自定义表单验证指令
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<h ead>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</h ead>
+<b ody>
+	
+	<div id="app" ng-app="app">
+		<div ng-controller="main">	
+			<!-- my-directive自定义的指令,当内容不合法时,提示err-text中的内容  -->
+			<input type="text" my-directive err-text="不能超过9位" ng-model="msg1" ng-maxlength="9">
+			<input type="text" my-directive err-text="必须大于6位" ng-model="msg2" ng-minlength="6">
+
+		</div>
+	</div>
+
+<script type="text/javascript" src="angular.js"></script>
+<script type="text/javascript">
+	var app = angular.module("app",[]);
+	app.controller("main",function ($scope) {
+		 $scope.msg1 = ""
+		 $scope.msg2 = ""
+		 
+	})
+
+	// 自定义指令
+	app.directive("myDirective",function () {
+
+		return{
+			restrict : "A",
+			//通过require 引入ngModel变量
+			require : "ngModel",
+			link : function(scope,jqLite,attrs,ngModel){
+					console.log(attrs);
+					console.log(jqLite);
+				//创建一个span元素
+				var el = angular.element("<span>");
+				var errText = attrs.errText;
+				jqLite.after(el);
+
+				//监听
+				scope.$watch(attrs.ngModel,function () {
+					
+					if(ngModel.$invalid){
+						el.html(errText)
+					}else{
+						el.html("")
+					}
+
+				})
+
+			}
+		}			  
+	})
+
+</script>
+
+</b ody>
+< h tml>
+
+```
+
+### 23.10 Anguar的指令编译过程
+
+1. 首先加载angularjs库, 
+
+2. 遍历DOM,找到ng-app指令以及指令边界.
+
+3. 在ng-app的作用域中 调用 $compile 服务进行编译.
+
+5. 遍历整个html文档,  处理页面中的各个指令, 将指令按照其优先级(priority)排列.
+
+6. 根据指令中的 template,replace,transclude 等属性转化DOM
+
+7. 指令各指令的 coplile函数对模板自身进行编译. 
+
+该 compile 函数是指令中的属性, 不是上面的 $compile服务.
+
+8. 指令元素编译完成后返回一个link函数, 所有的link函数会合成一个大的link函数.
+
+9. 执行这个大的link函数, 完成数据绑定. 
+
+如 通过dom上注册监听器来动态修改scope中的数据.;使用$watch 监听 scope 中的变量来修改DOM 从而建立双向绑定 等.
+
+如果没有设置compile函数, 会直接运行link函数.
+
+
+
+
+### 24 angular 服务
+
+服务是对一些方法的封装，为了使这些方法使用更方便，比如我们可以封装节流做一个节流服务，我们可以封装一个消息系统，作为消息服务等等
+
+使用服务，直接注入到参数中即可
+
+### 25   $timeout 服务
+
+是一个内置的服务，它是对setTimeout方法的一个封装
+
+第一个参数表示回调函数
+
+第二参数表示延迟时间
+
+```
+app.controller('main', function ($scope, $timeout) {
+	$scope.title = 'hello';
+	// $timeout服务 延时器
+	$timeout(function () {
+		console.log(this);
+		console.log(arguments)
+		$scope.title = 'success'
+	}, 2000)
+})
+
+```
+
+### 26 $interval 定时器服务
+
+是一个内置的服务，它是对setInterval的一个封装
+
+第一个参数表示回调函数
+
+第二参数表示间隔时间
+
+```
+app.controller('main', function ($scope, $interval) {
+	// 定义一个时间
+	$scope.date = new Date();
+	$interval(function () {
+		// 重新定义日期
+		$scope.date = new Date();
+	}, 1000)
+})
+
+```
+
+
+### 27 $http 发送异步请求
+
+是angular封装的一个发送异步请求的服务，
+
+是一个方法，接收一个对象参数
+
+method： 表示请求的方式“GET”， “POST”，
+
+url： 表示请求的地址
+
+$http方法执行完之后，我们可以对他链式调用sucess方法，表示请求成功的回调函数
+
+success方法有四个参数，常用的就是第一个参数，表示返回的数据
+
+```
+	app.controller('main', function ($scope, $http) {
+		// $http服务使用
+		// 成功的将数据请求过来了
+		$http({
+			method: 'GET',
+			url: 'demo.json'
+		})
+		// res表示返回的数据
+		.success(function (res) {
+			if (res.errno === 0) {
+				// 将data数据放入title变量
+				$scope.title = res.data
+			}
+		})
+	})
+
+```
+
+### 28 $http.get
+http服务get请求的一个简写方式，这个方法接受两个参数
+
+
+第一个参数表示get请求的地址
+
+第二个参数表示get请求的配置项
+
+```
+app.controller('main', function ($scope, $http) {
+	// get请求的简写方式
+	var httpGet = $http.get('demo.php', {
+		// get请求上的参数
+		params: {
+			id: 10
+		}
+	});
+	// httoGet 有一个success方法，我们可以用该方法使用请求回来的数据
+	httpGet.success(function (res) {
+		if (res.errno === 0) {
+			$scope.title = res.data
+		}
+	})
+	// console.log(httpGet)
+})
+```
+
+### 29 $http.post 
+
+POST请求
+
+通过对method设置成POST来发送POST请求，
+
+通过设置data属性来添加post请求发送数据
+
+我们还可以通过params属性添加请求的参数数据
+
+POST请求简写方式$http.post
+
+该方法接收两个参数
+
+第一个参数表示请求的地址
+
+第二个参数表示请求携带的数据
+
+```
+	//用$http命令发送post请求
+	$http({
+	 	method: 'POST',
+	 	url: 'demo.json',
+	 	// 该属性会将键值对转化成url上的query参数
+	 	params: {
+	 		id: 11
+	 	},
+	 	// 是为post请求添加请求数据
+	 	data: {
+			username: 'yyqh'
+		}
+	})
+
+	// 可以直接用$http.post方式发送请求
+	$http.post('demo.json', {
+		username: 'yyqh'
+	})
+
+```
+### 30 promise 允诺对象
+
+是一个允诺对象，在内部通常是一个异步操作，当操作完成，这个对象会实现他的允诺。
+
+特点：可以添加无限的允诺
+
+规范中允诺对象应该使用then方法
+
+但是在http服务中我们要使用 success, 和 error 方法，
+
+在http服务中，then方法和success方法是区别的
+
+多次调用时，success每次都能得到返回的数据，then只有第一次能得到返回的数据
+
+当调用一次的时候，success的第一个是返回的数据，then是对data封装的一个对象
+
+
+```
+	<script type="text/javascript">
+	var app = angular.module("app",[]);
+
+	// 服务 $interval 计时器 $timeout 定时器
+	// $http 发送异步请求
+	app.controller("main",function($scope,$interval,$timeout,$http){
+
+		$scope.date = new Date();
+		$interval(function () {
+			 $scope.date = new Date(); 
+		},0)
+
+		$timeout(function(){
+			$scope.msg = "O(∩_∩)O哈哈~"
+		},2000)
+		//$http发送异步请求, 返回一个 promise对象,可以继续调用success方法
+		$http({
+			url : "demo.json",
+			method : "get"
+		})
+		.success(function(res){
+			console.log(res,"success");
+		})
+		.error(function(res){
+			console.log(res,"err");	
+		})
+
+		// $http 的get方法
+		var httpGet = $http.get("news.json",{
+			// 网址中追加的数据 "news.json?id=10" angular建议写在params中
+			params : {
+				id : 10
+			}
+		})
+
+		//httpGet 得到一个promise允诺对象, 其success方法可以连续调用,并且每次都可以获取res的值
+		
+		httpGet.success(function(res){
+			if(res.errno === 0){
+				$scope.list = res.data;
+			}
+			console.log("111");
+		})
+		.success(function(res){
+			console.log(222);
+		})
+		// then方法也可以对promise对象连续调用, 会依次执行, 但是只有第一次能获得res值,并且res是一个封装有data属性的对象
+		httpGet.then(function(res){
+			console.log(333,res);
+		})
+		.then(function(res){
+			console.log(444,res);
+		})
+
+	})
+
+
+</script>
+
+
+```
+
+### 31 自定义服务 
+
+自定义服务可以用 service 或 factory 方法
+ 
+ service 是面向对象的,  定义的服务使用时需要用new关键字生成实例
+
+ factory 是面向过程的, 在调用时直接调用即可,不需要new
+
+
+angular给我们提供了以下几种注册服务的方式：
+
+provider：注册可配置的服务。
+
+factory：注册服务的快捷方式，基于provider方法，不可配置。
+
+service：利用构造函数注册服务，基于factory方法。
+
+value：注册简单的返回值服务，不支持依赖注入，基于factory方法。
+
+constant：注册常量服务，且在config函数中可调用。
+
+decorator：拦截装饰现有服务，用于扩展或者重写服务
+
+
+### 32 factory 方法定义服务
+
+工厂模式定义自定义服务, 面向过程
+
+接收两个参数
+
+第一个参数表示服务的名称
+
+第二个参数表示服务的工厂方法
+
+返回值，是一个服务对象，这个对象就是供其他控制器使用的服务
+
+```
+
+app.factory('newsData', function () {
+	// 返回一个服务对象
+	return {
+		data: '葡萄牙夺冠了'
+	}
+})
+
+//调用
+app.controller('main', function ($scope, newsData) {
+	$scope.news = newsData.data;
+	// console.log(newsData)
+	
+})
+
+```
+
+### 33 service 服务
+
+面向对象方式写服务的。
+
+第一个参数表示服务名称
+
+第二个参数表示服务构造函数
+
+注意构造函数中一定要通过this暴漏接口
+
+```
+// 定义一个msgData服务，第二个参数是一个构造函数
+.service('msgData', function () {
+	this.title = '今天下雨了，好开心'
+})
+```
+
+### 34 使用factory 和 service 方法封装观察者模式服务
+
+```
+
+<!DOCTYPE html>
+<h tml lang="en">
+<h ead>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</h ead>
+<b ody>
+	<div ng-app="app">
+		<div ng-controller="main">
+			<button ng-click="fire()">fire</button>
+			<p>{ {msg}}</p>
+		</div>
+		<div ng-controller="haha">
+			{ {msg}}
+		</div>
+		<div ng-controller="xixi"> 
+			嘻嘻:{ {msg}}
+		</div>
+	</div>
+	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript">
+		angular.module("app",[])
+
+		//创建service服务,service服务是以面向对象的方式创建服务, 即后面的函数为构造函数,在调用的时候会new出来
+		.service("msgData",function(){
+			this.msg = "(*^__^*) 嘻嘻……"
+		})
+
+		//创建把自己封装的观察者模式创建为service服务
+		.service("observer",function(){
+
+			var Observer = (function(){
+			 
+			    var __message = { };
+			 
+			    return {			         
+			       
+			        add : function(type,fn){
+			          
+			            if(__message[type]){
+			                __message[type].push(fn);
+			            }else{
+			                __message[type] = [fn];
+			            }
+			            return this;
+			        },			 
+			      
+			        fire : function(type,data){
+			 
+			            if(__message[type]){
+			                var e = {
+			                    type : type,
+			                    data : data
+			                }
+			            //让消息管道中保存的函数执行 
+			            for(var i = 0 ;i<__message[type].length;i++){
+			                __message[type][i](e);
+			            }
+			 
+			            }else{
+			                throw new Error("");
+			            }   
+			            return this; //方便链式调用           
+			        },			       
+			        remove : function(type,fn){
+			          
+			            for(var i = __message[type].length-1 ; i>=0;i--){
+			                if(__message[type][i] === fn){
+			                    __message[type].splice(i,1)
+			                }
+			            }
+			            return this;
+			        }
+			    }
+			})()
+
+			//由于是面向对象创建的服务, 所以要把需要的值绑定到this上
+			this.fire = Observer.fire;
+			this.regist = Observer.add;
+		})
+
+		//用factory工厂方式定义一个服务
+		//factory是面向过程的, 在调用时会直接调用该函数, 不用new的方法. 所以不需要封装为构造函数
+		.factory("obser2",function(){
+			var Observer = (function(){
+			 
+			    var __message = { };
+			 
+			    return {			         
+			       
+			        add : function(type,fn){
+			          
+			            if(__message[type]){
+			                __message[type].push(fn);
+			            }else{
+			                __message[type] = [fn];
+			            }
+			            return this;
+			        },			 
+			      
+			        fire : function(type,data){
+			 
+			            if(__message[type]){
+			                var e = {
+			                    type : type,
+			                    data : data
+			                }
+			            //让消息管道中保存的函数执行 
+			            for(var i = 0 ;i<__message[type].length;i++){
+			                __message[type][i](e);
+			            }
+			 
+			            }else{
+			                throw new Error("");
+			            }   
+			            return this; //方便链式调用           
+			        },			       
+			        remove : function(type,fn){
+			          
+			            for(var i = __message[type].length-1 ; i>=0;i--){
+			                if(__message[type][i] === fn){
+			                    __message[type].splice(i,1)
+			                }
+			            }
+			            return this;
+			        }
+			    }
+			})()
+			return Observer;
+		})
+
+
+		//创建控制器
+		.controller("main",function($scope,msgData,observer,obser2){
+			$scope.fire = function(){
+				$scope.msg = msgData.msg;
+				//再发布一条haha消息
+				observer.fire("haha",$scope.msg);
+				obser2.fire("xixi","洗洗洗")
+			}
+		})
+
+		//创建控制器2
+		.controller("haha",function($scope,observer){
+			console.log(observer);
+			observer.regist("haha",function(data){
+				$scope.msg = data
+			})
+		})
+
+		//创建控制器xixi
+		.controller("xixi",function($scope,obser2){
+			console.log(obser2);
+			obser2.add("xixi",function(data){
+				$scope.msg = data.data
+			})
+		})
+
+
+	</script>
+< b ody>
+< / h tml>
+
+
+```
+
+### 35 angular-route 路由
+
+
+用来寻找页面的，通常通过配置一些路由来映射一些页面
+
+angular提供两套路由，一个是angular.route.js，一个是angular.ui.router.js，我们任选一套即可，不要同时使用两套
+
+在angular中使用angular.route.js。必须要在页面中将其引入进来，注意它依赖angular.js所以一定要放在后面，
+
+```
+注入ngRoute 服务
+angular.module('app', ['ngRoute'])
+```
+
+### 35.1 ng-view 指令
+
+这是指令表示要动态渲染的视图，也就是说这个视图如何渲染要根据路由决定
+
+```
+<!-- 通过设置ng-view的值来选择要渲染的视图 -->
+<div ng-view=""></div>
+
+```
+当页面渲染出来以后在决定哪个路由渲染哪个页面就晚了，所以说路由一定要设定在页面初始化前面。
+
+### 35.2 config方法
+
+是在应用程序执行之前执行一个配置方法，在这个方法中页面还没有被渲染，因此，我们可以将路由逻辑放在该方法里面.
+
+angular的执行顺序, config --&gt; run --&gt; compile --&gt; link
+
+Config接收一个回调函数作为参数
+
+回调函数的this指向window
+
+回调函数的参数默认是空的，所以我们要向使用路由服务，就要将路由服务注入进来
+
+### 35.3 路由服务 $routeProvider
+
+
+这是一个路由供给服务，提供一个when方法，供我们配置路由
+
+#### 35.3.1 when方法
+
+方法接受两个参数，
+
+第一个参数表示路由的路径
+
+第二个参数表示路由对象，在该对象中我们可以配置路由一些属性
+
+```
+// 页面配置方法，该方法接收一个回调函数，在该函数中我们可以执行一些业务逻辑
+.config(function ($routeProvider) {
+	// 我们要在该方法中使用路由，但是没有这些参数，我们就要将路由注入进来
+	// 有了路由服务，我们要写路由配置
+	$routeProvider
+	// 配置含义：当页面是#/时候，我们要将该模板放到ng-view指令所在元素内
+	.when('/', {
+		template: '<h1>今天下雨了</h1>'
+	})
+})
+
+```
+
+### 35.4 controller 属性
+
+在路由对象中，我们可以通过controller属性，为路由对象添加控制器，创建一个作用域，让模板可以使用作用域中的变量
+
+```
+when('/', {
+	// template设置模板
+	template: '<h1>{{msg}}</h1>',
+	// 可以通过controller属性添加作用域
+	controller: function ($scope) {
+		$scope.msg = '今天下雨了'
+	}
+})
+
+```
+
+### 35.5 otherwise 默认路由规则
+定义其他路由的一个规则，接收一个对象参数
+
+在这个对象中我们可以定义redirectTo参数来重定向到不同的路由，它的值，是我们定义过的路由路径
+
+```
+.otherwise({
+	// 值是我们定义过的路径
+	redirectTo: '/'
+})
+
+```
+
+### 35.6 获取路由的参数
+
+两步
+
+第一步要在路由路径中配置这个参数，参数名称前面有冒号：
+
+第二步我们要将获取路由参数服务注入控制器中
+
+将$routeParams注入到控制器中，路由中配置的参数就是该对象上的属性
+
+我们在路由的路径中配置几个参数，那么$routeParams就有几个属性供我们获取参数值
+
+```
+	.when('/color/:colorName', {
+		template: '<h1>{{color}}</h1>',
+		controller: function ($scope, $routeParams) {
+			// 获取路由参数中colorname
+			var color = $routeParams.colorName;
+			// console.log($routeParams)
+			// 将color放到作用域中
+			$scope.color = color
+		},
+	})
+
+```
+
+### 35.7 路由事件
+
+路由事件我们通常定义需要监听该事件的控制器中，通常我们在全局作用域下监听
+
+我们通过对作用域上的$on方法监听路由事件
+
+比如我们监听路由改变成功实践 $routeChangeSuccess,
+
+回调函数中我们有三个参数
+
+第一个参数表示事件对象
+
+第二个参数表示当前路由对象
+
+第三个参数表示前一个路由对象
+
+当页面打开是，没有前一个路由对象，因此第三个参数是undefined
+
+
+```
+// 在全局作用域下监听路由事件
+$rootScope.$on('$routeChangeSuccess', function (e, route, preRoute) {
+	console.log(this);
+	console.log(arguments)
+})
+```
+### 35.8 $location
+
+管理地址栏状态信息，包含path，query等等
+
+Path方法，改变页面中的路由path的，
+
+第一种用法，不传参数，是用来获取页面路由的路径的
+
+第二种用法，传递一个参数，参数是字符串，是用来设置页面路由路径的
+
+```
+$location.path(arg);
+$location.path()
+```
+
+### 36 ui-router
+
+route：设计思想：每个页面应该对应一个地址（path），我们想要渲染哪个由地址决定，所以我们要配置这些地址
+
+ui-router：设计思想：引入state概念，每个页面如果显示，显示那个页面，渲染之后只是一种状态，我们可以将该状态记录下来，配置路由，
+
+使用ui-router
+
+想创建一个状态要引入$stateProvider服务
+
+提供了一个方法state。是用来定义状态
+
+第一个参数：状态的名称
+
+第二个参数：状态的配置
+
+url:表示状态页面的地址
+
+template：该状态对应页面的模板
+
+controller：用来定义状态对应页面的作用域的。
+
+```
+// 在config中配置路由
+.config(function ($stateProvider) {
+	// 通过stateProvider来定义状态
+	$stateProvider
+	// 第一个参数表示状态的名称,第二个表示状态配置
+	.state('home', {
+		// url配置页面的地址，#/
+		url: '/',
+		template: '<h1>这是内容{{msg}}</h1>',
+		controller: function ($scope) {
+			$scope.msg = '今天下了一天雨'
+		}
+	})
+})
+
+```
+### 36.1 路由参数规则 $stateParams
+
+ui-router中，我们可以配置更复杂的url
+
+路由参数规则
+
+固定值 ： /key
+
+可捕获的参数： /:key, 这个key就可以被捕获
+
+如果想限制字段类型： /{key:type} 
+
+这里key是可以捕获的，type是限定类型
+
+捕获query： ?queryName&queryName2 
+
+这里的queryName和queryName2是可以被捕获的
+
+所以我们想获取什么样的参数只需要按照这个规则配置即可
+
+
+```
+
+<script type="text/javascript">
+angular.module('app', ['ui.router'])
+// 在config中配置路由
+.config(function ($stateProvider) {
+	// 通过stateProvider来定义状态
+	$stateProvider
+	// 第一个参数表示状态的名称,第二个表示状态配置
+	.state('home', {
+		// url配置页面的地址，#/
+		url: '/',
+		template: '<h1>这是内容{{msg}}</h1>',
+		controller: function ($scope) {
+			$scope.msg = '今天下了一天雨'
+		}
+	})
+	.state('color', {
+		// #/color/red/is/100?form=10&to20
+		// url: '/color/:value/is/{num:int}?form&to',
+		url: '/color/:value/is/{num:string}?form&to',
+		template: '<h1>color</h1>',
+		controller: function ($stateParams) {
+			console.log($stateParams)
+		}
+	})
+})
+</script>
+```
+
+### 36.2 $urlRouterProvider 
+
+提供url router服务
+
+有个when，是将第一个参数的路由路径重定向到第二个参数路由的路径
+
+接收的两个参数都是路由路径
+
+有个otherwise方法，是将匹配不存在的路由，跳转到参数对应的路由
+
+```
+<script type="text/javascript">
+angular.module('app', ['ui.router'])
+// 在config中配置路由
+.config(function ($stateProvider, $urlRouterProvider) {
+	// 通过stateProvider来定义状态
+	$stateProvider
+	// 第一个参数表示状态的名称,第二个表示状态配置
+	.state('home', {
+		// url配置页面的地址，#/
+		url: '/',
+		template: '<h1>这是内容{{msg}}</h1>',
+		controller: function ($scope) {
+			$scope.msg = '今天下了一天雨'
+		}
+	})
+	.state('color', {
+		url: '/color',
+		template: '<h1>color</h1>'
+	})
+	$urlRouterProvider
+	.when('', '/')
+	.otherwise('/color')
+
+})
+
+</script>
+```
+
+
+
+
+### 36.3 views 属性 渲染多个视图
+
+ui-router可以渲染页面中多个视图，通过为页面中ui-view指令添加名称，多个视图渲染要在路由对象中通过views属性添加，每个views属性对应一个视图，每个视图是一个路由对象，我们可以在里面设置模板和控制器
+
+
+
+```
+<script type="text/javascript">
+angular.module('app', ['ui.router'])
+// 配置路由
+.config(function ($stateProvider) {
+	$stateProvider
+	// 定义home路由
+	.state('home', {
+		url: '/',
+		views: {
+			// 每个属性对应一个视图ui-view
+			// 定义leftSlider
+			leftSlider: {
+				// 定义模板
+				template: '<h1>左边广告区域{{ad}}</h1>',
+				// 通过controller创建模板的作用域
+				controller: function ($scope) {
+					$scope.ad = '没有广告'
+				}
+			},
+			rightSlider: {
+				template: '<h1>博客的目录{{msg}}</h1>',
+				controller: function ($scope) {
+					$scope.msg = '没有目录'
+				}
+			},
+			// 定义content视图
+			content: {
+				template: '<h1>内容区域{{content}}</h1>',
+				controller: function ($scope) {
+					$scope.content = '目前还没有文章'
+				}
+			}
+		}
+	})
+	.state('book', {
+		url: '/book',
+		views: {
+			leftSlider: {
+				template: '<h1>这本书的广告</h1>'
+			},
+			rightSlider: {
+				template: '<h1>这本书介绍</h1>'
+			},
+			content: {
+				template: '<h1>这本书的名字javascript设计模式</h1>'
+			}
+		}
+	})
+})
+</script>
+```
+
+### 36.4 childview 视图嵌套
+
+在ui-router中视图是可以嵌套的， 通过state定义状态的命名空间
+我们通过定义state命名子空间（为父状态名称添加一个属性），来实现视图嵌套
+，此时路由的路由一定要在父路由的路径的下边
+
+
+```
+<!DOCTYPE html>
+<h tml lang="en">
+<h ead>
+	<meta charset="UTF-8">
+	<title></title>
+</h ead>
+ b ody>
+<div ng-app='app'>
+	<h eader>
+		这是标题部分
+	</h eader>
+	<div class="content" ui-view=></div>
+</div>
+<script type="text/javascript" src="angular.js"></script>
+<script type="text/javascript" src="angular-ui-router.js"></script>
+<script type="text/javascript">
+angular.module('app', ['ui.router'])
+// 配置路由
+.config(function ($stateProvider) {
+	$stateProvider
+	// 定义home路由
+	.state('home', {
+		url: '/home',
+		template: '<h1>内容区域{{content}}</h1> <div ui-view></div>',
+		controller: function ($scope) {
+			$scope.content = '目前还没有文章'
+		}
+	})
+	// 通过定义路由的子路由来设置子视图
+	.state('home.color', {
+		// #/home/color
+		url: '/color',
+		template: '<h1>这是内容的颜色</h1>'
+	})
+})
+</script>
+< b ody>
+< h tml>
+```
+
+### 36.5 ui-router 事件
+
+在ui-router中，事件的名称都是以state开头的，
+
+回调函数中有5个参数
+
+第一个参数表示事件对象
+
+第二个参数表示当前路由对象
+
+第三个参数表示路由参数
+
+第四个参数表示前一个路由对象
+
+第五个参数表示前一个路由参数
+
+```
+$rootScope.$on('$stateChangeSuccess', function (e, route, routeParams, preRoute, preRouteParams) {
+
+```
+### 37 angular.element 用法
+
+1、引用jQuery的前提下，和$用法基本相同：angular.element('#').html()
+
+例如：
+```
+angular.element('#test').html()
+```
+
+2、 不引入jQuery。
+
+angular.element() 参数要求是HTML string or DOMElement
+
+
+```
+1、 推荐这种方法
+angular.element(document.querySelector(''));
+
+2、
+angular.element(document).find('xx').addClass('yy')
+
+3、
+ var par = document.getElementsByTagName('p')[0];
+ angular.element(par).addClass('blue');
+ 
+4、
+angular.element('<div id="test">1111</div>').html()
+```
+
+</xmp>
+
+
+
+
+
+<script type="text/javascript" src="js/lib/angular.js"></script>
+
+
+<!-- js代码 -->
+<script type="text/javascript">
+var app = angular.module("app",[])
+app.controller("main2",function(){
+
+})
+
+app.controller("main_repeat",function($scope){
+	$scope.colors =  ['red', 'yellow', 'green', 'blue', 'orange']
+})
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 生成目录 -->
+<script type="text/javascript" src="js/buildCatalog.js"></script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+ -->

@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>深入了解JSON</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+<h1>深入了解JSON</h1>
+<p class="hhns">
+关于JSON，必须清晰的一点是它是一种数据结构，而非一种编程语言。尽管它看起来与javascript有相同的语言格式，但是JSON并不从属于javascript。
+其他语言也可以无障碍的使用JSON,因为他们拥有JSON的解析器与序列化器.</p>
+<h3>一. 基础</h3>
+<p>1. JSON可以用来表示各种值, 字符串,数组,对象,函数都可以：</p>
+<p>2. 与javascript对象 不同的是，JS对象的属性可以不加引号，但是json的属性名需要加引号.(在js中不加双引号也不会出错,但是为了与其他语言之间最大的兼容性,所以需要加双引号)</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// 如: 
+	//js对象 需要声明
+	var obj = {
+		name : "小明"
+	}
+	//json不需要
+	{
+		"name" : "小明"
+	}
+	
+	</script>
+</div>
+
+<h3>二. JSON对象的解析与序列化</h3>
+<p>JSON之所以流行的重要原因之一不是因为它轻量化，而是它天生的转化为javascript对象的独特性。</p>
+<p>对于字符串形式的JSON需要先进行解析,如ajax返回的json格式的数据一般都是字符串形式的</p>
+<h3>1. eval格式化json</h3>
+<p>eval() 函数可计算某个字符串，并执行其中的的 JavaScript 代码</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	// 如一个字符串json如下
+	var data="{ errno: 0 , data { 'name' : '小明', 'age' : 18 } }" ;
+	var data_json = eval ("(" + data + ")");  //转换为JSON对象
+	</script>
+</div>
+<h4>为什么要 eval 这里要添加 “("("+data+")")呢？ </h4>
+<p class="">
+原因在于：eval本身的问题。 由于json是以”{}”的方式来开始以及结束的，在JS中，它会被当成一个语句块来处理，所以必须强制性的将它转换成一种表达式。
+</p>
+<p>
+	加上圆括号的目的是迫使eval函数在处理JavaScript代码的时候强制将括号内的表达式（expression）转化为对象，而不是作为语句（statement）来执行。举一个例子，所以下面两个执行结果是不同的： 
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//eval中的{}会当做语句块来处理.
+	alert(eval("{}")); // return undefined 
+	//加上小括号可以把{}转为表达式
+	alert(eval("({})"));// return object[Object] 	
+	</script>
+</div>
+<p class="red">
+	一般不要用eval来转JSON. 因为eval会执行字符串中的js代码, 所以容易被黑客利用进行攻击,出现安全问题.
+</p>
+<h3>2. 用Function对象来解析JSON</h3>
+<p>利用Function的构造函数来解析JSON</p>
+<p>更推荐这种方式</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var json_str = '{"name" : "小明" , "age" : 18}';
+//格式化json
+var json_obj = (new Function("","return " + json_str))();
+	
+	</script>
+</div>
+<h3>3. JSON对象的stringify 和 parse 方法</h3>
+<h3>3.1 stringify</h3>
+<h4>stringify  能将javascript对象转化为JSON字符串</h4>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var People = {
+		name : "小明",
+		age : 18
+	}
+	//对象转json
+	var people_json = JSON.stringify(People);
+	// 得到 "{"name":"小明","age":18}"
+	</script>
+</div>
+
+<h4>stringify的参数选项</h4>
+<p class="hhns">
+stringify除了接受javascript对象外还可以选填两个参数，第一个参数是一个过滤器可以用数组来表示，也可以是一个函数。第二个参数可以用来表示JSON字符串的缩进选项。
+
+如果过滤器是一个数组的话，那么JSON.stringify()只包含叔祖列出来的属性，还是之前的book例子。
+
+</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+ var   book   =     {
+     "name" : "ritsu",
+     "author" : [
+       "Michael",
+       "Prince" ,
+       "Banada"             
+      ],
+     "price" : 200      
+};
+
+var  string =  JSON.stringify(book,["name","price"]);
+//{"name":"ritsu","price":200}
+	
+	</script>
+</div>
+<h4>如果过滤器是一个函数的话，情况有所不同，函数接受两个参数:属性的名与值，还是原来的book例子。</h4>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+  var  jsonText = JSON.stringify(book,function(key,value){
+
+             switch(key){
+
+                 case "author" : 
+                                    return value.join("-");
+                case "name" :
+                                 return value;
+                case "price" :
+                                 return value * 50000;
+                 default:
+                                 return value;
+                 }
+         });
+
+    //最后的结果应该是:
+
+"{"name":"ritsu","author":"Michael-Prince-Banada","price":10000000}"
+
+	</script>
+</div>
+<h4>字符串缩进</h4>
+<p>
+	字符串缩进式第三个选项，可以控制初始状态令人难以阅读的JSON字符串，达到赏心悦目的状态。
+</p>
+<p>
+	如果要缩进四个字符串可以这样做,还是原来的book：
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+    var jsonText = JSON.stringify(book,null,4);
+    //把第二个参数设为null就可以忽略过滤器了.
+    //结果如下
+
+'{
+"name": "ritsu",
+"author": [
+    "Michael",
+    "Prince",
+    "Banada"
+],
+"price": 200
+}'
+	</script>
+</div>
+<p>当然你还可以把单纯的空格转化为自己喜欢的字符:</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+var jsonText = JSON.stringify(book,null,"-");
+
+//结果如下:
+            '{
+-"name": "ritsu",
+-"author": [
+--"Michael",
+--"Prince",
+--"Banada"
+-],
+-"price": 200
+}'
+
+	</script>
+</div>
+<h3>3.2 JSON.parse() 方法</h3>
+<p>
+	JSON.parse() 方法用于将一个 JSON 字符串转换为对象。
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+JSON.parse(text[, reviver])
+//text:必需， 一个有效的 JSON 字符串。
+//reviver: 可选，一个转换结果的函数， 将为对象的每个成员调用此函数。
+	</script>
+</div>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+JSON.parse('{"p": 5}', function(k, v) {
+  if (k === '') { return v; } 
+  return v * 2;               
+});                          
+
+JSON.parse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}}', function(k, v) {
+  console.log(k); // 输出当前属性，最后一个为 ""
+  return v;       // 返回修改的值
+});
+
+	</script>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+
+	</script>
+</div>

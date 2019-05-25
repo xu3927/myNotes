@@ -7,3 +7,7 @@
 ```
 $ npm run serve
 ```
+
+## 首页
+
+[https://xu3927.github.io/myNotes/](https://xu3927.github.io/myNotes/)

@@ -7,8 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "serve": "gitbook serve",
-    "build": "gitbook build"
+    "serve": "gitbook serve --port 4000",
+    "build": "gitbook build ./ ./docs"
   },
   "repository": {
     "type": "git",

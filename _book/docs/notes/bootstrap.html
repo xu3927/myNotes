@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+  <!-- 设置IE的兼容模式，可以防止IE有一些兼容错误 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 视口标签 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签必须放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<meta http-equiv="Content-Type" content="text/html;">
+	<title>Bootstrap框架</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	 <link href="css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>Bootstrap框架</h1>
+	<p>BootStrap是一个框架,可以用来实现敏捷开发, 轻松实现响应式</p>
+	<h3>1. 部署</h3>
+	<p>BootStrap的官网<a href="http://www.bootcss.com/">www.bootcss.com</a> 可以下载bootstrap的包,然后在页面上进行引用</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+	&lt!DOCTYPE html>
+	&lthtml lang="zh-CN">
+  	&lthead>
+    &ltmeta charset="GBK">
+    <!-- 设置IE的兼容模式,以IE8以上的浏览器都以最高版本渲染页面，可以防止IE有一些兼容错误 -->
+    &ltmeta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- 视口标签 -->
+    &ltmeta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap html模板</title>
+
+    <!-- Bootstrap 样式表-->
+    &ltlink href="css/bootstrap.min.css" rel="stylesheet">
+ 	<!-- 下面的js  HTML5 shim 是给IE6、7、8用的，让IE6、7、8能够支持html5标签和媒体查询 -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn`t work if you view the page via file:// -->
+    &lt!--[if lt IE 9]>
+    &ltscript src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js">&lt/script>
+    &ltscript src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js">&lt/script>
+    <![endif]-->
+  	&lt/head>
+  	&ltbody>
+    <h1>你好，世界！</h1>
+
+	//<--页面内容-->
+
+
+    <!-- jQuery 包 和bootstrap的js包 -->
+    <script src="js/jquery-1.12.3.min.js">&lt/script>
+    <script src="js/bootstrap.min.js">&lt/script>
+ 	&lt/body>
+	&lt/html>	
+	</script>
+</div>
+
+<h3>2. 敏捷开发</h3>
+<p>就是利用人家写好的css，和必要的HTML结构，我们往自己的页面里面ctrl+v。
+敏捷开发是现在的一个流行趋势，让做页面变得简单。缺点也非常明显：不方便自定义。</p>
+
+<h3>3. 栅格系统</h3>
+<h3>3.1 容器container</h3>
+<p>BootStrap中的container是一个非常好用的容易, 自己有4段的响应式变化;</p>
+<p>在下表中能够看见container的宽度：</p>
+<p><img src="images/chatu/boot_container.jpg" alt="" /></p>
+<h4>通过下表可以详细查看 Bootstrap 的栅格系统是如何在多种屏幕设备上工作的。</h4>
+<style type="text/css">
+.tb_shange .table-hover tr:nth-child(n):hover{
+
+	background-color: #555;
+}
+</style>
+
+<div class=" tb_shange">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th></th>
+          <th>
+            超小屏幕
+            <small>手机 (&lt;768px)</small>
+          </th>
+          <th>
+            小屏幕
+            <small>平板 (≥768px)</small>
+          </th>
+          <th>
+            中等屏幕
+            <small>桌面显示器 (≥992px)</small>
+          </th>
+          <th>
+            大屏幕
+            <small>大桌面显示器 (≥1200px)</small>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="text-nowrap" scope="row">栅格系统行为</th>
+          <td>总是水平排列</td>
+          <td colspan="3">开始是堆叠在一起的，当大于这些阈值时将变为水平排列C</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap" scope="row"><code>.container</code> 最大宽度</th>
+          <td>None （自动）</td>
+          <td>750px</td>
+          <td>970px</td>
+          <td>1170px</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap" scope="row">类前缀</th>
+          <td><code>.col-xs-</code></td>
+          <td><code>.col-sm-</code></td>
+          <td><code>.col-md-</code></td>
+          <td><code>.col-lg-</code></td>
+        </tr>
+        <tr>
+          <th class="text-nowrap" scope="row">列（column）数</th>
+          <td colspan="4">12</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap" scope="row">最大列（column）宽</th>
+          <td class="text-muted">自动</td>
+          <td>~62px</td>
+          <td>~81px</td>
+          <td>~97px</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap" scope="row">槽（gutter）宽</th>
+          <td colspan="4">30px （每列左右均有 15px）</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap" scope="row">可嵌套</th>
+          <td colspan="4">是</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap" scope="row">偏移（Offsets）</th>
+          <td colspan="4">是</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap" scope="row">列排序</th>
+          <td colspan="4">是</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+<h3>3.2 BootStrap 12列栅格系统</h3>
+<p>栅格系统用于通过一系列的行（row）与列（column）的组合来创建页面布局</p>
+<p>栅格系统：把容器看做12列，用类名：<b class="red">col-lg-***</b> 来规定这个盒子占了多少列。加起来不超过12的列，将并排在一个行显示。</p>
+<p>格式:</p>
+<p>
+	最外面是带有container类名的容器.  <br>
+	里面一层是 行(row) , row必须包裹在container内. 如果只有一行的话可以省略row层.  <br>
+	行的里面用col来设置每个元素所占的栅格数, 一共有12格. 如果一行的列大于12, 多余的列会另起一行排列显示
+</p>
+<p></p>
+<style type="text/css">
+	.shange_12 {
+		background-color: #333;
+		color: #333;
+	}
+	.shange_12 .col{
+		background-color: #f5f5f5;
+		border: 1px solid #333;
+		height: 40px;
+		-webkit-box-sizing:border-box;		
+		padding-top: 10px;
+	}
+</style>
+<div class="container shange_12">
+	<div class="row">
+	<div class="col col-lg-3 col-md-5 col-sm-1">1</div>
+	<div class="col col-lg-3 col-md-1 col-sm-5">2</div>
+	<div class="col col-lg-3 col-md-2 col-sm-5">3</div>
+	<div class="col col-lg-3 col-md-4 col-sm-1">4</div>
+	</div>
+	<!-- offse设置偏移 -->
+	<div class="row">
+		<div class="col col-lg-3 col-md-3 ">col col-lg-3 col-md-3</div>
+		<div class="col col-lg-6 col-md-3 col-md-offset-1">col col-lg-6 col-md-3 col-md-offset-1</div>
+		<div class="col col-lg-6 col-md-4 col-md-offset-1">col col-lg-6 col-md-4 col-md-offset-1</div>
+	</div>
+</div>
+<div class="h20"></div>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//栅格系统的格式
+	//最外面是带有container类名的容器. 里面就可以采用栅格系统; 
+<div class="container shange_12">
+//里面一层是 行(row) , row必须包裹在container内. 如果只有一行的话可以省略row层. 
+	<div class="row">
+//行的里面用col来设置每个元素所占的栅格数, 一共有12格. 如果一行的列大于12, 多余的列会另起一行排列显示
+		<div class="col-lg-3 col-md-5 col-sm-1">1</div>
+		<div class="col-lg-3 col-md-1 col-sm-5">2</div>
+		<div class="col-lg-3 col-md-2 col-sm-5">3</div>
+		<div class="col-lg-3 col-md-4 col-sm-1">4</div>
+	</div>
+
+	<!-- offse设置偏移 -->
+	<div class="row">
+		<div class="col col-lg-3 col-md-3 ">col col-lg-3 col-md-3</div>
+		<div class="col col-lg-6 col-md-3 col-md-offset-1">col col-lg-6 col-md-3 col-md-offset-1</div>
+		<div class="col col-lg-6 col-md-4 col-md-offset-1">col col-lg-6 col-md-4 col-md-offset-1</div>
+	</div>
+
+</div>
+	
+	</script>
+</div>
+
+<h3>3.2.1 栅格系统的流式布局</h3>
+<p>将最外面的布局容器的类名 .container 修改为 .container-fluid，就可以将固定宽度的栅格布局转换为 100% 宽度的布局。</p>
+
+<style type="text/css">
+	.col_flu{
+		height: 50px;
+		background-color: #f2f2f2;
+		border: 1px solid #aaa;
+	}
+</style>
+<div class="container-fluid">
+	
+	<div class="row">
+		<div class="col-lg-3 col-md-5 col-sm-4 col_flu">col-lg-3 col-md-5 col-sm-4</div>
+		<div class="col-lg-6 col-md-2 col-sm-4 col_flu">col-lg-6 col-md-2 col-sm-4</div>
+		<div class="col-lg-3 col-md-5 col-sm-4 col_flu">col-lg-3 col-md-5 col-sm-4 </div>
+
+	</div>
+
+</div>
+
+
+
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+
+  <script src="js/jquery-1.12.3.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>

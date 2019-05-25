@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>图片的懒加载lazyload</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+	<!-- 自己定义的css样式 -->
+	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+<!-- 插入markDown -->
+
+<xmp>
+# 图片的懒加载lazyload
+
+
+### lazyLoad简介及作用：
+
+懒加载有很多种名字，例如：延迟加载、惰性加载、按需加载 
+页面如果有很多图片的时候，当你滚动到相应的行时，当前行的图片才即时加载的，这样子的话页面在打开只加可视区域的图片，而其它隐藏的图片则不加载。
+
+### 使用场合
+
+涉及到图片，falsh资源，iframe，网页编辑器(CK)，JS文件 等占用较大带宽，避免网页打开时加载过多资源，让用户等待太久。 
+或者用户没有浏览到的地方，就会不去加载，节省很多资源，减轻服务器压力。
+
+
+### 使用方式
+
+1.你怎么知道用户想看那张图片 
+2.当这个图片标签在这里，怎么把图片地址给它 
+绑定滚动方式
+
+#### 原生js方法
+```
+//原生js方法 
+var str = "";
+for(var i = 1 ;i<75; i++){
+
+	//把src链接存放在_src这个自定义的属性中;实际的src用一张低像素的logo图代替. 待需要加载的时候再更改src的地址
+str += "<li><img  _src='images/("+ i +").jpg' src='images/(1).jpg' alt=''></li>"
+
+}
+
+var oImgList = document.getElementById("imgList");
+oImgList.innerHTML = str;
+
+window.onload = function(){
+	
+	var oImg = 	document.getElementsByTagName("img");
+
+	//显示图片
+	showImage();
+
+	//当页面滚动时加载图片
+	window.onscroll = showImage;
+
+	//加载图片函数
+	function showImage () {
+		//当前的页面滚动值 body的top值是为了IE的兼容
+		 var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+		 for(var i = 0 ;i < oImg.length; i++ ){
+		 	//如果这个图片还没有下载,并且进入视图范围了就把这个图的src赋值给img标签;
+		 	if( !oImg[i].isload && getTop(oImg[i]) < scrollTop + document.documentElement.clientHeight ){
+		 		oImg[i].src = oImg[i].getAttribute("_src");
+		 		oImg[i].isLoad = true;
+		 	}
+		 }
+	}
+
+
+	//用递归来获取元素到页面顶端的距离
+	function getTop (obj) {
+		 var iTop = 0;
+		 while(obj){
+		 	iTop += obj.offsetTop;
+		 	obj = obj.offsetParent;
+		 } 
+		 return iTop;
+	}
+}
+
+
+
+```
+
+
+#### jquery方法
+
+```
+
+//jquery方法
+//构建图片列表
+var html  = []; //存放dom字符串
+for(var i  = 1 ;i < 70; i ++){
+	html.push("<li><img  data-src='images/("+ i +").jpg'  alt=''></li>");
+}
+
+$("#imgList").html(html.join("")); //追加到页面中
+
+//延迟加载
+var timer ;
+//jquery的命名空间, 绑定事件scroll.lazyload(后面的用来标记事件,方便取消事件)
+$(window).on("scroll.lazyload",function(){
+	clearTimeout(timer);
+	//模拟延迟加载
+	timer = setTimeout(function(){
+		find()
+	}, 200)
+})
+
+//find函数, 用来遍历所有未加载的图片判断该图片是否需要进行加载
+function find () {
+	//not是jquery筛选器,方括号可以用来筛选属性
+	 var imgs = $("#imgList img").not("[src]")
+
+	 log('尚有 '+imgs.length + ' 张图片未加载') //打印日志
+
+	 if(imgs.length){
+	 	imgs.each(function(){
+	 		var o = $(this);
+	 		if(o.isVisible()){
+	 			o.attr("src",o.data("src")) //给img标签设置src属性,来请求加载图片
+	 		}
+	 	})
+	 }else{
+	 	$(window).off("scroll.lazyload") //取消srcoll懒加载事件
+	 	log('图片全部加载完毕，已解除相关滚动事件')
+	 }
+}
+
+// 判断一个元素是否在可视范围
+// 即图片的顶部或底部在可视范围当中
+//给jquery函数增加属性方法 $.fn.haha = {}
+$.fn.isVisible = function(){
+
+	var  o = this;
+	var minHeight = $(window).scrollTop();
+	var maxHeight = $(window).height() + minHeight;
+
+	var top = o.offset().top //元素的top值
+	var height = o.height(); //元素的高度
+
+	if((top >= minHeight && top < maxHeight) || (top + height >= minHeight && top + height < maxHeight) ){
+		return true
+	}
+	return false
+}
+
+//日志助手
+// 仅在url当中包含 debug 标识时打印日志
+function log(data,method){
+
+	method = method || "log";
+
+	if(/(^file:|[?&]debug\b)/.test(window.top.location.href) && typeof console === "object" ){
+
+		method = console[method] ? method : "log"
+
+		if( data instanceof Array ){
+			// 将 console.log(['1', {1:1,2:2}, '3'])
+			// 改为：console.log('1', {1:1,2:2}, '3')
+			// 日志的显示效果会更直观一些
+			console[method].apply(console,data)
+		}else{
+			console[method](data)
+		}
+	}
+}
+
+
+
+find();
+
+
+```
+
+## 图片的预加载preload
+
+有时候一些资源需要预先加载出来, 以减少用户的等待时间. 特别是对于一些比较大的资源;
+
+```
+window.onload = function () {
+	 var oTu = document.getElementById("tupian") ;
+
+	 //创建img标签
+	 var oImage = new Image;
+	 // 给img标签的src赋值url时,系统就会去下载这个url资源,加载成功后的资源被保存在了浏览器的缓存中, 在需要的时候再直接把这个url地址赋值给需要的元素, 这样减少了等待时间,可以提高用户体验,特别是对于一些比较大的资源更有效
+	 oImage.src = "images/ (3).jpg";
+	 //图片加载完毕触发
+	 oImage.onload = function(){
+
+	 	console.log("加载完成");
+
+	 	document.onclick = function(){
+	 		//由于资源已经下载了, 所以图片切换会非常快
+	 		oTu.src = "images/(3).jpg";
+	 	}
+	 }
+
+	 //图片加载失败会触发这个事件
+	 oImage.onerror = function () {
+	 	console.log("图片加载失败"); 
+	}
+
+}
+
+```
+
+</xmp>
+
+
+
+<!-- js代码 -->
+<script type="text/javascript">
+
+
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+ -->

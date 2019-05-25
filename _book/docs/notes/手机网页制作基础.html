@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>手机网页制作基础</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+</head>
+<body>
+
+	<h1>手机网页制作基础</h1>
+	<h2>一 视口 viewport</h2>
+	<p>
+		视口是浏览器的宽度. 电脑端视口宽一般是电脑的分辨率宽;
+	</p>
+	<p>
+		手机端的视口宽大部分默认是980, 可以通过一句视口约束的meta标签来设置手机端的视口.
+	</p>
+	<p>手机端约束后的视口宽一般为320 - 380 px</p>
+	<div class="daima pd red">
+		&lt meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /&gt
+	</div>
+	<p>这个meta标签参数:</p>
+	<p>参数1 : width = device - width ;  设置视口为设备宽度(手机出厂时所认为设置的一个宽度)</p>
+	<p>参数2 : intial-scale = 1.0 ; 初始化视口大小是1.0倍</p>
+	<p>参数3 : maximun-scale = 1.0 ; 最大的倍数是1.0倍</p>
+	<p>参数4 : user-scalable = 0 ; 是否允许用户缩放视口</p>
+
+	<h2>二 流式布局/百分比布局</h2>
+	<h3>2.1 手机网页没有版心</h3>
+	<p>为了美观,及充分利用手机屏幕, 手机网页一般没有版心, 都左右撑满.</p>
+
+	<h3>2.2 手机网页布局中的百分比</h3>
+	<p>百分比写 width 表示父元素width的百分之多少</p>
+	<p>百分比写 height 表示父元素 height 的百分之多少</p>
+	<p class="red">百分比写 padding 表示父元素 width 的百分之多少,无论上下还是左右 padding</p>
+	<p class="red">百分比写 margin 表示父元素 width 的百分之多少,无论上下还是左右 margin</p>
+	<p class="red">border 不能用百分比来设置</p>
+
+	<h3>2.3 css3中的弹性盒属性</h3>
+	<p>css3中新推出了<b class="red">display : -webkit-box</b>属性</p>
+	<p>对于拥有这个属性的盒子, 它的儿子盒子都是弹性盒了. 它的儿子们不需要设置float : left 就可以并排, 并且可以用数值来设置各自所占的比例, 目前该属性还需要加前缀"-webkit-" </p>
+	<p>父元素设置display : -webkit-box; 属性 <br>
+	儿子元素要设置 -webkit-box-flex : val; 值
+	</p>
+	<p>box-flex 的值可以是任意数值, 只用来表示儿子元素们的比例关系,  与其它无关. 1 ,1,1 完全等价于 3, 3 ,3</p>
+	<p>直接对各个子盒子设置百分比的width值也可以按比例设置其宽度, 如设置3个子盒子width : 33.333% , 但是这种方式不直观, 所以引进了display : box; 属性</p>
+	
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//css属性
+	div{
+		display : - webkit-box; //使自己的儿子成为弹性盒模型
+	}
+	p : nth-child(1){
+		height: 100px;
+		background: orange;
+		-webkit-box-flex : 1;  //box-flex属性用来设置自己在兄弟元素所占的比例
+	}
+	p : nth-child(2){
+		height: 100px;
+		background: skyblue;
+		-webkit-box-flex : 2;
+	}
+	p : nth-child(3){
+		height: 100px;
+		background: pink;
+		-webkit-box-flex : 3;
+	}
+
+
+	//html结构
+	<div>
+		<p></p>
+		<p></p>
+		<p></p>
+	</div>	
+	</script>
+</div>
+<style type="text/css">
+	.change_tanxinghe{
+		height: 70px;	
+		line-height: 40px;
+	}
+	 .change_tanxinghe input{
+	 	width: 50px;
+	 }
+
+	.tanxinghe div{
+		display: -webkit-box;
+	}
+	.tanxinghe div p{
+		line-height: 80px;
+		font-size: 25px;
+		text-align: center;
+		margin: 5px 0;
+		transition:all 1s ease 0s;
+	}
+	.tanxinghe div p:nth-child(1){
+		/*box-flex属性表示比例*/
+		-webkit-box-flex:1;		
+		background: orange;
+		}
+	.tanxinghe div p:nth-child(2){
+			/*box-flex属性表示比例*/
+			-webkit-box-flex:2;
+			background: skyblue;
+		}
+	.tanxinghe div p:nth-child(3){
+			/*box-flex属性表示比例*/
+			-webkit-box-flex:3;
+			background-color: pink;
+		}
+
+</style>
+<div class="change_tanxinghe">
+	输入各个盒子所占的比例 :  <br>
+	L : <input type="text" id="tanxinghe_l_input" value="1">  
+	M : <input type="text" id="tanxinghe_m_input" value="2"> 
+	R : <input type="text" id="tanxinghe_r_input"  value="3">
+</div>
+<p>结果:</p>
+<div class="jieguo tanxinghe">
+	<div>
+		<p id="tangxinhe_L">L</p>
+		<p id="tangxinhe_M">M</p>
+		<p id="tangxinhe_R">R</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+//弹性盒输入数据改变盒子宽度
+	// $tangxinhe_L = $("#tangxinhe_L");
+	// $tangxinhe_M = $("#tangxinhe_M");
+	// $tangxinhe_R = $("#tangxinhe_R");
+	var $tanxinghePs = $(".tanxinghe p");
+	var $inputs_change = $(".change_tanxinghe input");
+	
+	$inputs_change.blur(function(){
+		var index = $inputs_change.index($(this));
+		$tanxinghePs.eq(index).css({
+			"-webkit-box-flex" : $(this).val()
+		})
+	})
+
+</script>
+
+<h3>2.4 CSS3中新的盒模型 <b class="red"> box-sizing : border-box ;</b> </h3>
+<p>box-sizing 就是盒子的尺寸, 这个属性定义了给盒子设置的width, height 是内容的宽度还是border的宽度</p>
+<p>默认是 box-sizing : content ; 即内容的宽度 </p>
+<p>box-sizing : border-box ; 是把设定的宽高指定为边框外侧的宽高, 这样盒子的border是固定的, 设置padding 后盒子会是内减的.</p>
+<img src="images/chatu/box-sizing.png" alt="">
+<p>box-sizing在流式布局中非常好用. 因为宽高经常会以百分比来设置, 如果以内容作为宽高,在修改padding或border后就需要重新计算宽高值.</p>
+<p>现在以border外侧作为宽高后把宽高设定为百分比后, 修改border,padding的值不会影响到页面的布局</p>
+<p>css3中有新属性 <b class="red">"width : calc(50% - 10px)"</b></p>
+<p>这个属性可以直接用于css中来计算宽高,并且可以用百分比, 只能做加减运算, 要带单位. 但是现在一般都不再用这个属性了</p>
+
+<h3>2.5 固比固模型</h3>
+<p>即两侧的盒子是固定宽度的, 中间的盒子宽度可以随页面的改变收缩扩张</p>
+
+<style type="text/css">
+
+/*方法一用定位来做*/
+/*	.fbox{
+		width: 100%;
+		height: 40px;
+		border: 2px solid yellow;
+		position: relative;
+		color: #000;
+	}
+	.fbox .left{
+		width: 70px;
+		height: 40px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: #f0f;
+	}
+	.fbox .middle{
+		width: 100%;
+		height: 40px;
+		padding-left: 70px;
+		padding-right: 40px;
+		box-sizing:border-box;
+		background-color: #0ff;
+	}
+
+	.fbox .right{
+		width: 50px;
+		height: 40px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		background-color: #f0f;
+	}*/
+	
+
+	/*方法二  用display : box 来做;*/
+	.fbox{
+		width: 100%;
+		height: 40px;
+		border: 2px solid yellow;
+		/*父盒子设置该属性后,儿子盒子会自动并排, 不需要设置浮动或定位*/
+		display: -webkit-box;
+		color: #000;
+	}
+	.fbox .left{
+		width: 70px;
+		height: 40px;
+		background-color: #dfd;
+	}
+	.fbox .middle{
+		width: 100%;
+		height: 40px;
+		/*设置该元素的比例为宽度的100%, 即自动撑满盒子*/
+		-webkit-box-flex:1;
+		box-sizing:border-box;
+		background-color: #0de;
+	}
+
+	.fbox .right{
+		width: 50px;
+		height: 40px;
+		background-color: #dfd;
+	}
+
+	
+
+</style>
+
+
+	<div class="fbox">
+		<div class="left">固: </div>
+		<div class="middle">比: </div>
+		<div class="right">固: </div>
+	</div>
+
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//固比固模型方法一 . 定位
+	//父盒子相对定位
+	//让左右的盒子绝对定位, 分别left : 0; right : 0;
+	//中间的盒子设置 width : 100% ; 并且设置 display : box; 再对其设置左右padding 正好分别为左右两个固定盒子的宽度. 这样左右两个固定的盒子会浮在中间的盒子的padding上. 这样就形成了固比固模型
+	.fbox{
+		width: 100%;
+		height: 40px;
+		border: 2px solid yellow;
+		position: relative;
+	}
+	.fbox .left{
+		width: 70px;
+		height: 40px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: #f0f;
+	}
+	.fbox .middle{
+		width: 100%;
+		height: 40px;
+		padding-left: 70px;
+		padding-right: 40px;
+		box-sizing:border-box;
+		background-color: #0ff;
+	}
+
+	.fbox .right{
+		width: 50px;
+		height: 40px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		background-color: #f0f;
+	}	
+
+	//方法二  用display : box 来做;
+	.fbox{
+		width: 100%;
+		height: 40px;
+		border: 2px solid yellow;
+		//父盒子设置该属性后,儿子盒子会自动并排, 不需要设置浮动或定位
+		display: -webkit-box;
+		color: #000;
+	}
+	.fbox .left{
+		//左右元素设置固定宽度即可, 不需要设置浮动或定位
+		width: 70px;
+		height: 40px;
+		background-color: #f0c;
+	}
+	.fbox .middle{
+		width: 100%;
+		height: 40px;
+		/*设置该元素的比例为宽度的100%, 即自动撑满盒子*/
+		-webkit-box-flex:1;
+		background-color: #0cf;
+	}
+
+	.fbox .right{
+		width: 50px;
+		height: 40px;
+		background-color: #a0f;
+	}
+	</script>
+</div>
+
+<h3>2.6 高度等比变化的盒子模型</h3>
+<p>手机站中, 有时候盒子的高度是固定的,宽度是百分比. 有的时候高度和宽度是等比变化的.</p>
+<p>制作等比变化的盒子有4种方法</p>
+<h3>2.6.1 方法一.利用图片的特性制作</h3>
+<p>图片天生有个特性,  宽高可以等比变化. 利用图片的这个特性来撑高盒子, 盒子设置为浮动, 不设高度, 则会自动收缩为图片的高度. 那么盒子也是等比变化的</p>
+<style type="text/css">
+	/*方法一 利用图片等比变化的特性来撑出盒子的高,以实现盒子等比变化的效果*/
+	.dengbi_img{
+		width: 100%;
+		border: 5px solid #ccc;
+		overflow: hidden;
+		padding: 5px;
+	}
+	.dengbi_img div{
+		float: left;
+		box-sizing:border-box;
+		border: 2px solid #f2f2f2;
+	
+	}
+	.dengbi_img div:nth-child(2){
+		width: 20%;
+	}
+	.dengbi_img div:nth-child(3){
+		width: 30%;
+		
+	}
+	.dengbi_img div:nth-child(4){
+		width: 50%;
+	}
+	.dengbi_img div img{
+		width: 100%;
+		height: 100%;
+		/*这个属性可以使文字(图片)居中显示, 这样可以消除由于图片渲染不准确而造成的白边*/
+		vertical-align:middle;
+	}
+</style>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	/*方法一 利用图片等比变化的特性来撑出盒子的高,以实现盒子等比变化的效果*/
+	.dengbi_img{
+		width: 100%;
+		border: 5px solid #ccc;
+		overflow: hidden;
+		padding: 5px;
+	}
+	.dengbi_img div{
+		float: left;
+		box-sizing:border-box;
+		border: 2px solid #f2f2f2;
+	
+	}
+	.dengbi_img div:nth-child(2){
+		width: 20%;
+	}
+	.dengbi_img div:nth-child(3){
+		width: 30%;
+		
+	}
+	.dengbi_img div:nth-child(4){
+		width: 50%;
+	}
+	.dengbi_img div img{
+		width: 100%;
+		height: 100%;
+		/*这个属性可以使文字(图片)居中显示, 这样可以消除由于图片渲染不准确而造成的白边*/
+		vertical-align:middle;
+	}
+
+
+	//html结构
+	<div class="dengbi_img">
+		<div><img src="images/screen/1.jpg" alt=""></div>
+		<div><img src="images/screen/2.jpg" alt=""></div>
+		<div><img src="images/screen/3.jpg" alt=""></div>
+	</div>		</script>
+</div>
+
+
+
+	<div class="dengbi_img">
+		<p>方法一: 利用图片的等比变化. 盒子1,2,3分别设置了20%,30%,50%的宽度</p>
+		<div><img src="images/screen/1.jpg" alt=""></div>
+		<div><img src="images/screen/2.jpg" alt=""></div>
+		<div><img src="images/screen/3.jpg" alt=""></div>
+	</div>
+<h3>2.6.2 方法二 利用padding-top 来做</h3>
+<p>利用padding的百分比表示法是以父盒子的width为基准的属性. 对每个盒子以百分比设置width 和 padding - top 值. 这样每个盒子就是宽高等比变化的了. 再给每个盒子设置背景图即可</p>
+<style type="text/css">
+	/*	方法二 利用以百分比设置padding时也是依据的父盒子的宽度这个特性, 来制作固定宽高比例的盒子,可以把图片设置为盒子的背景.*/
+	.dengbi_pdtop{
+		width: 100%;
+		overflow: hidden;
+	}
+	.dengbi_pdtop div{
+		float: left;
+		box-sizing:border-box;
+		border: 1px solid #f2f2f2;
+	}
+	.dengbi_pdtop div:nth-child(2){
+		width: 50%;
+		padding-top: 35%; 
+		background-image: url(images/screen/1.jpg);
+	}
+	.dengbi_pdtop div:nth-child(3){
+		width: 25%;
+		padding-top: 17.5%;
+		background-image: url(images/screen/2.jpg);
+		-webkit-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+	.dengbi_pdtop div:nth-child(4){
+		width: 25%;
+		padding-top: 17.5%;
+		background-image: url(images/screen/3.jpg);
+		-webkit-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+	.dengbi_pdtop div:nth-child(5){
+		width: 50%;
+		padding-top: 17.5%;
+		background: url(images/screen/4.jpg) no-repeat 0 0 ;
+		-webkit-background-size: cover;
+		background-size: cover;
+	}
+
+</style>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+	/*	方法二 利用以百分比设置padding时也是依据的父盒子的宽度这个特性, 来制作固定宽高比例的盒子,可以把图片设置为盒子的背景.*/
+	.dengbi_pdtop{
+		width: 100%;
+	}
+	.dengbi_pdtop div{
+		float: left;
+		//给每个div设置border-box属性
+		box-sizing:border-box;
+		border: 1px solid #f2f2f2;
+	}
+	.dengbi_pdtop div:nth-child(2){
+		//用百分比设置每个盒子的宽和padding-top值,这样盒子就是等比变化宽高了
+		width: 50%;
+		padding-top: 35%; 
+		background-image: url(images/screen/1.jpg);
+	}
+	.dengbi_pdtop div:nth-child(3){
+		width: 25%;
+		padding-top: 17.5%;
+		background-image: url(images/screen/2.jpg);
+		-webkit-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+	.dengbi_pdtop div:nth-child(4){
+		width: 25%;
+		padding-top: 17.5%;
+		background-image: url(images/screen/3.jpg);
+		-webkit-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+	.dengbi_pdtop div:nth-child(5){
+		width: 50%;
+		padding-top: 17.5%;
+		background: url(images/screen/4.jpg) no-repeat 0 0 ;
+		-webkit-background-size: cover;
+		background-size: cover;
+	}
+
+	//html结构
+	<div class="dengbi_pdtop">
+		<p></p>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>  	</script>
+</div>
+
+
+<div class="dengbi_pdtop">
+		<p></p>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+</div>
+<h3>2.6.3 利用js等比例设置盒子的高度</h3>
+<p>方法三: 当页面的宽度改变后, 用js来设置盒子的高度.</p>
+<p>css中设置了每个盒子的百分比宽度</p>
+<p>用js监听 window.onresize事件.当窗口宽度改变时,根据每个盒子的宽度来设置其height值</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	var $dengbi_divs = $(".dengbi_js div");
+	//在window.onresize事件发生的时候设置盒子的高度
+	window.onresize= set;
+	//第一次要调用高度设置函数,
+	set();
+	function set(){
+	$dengbi_divs.each(function(i){
+		var width_it = parseInt($(this).css("width"));
+		if(i==1){
+			//单独设置第2个盒子的宽度
+			$(this).css({
+			//根据盒子的宽度来设置其高度值
+			"height":width_it*175/500 + "px"
+			})
+	}else{
+		$(this).css({
+			"height":width_it*350/500 + "px"
+		})
+		}
+	})	
+	}  	
+
+	//html结构
+	<div class="dengbi_js">
+		<div><img src="images/screen/1.jpg" alt=""></div>
+		<div><img src="images/screen/2.jpg" alt=""></div>
+		<div><img src="images/screen/3.jpg" alt=""></div>
+		<div><img src="images/screen/4.jpg" alt=""></div>
+	</div> 			</script>
+</div>
+
+<style type="text/css">
+	.dengbi_js{
+		width: 100%;
+		overflow: hidden;
+	}
+	.dengbi_js div{
+		float: left;
+		border: 1px solid #f2f2f2;
+		box-sizing:border-box;
+	}
+	.dengbi_js div img{
+		width: 100%;
+		height: 100%;
+		/*消除图片在盒子中留的白边*/
+		vertical-align:middle;
+	}
+	.dengbi_js div:nth-child(1){
+		width: 50%;
+	}
+	.dengbi_js div:nth-child(2){
+		width: 50%;
+	}
+	.dengbi_js div:nth-child(3){
+		width: 25%;
+	}
+	.dengbi_js div:nth-child(4){
+		width: 25%;
+	}
+</style>
+<p>结果:</p>
+<div class="dengbi_js">
+		<div><img src="images/screen/1.jpg" alt=""></div>
+		<div><img src="images/screen/2.jpg" alt=""></div>
+		<div><img src="images/screen/3.jpg" alt=""></div>
+		<div><img src="images/screen/4.jpg" alt=""></div>
+</div>
+<script type="text/javascript">
+	var $dengbi_divs = $(".dengbi_js div");
+	//在window.onresize事件发生的时候设置高度
+	window.onresize= set;
+	//第一次要调用高度设置函数,
+	set();
+	function set(){
+	$dengbi_divs.each(function(i){
+		var width_it = parseInt($(this).css("width"));
+		if(i==1){
+			//单独设置第2个盒子的宽度
+			$(this).css({
+			//根据盒子的宽度来设置其高度值
+			"height":width_it*175/500 + "px"
+			})
+	}else{
+		$(this).css({
+			"height":width_it*350/500 + "px"
+		})
+		}
+	})	
+	}
+
+</script>
+	
+
+
+<h3>2.6.4 给div加上表格属性来做</h3>
+<p>给父盒子加上 display : table ; 儿子盒子加上dispaly : table - cell 属性. 这样就会具有表格的属性, 宽高会等比例变化,并且能够并排</p>
+
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+		
+	//用table的特性来做
+	.dengbi_tb{
+		//
+		display:table;
+		width: 100%;
+	}
+	.dengbi_tb div{
+		padding: 0;
+		display: table-cell;
+		border: 1px solid #f2f2f2;
+		box-sizing:border-box;
+		vertical-align: middle;
+	}
+	.dengbi_tb div:nth-child(1){
+		width: 20%;
+	}
+	.dengbi_tb div:nth-child(2){
+		width: 30%;
+	}
+	.dengbi_tb div:nth-child(3){
+		width: 30%;
+	}
+	.dengbi_tb div:nth-child(4){
+		width: 20%;
+	}
+	.dengbi_tb div img{
+		width: 100%;
+	}
+
+	//html结构
+	<div class="dengbi_tb">
+		<div><img src="images/screen/1.jpg" alt=""></div>
+		<div><img src="images/screen/2.jpg" alt=""></div>
+		<div><img src="images/screen/3.jpg" alt=""></div>
+		<div><img src="images/screen/4.jpg" alt=""></div>
+	</div>	</script>
+</div>
+
+<style type="text/css">
+	.dengbi_tb{
+		display:table;
+		width: 100%;
+	}
+	.dengbi_tb div{
+		padding: 0;
+		display: table-cell;
+		border: 1px solid #f2f2f2;
+		box-sizing:border-box;
+		vertical-align: middle;
+	}
+	.dengbi_tb div:nth-child(1){
+		width: 20%;
+	}
+	.dengbi_tb div:nth-child(2){
+		width: 30%;
+	}
+	.dengbi_tb div:nth-child(3){
+		width: 30%;
+	}
+	.dengbi_tb div:nth-child(4){
+		width: 20%;
+	}
+	.dengbi_tb div img{
+		width: 100%;
+	}
+</style>
+
+<div class="dengbi_tb">
+		<div><img src="images/screen/1.jpg" alt=""></div>
+		<div><img src="images/screen/2.jpg" alt=""></div>
+		<div><img src="images/screen/3.jpg" alt=""></div>
+		<div><img src="images/screen/4.jpg" alt=""></div>
+</div>
+
+
+
+
+<div class="cb"></div>
+<h3>五 手机网页制作中的一些常用属性与方法</h3>
+<h3>5.1 设置最大宽度,最小宽度</h3>
+<p class="red">min-width : ; max-width : ;</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	header{
+			width: 60%;
+			height: 100px;
+			background-color: red;
+			min-width: 360px; //设置页面的最小宽度是360px
+			max-width: 600px; //设置页面的最大宽度是600px
+			margin: 0 auto;
+	}	</script>
+</div>
+<h3>5.2 rem与em</h3>
+<p>em表示的是父元素的字号的倍数, 该属性是计算后继承,以父元素的字号为基础. em除了设置字号, 也可以用来设置盒模型的宽高尺寸</p>
+<p>rem : css3中新增了rem属性, r 表示root</p>
+<p>这个属性以html标签的字号为基准来设置. 不看父亲.</p>
+<p>可以利用rem来设置盒模型的尺寸, 由于统一以html标签的字号为基准, 因此修改一下html标签中的字号, 就可以修改页面上所有以rem为单位的尺寸的改变</p>
+<p>一般rem会设置为16px</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//em属性
+	//css样式
+	.box1{
+		font-size: 14px;
+	}
+	.box2{
+		font-size: 2em;
+	}
+	.box3{
+		font-size: 2em;
+	}
+
+	//html结构
+	<div class="box1">          //14号字
+		<div class="box2">      //28号字
+			<div class="box3">  //56号字,2em会在父元素的字号的基础上设置为2倍.
+			
+			</div>
+		</div>
+	</div>		</script>
+</div>
+
+<h3>5.3 媒体查询</h3>
+<p>css3 可以根据屏幕的宽度来设置css</p>
+<p>媒体查询只能包裹选择器, 不能包裹k : v ;对儿</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//根据屏幕的不同宽度设置 body 的背景颜色
+	//@media表示媒体查询, screen表示看该网页的是显示器, and后面罗列左右的可能性
+	//and (min-width:1200px) 表示最小尺寸是1200px, 符合该条件的会执行后面的语句块里面的语句, 不符合会执行下一条语句. 实际上就是设置屏幕宽度大于等于1200px的情况
+	@media screen and (min-width:1200px){
+		body{
+			background-color: pink;
+		}
+	}
+	//设置屏幕宽 大于等于700px 小于 1200px 的情况
+	@media screen and (min-width:700px) and (max-width:1200px){
+		body{
+			background-color: blue;
+		}
+	}
+	//设置屏幕宽度小于 700px 的情况
+	@media screen and (max-width:700px){
+		body{
+			background-color: orange;
+		}
+	} 	</script>
+</div>
+<p>IE6,7,8不支持媒体查询, 同时也为了防止某些浏览器不支持媒体查询, 所以不要把所有可能的情况都放在媒体查询里. 要留出一些情况在媒体查询外面, "留活口"</p>
+<p>外链样式表也可以在link标签上应用媒体查询：</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	<link href=”1.css” media=”(min-width:400px) and (max-width:700px)” rel=”stylesheet” />
+		</script>
+</div>
+
+
+
+
+	
+
+
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+	
+</body>
+</html>

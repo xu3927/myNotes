@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>ngTable学习</title>
+	<!-- 代码着色核心文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
+	<!-- 代码着色匹配代码类型的文件 -->
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+	<!-- 代码高亮的css样式文件 -->
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
+	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
+
+	<!-- 自己定义的css样式 -->
+	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+<!-- 插入markDown -->
+
+<xmp>
+
+# ngTable 学习
+
+ngTable 是一个angular的生成表格的插件
+
+
+
+### 1. 引入模块
+
+```
+// 1. 引包 
+<link rel="stylesheet" href="ng-table.css">
+<script type="text/javascript" src='angular.js'></script>
+<script type="text/javascript" src="ng-table.js"></script>
+
+// 2.  引入ngTable模块
+angular.module('app',['ngTable']);
+
+// 3. html部分插入指令
+<table ng-table="tableParams" class="table" show-filter="true">
+    <tr ng-repeat="user in $data">
+    	<!-- data-title 设置标题, filter 过滤 sortable 排序规则-->
+        <td data-title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+            {{user.name}}</td>
+        <td data-title="'Age'" filter="{ age: 'number'}" sortable="'age'">
+            {{user.age}}</td>
+    </tr>
+</table>
+
+// 4. js部分的controller中赋值
+
+var data = [{name: "岳不群", age: 50},{name: "令狐冲", age: 30}, {name: "任盈盈", age: 20}, {name: "林平之", age: 18}, {name: "小师妹", age: 18},  {name: "仪琳", age: 18},];
+
+$scope.tableParams = new NgTableParams({}, { dataset: data});
+
+```
+![ngTable运行图](images/chatu/ngTable1.png)
+
+### 2 加载数据
+### 2.1 通过settings管理数据
+
+```
+<div ng-controller="demoController as demo">
+	<label for="book">选择书籍</label>
+	<select name="" id="book" ng-model="demo.bookData" ng-options="op for op in books" ng-change="demo.changeBook()">
+	</select>
+	<table ng-table="demo.tableParams">
+		<tr ng-repeat="user in $data" show-filter="true">
+			<td data-title="'姓名'" filter="{ name : 'text'}" sortable="'name'">{{user.name}}</td>
+			<td data-title="'年龄'" filter="{ age : 'number'}" sortable="'age'">{{user.age}}</td>
+		</tr>
+	</table>
+</div>
+
+// js 中控制器代码
+
+.controller('demoController', function ($scope, NgTableParams) {
+	$scope.books = ['射雕英雄传', '笑傲江湖']
+	// ngTable 学习
+    var data1 = [{name: "岳不群", age: 50},{name: "令狐冲", age: 30}, {name: "任盈盈", age: 20}, {name: "林平之", age: 18}, {name: "小师妹", age: 18},  {name: "仪琳", age: 18},];
+    var data2 = [{name: "郭靖", age: 50},{name: "黄蓉", age: 30}, {name: "黄药师", age: 20}, {name: "老顽童", age: 18}, {name: "洪七公", age: 18},  {name: "欧阳锋", age: 18},];
+
+    var self = this;
+	// 通过函数为表格赋值
+	self.tableParams = new NgTableParams({}, {});
+	self.changeBook = changeBook;
+	function changeBook () {
+		if (self.bookData === '笑傲江湖') {
+			self.tableParams.settings({
+				dataset: data1
+			})
+		} else {
+			self.tableParams.settings({
+				dataset: data2
+			})
+		}
+	}
+})
+
+```
+
+### 3. 通过getData异步获取并设置数据.
+
+```
+
+<script type="text/javascript">
+var app = angular.module("myApp", ["ngTable", "ngResource", "ngTableDemoFakeBackend"]);
+(function() {
+
+  app.controller("demoController", demoController);
+  demoController.$inject = ["NgTableParams", "$resource"]; // 注入服务
+
+  function demoController(NgTableParams, $resource) {
+    // tip: to debug, open chrome dev tools and uncomment the following line 
+    //debugger;
+    
+    var Api = $resource("/data");
+
+  	// 参数1是初次加载传递的数据. 参数2配置其他选项
+	this.tableParams = new NgTableParams({
+		count: 10, //每页显示的数据量
+		page: 1 //页码
+	}, {
+		total: 0,
+		counts : [10,20,40,70], // 设置每页显示数据量的按钮显示的数字
+		// 每次点击筛选或分页都会触发该方法
+		getData: function (params) {
+			console.log("getData", params); // params: NgTableParams 实例
+			console.log(params.url()); // 当前的查询参数.
+			return api.get(params.url()).$promise.then(function (res) {
+				var data = res.data;
+				params.data = data;
+				params.total(data.total); // 设置总的数据数量
+				return res.data;
+			})
+		}
+
+	});
+  }
+})();
+</script>
+
+``` 
+### 3. 分页
+
+
+</xmp>
+
+
+
+<!-- js代码 -->
+<script type="text/javascript">
+
+
+	
+</script>
+
+<!-- //markdown格式化文件 -->
+<script src="js/strapdown/strapdown_xiugai.js"></script>
+
+<!-- SyntaxHighlighter 代码着色执行文件 -->
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 生成目录 -->
+<script type="text/javascript" src="js/buildCatalog.js"></script>
+
+</body>
+</html>
+
+
+<!-- 代码自动高亮模板 -->
+<!-- <div class="daima">
+	<script type="syntaxhighlighter" class="brush: js;">
+
+	
+	</script>
+</div>
+ -->

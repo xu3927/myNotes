@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>手机站制作-手机中的事件</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+
+	<style type="text/css">
+	html{
+		font-size: 14px;
+		
+	}
+
+	</style>
+	
+</head>
+<body>
+	<h1>手机站制作-手机中的事件</h1>
+
+	<h3>一. touch事件</h3>
+	<h3>1.1 概述</h3>
+	<p>手机网页能够响应click事件，不过比较慢。因为click事件触发之后，要等300ms（一般手机是300ms）验证是否有下一次点击，如果有的话，视为“双击”。而机器的双击默认操作，可能是放大视口、弹出辅助菜单等等。</p>
+	<p>所以我们在给web页面写事件的时候，一般都不用click事件。而是用touch事件。</p>
+	<div class="pd bd">
+	<p>touch事件是三个：</p>
+	<p><b class="red">touchstart</b> 表示触摸开始，这个事件每次触摸只会触发一次。</p>
+	<p><b class="red">touchmove </b>表示触摸移动，手指放到屏幕上，移动的时候触发</p>
+	<p><b class="red">touchend </b>表示触摸结束</p>
+	</div>
+	<p>touch事件没有延迟，不会等300ms。</p>
+	<p>touch事件需要用DOM2级的方式绑定, 不能用DOM0级绑定</p>
+	<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	box.addEventListener(“touchstart”,function(){},false);	</script>
+	</div>
+	<h3>1.2 <b class="red">event.touches数组</b></h3>
+	<p>每根手指的触摸信息，都存储在了event.touches数组里面。所以event.touches.length就是触摸手指的个数。</p>
+	<p>常用的属性值</p>
+	<p>clientY ( clientX ) :  触摸的手指距离视口顶边(左边)的距离</p>
+	<p>pageY ( pageX ) : 距离页面顶端(左边)的距离</p>
+	<p>screenY  ( screenX ): 距离显示器顶端(左边)的距离</p>
+	<p>event.changedTouches 数组 <br>
+		touchend事件手指离开，没有手指信息了。你的手指按照离开顺序，放在了event.changedTouches数组里面了。
+	</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	document.addEventListener("touchmove",function(event){
+			//阻止默认事件
+			event.preventDefault();
+			for(var i = 0 ; i < event.touches.length ; i++){
+			//event.touches是一个数组,
+			//所以要获取clientX值需要event.touches[i].clientX
+				biaoti.innerHTML +=  event.touches[i].clientX + "<br />" +  event.touches[i].clientY + " <br />";
+			}
+		},false);	
+	</script>
+</div>
+<h3>1.3 手指拖拽模型</h3>
+<p>电脑浏览器中的鼠标拖拽需要先监听onmousedown事件, <br>
+	在该事件里面再监听onmousemove事件并设置盒子的移动,<br>等到onmouseup的时候还需要去掉mousemove监听</p>
+<p>
+	在手机端的touchmove事件里面暗含了touchup取消监听.  <br>因此只需要监听touchmove事件,设置盒子移动即可. <br>
+	为了获得盒子原来的位置需要监听盒子的touchstart事件,该事件发生时获取盒子的初始位置 <br>
+	不需要设置touchend事件
+</p>
+<style type="text/css">
+div.shouzhituozhuai{
+	width: 80%;
+	height: 16em;
+	position: relative;
+}
+.shouzhituozhuai img{
+	width: 100px;
+	position: absolute;
+	left: 20px;
+	top: 100px;
+}	
+</style>
+<div class="jieguo shouzhituozhuai">
+	手指拖拽模型: <br>
+	手机端可以直接拖拽这个图片
+	<img src="images/screen/5.jpg" alt="" id="shouzhituozhuai_img">
+</div>
+<!-- 手指拖拽模型 js代码 -->
+<script type="text/javascript">
+	
+	var img_tuo = document.getElementById("shouzhituozhuai_img");
+	//绑定touch事件, 需要DOM2级事件绑定方法来绑定
+	img_tuo.addEventListener("touchstart",function(event){
+		//阻止默认事件
+		event.preventDefault();
+
+		//当前触摸位置到视口边缘的距离 - 图片定位的left(top)值.
+		//得到一个差值delta. 手指移动后让新的手指位置减去该差值即得到图片的新的left(top)值
+		deltaX = event.touches[0].clientX - img_tuo.offsetLeft;
+		deltaY = event.touches[0].clientY - img_tuo.offsetTop ;
+
+	},false)
+
+	img_tuo.addEventListener("touchmove",function(event){
+		//阻止默认事件
+		event.preventDefault();		
+
+		this.style.left = event.touches[0].clientX - deltaX + "px"; 
+		this.style.top = event.touches[0].clientY - deltaY + "px"; 
+	},false)
+
+</script>
+<div>手指拖拽模型原码,(原生js写)</div>
+<!-- 手指拖拽模型原码 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//手指拖拽模型:
+	var img_tuo = document.getElementById("shouzhituozhuai_img");
+	//绑定touch事件, 需要DOM2级事件绑定方法来绑定
+	img_tuo.addEventListener("touchstart",function(event){
+		//阻止默认事件
+		event.preventDefault();
+
+		//大盒子到视口边缘的距离
+		deltaX = event.touches[0].clientX - img_tuo.offsetLeft;
+		deltaY = event.touches[0].clientY - img_tuo.offsetTop ;
+
+	},false)
+
+	img_tuo.addEventListener("touchmove",function(event){
+		//阻止默认事件
+		event.preventDefault();		
+
+		this.style.left = event.touches[0].clientX - deltaX + "px"; 
+		this.style.top = event.touches[0].clientY - deltaY + "px"; 
+	},false)
+	
+	</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+	
+</body>
+</html>

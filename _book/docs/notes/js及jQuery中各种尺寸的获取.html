@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>js及jQuery中各种尺寸的获取</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	div.size1{
+		width: 500px;
+		height: 300px;
+		background-color: #ff0;
+		color: #333;
+		font-size: 20px;
+	}
+	div.size2{
+		width: 300px;
+		height: 180px;
+		background-color: #f0f;	
+	}
+	div.size3{
+		width: 100px;
+		height: 100px;
+		background-color: #0ff;
+	}
+	div.size_jg{
+	}
+
+	</style>
+</head>
+<body>
+<h1>js及jQuery中各种尺寸的获取与设置</h1>
+<h3>1.获取元素相关的尺寸</h3>
+<h3>1.1 获取当前的宽高</h3>
+<h3>1.1.1 jquery中</h3>
+<p>获取的是内容物的宽高, 不含边框border, 不含padding</p>
+<p>
+	<span class="red"> $("div").width()</span> 获取div的宽<br />
+	<span class="red"> $("div").width(100)</span>设置div的宽为100px <br />
+	<span class="red"> $("div").height()</span> 获取div的宽<br />
+	<span class="red"> $("div").height(100)</span>设置div的宽为100px <br />
+</p>
+<p>获取的是内容物的宽高, 含边框border, 含padding</p>	
+<p>
+	<span class="red">$div.outerHeight()</span> <br />
+	获取div的高包含外边框
+	<span class="red">$div.outerWidth() </span> <br />
+
+</p>
+
+
+<h3>1.1.2 js中</h3>
+<p>
+	<span class="red">oDiv.offsetWidth</span> <br />
+	<span class="red">oDiv.offsetHeight</span > <br />
+	获取当前元素的宽和高,全线兼容 <br />
+	该属性获得的width height 是自己的width + 左右padding  +左右border的值.
+</p>
+
+<h3>1.2 获取当前的宽高(不含border)</h3>
+<h3>1.2.1 js中</h3>
+<p>
+	<span  class="red">oDiv.clientWidth</span > <br />
+	<span  class="red">oDiv.clientWidth</span > <br />
+	clientWidth就是自己的width+padding的值。 也就是说，比offsetWidth少了border。	
+</p>
+<p>如果盒子没有宽度，那么那么所有浏览器都将把px值当做clientWidth，而不是100% 
+如果盒子没有高度，用文字撑的，IE6 clientHeight是0，其他浏览器都是数值。</p>
+
+<h3>1.2.2 jQuery中</h3>
+<p>
+	<span class="red">$div.innerHeight()</span> <br />
+	<span class="red">$div.innerWidth()</span> <br />
+	获取元素的宽高, 不含边框
+</p>
+
+<h3>1.3 获取元素到定位父盒子的距离</h3>
+
+<h3>1.3.1 jquery中</h3>
+<p>
+	<span class="red">$(选择器).offset()</span >  返回 json,同时有 left 和top 值 <br />
+	<span class="red">$(选择器).offset().left/top</span > 返回具体的参数
+</p>
+<p>
+	设置元素的偏移值 <br />
+	<span class="red">$(选择器).offset(val)</span >  val是json
+</p>
+<h3>1.3.2 js中</h3>
+<p>
+	<span class="red">oDiv.offsetLeft</span > <br />
+	<span class="red">oDiv.offsetTop</span > <br />
+	获取元素到定位基准父盒子(offsetParent)的left,top值.
+</p>
+<p><span class="red">自定位, 父无边</span >时该属性没有兼容性问题</p>
+
+<h3>1.4 获取css中的样式</h3>
+<h3>1.4.1 jquery中</h3>
+
+<h3>1.4.2 js中</h3>
+<h4>1.4.2.1获取行内样式</h4>	
+<p>
+	<span class="red">oDiv.style.width</span> <br />
+	<span class="red">oDiv.style.height</span> <br />
+	通过获取css样式的方法来获取当前的宽高. 只能获取写在行内样式中的宽高
+</p>
+<h4>1.4.2.2 通过获取计算后样式来获取元素的宽高</h4>
+<p>
+<span class="red">window.getComputedStyle(oDiv).getPropertyValue("width")</span> 获取计算后的样式的完整写法
+</p>
+<p>
+	<span class="red">var w = getComputedStyle(oDiv)["width"]</span>
+	 获取计算后的样式的简化写法
+</p>
+<p>获取计算后样式,可以获得内嵌和外链样式表中的样式需要用获取计算后的样式这种方法. <br />
+	<span class="red">	var w = getComputedStyle(oDiv)["width"] </span> <br />
+	<span class="red"> 	var h = getComputedStyle(oDiv)["height"] </span> <br />
+	
+</p>
+<h4>IE6,7,8中</h4>
+<p>
+	<span class="red">oDiv.currentStyle["width"]</span> <br />
+	<span class="red">oDiv.currentStyle["height"]</span> <br />
+</p>
+
+<h3>2. 事件中的各种尺寸</h3>
+
+
+<h3>3. 窗口相关的尺寸位置</h3>
+<h3>3.1 jquery中</h3>
+<p>3.1.1 页面卷动值</p>
+
+<h3>3.2 js中</h3>
+<p>3.2.1 页面卷动值</p>
+<p>
+	<span class="red">document.body.scrollTop</span>
+	<br />
+	<span class="red">document.documentElement.scrollTop</span>
+</p>
+<p>3.2.2 视口宽度</p>
+<p>
+	<span class="red">document.body.clientWidth</span>
+	<br />
+	<span class="red">document.documentElement.clientWidth</span>
+</p>
+<p>3.2.3 浏览器窗口到屏幕上边缘/左边缘的距离</p>
+<p>
+	<span class="red"> window.screenTop </span> <br />
+	<span class="red"> window.screenLeft</span>
+</p>
+<p>
+	3.2.4 浏览器窗口左上角在屏幕上的x,y坐标
+</p>
+<p>
+	<span class="red">window.screenX</span> <br />
+	<span class="red">window.screenY</span>
+</p>
+
+<h3>4. 页面相关的尺寸</h3>
+
+<h3>4.2 js中</h3>
+<p>
+	4.2.1 网页可见区域宽,高
+</p>
+<p>
+	<span class="red">document.body.clientWidth</span> <br />
+	<span class="red">document.body.clientHeight</span>
+</p>
+
+<p>
+	4.2.2  网页可见区域宽高(包括边框)
+</p>
+<p>
+	<span class="red">document.body.offsetWidth</span> <br />
+	<span class="red">document.body.offsetHeight</span> 
+</p>
+<p>
+	4.2.3 网页正文全文宽高
+</p>
+<p>
+	<span class="red">document.body.scrollWidth </span> <br />
+	<span class="red">document.body.scrollHeight </span>
+</p>
+<p>4.2.4 网页被卷去的高(左)</p>
+<p>
+	<span class="red">document.body.scrollTop </span>
+	<span class="red">document.body.scrollLeft </span>
+</p>
+<h3>
+	5. 屏幕相关的
+</h3>
+<h3>5.2 js中</h3>
+<p>5.2.1 屏幕分辨率的高宽</p>
+<p>
+	<span class="red">window.screen.height</span> <br />
+	<span class="red">window.screen.width </span>
+</p>
+<p>5.2.2 屏幕可用工作区高度宽度</p>
+<p>
+	<span class="red"> window.screen.availHeight </span> <br />
+	<span class="red"> window.screen.availWidth  </span>
+</p>
+
+
+<div  class="size1 pd bd">
+	1
+	<div  class="size2 pd bd">
+		2
+		<div  class="size3 pd bd">
+		3
+	
+		</div>	
+	</div>
+</div>
+<p>上面2号盒子的各项数值的结果</p>
+<div class="size_jg">
+	
+</div>
+
+<script type="text/javascript">
+
+// jquery 设置获取宽高
+var $div = $("div.size2");
+var $jg = $(".size_jg");
+x = $div.width();
+$jg[0].innerHTML += ("$div.width() : " + x + "</br>") ;
+x = $div.height();
+$jg[0].innerHTML += ("$div.height() : " + x + "</br>") ;
+// $div.width(300);
+// $div.height(300);
+x = $div.offset().top;
+$jg[0].innerHTML += ("$div.offset().top : " + x + "</br>") ;
+x = $div.offset().left;
+$jg[0].innerHTML += ("$div.offset().left : " + x + "</br>") ;
+x = $div.innerHeight();
+$jg[0].innerHTML += ("$div.innerHeight() : " + x + "</br>") ;
+x = $div.innerWidth();
+$jg[0].innerHTML += ("$div.innerWidth() : " + x + "</br>") ;
+x = $div.outerHeight();
+$jg[0].innerHTML += ("$div.outerHeight() : " + x + "</br>") ;
+x = $div.outerWidth();
+$jg[0].innerHTML += ("$div.outerWidth() : " + x + "</br>") ;
+//获取元素相对定位参考父元素的偏移值(自己没有定位则返回相对于body的偏移值)
+//返回的是对象({top:val,left:val})
+x = $div.position().top;
+$jg[0].innerHTML += ("$div.position().top : " + x + "</br>") ;
+x = $div.position().left;
+$jg[0].innerHTML += ("$div.position().left : " + x + "</br>") ;
+
+
+
+</script>
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+
+</body>
+</html>

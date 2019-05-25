@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>web Socket和Socket.IO 框架</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>web Socket和Socket.IO 框架</h1>
+	<p>
+		HTTP无法轻松实现实时应用：
+	</p>
+	<p>
+		HTTP协议是无持续连接的，服务器只会响应来自客户端的请求，但是它与客户端之间不具备持续连接。
+	</p>
+	<p>
+		我们可以非常轻松的捕获浏览器上发生的事件（比如用户点击了盒子），这个事件可以轻松产生与服务器的数据交互（比如Ajax）。但是，反过来却是不可能的：服务器端发生了一个事件，服务器无法将这个事件的信息实时主动通知它的客户端。只有在客户端查询服务器的当前状态的时候，所发生事件的信息才会从服务器传递到客户端。
+	</p>
+	<p>
+		要保持长连接的方法:
+	</p>
+	<p>
+		1. 长轮询：客户端每隔很短的时间，都会对服务器发出请求，查看是否有新的消息，只要轮询速度足够快，例如1秒，就能给人造成交互是实时进行的印象。这种做法是无奈之举，实际上对服务器、客户端双方都造成了大量的性能浪费 
+	</p>
+	<p>
+		2. 长连接：客户端只请求一次，但是服务器会将连接保持，不会返回结果（想象一下我们没有写res.end()时，浏览器一直转小菊花）。服务器有了新数据，就将数据发回来，又有了新数据，就将数据发回来，而一直保持挂起状态。这种做法的也造成了大量的性能浪费。
+	</p>
+	<p>
+		WebSocket协议能够让浏览器和服务器全双工实时通信，互相的，服务器也能主动通知客户端了。
+	</p>
+	<h3>WebSocket 原理</h3>
+	<p>
+		 WebSocket的原理非常的简单：利用HTTP请求产生握手，HTTP头部中含有WebSocket协议的请求，所以握手之后，二者转用TCP协议进行交流（QQ的协议）。现在的浏览器和服务器之间，就是QQ和QQ服务器的关系了。
+	</p>
+	<p>
+所以WebSocket协议，需要浏览器支持，更需要服务器支持。 <br />
+● 支持WebSocket协议的浏览器有：Chrome 4、火狐4、IE10、Safari5 <br />
+● 支持WebSocket协议的服务器有：Node 0、Apach7.0.2、Nginx1.3
+	</p>
+<p>
+	Node.js上需要写一些程序，来处理TCP请求。Node.js从诞生之日起，就支持WebSocket协议。不过，从底层一步一步搭建一个Socket服务器很费劲。所以，有大神帮我们写了一个库Socket.IO。
+</p>
+<p>
+	Socket.IO 它屏蔽了所有底层细节，让顶层调用非常简单。并且还为不支持WebSocket协议的浏览器，提供了长轮询的透明模拟机制。
+</p>
+<p>
+	Node的单线程、非阻塞I/O、事件驱动机制，使它非常适合Socket服务器。
+</p>
+<p>
+	web socket 网址：http://socket.io/
+</p>
+<p>
+	先要npm下载这个库 : <br />
+	npm install socket.io --save
+</p>
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	//node原生socket.io案例 -- 画板
+
+	///////////////////////////////
+	//html部分
+	&lt canvas width="1000" height="1000" id="canvas" &gt&lt /canvas &gt
+
+	&lt script type="text/javascript" src="/socket.io/socket.io.js" &gt&lt /script &gt
+	&lt script type="text/javascript" &gt
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+
+		var color = ["red","blue","green","black","skyblue","pink","white"];
+
+		var mycolor = color[parseInt(Math.random() * color.length)];
+
+		canvas.onmousedown = function(){
+			canvas.addEventListener("mousemove", handler, true); 
+		}
+
+		canvas.onmouseup = function(){
+			canvas.removeEventListener("mousemove", handler, true);
+		}
+
+		function handler(e){
+			ctx.beginPath();
+			ctx.arc(e.pageX,e.pageY,20,0,Math.PI*2,true);
+			ctx.fillStyle = mycolor;
+			ctx.fill();
+
+			//触发事件
+			socket.emit("hua",{"x":e.pageX,"y":e.pageY,"color":mycolor});
+		}
+
+		var socket = io();
+		 
+		socket.on("huida",function(msg){
+			ctx.beginPath();
+			ctx.arc(msg.x,msg.y,20,0,Math.PI*2,true);
+			ctx.fillStyle = msg.color;
+			ctx.fill();
+		});
+	&lt /script &gt
+
+
+	/////////////////////////////////////
+	//node部分
+	var http = require("http");
+	var fs = require("fs");
+
+	var server = http.createServer(function(req,res){
+	if(req.url == "/"){
+		//显示首页
+		fs.readFile("./huaban.html",function(err,data){
+			res.end(data);
+		});
+		}
+	});
+
+	//创建一个io对象 
+	var io = require('socket.io')(server);
+	//监听连接事件
+	io.on("connection",function(socket){
+		console.log("1个客户端连接了");
+		//接收到请求
+		socket.on("hua",function(msg){
+			//发出请求
+			io.emit("huida",msg);
+		});
+	});
+	
+	server.listen(3000,"localhost");
+	//添加监听后 http://127.0.0.1:3000/socket.io/socket.io.js 这个地址就是socket.io 客户端的js文件了,所以可以在html页面中直接引用这个包
+
+
+
+	
+	</script>
+</div>
+
+</body>
+</html>

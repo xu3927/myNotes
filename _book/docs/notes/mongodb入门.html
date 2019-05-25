@@ -1,0 +1,586 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>mongoDB 数据库基本操作</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+<h1>
+	MongoDB数据库的基本操作
+</h1>
+<p>
+	数据库可以提供方便的API,用于对数据库的增删改查之类的操作
+</p>
+<h3>1. 关系型数据库、非关系型数据库。</h3>
+<p>
+	数据库有两种：关系型数据库、非关系型数据库。
+</p>
+<p>
+	关系型数据库(SQL)：MySQL、SQL Server、Oracle 都是关系型数据库，他们都有行、列的概念。
+</p>
+<p>
+	关系型数据库的好处是，结构清晰，和excel表一样，每一个行就是一个条目，每一列是一个字段。 <br />
+	其劣势是不方便更改结构, 如果要给某一个条目增加一个属性,其他所有的条目都要一起增加这个新的属性
+</p>
+<p>
+	非关系型数据库(NoSQL)：没有行、列的概念。存放的是类JSON结构。实际上是2进制的JSON，简称BSON。
+</p>
+<p class="red">
+	NoSQL数据库在以下的这几种情况下比较适用： <br />
+	1、数据模型比较简单；2、需要灵活性更强的IT系统；<br />
+	3、对数据库性能要求较高；<br />
+	4、不需要高度的数据一致性；<br />
+	5、对于给定key，比较容易映射复杂值的环境。
+</p>
+<h3>2. MongoDB</h3>
+<p>MongoDB（芒果数据库）是使用人数最多，免费、开源的NoSQL。 </p>
+<p>官网： <a href="https://www.mongodb.com/">https://www.mongodb.com/</a>
+</p>
+<p>下载安装包community 版本安装后; 默认的安装路径是：C:\Program Files\MongoDB</p>
+<h3>2.1 MangoDB数据库结构</h3>
+<p>
+	  <b>Collections：</b> 在mongoDB中叫做集合，是文档的集合。它是无模式的，可以存储各种各样的文档。有点像关系型数据库中的表。
+</p>
+<p>
+	和关系型数据库中的表相比，关系数据库的每一张表就是一个关系模型的映射，每张表的字段就是对应实体的属性和主外键的集合，每个字段需要提前定义。
+</p>
+<p>
+	
+       而集合中可以保存毫无关系的数据，而且具体要保存什么不需要提前定义。
+</p>
+<p>
+	
+  <b>Document：</b>documen,文档是mongoDB保存数据的基本单元。数据的存储结构为BSON格式，也就是TextView中显示的文本。
+</p>
+<p>
+	 保存的数据类型可以为：null、boolean、String、object、32位整数、64位整数、64位浮点数、日期、正则表达式、js代码、二进制数据、数组、内嵌文档、最大值、最小值、未定义类型。
+</p>
+<p>
+	 <b>GridFS：</b>由于BSON对象有大小限制，不适合存储大型文件，GridFS文件系统为大型文件提供了存储方案(其存储原理稍后再讲)。fs中保存的是图片、视频等大文件。
+</p>  
+
+  <p>
+  	集合中的每个文档都会自动增加一个_id,而每个图片则新增了多个键：_id，chunkSize，md5、length、aliases等，这些属性都是系统自动创建并保存的，这就涉及到了GridFS处理大文件的机制。
+  </p>      
+<p>
+	数据文件夹库中存储很多数据库（db dateBase）。每个db中有很多个集合(collection 相当于一个一个的表)。集合下面是文档(document).文档是mongoDB保存数据的基本单元。数据的存储结构为BSON格式
+</p>
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	{"name":"小明","age":12,"sex":"女","shuxue":16,"yuwen":45},
+	{"name":"小红","age":12,"sex":"男","shuxue":56,"yuwen":15},
+	{"name":"小刚","age":15,"sex":"男","shuxue":66,"yuwen":49},
+	{"name":"小绿","age":15,"sex":"女","shuxue":76,"yuwen":49,"yingyu":45},
+	{"name":"小粉","age":55,"sex":"女","shuxue":76,"yuwen":49,"yingyu":85}
+	
+	</script>
+</div>
+
+<p>
+	<a href="./images/chatu/mongdb.jpg"><img width="70%" src="images/chatu/mongdb.jpg" alt="" /></a>
+</p>
+
+
+<h3>3. MongoDB 常用API</h3>
+<h3>开启数据库</h3>
+<p>
+	安装数据库后需要先把mongodb的 "C:\Program Files\MongoDB\Server\3.2\bin" 这个目录添加到系统的环境变量中,以方便使用cmd来调用bin. 这个文件夹是所有的数据库操作的命令文件夹。
+</p>
+<h3 class="cu">3.1 数据库开机</h3>
+<p> mongod 命令负责开机, 每次使用数据库都要先开机</p>
+<p class="red"> mongod --dbpath c:\mongodata</p>
+<p>--dbpath 参数表示数据库的存放路径. 后面的是路径是自己的数据库的路径,可以在任意位置,  名字也可以自定义,这个文件要自己先创建. 不是mongodb的安装文件.</p>
+<p>
+	数据库这个cmd窗口, 不要关掉, 也不要crtl + c 关掉就断开数据库的链接了.
+</p>
+<p>数据库开启后, cmd中最后一段有如下的提示</p>
+<p class="bgc6 bd pd">
+	2016-06-08T13:56:23.265+0800 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:50662 #1 (1 connection now open)
+</p>
+
+<h3>3.2 使用数据库</h3>
+
+<p>
+	数据库开启后, 新打开一个cmd，输入mongo命令。就能进入到mongo的命令提示符下
+</p>
+<p class="bd bgc6 pd">
+	C:\Users\leo&gtmongo <br />
+	MongoDB shell version: 3.2.6 <br />
+	connecting to: test
+</p>
+<h3>2.3 mongodb常用的cmd命令</h3>
+<p>现在介绍一些常见的cmd命令（一定要在mongo的模式下）</p>
+<p class="bd bgc6 pd">
+	C:\Users\leo &gt mongo <br />
+	MongoDB shell version: 3.2.6 <br />
+	connecting to: test
+</p>
+
+<p>Help 帮助,查看命令提示</p>
+<p class="bd bgc6 pd">
+	help  //显示总的帮助列表
+	db.help()  //显示数据库db的命令
+	db.yourColl.help() //操作集合的命令
+	db.yourColl.find().help()  //显示数据库的查询(find)方法
+</p>
+
+<p class="cu">数据库操作</p>
+<p>导入数据:</p>
+<p>把 dataset.json 中的数据导入rest库中的 restaurants 表中</p>
+<p class="bd bgc6 pd">mongoimport --db test --collection restaurants --drop --file ~/downloads/primer-dataset.json</p>
+
+<p>列出当前的所有的数据库名称</p>
+<p class="bd bgc6 pd">
+	show dbs
+</p>
+
+<p>使用数据库(student)（如果这个数据库不存在，就帮你创建了一个数据库）：</p>
+<p>如果当前不在student库, 使用该命令能够切换到student库</p>
+<p class="bd bgc6 pd">
+	use student
+</p>
+<p>查看当前所在的(所操作的)数据库</p>
+<p class="bd bgc6 pd">db</p>
+
+<p>删除当前使用的数据库</p>
+<p class="bd bgc6 pd">db.dropDatabase() </p>
+
+<p>从指定主机上克隆数据库</p>
+<p class="bd bgc6 pd">db.cloneDatabase(“127.0.0.1”) </p>
+
+<p>
+	从指定的机器上复制指定数据库数据到某个数据库
+</p>
+<p class="bd bgc6 pd">
+	db.copyDatabase("YuanChengDB", "dangQianDB", "127.0.0.1") 
+	//将"127.0.0.1"复制 "YuanChengDB" 数据库到 "dangQianDB" 库中.
+</p>
+
+<p>
+	修复当前数据库
+</p>
+<p class="bd bgc6 pd">
+	db.repairDatabase()
+</p>
+
+<p>
+	查看当前使用的数据库名称
+</p>
+<p class="bd bgc6 pd">
+	 db.getName() //或<br />
+	 db
+</p>
+<p class="cu">用户相关操作</p>
+<p>
+	添加一个用户
+</p>
+<p class="bd bgc6 pd">
+	db.addUser("name")  <br />
+	db.addUser("userName", "pwd123", true) //添加用户、设置密码、是否只读
+</p>
+
+<p>
+	显示当前所有用户
+</p>
+<p class="bd bgc6 pd">
+	show users
+</p>
+
+<p>
+	删除用户
+</p>
+<p class="bd bgc6 pd">
+	db.removeUser("userName")
+</p>
+
+<h4 class="cu">Collection 集合操作 yourColl 代指当前操作的集合( 如banji1 ); db是数据库(如 student 库) ; </h4>
+
+<p>
+	如 db.student.banji1 ; <br />
+	student 数据库(db);  banji1是当前的集合(yourColl)
+</p>
+
+<p>
+	查看帮助
+</p>
+<p class="bd bgc6 pd">
+	db.yourColl.help()
+</p>
+
+<p>
+	创建一个集合
+</p>
+<p class="bd bgc6 pd">
+	db.creatCollection("haha",{size: 20, capped: 5, size : 80 , max: 100}) <br />
+	//创建了一个haha集合, <br />
+	//haha:集合的名字("必须"),后面的参数都可以省略;
+	capped:是否启用集合限制，如果开启需要制定一个限制条件，默认为不启用，这个参数没有实际意义 <br />
+	size:限制集合使用空间的大小，默认为没有限制(单位是字节; 1024 则为限制使用空间为1M) <br />
+	max:集合中最大条数限制，默认为没有限制 <br />
+	autoIndexId:是否使用_id作为索引，默认为使用(true或false) <br />
+	size的优先级比max要高
+</p>
+<p>
+	db.student.banji3 //这种命令 如果当前没有banji 这个集合,会自动创建一个banji3集合
+</p>
+<p>
+	查询当前集合的数据条数
+</p>
+<p class="bd bgc6 pd">
+	db.yourColl.count()
+</p>
+<p>
+	得到当前集合所在的db
+</p>
+<p class="bd bgc6 pd">
+	db.yourColl.getDB()
+</p>
+<p>
+	得到当前集合的状态
+</p>
+<p class="bd bgc6 pd">
+	 db.yourColl.stats()
+</p>
+	得到当前集合总大小
+<p>
+
+</p>
+<p class="bd bgc6 pd">
+	db.yourColl.totalSize()
+</p>
+
+<p>
+	当前集合重命名
+</p>
+<p class="bd bgc6 pd">
+	db.banji.renameCollection("banji4")
+</p>
+
+<p>
+	删除当前集合
+</p>
+<p class="bd bgc6 pd">
+	db.banji.drop()
+</p>
+
+<h4>集合内数据查询</h4>
+
+
+<p>查看所有集合清单</p>
+<p class="bd bgc6 pd">show collections</p>
+<p>查询集合中所有数据</p>
+<p class="bd bgc6 pd">db.banji1.find({})</p>
+<p>查询所有女生</p>
+<p class="bd bgc6 pd">db.banji1.find({"sex":"女"})</p>
+<p>查询所有性别是女, age 小于30 的数据</p>
+<p class="bd bgc6 pd">db.banji1.find({"sex" : "女" , "age" : <span class="red">{$lt : 30}</span>})</p>
+
+<p>
+	查询去掉当前集合中某列的重复数据后的数据
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.distinct("name")
+	//会过滤掉name相同的数据
+</p>
+
+<p>
+	查询前5条数据
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.find({}).limit(5)
+</p>
+
+<p>
+	查询10条以后的数据
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.find().skip(10)
+</p>
+
+<p>
+	or与 查询
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.find({$or: [{ age : 22 } ,{ age :25 }]}) <br />
+	//查询年龄是22岁或年龄是25岁的数据 <br />
+	// 类似 age == 22 || age == 25
+</p>
+
+<p>
+	查询第一条数据
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.findOne()
+</p>
+
+<p>
+	得到某个结果集的数量
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.find({age: {$gte: 25}}).count() <br />
+	得到 age &gt= 25 的数据的数量
+</p>
+
+<h4>索引</h4>
+<p>
+	创建索引
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.ensureIndex({"name" : 1})  <br />
+	 //按name值创建索引, 1表示索引以升序存储. -1 表示降序<br />
+</p>
+<p>
+	建立复合索引
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.ensureIndex({"name" : 1 , "age" : -1}) <br />
+	
+</p>
+<p>
+	建立该索引后基于name 和 age的查询将会用到该索引;  <br />或者只基于name的查询也会用到该索引,  <br />但是只基于age的查询不会用到这个索引  <br />
+	因此可以说，如果想用到复合索引，必须在查询条件中包含复合索引中的前N个索引列。然而如果查询条件中的键值顺序和复合索引中的创建顺序不一致的话，MongoDB可以智能的帮助我们调整该顺序，以便使复合索引可以为查询所用。 
+	如下面的情况: <br />
+	db.banji1.find({"age" : 30 , "name" : "xiaoming"}) 
+</p>
+
+
+<p>
+	为内嵌文档创建索引,其规则和普通文档没有任何差别
+	<br />
+	如:
+</p>
+<p class="bd bgc6 pd">
+	 db.banji1.ensureIndex({"comments.date":1})
+</p>
+
+<p>
+	索引名
+</p>
+<p class="bd bgc6 pd">
+	db.banji1.ensureIndex({"name":1},{"name":"banjisuoyin"})  <br />
+	//为name列创建了个索引, 给这个索引指定名称为 banjisuoyin  
+</p>
+<p>
+	 随着集合的增长，需要针对查询中大量的排序做索引。如果没有对索引的键调用sort，MongoDB需要将所有数据提取到内存并排序。因此在做无索引排序时，如果数据量过大以致无法在内存中进行排序，此时MongoDB将会报错。
+</p>
+<h4>
+	唯一索引(即索引的这个键是唯一不重复的)
+</h4>
+<p>
+	在缺省情况下创建的索引均不是唯一索引。下面的示例将创建唯一索引，如：
+</p>
+
+<p class="bd bgc6 pd">
+db.banji1.ensureIndex({"xuehao":1},{"unique":true}) <br />
+如果再次插入 xuehao 重复的文档时，MongoDB将报错，提示插入了重复键. <br />
+如果插入的文档中不包含 xuehao 键，那么该文档中该键的值为null ;多次插入类似的文档, 也会报错
+</p>
+<p>
+	创建唯一索引，并消除重复数据。
+</p>
+
+<p class="bd bgc6 pd">
+	 db.banji1.ensureIndex( { "xuehao":1},{"unique":true,"dropDups":true})  <br />
+	 //会以xuehao建立唯一索引, 并同时删除xuehao 重复的项
+</p>
+
+<p>
+	索引管理 :
+</p>
+<p>
+	system.indexes集合中包含了每个索引的详细信息，因此可以通过下面的命令查询已经存在的索引，如：
+</p>
+<p class="bd bgc6 pd">
+	 db.system.indexes.find("xuehao")
+</p>
+
+
+<p>
+	查询当前集合所有索引
+</p>
+
+<p class="bd bgc6 pd">
+	 db.banji1.getIndexes()
+</p>
+
+<p>
+	读取当前集合的所有index信息
+</p>
+
+<p class="bd bgc6 pd">
+	db.users.reIndex()
+</p>
+<p>
+	删除指定索引
+</p>
+
+<p class="bd bgc6 pd">
+	db.banji1.dropIndex("name")
+</p>
+
+<p>
+	删除所有索引索引
+</p>
+
+<p class="bd bgc6 pd">
+	db.banji1.dropIndexes()
+</p>
+
+<h3>对集合中的文档数据增加, 修改, 删除</h3>
+
+<p>
+添加
+</p>
+
+<p class="bd bgc6 pd">
+db.banji1.save({name: ‘zhangsan’, age: 25, sex: "nan"}) <br />
+添加的数据的数据列，没有固定，根据添加的数据为准
+</p>
+
+<p>插入数据</p>
+<p class="bd bgc6 pd">
+	db.banji1.insert({"name":"小明","age":12,"sex":"男"});
+</p>
+
+<h4>
+修改
+</h4>
+
+
+<p class="bd bgc6 pd">
+	update 命令格式 <br />
+	db.collection.update(criteria,objNew,upsert,multi) <br />
+</p>
+<p>
+参数说明：<br />
+criteria：查询条件 <br />
+objNew：update对象和一些更新操作符 <br />
+upsert：如果不存在update的记录，是否插入objNew这个新的文档，true为插入，默认为false，不插入。 <br />
+multi：默认是false，只更新找到的第一条记录。如果为true，把按条件查询出来的记录全部更新。 
+</p>
+<p class="bd bgc6 pd">
+	 db.banji1.update({age: 25}, {$set: {name: '小刚'}}, false, true)  <br />
+	 把banji1中年龄25岁的项的 "name" 值改为 "小刚"
+</p>
+
+<h4>
+	数据更新修改可选的操作符:
+</h4>
+<p>
+1.$inc  <br />
+用法：{$inc:{field:value}} <br />
+作用：对一个数字字段的某个field增加value <br />
+示例：将name为 xiaoming 的学生的age增加5 <br />
+原数据 <br />
+{ "_id" : ObjectId("5030f7ac721e16c4ab180cdb"), "name" : "xiaoming", "age" : 22 } <br />
+ db.banji1.update({name:"xiaoming"},{$inc:{age:5}}) <br /> 
+修改后的结果 <br />
+{ "_id" : ObjectId("5030f7ac721e16c4ab180cdb"), "name" : "xiaoming", "age" : 27 }  
+>  
+</p>
+<p>
+	2.$set <br />
+用法：{$set:{field:value}} <br />
+作用：把文档中某个字段field的值设为value <br />
+示例： 把 xiaoming的年龄设为23岁 <br />
+</p>
+<p>
+3.$unset <br />
+用法：{$unset:{field:1}} <br />
+作用：删除某个字段field <br />
+示例： 将 xiaoming的年龄字段删除 <br />
+</p>
+
+<p>
+	4.$push <br />
+用法：{$push:{field:value}} <br />
+作用：把value追加到field里。注：field只能是数组类型，如果field不 存在，会自动插入一个数组类型 <br />
+示例：给 xiaoming添加别名"michael" <br />
+</p>
+
+<p>
+	5.pushAll <br />
+用法：{$pushAll:{field:value_array}} <br />
+作用：用法同$push一样，只是$pushAll可以一次追加多个值到一个数组字段内。 <br />
+示例：给 xiaoming追加别名A1，A2 <br />
+
+</p>
+
+<p>
+	6.$addToSet  <br />
+用法：{$addToSet:{field:value}}  <br />
+作用：加一个值到数组内，而且只有当这个值在数组中不存在时才增加。  <br />
+示例：往 xiaoming的别名字段里添加两个别名A3、A4   <br />
+
+</p>
+
+<p>
+	7.$pop <br />
+用法：删除数组内第一个值：{$pop:{field:-1}}、删除数组内最后一个值：{$pop:{field:1}} <br />
+作用：用于删除数组内的一个值 <br />
+示例： 删除 xiaoming记录中alias字段中第一个别名 <br />
+
+</p>
+
+<p>
+	10.$rename <br />
+用法：{$rename:{old_field_name:new_field_name}} <br />
+作用：对字段进行重命名 <br />
+示例：把 xiaoming记录的name字段重命名为sname <br />
+</p>
+
+<p>
+删除
+</p>
+
+<p class="bd bgc6 pd">
+	db.banji1.remove({age: 15}) 
+</p>
+<p>删除所有</p>
+<p class="bd bgc6 pd">
+	db.banji1.remove({}) 
+</p>
+
+
+<h3>复合方法, 查询修改删除 findAndModify </h3>
+ 
+<p class="bd bgc6 pd">
+	db.users.findAndModify({  <br />
+	 	query: {age: {$gte: 25}},   <br />
+	 	sort: {age: -1},    <br />
+	 	update: {$set: {name: 'a2'}, $inc: {age: 2}},   <br />
+	 	remove: true  <br />
+ 	});  <br />
+
+</p>
+<p> 	
+参数详解 <br />
+query 查询过滤条件 <br />
+sort  如果多个文档符合查询过滤条件，将以该参数指定的排列方式选择出排在首位的对象，该对象将被操作 <br />
+remove 若为true，被选中对象将在返回前被删除 <br />
+update 一个 修改器对象 <br />
+</p>
+
+
+
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+	
+
+	
+	</script>
+</div>
+
+</body>
+</html>

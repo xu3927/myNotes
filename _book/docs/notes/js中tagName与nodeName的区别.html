@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>js中tagName与nodeName的区别</title>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script>
+	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<link rel="stylesheet"  type='text/css' href="css/base.css" />
+	
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>tagName和nodeName的区别</h1>
+
+	<p class="hhns">
+首先介绍DOM里常见的三种节点类型（总共有12种，如docment）：元素节点，属性节点以及文本节点，例如&lt h2 class="title" &gt head &lt /h2 &gt，其中h2是元素节点，class是属性节点，head是文本节点，在这里你可以说h2这个元素节点包含一个属性节点和一个文本节点。其实几乎所有HTML的标签都是元素节点，而id, title, class等则是属性节点，而元素所包含的文本内容则是文本节点。
+
+tagName和nodeName的语义是一样的，都是返回所包含标签的名称，例如上面的h2标签，都是返回h2，但是tagName只能在元素标签上使用，而nodeName则可以在所有的节点上使用。下面是nodeName在不同节点上的值：
+	</p>
+<table border="1" summary="Layout table: the first cell contains the name of the 
+interface, the second contains the value of the nodeName attribute for 
+this interface, the third contains the value of the nodeValue attribute 
+for this interface and the fourth contains the value of the attributes 
+attribute for this interface">
+<tbody>
+<tr>
+</tr>
+<tr>
+<th style="font-family: sans-serif;">Interface</th>
+
+<th style="font-family: sans-serif;">nodeName</th>
+
+<th style="font-family: sans-serif;">nodeValue</th>
+
+<th style="font-family: sans-serif;">attributes</th>
+
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">Attr</td>
+<td style="font-family: sans-serif;" valign="top">name of attribute</td>
+<td style="font-family: sans-serif;" valign="top">value of attribute</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">CDATASection</td>
+<td style="font-family: sans-serif;" valign="top">#cdata-section</td>
+<td style="font-family: sans-serif;" valign="top">content of the CDATA 
+Section</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">Comment</td>
+<td style="font-family: sans-serif;" valign="top">#comment</td>
+<td style="font-family: sans-serif;" valign="top">content of the comment</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">Document</td>
+<td style="font-family: sans-serif;" valign="top">#document</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">DocumentFragment</td>
+<td style="font-family: sans-serif;" valign="top">#document-fragment</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">DocumentType</td>
+<td style="font-family: sans-serif;" valign="top">document type name</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">Element</td>
+<td style="font-family: sans-serif;" valign="top">tag name</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+<td style="font-family: sans-serif;" valign="top">NamedNodeMap</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">Entity</td>
+<td style="font-family: sans-serif;" valign="top">entity name</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">EntityReference</td>
+<td style="font-family: sans-serif;" valign="top">name of entity 
+referenced</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">Notation</td>
+<td style="font-family: sans-serif;" valign="top">notation name</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">ProcessingInstruction</td>
+<td style="font-family: sans-serif;" valign="top">target</td>
+<td style="font-family: sans-serif;" valign="top">entire content 
+excluding the target</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+<tr>
+<td style="font-family: sans-serif;" valign="top">Text</td>
+<td style="font-family: sans-serif;" valign="top">#text</td>
+<td style="font-family: sans-serif;" valign="top">content of the text 
+node</td>
+<td style="font-family: sans-serif;" valign="top">null</td>
+</tr>
+</tbody>
+</table>
+<p class="hhns">
+而tagName只有在元素节点上才会有值。
+
+从DOM层次来看，nodeName是node 接口上的property，而tagName是element 接口上的property，所有的节点（元素节点，属性节点，文本节点等12种）都继承了node接口，而只有元素节点才继承了element节点，因此nodeName比tagName具有更大的使用范围。
+
+总结：tagName只能用在元素节点上，而nodeName可以用在任何节点上，可以说nodeName涵盖了tagName，并且具有更多的功能，因此建议总是使用nodeName。
+</p>
+
+<!-- 代码自动高亮模板 -->
+<div class="daima">
+	<script type="syntaxhighlighter" class="brush: csharp;">
+
+	
+	</script>
+</div>
+
+
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>
