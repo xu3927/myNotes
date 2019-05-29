@@ -1756,7 +1756,22 @@
 <p>&#x5B89;&#x88C5; python3
 mac &#x4E0A;&#x53EF;&#x4EE5;&#x5B89;&#x88C5; python3, &#x4E0E;&#x7CFB;&#x7EDF;&#x81EA;&#x5E26;&#x7684; python2.7 &#x53EF;&#x4EE5;&#x5171;&#x5B58;</p>
 <pre class="language-"><code>~]# brew install python3
-</code></pre><h2 id="&#x5305;&#x7BA1;&#x7406;">&#x5305;&#x7BA1;&#x7406;</h2>
+</code></pre><h2 id="python-&#x542F;&#x7528;">python &#x542F;&#x7528;</h2>
+<ol>
+<li>&#x4EA4;&#x4E92;&#x5F0F;&#xFF1A; &#x6267;&#x884C; python&#xFF0C;&#x8FDB;&#x5165; python &#x73AF;&#x5883;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x76F8;&#x5E94;&#x6307;&#x4EE4;</li>
+<li>python -c command [arg] ...&#xFF1A;&#x76F4;&#x63A5;&#x6267;&#x884C;&#x67D0;&#x4E2A;&#x6307;&#x4EE4;&#x3002;</li>
+<li>&#x628A; python &#x6A21;&#x5757;&#x4F5C;&#x4E3A;&#x811A;&#x672C;&#x4F7F;&#x7528;&#x3002; python -m module [arg] ... &#x4F1A;&#x6267;&#x884C;&#x6A21;&#x5757;&#x7684;&#x6E90;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x679C;&#x811A;&#x672C;&#x8FD0;&#x884C;&#x5B8C;&#x9700;&#x8981;&#x8FDB;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#xFF0C;&#x5219;&#x589E;&#x52A0; -i &#x53C2;&#x6570;</li>
+</ol>
+<h3 id="&#x5B57;&#x7B26;&#x7F16;&#x7801;">&#x5B57;&#x7B26;&#x7F16;&#x7801;</h3>
+<p>python &#x6587;&#x4EF6;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528; utf-8&#x7F16;&#x7801;
+&#x6307;&#x5B9A;&#x7F16;&#x7801;&#xFF0C;&#x5728;&#x6587;&#x4EF6;&#x7B2C;&#x4E00;&#x884C;&#x6216; shebang &#x540E;&#x9762;&#x4E00;&#x884C;&#x6307;&#x5B9A;</p>
+<pre class="language-"><code class="lang-python"><span class="token comment">#!/usr/bin/env python3</span>
+<span class="token comment"># -*- coding: utf-8 -*-</span>
+</code></pre>
+<h3 id="&#x6CE8;&#x91CA;">&#x6CE8;&#x91CA;</h3>
+<p>&#x4EE5; # &#x5F00;&#x5934;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;&#x4E00;&#x884C;&#xFF0C;&#x6216;&#x4E00;&#x884C;&#x7ED3;&#x5C3E;</p>
+<h2 id="&#x8868;&#x8FBE;&#x5F0F;">&#x8868;&#x8FBE;&#x5F0F;</h2>
+<h2 id="&#x5305;&#x7BA1;&#x7406;">&#x5305;&#x7BA1;&#x7406;</h2>
 <p>&#x9996;&#x5148;&#x67E5;&#x627E;&#x5168;&#x5C40;&#x53D8;&#x91CF;
 &#x5176;&#x4ED6;&#x7684;&#x6A21;&#x5757;&#x9700;&#x8981;&#x901A;&#x8FC7; import &#x5F15;&#x5165;
 &#x5982;</p>
@@ -1769,16 +1784,31 @@ print(sys.path)
 
 # &#x8F93;&#x51FA;
 
-[
-    &apos;/Users/zhichaoxu/code/practice/py-practice/basic&apos;, &apos;/usr/local/Cellar/python/3.7.2/Frameworks/Python.framework/Versions/3.7/lib/python37.zip&apos;, &apos;/usr/local/Cellar/python/3.7.2/Frameworks/Python.framework/Versions/3.7/lib/python3.7&apos;, &apos;/usr/local/Cellar/python/3.7.2/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload&apos;, &apos;/Users/zhichaoxu/Library/Python/3.7/lib/python/site-packages&apos;, &apos;/usr/local/lib/python3.7/site-packages&apos;
+[ 
+    &apos;&apos;, &apos;/Users/zhichaoxu/code/practice/py-practice/basic&apos;, &apos;/usr/local/Cellar/python/3.7.2/Frameworks/Python.framework/Versions/3.7/lib/python37.zip&apos;, &apos;/usr/local/Cellar/python/3.7.2/Frameworks/Python.framework/Versions/3.7/lib/python3.7&apos;, &apos;/usr/local/Cellar/python/3.7.2/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload&apos;, &apos;/Users/zhichaoxu/Library/Python/3.7/lib/python/site-packages&apos;, &apos;/usr/local/lib/python3.7/site-packages&apos;
 ]
-</code></pre><p>&#x4F1A;&#x6309;&#x987A;&#x5E8F;&#x4ECE;&#x7B2C;&#x4E00;&#x4E2A;&#x5F00;&#x59CB;&#x641C;&#x7D22;</p>
-<h4 id="syspathinsert">sys.path.insert</h4>
+</code></pre><p>&#x4F1A;&#x6309;&#x987A;&#x5E8F;&#x4ECE;&#x7B2C;&#x4E00;&#x4E2A;&#x5F00;&#x59CB;&#x641C;&#x7D22;, &#x7B2C;&#x4E00;&#x4E2A;&#x7A7A;&#x5B57;&#x7B26;&#x4E32;&#x8868;&#x793A;&#x5F53;&#x524D;&#x76EE;&#x5F55;</p>
+<h3 id="syspath">sys.path</h3>
+<p>&#x4FEE;&#x6539; sys.path</p>
+<ol>
+<li>&#x901A;&#x8FC7;&#x73AF;&#x5883;&#x53D8;&#x91CF; PYTHONPATH &#x6765;&#x6DFB;&#x52A0;&#x3002; </li>
+<li>&#x5728; site-packages &#x76EE;&#x5F55;&#x4E0B;&#x521B;&#x5EFA; .pth &#x6587;&#x4EF6;&#xFF0C;&#x5C06;&#x76EE;&#x5F55;&#x5217;&#x51FA;&#x6765;&#x3002;python &#x8FD0;&#x884C;&#x65F6;&#x4F1A;&#x8BFB;&#x53D6;&#x8BE5;&#x6587;&#x4EF6;&#x3002;&#x5982;&#x4E0B;</li>
+</ol>
+<pre class="language-"><code># myapp.pth
+path/to/dir1
+path/to/dir2
+</code></pre><ol>
+<li>&#x8FD0;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x4FEE;&#x6539; sys.path</li>
+</ol>
+<pre class="language-"><code class="lang-python"><span class="token keyword">import</span> sys
+sys<span class="token punctuation">.</span>path<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">&apos;path/to/dir1&apos;</span><span class="token punctuation">)</span>
+sys<span class="token punctuation">.</span>path<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">&apos;path/to/dir2&apos;</span><span class="token punctuation">)</span>
+</code></pre>
 <p>path &#x5F88;&#x5BB9;&#x6613;&#x88AB;&#x52AB;&#x6301;, &#x901A;&#x8FC7; sys.path.insert(0, &apos;/path/to/my/packages&apos;) &#x53EF;&#x4EE5;&#x786E;&#x4FDD; python &#x9996;&#x5148;&#x8F7D;&#x5165;&#x81EA;&#x5DF1;&#x7684;&#x5305;.</p>
 <p>&#x53EF;&#x4EE5;&#x4F7F;&#x7528; site &#x6A21;&#x5757;&#x63A7;&#x5236;&#x5305;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F84;</p>
-<h4 id="pythonpath-&#x53D8;&#x91CF;&#x53EF;&#x4EE5;&#x589E;&#x52A0;&#x9ED8;&#x8BA4;&#x7684;&#x5305;&#x641C;&#x7D22;&#x76EE;&#x5F55;-&#x591A;&#x4E2A;-path-&#x4F7F;&#x7528;&#x5206;&#x53F7;">PYTHONPATH &#x53D8;&#x91CF;&#x53EF;&#x4EE5;&#x589E;&#x52A0;&#x9ED8;&#x8BA4;&#x7684;&#x5305;&#x641C;&#x7D22;&#x76EE;&#x5F55;. &#x591A;&#x4E2A; path &#x4F7F;&#x7528;:&#x5206;&#x53F7;</h4>
+<h3 id="pythonpath-&#x53D8;&#x91CF;&#x53EF;&#x4EE5;&#x589E;&#x52A0;&#x9ED8;&#x8BA4;&#x7684;&#x5305;&#x641C;&#x7D22;&#x76EE;&#x5F55;-&#x591A;&#x4E2A;-path-&#x4F7F;&#x7528;&#x5206;&#x53F7;">PYTHONPATH &#x53D8;&#x91CF;&#x53EF;&#x4EE5;&#x589E;&#x52A0;&#x9ED8;&#x8BA4;&#x7684;&#x5305;&#x641C;&#x7D22;&#x76EE;&#x5F55;. &#x591A;&#x4E2A; path &#x4F7F;&#x7528;:&#x5206;&#x53F7;</h3>
 <pre class="language-"><code>export PYTHONPATH=/path/to/dir1:/path/to/dir2
-</code></pre><h4 id="&#x6A21;&#x5757;&#x548C;&#x5305;&#x7684;&#x533A;&#x522B;&#x662F;&#x4EC0;&#x4E48;">&#x6A21;&#x5757;&#x548C;&#x5305;&#x7684;&#x533A;&#x522B;&#x662F;&#x4EC0;&#x4E48;?</h4>
+</code></pre><h3 id="&#x6A21;&#x5757;&#x548C;&#x5305;&#x7684;&#x533A;&#x522B;&#x662F;&#x4EC0;&#x4E48;">&#x6A21;&#x5757;&#x548C;&#x5305;&#x7684;&#x533A;&#x522B;&#x662F;&#x4EC0;&#x4E48;?</h3>
 <p>&#x5305;&#x662F;&#x4E00;&#x4E2A;&#x6A21;&#x5757;&#x6216;&#x6A21;&#x5757;/&#x5B50;&#x6A21;&#x5757;&#x7684;&#x96C6;&#x5408;, &#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#x88AB;&#x538B;&#x7F29;&#x5230;&#x4E00;&#x4E2A;&#x538B;&#x7F29;&#x5305;&#x79CD;, &#x5176;&#x4E2D;&#x5305;&#x542B;1.&#x4F9D;&#x8D56;&#x4FE1;&#x606F; 2.&#x5C06;&#x6587;&#x4EF6;&#x62F7;&#x8D1D;&#x5230;&#x6807;&#x51C6;&#x7684;&#x5305;&#x641C;&#x7D22;&#x8DEF;&#x5F84;&#x7684;&#x6307;&#x4EE4; 3. &#x7F16;&#x8BD1;&#x6307;&#x4EE4;</p>
 <h4 id="&#x7B2C;&#x4E09;&#x65B9;&#x5305;">&#x7B2C;&#x4E09;&#x65B9;&#x5305;</h4>
 <p>&#x5728;Linux&#x7CFB;&#x7EDF;&#x4E0A;&#x81F3;&#x5C11;&#x6709;3&#x79CD;&#x5B89;&#x88C5;&#x7B2C;&#x4E09;&#x65B9;&#x5305;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
@@ -1949,12 +1979,335 @@ $ rmvirtualenv my_project_venv
 <li>&#x5F3A;&#x5927;&#x7684;&#x73AF;&#x5883;&#x7BA1;&#x7406;, &#x63D0;&#x4F9B;&#x4E86;&#x73AF;&#x5883;&#x5207;&#x6362;&#x548C;&#x7BA1;&#x7406;&#x7684;&#x80FD;&#x529B;</li>
 </ol>
 <h2 id="&#x6A21;&#x5757;">&#x6A21;&#x5757;</h2>
+<p>&#x6A21;&#x5757;&#x662F;&#x4E00;&#x4E2A;&#x5305;&#x542B; python &#x5B9A;&#x4E49;&#x548C;&#x8BED;&#x53E5;&#x7684;&#x6587;&#x4EF6;&#x3002;
+&#x6A21;&#x5757;&#x540D;&#x662F;&#x6587;&#x4EF6;&#x540D;&#x3002; &#x6A21;&#x5757;&#x5185;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <strong>name</strong> &#x53D8;&#x91CF;&#x83B7;&#x53D6;&#x6A21;&#x5757;&#x540D;</p>
+<h3 id="&#x5B9A;&#x4E49;&#x6A21;&#x5757;">&#x5B9A;&#x4E49;&#x6A21;&#x5757;</h3>
+<p>&#x6587;&#x4EF6; fibo.py</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">print</span><span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">fib</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+    a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span>
+    <span class="token keyword">while</span> a <span class="token operator">&lt;</span> n<span class="token punctuation">:</span>
+        a<span class="token punctuation">,</span> b <span class="token operator">=</span> b<span class="token punctuation">,</span> a <span class="token operator">+</span> b
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">fib2</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+    a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span>
+    result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">while</span> a <span class="token operator">&lt;</span> n<span class="token punctuation">:</span>
+        result<span class="token punctuation">.</span>append<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+        a<span class="token punctuation">,</span> b <span class="token operator">=</span> b<span class="token punctuation">,</span> a <span class="token operator">+</span> b
+    <span class="token keyword">return</span> result
+</code></pre>
+<h3 id="&#x5F15;&#x7528;">&#x5F15;&#x7528;</h3>
+<p>&#x5F15;&#x7528;&#x6A21;&#x5757;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">import</span> fibo
+
+fibo<span class="token punctuation">.</span>fib<span class="token punctuation">(</span><span class="token number">99</span><span class="token punctuation">)</span>
+fibo<span class="token punctuation">.</span>fib2<span class="token punctuation">(</span><span class="token number">99</span><span class="token punctuation">)</span>
+</code></pre>
+<p>&#x4F7F;&#x7528; from &#x5F15;&#x7528;&#x53D8;&#x91CF;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">from</span> fibo <span class="token keyword">import</span> fib<span class="token punctuation">,</span> fib2
+
+fib<span class="token punctuation">(</span><span class="token number">999</span><span class="token punctuation">)</span>
+fib2<span class="token punctuation">(</span><span class="token number">999</span><span class="token punctuation">)</span>
+</code></pre>
+<p>&#x4F7F;&#x7528; * &#x5F15;&#x7528;&#x6240;&#x6709;&#x53D8;&#x91CF;&#x3002;&#x901A;&#x5E38;&#x4E0D;&#x8FD9;&#x6837;&#x7528;</p>
+<pre class="language-"><code>from fibo import *
+fib(999)
+</code></pre><p>&#x4F7F;&#x7528; as &#x91CD;&#x547D;&#x540D;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">import</span> fibo <span class="token keyword">as</span> fibLib
+</code></pre>
+<p>&#x53D8;&#x91CF;&#x4F7F;&#x7528; as &#x91CD;&#x547D;&#x540D;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">from</span> fibo <span class="token keyword">import</span> fib <span class="token keyword">as</span> fibonacci
+</code></pre>
+<h3 id="&#x6267;&#x884C;&#x6A21;&#x5757;">&#x6267;&#x884C;&#x6A21;&#x5757;</h3>
+<p>&#x6A21;&#x5757;&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x6267;&#x884C;&#xFF0C;&#x76F4;&#x63A5;&#x6267;&#x884C;&#x65F6;&#xFF0C;<strong>name</strong> &#x4F1A;&#x88AB;&#x8BBE;&#x4E3A; &apos;<strong>main</strong>&apos;</p>
+<pre class="language-"><code>python fibo.py
+</code></pre><h3 id="&#x6A21;&#x5757;&#x67E5;&#x627E;&#x8DEF;&#x5F84;">&#x6A21;&#x5757;&#x67E5;&#x627E;&#x8DEF;&#x5F84;</h3>
+<ol>
+<li>&#x5185;&#x7F6E;&#x6A21;&#x5757;</li>
+<li>&#x6839;&#x636E; sys.path &#x6307;&#x5B9A;&#x7684;&#x987A;&#x5E8F;&#x67E5;&#x627E;</li>
+</ol>
+<p>sys.path &#x7684;&#x521D;&#x59CB;&#x5316;&#x89C4;&#x5219;</p>
+<ol>
+<li>&#x811A;&#x672C;&#x6240;&#x5728;&#x7684;&#x76EE;&#x5F55;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6307;&#x5B9A;&#x8FD0;&#x884C;&#x7684;&#x811A;&#x672C;&#x6587;&#x4EF6;&#xFF0C;&#x5219;&#x4E3A;&#x5F53;&#x524D;&#x8DEF;&#x5F84;</li>
+<li>&#x73AF;&#x5883;&#x53D8;&#x91CF; PYTHONPATH &#x6307;&#x5B9A;&#x7684;&#x76EE;&#x5F55;</li>
+<li>&#x5B89;&#x88C5;&#x7684;&#x9ED8;&#x8BA4;&#x4F4D;&#x7F6E;</li>
+</ol>
+<h3 id="&#x6A21;&#x5757;&#x7F16;&#x8BD1;">&#x6A21;&#x5757;&#x7F16;&#x8BD1;</h3>
+<p>&#x4E3A;&#x63D0;&#x9AD8;&#x52A0;&#x8F7D;&#x901F;&#x5EA6;&#xFF0C;python &#x4F1A;&#x7F13;&#x5B58;&#x7F16;&#x8BD1;&#x540E;&#x7684;&#x6A21;&#x5757;&#x6587;&#x4EF6;&#x3002;
+&#x7F16;&#x8BD1;&#x6587;&#x4EF6;&#x7F13;&#x5B58;&#x5728; <strong>pycache</strong>&#x76EE;&#x5F55;&#x4E0B;&#x3002; &#x6587;&#x4EF6;&#x540D;&#x683C;&#x5F0F;&#x4E3A; <module>.<version>.pyc
+&#x6BCF;&#x6B21;&#x8FD0;&#x884C;&#x65F6;&#x4F1A;&#x68C0;&#x67E5;&#x7F13;&#x5B58;&#x6587;&#x4EF6;&#x548C;&#x6E90;&#x6587;&#x4EF6;&#x7684;&#x7248;&#x672C;&#x3002;&#x901A;&#x8FC7;&#x68C0;&#x67E5;2&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x6765;&#x5224;&#x65AD;&#x3002;
+&#x8BE5;&#x8FC7;&#x7A0B;&#x81EA;&#x52A8;&#x5B8C;&#x6210;&#x3002; </version></module></p>
+<p>&#x4EE5;&#x4E0B;&#x60C5;&#x51B5;&#x4E0D;&#x4F1A;&#x68C0;&#x67E5;&#x7F13;&#x5B58;&#x7684;&#x6A21;&#x5757;&#x7248;&#x672C;</p>
+<ol>
+<li>&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x6267;&#x884C;&#x6A21;&#x5757;&#xFF0C;&#x76F4;&#x63A5;&#x52A0;&#x8F7D;&#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x91CD;&#x65B0;&#x7F16;&#x8BD1;&#xFF0C;&#x4E0D;&#x4F1A;&#x7F13;&#x5B58;&#x7F16;&#x8BD1;&#x7ED3;&#x679C;&#x3002;</li>
+<li>&#x6CA1;&#x6709;&#x6E90;&#x6587;&#x4EF6;&#x7684;&#x6A21;&#x5757;&#x3002;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x7F13;&#x5B58;&#x6587;&#x4EF6;&#x3002;</li>
+</ol>
+<p>&#x5BF9;&#x4E8E;&#x65E0;&#x6E90;&#x7248;&#x672C;&#x9700;&#x8981;&#x6EE1;&#x8DB3;2&#x4E2A;&#x6761;&#x4EF6;&#xFF0C;1. &#x7F16;&#x8BD1;&#x6A21;&#x5757;&#x5728;&#x6E90;&#x76EE;&#x5F55;&#x4E0B; 2. &#x6CA1;&#x6709;&#x6A21;&#x5757;&#x7684;&#x6E90;&#x6587;&#x4EF6;</p>
+<h3 id="standard-modules-&#x6807;&#x51C6;&#x6A21;&#x5757;">Standard Modules &#x6807;&#x51C6;&#x6A21;&#x5757;</h3>
+<p>python &#x5185;&#x7F6E;&#x7684;&#x6A21;&#x5757;&#x5E93;&#x3002;&#x5982; sys &#x6A21;&#x5757;</p>
+<p>&#x5B98;&#x65B9;&#x6587;&#x6863; [<a href="https://docs.python.org/3/library/index.html" target="_blank">https://docs.python.org/3/library/index.html</a>]</p>
+<h3 id="dir-&#x65B9;&#x6CD5;">dir &#x65B9;&#x6CD5;</h3>
+<p>dir &#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x6A21;&#x5757;&#x5B9A;&#x4E49;&#x7684;&#x6240;&#x6709;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x5305;&#x62EC;&#x53D8;&#x91CF;&#xFF0C;&#x6A21;&#x5757;&#xFF0C;&#x51FD;&#x6570;</p>
+<pre class="language-"><code class="lang-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">import</span> fibo
+fibo
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">dir</span><span class="token punctuation">(</span>fibo<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token string">&apos;__builtins__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__cached__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__doc__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__file__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__loader__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__name__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__package__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__spec__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;fib&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;fib2&apos;</span><span class="token punctuation">]</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">import</span> sys
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">dir</span><span class="token punctuation">(</span>sys<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token string">&apos;__breakpointhook__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__displayhook__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__doc__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__excepthook__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__interactivehook__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__loader__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__name__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__package__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__spec__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__stderr__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__stdin__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__stdout__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;_clear_type_cache&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;_current_frames&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;_debugmallocstats&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;_framework&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;_getframe&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;_git&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;_home&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;_xoptions&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;abiflags&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;api_version&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;argv&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;base_exec_prefix&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;base_prefix&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;breakpointhook&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;builtin_module_names&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;byteorder&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;call_tracing&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;callstats&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;copyright&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;displayhook&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;dont_write_bytecode&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;exc_info&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;excepthook&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;exec_prefix&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;executable&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;exit&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;flags&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;float_info&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;float_repr_style&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;get_asyncgen_hooks&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;get_coroutine_origin_tracking_depth&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;get_coroutine_wrapper&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getallocatedblocks&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getcheckinterval&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getdefaultencoding&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getdlopenflags&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getfilesystemencodeerrors&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getfilesystemencoding&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getprofile&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getrecursionlimit&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getrefcount&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getsizeof&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;getswitchinterval&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;gettrace&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;hash_info&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;hexversion&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;implementation&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;int_info&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;intern&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;is_finalizing&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;maxsize&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;maxunicode&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;meta_path&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;modules&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;path&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;path_hooks&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;path_importer_cache&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;platform&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;prefix&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;ps1&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;ps2&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;set_asyncgen_hooks&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;set_coroutine_origin_tracking_depth&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;set_coroutine_wrapper&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;setcheckinterval&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;setdlopenflags&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;setprofile&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;setrecursionlimit&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;setswitchinterval&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;settrace&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;stderr&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;stdin&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;stdout&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;thread_info&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;version&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;version_info&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;warnoptions&apos;</span><span class="token punctuation">]</span>
+</code></pre>
+<p>&#x4E0D;&#x4F20;&#x53C2;&#x6570;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#x5F53;&#x524D;&#x6A21;&#x5757;&#x6240;&#x5B9A;&#x4E49;&#x7684;&#x53D8;&#x91CF;</p>
+<pre class="language-"><code class="lang-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">dir</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token string">&apos;__annotations__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__builtins__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__doc__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__loader__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__name__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__package__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__spec__&apos;</span><span class="token punctuation">]</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">import</span> sys<span class="token punctuation">,</span> fibo
+fibo
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> abc <span class="token operator">=</span> <span class="token number">666</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">dir</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token string">&apos;__annotations__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__builtins__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__doc__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__loader__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__name__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__package__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__spec__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;abc&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;fibo&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;sys&apos;</span><span class="token punctuation">]</span>
+</code></pre>
+<p>dir &#x4E0D;&#x4F1A;&#x5217;&#x51FA;&#x5185;&#x7F6E;&#x51FD;&#x6570;&#x548C;&#x53D8;&#x91CF;&#x540D;&#x3002;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; builtins &#x6A21;&#x5757;&#x83B7;&#x53D6;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">import</span> builtins
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">dir</span><span class="token punctuation">(</span>builtins<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="packages-&#x5305;">Packages &#x5305;</h3>
+<p>&#x5305;&#x662F; python &#x4F7F;&#x7528;&#x70B9;&#x8BED;&#x6CD5;&#x6765;&#x7BA1;&#x7406;&#x6A21;&#x5757;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
+<p>&#x5982;&#x4EE5;&#x4E0B;&#x7684;&#x6A21;&#x5757;&#x7ED3;&#x6784;</p>
+<pre class="language-"><code>pkg
+&#x251C;&#x2500;&#x2500; __init__.py
+&#x251C;&#x2500;&#x2500; effects
+&#x2502;   &#x251C;&#x2500;&#x2500; __init__.py
+&#x2502;   &#x251C;&#x2500;&#x2500; echo.py
+&#x2502;   &#x2514;&#x2500;&#x2500; surround.py
+&#x2514;&#x2500;&#x2500; formats
+    &#x251C;&#x2500;&#x2500; __init__.py
+    &#x251C;&#x2500;&#x2500; mp4.py
+    &#x2514;&#x2500;&#x2500; wav.py
+</code></pre><p>mp4.py &#x6587;&#x4EF6;&#x5185;&#x5BB9;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">def</span> <span class="token function">convert</span><span class="token punctuation">(</span><span class="token builtin">file</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&apos;{file}&#x683C;&#x5F0F;&#x5316;&#x4E3A;mp4&apos;</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span><span class="token builtin">file</span><span class="token operator">=</span><span class="token builtin">file</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h4 id="&#x5F15;&#x7528;&#x65B9;&#x5F0F;">&#x5F15;&#x7528;&#x65B9;&#x5F0F;</h4>
+<p>&#x901A;&#x8FC7;&#x70B9;&#x8BED;&#x6CD5;&#x5F15;&#x7528;&#x6A21;&#x5757;&#xFF0C;&#x4F7F;&#x7528;&#x65F6;&#x4E5F;&#x9700;&#x8981;&#x7528;&#x70B9;&#x8BED;&#x6CD5;&#x5F15;&#x7528;&#x5168;&#x540D;&#x79F0;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">import</span> pkg<span class="token punctuation">.</span>formats<span class="token punctuation">.</span>mp4
+
+pkg<span class="token punctuation">.</span>formats<span class="token punctuation">.</span>mp4<span class="token punctuation">.</span>convert<span class="token punctuation">(</span><span class="token string">&apos;&#x5341;&#x5E74;&apos;</span><span class="token punctuation">)</span>
+</code></pre>
+<p>&#x8BED;&#x6CD5;2</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">from</span>  pkg<span class="token punctuation">.</span>mp4 <span class="token keyword">import</span> mp4
+
+mp4<span class="token punctuation">.</span>convert<span class="token punctuation">(</span><span class="token string">&apos;&#x5341;&#x5E74;&apos;</span><span class="token punctuation">)</span>
+</code></pre>
+<p>&#x8BED;&#x6CD5;3</p>
+<p>&#x5F15;&#x7528;&#x6A21;&#x5757;&#x4E2D;&#x7684;&#x53D8;&#x91CF;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">from</span> pkg<span class="token punctuation">.</span>formats<span class="token punctuation">.</span>mp4 <span class="token keyword">import</span> convert
+
+convert<span class="token punctuation">(</span><span class="token string">&apos;&#x5341;&#x5E74;&apos;</span><span class="token punctuation">)</span>
+</code></pre>
+<p>&#x8BED;&#x6CD5;4&#xFF0C;&#x4F7F;&#x7528; * </p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">from</span> pkg<span class="token punctuation">.</span>formats<span class="token punctuation">.</span>mp4 <span class="token keyword">import</span> <span class="token operator">*</span>
+
+convert<span class="token punctuation">(</span><span class="token string">&apos;&#x5341;&#x5E74;&apos;</span><span class="token punctuation">)</span>
+</code></pre>
+<h4 id="&#x5B50;&#x5305;&#x5F15;&#x7528;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;">&#x5B50;&#x5305;&#x5F15;&#x7528;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;</h4>
+<p>&#x5982;&#x5728; mp4.py &#x4E2D;&#x5F15;&#x5165; wav.py</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">from</span> <span class="token punctuation">.</span> <span class="token keyword">import</span> mp4
+</code></pre>
+<p>&#x8DE8;&#x6587;&#x4EF6;&#x5939;&#x5F15;&#x5165;&#xFF0C; &#x5728; mp4.py &#x4E2D;&#x5F15;&#x5165; echo.py</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">from</span> <span class="token punctuation">.</span><span class="token punctuation">.</span>effects <span class="token keyword">import</span> echo
+</code></pre>
+<p>&#x6CE8;&#x610F;&#x4E8B;&#x9879;</p>
+<ol>
+<li>&#x901A;&#x8FC7;&#x70B9;&#x8BED;&#x6CD5;&#x5F15;&#x7528;&#x5305;&#x7684;&#x65F6;&#x5019;&#x4E0D;&#x80FD;&#x5F15;&#x7528;&#x5F53;&#x524D;&#x5305;&#x7684;&#x76EE;&#x5F55;&#x4E4B;&#x5916;&#x3002;</li>
+<li>&#x5305;&#x5185;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;&#xFF0C;&#x4F46;&#x4F1A;&#x5BF9;&#x5305;&#x540D;&#x53D1;&#x751F;&#x4F9D;&#x8D56;&#xFF0C;&#x4E0D;&#x5229;&#x4E8E;&#x5305;&#x7684;&#x79FB;&#x690D;&#x3002;&#x56E0;&#x6B64;&#x5305;&#x5185;&#x4E00;&#x822C;&#x4F7F;&#x7528;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;</li>
+</ol>
+<h4 id="&#x6587;&#x4EF6;initpy">&#x6587;&#x4EF6;<strong>init</strong>.py</h4>
+<p>&#x5305;&#x76EE;&#x5F55;&#x4E2D;&#x5FC5;&#x987B;&#x5305;&#x542B; <strong>init</strong>.py &#x6587;&#x4EF6;&#xFF0C;&#x624D;&#x80FD;&#x5C06;&#x8BE5;&#x76EE;&#x5F55;&#x4F5C;&#x4E3A;&#x6A21;&#x5757;&#x3002;&#x8BE5;&#x6587;&#x4EF6;&#x7528;&#x4E8E;&#x8FD0;&#x884C;&#x5305;&#x7684;&#x521D;&#x59CB;&#x5316;&#x4EE3;&#x7801;&#xFF0C;&#x901A;&#x5E38;&#x8BE5;&#x6587;&#x4EF6;&#x4E3A;&#x7A7A;&#xFF0C;&#x4F46;&#x662F;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x5176;&#x4E2D;&#x589E;&#x52A0;&#x529F;&#x80FD;&#x3002; &#x5BFC;&#x5165;&#x4E00;&#x4E2A;&#x5305;&#x65F6;&#xFF0C;&#x9996;&#x5148;&#x4F1A;&#x5BFC;&#x5165;&#x4E86;&#x5B83;&#x7684;<strong>init</strong>.py &#x6587;&#x4EF6;&#x3002; &#x56E0;&#x6B64;&#x53EF;&#x4EE5;&#x5728; <strong>init</strong>.py &#x4E2D;&#x6279;&#x91CF;&#x5BFC;&#x5165;&#x6240;&#x9700;&#x8981;&#x7684;&#x6A21;&#x5757;&#x3002;</p>
+<p>init &#x6587;&#x4EF6;&#x4E2D;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <strong>all</strong> &#x6307;&#x5B9A;&#x8981;&#x5BFC;&#x51FA;&#x7684;&#x6A21;&#x5757;&#xFF0C;&#x901A;&#x8FC7; * &#x5F15;&#x5165;&#x5B50;&#x6A21;&#x5757;&#x65F6;&#x4F1A;&#x5F15;&#x5165;&#x8FD9;&#x4E9B;&#x53D8;&#x91CF;</p>
+<p>init &#x6587;&#x4EF6;&#x4E3A;&#x7A7A;&#x65F6;</p>
+<pre class="language-"><code class="lang-python"><span class="token comment"># formats/__init__.py &#x4E3A;&#x7A7A;</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">from</span> pkg <span class="token keyword">import</span> formats
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">dir</span><span class="token punctuation">(</span>formats<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token string">&apos;__builtins__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__cached__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__doc__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__file__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__loader__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__name__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__package__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__path__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__spec__&apos;</span><span class="token punctuation">]</span>
+</code></pre>
+<p>init &#x6587;&#x4EF6;&#x5BFC;&#x5165;&#x6A21;&#x5757;</p>
+<pre class="language-"><code class="lang-python"><span class="token comment"># formats/__init__.py</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span> <span class="token keyword">import</span> mp4
+<span class="token keyword">from</span> <span class="token punctuation">.</span> <span class="token keyword">import</span> wav
+</code></pre>
+<p>&#x5728; init &#x6587;&#x4EF6;&#x4E2D;&#x5F15;&#x5165;&#x5B50;&#x6A21;&#x5757;&#x540E;&#xFF0C;&#x4F1A;&#x5BFC;&#x51FA;&#x5F15;&#x5165;&#x7684;&#x53D8;&#x91CF;</p>
+<pre class="language-"><code class="lang-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">from</span> pkg <span class="token keyword">import</span> formats
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">dir</span><span class="token punctuation">(</span>formats<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token string">&apos;__builtins__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__cached__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__doc__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__file__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__loader__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__name__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__package__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__path__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;__spec__&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;mp4&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;wav&apos;</span><span class="token punctuation">]</span>
+</code></pre>
+<h4 id="all-&#x5C5E;&#x6027;"><strong>all</strong> &#x5C5E;&#x6027;</h4>
+<p>&#x5F53;&#x4F7F;&#x7528; * &#x5BFC;&#x5165;&#x65F6;&#xFF0C;&#x9ED8;&#x8BA4;&#x4F1A;&#x5BFC;&#x5165;&#x6240;&#x6709;&#x7684;&#x53D8;&#x91CF;&#x3002; 
+&#x901A;&#x8FC7;&#x4F7F;&#x7528; <strong>all</strong> &#x5C5E;&#x6027;&#x53EF;&#x4EE5;&#x7CBE;&#x786E;&#x63A7;&#x5236;&#x8981;&#x5BFC;&#x51FA;&#x7684;&#x5185;&#x5BB9;
+&#x5982;&#x679C;&#x503C;&#x662F;&#x7A7A;&#x5217;&#x8868;&#xFF0C;&#x5219;&#x6CA1;&#x6709;&#x4E1C;&#x897F;&#x4F1A;&#x88AB;&#x5BFC;&#x5165;</p>
+<pre class="language-"><code class="lang-python"><span class="token comment"># &#x6587;&#x4EF6; module/fibo.py &#x4EC5;&#x5BFC;&#x51FA; fib fib2</span>
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">&apos;fib&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;fib2&apos;</span><span class="token punctuation">]</span>
+
+
+<span class="token keyword">def</span> <span class="token function">fib</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span>
+    <span class="token keyword">while</span> a <span class="token operator">&lt;</span> n<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">&apos; &apos;</span><span class="token punctuation">)</span>
+        a<span class="token punctuation">,</span> b <span class="token operator">=</span> b<span class="token punctuation">,</span> a<span class="token operator">+</span>b
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">fib2</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span>
+    <span class="token keyword">while</span> a <span class="token operator">&lt;</span> n<span class="token punctuation">:</span>
+        result<span class="token punctuation">.</span>append<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+        a<span class="token punctuation">,</span> b <span class="token operator">=</span> b<span class="token punctuation">,</span> a <span class="token operator">+</span> b
+    <span class="token keyword">return</span> result
+
+
+<span class="token keyword">def</span> <span class="token function">fib3</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span>
+    <span class="token keyword">while</span> a <span class="token operator">&lt;</span> n<span class="token punctuation">:</span>
+        result<span class="token punctuation">.</span>append<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+        a<span class="token punctuation">,</span> b <span class="token operator">=</span> b<span class="token punctuation">,</span> a <span class="token operator">+</span> b
+    <span class="token keyword">return</span> result
+</code></pre>
+<p>&#x4F7F;&#x7528; * &#x5BFC;&#x5165;&#x65F6;&#xFF0C;&#x53EA;&#x4F1A;&#x5BFC;&#x5165; <strong>all</strong> &#x5B9A;&#x4E49;&#x7684;&#x53D8;&#x91CF;</p>
+<pre class="language-"><code class="lang-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">from</span> module<span class="token punctuation">.</span>fibo <span class="token keyword">import</span> <span class="token operator">*</span>
+module<span class="token punctuation">.</span>fibo
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> fib
+<span class="token operator">&lt;</span>function fib at <span class="token number">0x10d6fb730</span><span class="token operator">&gt;</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> fib2
+<span class="token operator">&lt;</span>function fib2 at <span class="token number">0x10d6fb6a8</span><span class="token operator">&gt;</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> fib3
+Traceback <span class="token punctuation">(</span>most recent call last<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  File <span class="token string">&quot;&lt;stdin&gt;&quot;</span><span class="token punctuation">,</span> line <span class="token number">1</span><span class="token punctuation">,</span> <span class="token keyword">in</span> <span class="token operator">&lt;</span>module<span class="token operator">&gt;</span>
+NameError<span class="token punctuation">:</span> name <span class="token string">&apos;fib3&apos;</span> <span class="token keyword">is</span> <span class="token keyword">not</span> defined
+</code></pre>
+<p>&#x901A;&#x8FC7;&#x540D;&#x79F0;&#x53EF;&#x4EE5;&#x5BFC;&#x5165;<strong>all</strong>&#x6CA1;&#x6709;&#x6307;&#x5B9A;&#x7684;&#x5185;&#x5BB9;</p>
+<pre class="language-"><code class="lang-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">import</span> module<span class="token punctuation">.</span>fibo
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> module<span class="token punctuation">.</span>fibo<span class="token punctuation">.</span>fib
+<span class="token operator">&lt;</span>function fib at <span class="token number">0x10d6fb730</span><span class="token operator">&gt;</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> module<span class="token punctuation">.</span>fibo<span class="token punctuation">.</span>fib3
+<span class="token operator">&lt;</span>function fib3 at <span class="token number">0x10d6fb7b8</span><span class="token operator">&gt;</span>
+</code></pre>
+<h4 id="&#x6A21;&#x5757;&#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;">&#x6A21;&#x5757;&#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;</h4>
+<p>&#x5305;&#x76EE;&#x5F55;&#x7ED3;&#x6784;</p>
+<pre class="language-"><code>delay
+&#x251C;&#x2500;&#x2500; __init__.py
+&#x251C;&#x2500;&#x2500; a.py
+&#x2514;&#x2500;&#x2500; b.py
+</code></pre><p>delay/<strong>init</strong>.py &#x6587;&#x4EF6;
+&#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;&#x6A21;&#x5757;&#xFF0C; &#x5728;&#x65B9;&#x6CD5;&#x88AB;&#x8C03;&#x7528;&#x7684;&#x65F6;&#x5019;&#x624D;&#x4F1A;&#x52A0;&#x8F7D;&#x8BE5;&#x6A21;&#x5757;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">def</span> <span class="token function">A</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">from</span> <span class="token punctuation">.</span>a <span class="token keyword">import</span> echo1
+    <span class="token keyword">return</span> echo1<span class="token punctuation">(</span>arg<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">B</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">from</span> <span class="token punctuation">.</span>b <span class="token keyword">import</span> echo2
+    <span class="token keyword">return</span> echo2<span class="token punctuation">(</span>arg<span class="token punctuation">)</span>
+</code></pre>
+<p>&#x6587;&#x4EF6; a.py &#x5185;&#x5BB9;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">def</span> <span class="token function">echo1</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&apos;a-echo1&#x8F93;&#x51FA;{content}&apos;</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>content<span class="token operator">=</span>content<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">echo2</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&apos;a-echo2&#x8F93;&#x51FA;{content}&apos;</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>content<span class="token operator">=</span>content<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>&#x6587;&#x4EF6; b.py &#x5185;&#x5BB9;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">def</span> <span class="token function">echo1</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&apos;b-echo1&#x8F93;&#x51FA;{content}&apos;</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>content<span class="token operator">=</span>content<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">echo2</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&apos;b-echo2&#x8F93;&#x51FA;{content}&apos;</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>content<span class="token operator">=</span>content<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>&#x6267;&#x884C;&#x7ED3;&#x679C;</p>
+<pre class="language-"><code>&gt;&gt;&gt; from pkg import delay
+&gt;&gt;&gt; delay.A(678)
+a-echo1&#x8F93;&#x51FA;678
+&gt;&gt;&gt; delay.B(678)
+b-echo2&#x8F93;&#x51FA;678
+</code></pre><h4 id="&#x5305;&#x5165;&#x53E3;&#x6587;&#x4EF6;-mainpy">&#x5305;&#x5165;&#x53E3;&#x6587;&#x4EF6; <strong>main</strong>.py</h4>
+<p>&#x5982;&#x679C;&#x5B58;&#x5728; __main.py &#x6587;&#x4EF6;&#xFF0C;&#x5219;&#x5728;&#x9876;&#x7EA7;&#x76EE;&#x5F55;&#x8FD0;&#x884C;&#x65F6;&#xFF0C;&#x4F1A;&#x9ED8;&#x8BA4;&#x6267;&#x884C;&#x8BE5;&#x6587;&#x4EF6;&#x3002;
+&#x5982;&#x679C;&#x4EE3;&#x7801;&#x6253;&#x5305;&#x4E3A; zip &#x6587;&#x4EF6;&#xFF0C;&#x540C;&#x6837;&#x9002;&#x7528;&#x8BE5;&#x539F;&#x5219;&#x3002;</p>
+<p>&#x5982;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x4E3A;</p>
+<pre class="language-"><code>myapp/
+    spam.py
+    bar.py
+    grok.py
+    __main__.py
+</code></pre><pre class="language-"><code>$ zip -r myapp.zip *.py
+$ python3 myapp.zip # &#x4F1A;&#x6267;&#x884C; __main__.py &#x6587;&#x4EF6;
+</code></pre><h4 id="&#x624B;&#x52A8;&#x5BFC;&#x5165;&#x6A21;&#x5757;-importlib">&#x624B;&#x52A8;&#x5BFC;&#x5165;&#x6A21;&#x5757; importlib</h4>
+<p>&#x4F7F;&#x7528; importlib.import_module()&#x53EF;&#x4EE5;&#x624B;&#x52A8;&#x5BFC;&#x5165;&#x6A21;&#x5757;</p>
+<pre class="language-"><code class="lang-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">import</span> importlib
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> math <span class="token operator">=</span> importlib<span class="token punctuation">.</span>import_module<span class="token punctuation">(</span><span class="token string">&apos;math&apos;</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> math<span class="token punctuation">.</span>sin<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token number">0.1411200080598672</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> mod <span class="token operator">=</span> importlib<span class="token punctuation">.</span>import_module<span class="token punctuation">(</span><span class="token string">&apos;urllib.request&apos;</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> mod<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span><span class="token string">&apos;http://baidu.com&apos;</span><span class="token punctuation">)</span>
+</code></pre>
+<h4 id="&#x79C1;&#x6709;&#x5305;&#x5B89;&#x88C5;">&#x79C1;&#x6709;&#x5305;&#x5B89;&#x88C5;</h4>
+<p>&#x8F93;&#x51FA; sys.path &#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6709;2&#x4E2A; python &#x7684; site-packages &#x76EE;&#x5F55;&#xFF0C;&#x5176;&#x4E2D;&#x7528;&#x6237;&#x81EA;&#x5DF1;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x66F4;&#x9AD8;&#x3002;</p>
+<p>&#x5B89;&#x88C5;&#x79C1;&#x6709;&#x5305;&#x547D;&#x4EE4;</p>
+<pre class="language-"><code>$ pip install --user <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pkgname</span><span class="token punctuation">&gt;</span></span>
+$ python3 setup.py install --user
+</code></pre><h4 id="&#x5305;&#x53D1;&#x5E03;">&#x5305;&#x53D1;&#x5E03;</h4>
+<p>&#x5305;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x53C2;&#x8003;</p>
+<pre class="language-"><code>mypkg
+&#x251C;&#x2500;&#x2500; Doc
+&#x2502;   &#x2514;&#x2500;&#x2500; documentation.txt
+&#x251C;&#x2500;&#x2500; MANIFEST.in
+&#x251C;&#x2500;&#x2500; README.txt
+&#x251C;&#x2500;&#x2500; mypkg
+&#x2502;   &#x251C;&#x2500;&#x2500; __init__.py
+&#x2502;   &#x251C;&#x2500;&#x2500; bar.py
+&#x2502;   &#x251C;&#x2500;&#x2500; examples
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; helloword.py
+&#x2502;   &#x251C;&#x2500;&#x2500; foo.py
+&#x2502;   &#x2514;&#x2500;&#x2500; utils
+&#x2502;       &#x251C;&#x2500;&#x2500; __init__.py
+&#x2502;       &#x251C;&#x2500;&#x2500; grok.py
+&#x2502;       &#x2514;&#x2500;&#x2500; spam.py
+&#x2514;&#x2500;&#x2500; setup.py
+</code></pre><p>&#x6839;&#x76EE;&#x5F55;&#x9700;&#x8981;&#x5305;&#x542B; setup.py &#x548C; MANIFEST.in</p>
+<pre class="language-"><code class="lang-python"><span class="token comment"># setup.py</span>
+<span class="token keyword">from</span> distutils<span class="token punctuation">.</span>core <span class="token keyword">import</span> setup
+
+setup<span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">&apos;mypkg&apos;</span><span class="token punctuation">,</span>
+      version<span class="token operator">=</span><span class="token string">&apos;1.0&apos;</span><span class="token punctuation">,</span>
+      author<span class="token operator">=</span><span class="token string">&apos;x3927&apos;</span><span class="token punctuation">,</span>
+      author_email<span class="token operator">=</span><span class="token string">&apos;3927@gmail.com&apos;</span><span class="token punctuation">,</span>
+      url<span class="token operator">=</span><span class="token string">&apos;http://xxx.com/mypkg&apos;</span><span class="token punctuation">,</span>
+      packages<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">&apos;mypkg&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;mypkg.utils&apos;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span>
+</code></pre>
+<p>MANIFEST.in &#x6587;&#x4EF6;&#xFF0C;&#x5217;&#x51FA;&#x5305;&#x4E2D;&#x9700;&#x8981;&#x5305;&#x542B;&#x7684;&#x975E;&#x6E90;&#x7801;&#x6587;&#x4EF6;</p>
+<pre class="language-"><code># MANIFEST.in
+include *.txt
+recursive-include examples *
+recursive-include Doc *
+</code></pre><p>&#x53D1;&#x5E03;&#x5305;</p>
+<pre class="language-"><code>$ python3 setup.py sdist
+</code></pre><p>&#x8BE5;&#x547D;&#x4EE4;&#x4F1A;&#x5728; dist &#x76EE;&#x5F55;&#x4E0B;&#x521B;&#x5EFA;&#x4E00;&#x4E2A; zip &#x6216; tar.gz &#x6587;&#x4EF6;&#x3002;&#x8BE5;&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x53D1;&#x9001;&#x7ED9;&#x522B;&#x4EBA;&#x4F7F;&#x7528;&#xFF0C;&#x6216;&#x4E0A;&#x4F20;&#x81F3; <a href="https://pypi.org/" target="_blank">https://pypi.org/</a></p>
 <h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;">&#x53C2;&#x8003;&#x8D44;&#x6599;</h2>
 <ul>
-<li><a href="https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset" target="_blank">&#x5B98;&#x65B9;&#x6587;&#x6863;</a></li>
+<li><a href="https://docs.python.org/zh-cn/3/tutorial/index.html" target="_blank">&#x5B98;&#x65B9;&#x5165;&#x95E8;&#x6559;&#x7A0B;</a></li>
+<li><a href="https://docs.python.org/zh-cn/3/library/index.html" target="_blank">&#x5B98;&#x65B9;&#x6807;&#x51C6;&#x5E93;&#x6587;&#x6863;</a></li>
+<li><a href="https://docs.python.org/zh-cn/3/reference/index.html" target="_blank">&#x5B98;&#x65B9;&#x8BED;&#x6CD5;&#x6587;&#x6863;</a></li>
+<li><a href="https://docs.python.org/zh-cn/3/" target="_blank">&#x5B98;&#x65B9;&#x6587;&#x6863;</a></li>
 <li><a href="https://bop.mol.uno/05.installation.html" target="_blank">&#x7B80;&#x660E; Python &#x6559;&#x7A0B;</a></li>
 <li><a href="https://python.swaroopch.com/" target="_blank">A Byte of Python</a></li>
 <li><a href="https://github.com/dccrazyboy/pyeco/blob/master/pyeco.rst" target="_blank">Python&#x5F00;&#x53D1;&#x751F;&#x6001;&#x73AF;&#x5883;&#x7B80;&#x4ECB;</a></li>
+<li><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" target="_blank">Python Cookbook</a></li>
 </ul>
 
                                 
@@ -1999,7 +2352,7 @@ $ rmvirtualenv my_project_venv
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"python.base","level":"6.4","depth":1,"next":{"title":"python.django","level":"6.5","depth":1,"path":"notes/python.django.md","ref":"notes/python.django.md","articles":[]},"previous":{"title":"php","level":"6.3","depth":1,"path":"notes/php.md","ref":"notes/php.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css","livereload"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"livereload":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/python.base.md","mtime":"2019-05-24T13:37:37.259Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-25T08:44:05.190Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"python.base","level":"6.4","depth":1,"next":{"title":"python.django","level":"6.5","depth":1,"path":"notes/python.django.md","ref":"notes/python.django.md","articles":[]},"previous":{"title":"php","level":"6.3","depth":1,"path":"notes/php.md","ref":"notes/php.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css","livereload"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"livereload":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/python.base.md","mtime":"2019-05-27T12:57:32.497Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-27T12:40:49.296Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
