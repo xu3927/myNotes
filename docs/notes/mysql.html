@@ -1756,7 +1756,8 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="mysql-&#x4F7F;&#x7528;">Mysql &#x4F7F;&#x7528;</h1>
+                                <p>[TOC]</p>
+<h1 id="mysql">MySQL</h1>
 <p><a href="https://dev.mysql.com/doc/refman/8.0/en/" target="_blank">&#x5B98;&#x7F51;</a></p>
 <h2 id="mysql&#x7248;&#x672C;">Mysql&#x7248;&#x672C;</h2>
 <ol>
@@ -1774,14 +1775,804 @@ root-shell<span class="token operator">&gt;</span> <span class="token function">
 <span class="token comment"># &#x901A;&#x8FC7;mysql&#x5BA2;&#x6237;&#x7AEF;&#x6267;&#x884C;&#x7684;&#x547D;&#x4EE4;</span>
 mysql<span class="token operator">&gt;</span> <span class="token function">type</span> a mysql statement here
 </code></pre>
-<h2 id="&#x914D;&#x7F6E;&#x6587;&#x4EF6;">&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h2>
-<p>windows&#x4E0B;mysql&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5728; /c/ProgramData/MySQL/MySQL Server 8.0/my.ini</p>
-<h2 id="&#x542F;&#x52A8;mysql&#x670D;&#x52A1;">&#x542F;&#x52A8;mysql&#x670D;&#x52A1;</h2>
-<p>&#x5148;&#x7528; mysqld install &#x5B89;&#x88C5;mysql&#x670D;&#x52A1; 
-&#x518D;&#x7528; net start mysql&#x542F;&#x52A8;&#x670D;&#x52A1;
-&#x63A5;&#x7740;&#x5C31;&#x53EF;&#x4EE5; &#x952E;&#x5165; mysql - u root -p&#x8FDB;&#x884C;&#x767B;&#x5F55;&#x4E86;
-&#x505C;&#x6B62;&#x670D;&#x52A1; net stop mysql</p>
+<h2 id="&#x5B89;&#x88C5;mysql">&#x5B89;&#x88C5;MySQL</h2>
+<p>community&#x4E3A;&#x793E;&#x533A;&#x7248;</p>
+<p>&#x5305;&#x542B;&#x7684;&#x51E0;&#x4E2A;&#x8F6F;&#x4EF6;:</p>
+<ol>
+<li>mysql server&#x662F;mysql&#x670D;&#x52A1;</li>
+<li>mysql cluster&#x662F;&#x96C6;&#x7FA4;&#x7248;</li>
+<li>mysql shell: mysql-shell&#x662F;&#x4E00;&#x4E2A;&#x9AD8;&#x7EA7;&#x7684;mysql&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;&#x3001;&#x5B83;&#x76F4;&#x63A5;&#x4E24;&#x79CD;&#x6A21;&#x5F0F;(&#x4EA4;&#x4E92;&#x5F0F;&amp;&#x6279;&#x5904;&#x7406;&#x5F0F;)&#x4E09;&#x79CD;&#x8BED;&#x8A00;(javascript\python\sql&#xFF09;</li>
+<li>mysql workbench&#x662F;mysql&#x63D0;&#x4F9B;&#x7684;&#x53EF;&#x89C6;&#x5316;&#x7F16;&#x8F91;&#x5DE5;&#x5177;</li>
+<li>mysql connectors&#x662F;mysql&#x8FDE;&#x63A5;&#x4E0D;&#x540C;&#x8BED;&#x8A00;&#x7684;&#x8FDE;&#x63A5;&#x5C42;,&#x5982;nodejs, python&#x7B49;&#x8C03;&#x7528;mysql&#x7684;&#x8FDE;&#x63A5;&#x5C42;</li>
+</ol>
+<p>&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;Server <a href="https://dev.mysql.com/downloads/mysql/" target="_blank">https://dev.mysql.com/downloads/mysql/</a></p>
+<h3 id="mac-&#x5B89;&#x88C5;mysql">mac &#x5B89;&#x88C5;mysql</h3>
+<ol>
+<li>&#x5B89;&#x88C5;mysql</li>
+</ol>
+<pre class="language-"><code>brew install mysql
+</code></pre><p>&#x67E5;&#x770B;brew&#x7684;&#x5B89;&#x88C5;&#x76EE;&#x5F55;</p>
+<pre class="language-"><code>brew --prefix
+</code></pre><p>&#x67E5;&#x770B;brew&#x5B89;&#x88C5;&#x7684;&#x67D0;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x5B89;&#x88C5;&#x76EE;&#x5F55;</p>
+<pre class="language-"><code># &#x67E5;&#x770B;brew&#x5B89;&#x88C5;&#x7684;mysql&#x7684;&#x5B89;&#x88C5;&#x76EE;&#x5F55;
+brew --prefix mysql
+</code></pre><ol>
+<li>&#x521B;&#x5EFA;datadir</li>
+</ol>
+<p>basedir&#x4E3A;mysql&#x7684;&#x5B89;&#x88C5;&#x76EE;&#x5F55;
+datadir &#x4E3A;mysql&#x6570;&#x636E;&#x6587;&#x4EF6;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span>cd BASEDIR
+shell<span class="token operator">&gt;</span>mkdir data
+<span class="token comment"># &#x4FEE;&#x6539;&#x6587;&#x4EF6;&#x5939;owner</span>
+shell<span class="token operator">&gt;</span>sudo <span class="token function">chown</span> mysql:mysql data
+<span class="token comment"># &#x4FEE;&#x6539;&#x6587;&#x4EF6;&#x5939;&#x6743;&#x9650;</span>
+shell<span class="token operator">&gt;</span>sudo <span class="token function">chmod</span> 750 data
+</code></pre>
+<ol>
+<li>&#x914D;&#x7F6E;/ect/my.cnf</li>
+</ol>
+<pre class="language-"><code class="lang-bash"><span class="token punctuation">[</span>mysqld<span class="token punctuation">]</span>
+datadir<span class="token operator">=</span>/usr/local/opt/mysql/data
+port<span class="token operator">=</span>3306
+user<span class="token operator">=</span>mysql
 
+<span class="token punctuation">[</span>mysql.server<span class="token punctuation">]</span>
+basedir<span class="token operator">=</span>/usr/local/opt/mysql
+</code></pre>
+<ol>
+<li>&#x521D;&#x59CB;&#x5316;data&#x6587;&#x4EF6;&#x5939;</li>
+</ol>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span>sudo mysqld --initialize --user<span class="token operator">=</span>mysql
+<span class="token comment"># &#x5728;&#x8F93;&#x51FA;&#x7684;&#x9879;&#x76EE;&#x4E2D;&#x4F1A;&#x8F93;&#x51FA;&#x968F;&#x673A;&#x8BBE;&#x7F6E;&#x7684;&#x5BC6;&#x7801;</span>
+</code></pre>
+<ol>
+<li><p>&#x542F;&#x52A8;server</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span>sudo mysql.server start
+</code></pre>
+</li>
+<li><p>&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;</p>
+</li>
+</ol>
+<p>mysql -u <username> -p<password> -h <host></host></password></username></p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysql -uroot -p
+<span class="token comment"># &#x8F93;&#x5165;&#x5BC6;&#x7801;, &#x5373;&#x53EF;&#x8FDE;&#x63A5;</span>
+</code></pre>
+<ol>
+<li>&#x4FEE;&#x6539;&#x5BC6;&#x7801;</li>
+</ol>
+<pre class="language-"><code class="lang-bash">mysql<span class="token operator">&gt;</span> ALTER USER <span class="token string">&apos;root&apos;</span>@<span class="token string">&apos;localhost&apos;</span> IDENTIFIED BY <span class="token string">&apos;new_password&apos;</span><span class="token punctuation">;</span>
+</code></pre>
+<ol>
+<li>&#x6D4B;&#x8BD5;<pre class="language-"><code class="lang-bash">mysql<span class="token operator">&gt;</span> show databases<span class="token punctuation">;</span>
+</code></pre>
+</li>
+</ol>
+<h2 id="server-&#x76F8;&#x5173;">server &#x76F8;&#x5173;</h2>
+<h4 id="427-mycnf&#x914D;&#x7F6E;&#x6587;&#x4EF6;">4.2.7 my.cnf&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h4>
+<p>&#x6587;&#x6863; <a href="https://dev.mysql.com/doc/refman/8.0/en/option-files.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/option-files.html</a></p>
+<p>&#x8FD9;&#x662F;mysql&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;.</p>
+<p>windows&#x4E0B;mysql&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5728; /c/ProgramData/MySQL/MySQL Server 8.0/my.ini</p>
+<p>my.cnf&#x6587;&#x4EF6;&#x7684;&#x67E5;&#x627E;&#x987A;&#x5E8F;</p>
+<pre class="language-"><code class="lang-bash">/etc/my.cnf
+/etc/mysql/my.cnf
+/usr/local/etc/my.cnf
+~/.my.cnf
+</code></pre>
+<p>my.cnf &#x914D;&#x7F6E;</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment">#</span>
+<span class="token comment"># The MySQL database server configuration file.</span>
+<span class="token comment">#</span>
+<span class="token comment"># You can copy this to one of:</span>
+<span class="token comment"># - &quot;/etc/mysql/my.cnf&quot; to set global options,</span>
+<span class="token comment"># - &quot;~/.my.cnf&quot; to set user-specific options.</span>
+<span class="token comment">#</span>
+<span class="token comment"># One can use all long options that the program supports.</span>
+<span class="token comment"># Run program with --help to get a list of available options and with</span>
+<span class="token comment"># --print-defaults to see which it would actually understand and use.</span>
+<span class="token comment">#</span>
+<span class="token comment"># For explanations see</span>
+<span class="token comment"># http://dev.mysql.com/doc/mysql/en/server-system-variables.html</span>
+
+<span class="token comment"># This will be passed to all mysql clients</span>
+<span class="token comment"># It has been reported that passwords should be enclosed with </span>
+<span class="token comment"># ticks/quotes escpecially if they contain &quot;#&quot; chars...</span>
+<span class="token comment"># Remember to edit /etc/mysql/debian.cnf when changing </span>
+<span class="token comment"># the socket location.</span>
+<span class="token punctuation">[</span>client<span class="token punctuation">]</span>
+port        <span class="token operator">=</span> 3306
+<span class="token comment">#socket     = /var/run/mysqld/mysqld.sock</span>
+
+<span class="token comment"># Here is entries for some specific programs</span>
+<span class="token comment"># The following values assume you have at least 32M ram</span>
+
+<span class="token comment"># This was formally known as [safe_mysqld]. Both versions </span>
+<span class="token comment"># are currently parsed.</span>
+<span class="token punctuation">[</span>mysqld_safe<span class="token punctuation">]</span>
+<span class="token comment">#socket     = /var/run/mysqld/mysqld.sock</span>
+<span class="token comment">#nice       = 0</span>
+
+<span class="token punctuation">[</span>mysqld<span class="token punctuation">]</span>
+<span class="token comment">#</span>
+<span class="token comment"># * Basic Settings</span>
+<span class="token comment">#</span>
+
+<span class="token comment">#</span>
+<span class="token comment"># * IMPORTANT</span>
+<span class="token comment">#   If you make changes to these settings and your system uses </span>
+<span class="token comment">#   apparmor, you may also need to also adjust </span>
+<span class="token comment">#   /etc/apparmor.d/usr.sbin.mysqld.</span>
+<span class="token comment">#</span>
+
+<span class="token comment">#user       = mysql</span>
+<span class="token comment">#socket     = /var/run/mysqld/mysqld.sock</span>
+port        <span class="token operator">=</span> 3306
+<span class="token comment">#basedir    = /usr</span>
+datadir    <span class="token operator">=</span> /usr/local/var/mysql
+<span class="token comment">#tmpdir     = /tmp</span>
+skip-external-locking
+<span class="token comment">#</span>
+<span class="token comment"># Instead of skip-networking the default is now to listen only on</span>
+<span class="token comment"># localhost which is more compatible and is not less secure.</span>
+bind-address        <span class="token operator">=</span> 127.0.0.1
+<span class="token comment">#</span>
+<span class="token comment"># * Fine Tuning</span>
+<span class="token comment">#</span>
+key_buffer          <span class="token operator">=</span> 16M
+max_allowed_packet  <span class="token operator">=</span> 16M
+thread_stack        <span class="token operator">=</span> 192K
+thread_cache_size   <span class="token operator">=</span> 8
+<span class="token comment"># This replaces the startup script and checks MyISAM tables if needed</span>
+<span class="token comment"># the first time they are touched</span>
+myisam-recover         <span class="token operator">=</span> BACKUP
+<span class="token comment">#max_connections       = 100</span>
+<span class="token comment">#table_cache           = 64</span>
+<span class="token comment">#thread_concurrency    = 10</span>
+<span class="token comment">#</span>
+<span class="token comment"># * Query Cache Configuration</span>
+<span class="token comment">#</span>
+query_cache_limit   <span class="token operator">=</span> 1M
+query_cache_size    <span class="token operator">=</span> 16M
+<span class="token comment">#</span>
+<span class="token comment"># * Logging and Replication</span>
+<span class="token comment">#</span>
+<span class="token comment"># Both location gets rotated by the cronjob.</span>
+<span class="token comment"># Be aware that this log type is a performance killer.</span>
+<span class="token comment"># As of 5.1 you can enable the log at runtime!</span>
+<span class="token comment">#general_log_file        = /var/log/mysql/mysql.log</span>
+<span class="token comment">#general_log             = 1</span>
+
+log_error                <span class="token operator">=</span> /usr/local/var/mysql/MacBook15.local.err
+
+<span class="token comment"># Here you can see queries with especially long duration</span>
+<span class="token comment">#log_slow_queries   = /var/log/mysql/mysql-slow.log</span>
+<span class="token comment">#long_query_time = 2</span>
+<span class="token comment">#log-queries-not-using-indexes</span>
+<span class="token comment">#</span>
+<span class="token comment"># The following can be used as easy to replay backup logs or </span>
+<span class="token comment"># for replication.</span>
+<span class="token comment"># note: if you are setting up a replication slave, see </span>
+<span class="token comment">#       README.Debian about other settings you may need </span>
+<span class="token comment">#       to change.</span>
+<span class="token comment">#server-id          = 1</span>
+<span class="token comment">#log_bin            = /var/log/mysql/mysql-bin.log</span>
+expire_logs_days    <span class="token operator">=</span> 10
+max_binlog_size     <span class="token operator">=</span> 100M
+<span class="token comment">#binlog_do_db       = include_database_name</span>
+<span class="token comment">#binlog_ignore_db   = include_database_name</span>
+<span class="token comment">#</span>
+<span class="token comment"># * InnoDB</span>
+<span class="token comment">#</span>
+<span class="token comment"># InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.</span>
+<span class="token comment"># Read the manual for more InnoDB related options. There are many!</span>
+<span class="token comment">#</span>
+<span class="token comment"># * Security Features</span>
+<span class="token comment">#</span>
+<span class="token comment"># Read the manual, too, if you want chroot!</span>
+<span class="token comment"># chroot = /var/lib/mysql/</span>
+<span class="token comment">#</span>
+<span class="token comment"># For generating SSL certificates I recommend the OpenSSL GUI &quot;tinyca&quot;.</span>
+<span class="token comment">#</span>
+<span class="token comment"># ssl-ca=/etc/mysql/cacert.pem</span>
+<span class="token comment"># ssl-cert=/etc/mysql/server-cert.pem</span>
+<span class="token comment"># ssl-key=/etc/mysql/server-key.pem</span>
+
+<span class="token comment"># Query Caching</span>
+query-cache-type <span class="token operator">=</span> 1
+
+<span class="token comment"># Default to InnoDB</span>
+default-storage-engine<span class="token operator">=</span>innodb
+
+<span class="token punctuation">[</span>mysqldump<span class="token punctuation">]</span>
+quick
+quote-names
+max_allowed_packet  <span class="token operator">=</span> 16M
+
+<span class="token punctuation">[</span>mysql<span class="token punctuation">]</span>
+<span class="token comment">#no-auto-rehash # faster start of mysql but no tab completition</span>
+
+<span class="token punctuation">[</span>isamchk<span class="token punctuation">]</span>
+key_buffer      <span class="token operator">=</span> 16M
+</code></pre>
+<h3 id="43-server-&#x542F;&#x52A8;">4.3 server &#x542F;&#x52A8;</h3>
+<h4 id="431--mysqld---the-mysql-server">4.3.1  mysqld - The MySQL Server</h4>
+<p>&#x8FD9;&#x4E2A;&#x662F;mysql&#x7684;server&#x7A0B;&#x5E8F;&#xFF0C; &#x53EF;&#x4EE5;&#x7BA1;&#x7406;mysql&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5939;&#xFF0C; data</p>
+<p>&#x67E5;&#x770B;&#x5E2E;&#x52A9;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysqld --verbose --help
+</code></pre>
+<h4 id="432-mysqldsafe-mysql-server-startup-script">4.3.2 mysqld_safe MySQL Server Startup Script</h4>
+<p>&#x6587;&#x6863; <a href="https://dev.mysql.com/doc/refman/8.0/en/mysqld-safe.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/mysqld-safe.html</a></p>
+<p>&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x8BE5;&#x547D;&#x4EE4;&#x542F;&#x52A8;server&#xFF0C;&#x5176;&#x4E2D;&#x589E;&#x52A0;&#x4E86;&#x4E00;&#x4E9B;&#x5B89;&#x5168;&#x7279;&#x6027;</p>
+<p>&#x8BE5;&#x547D;&#x4EE4;&#x4F1A;&#x5C1D;&#x8BD5;&#x8C03;&#x7528;mysqld&#xFF0C; &#x8BE5;&#x547D;&#x4EE4;&#x548C;mysqld&#x7684;&#x53C2;&#x6570;&#x5927;&#x90E8;&#x5206;&#x4E00;&#x81F4;</p>
+<p>&#x547D;&#x4EE4;&#x7684;&#x53EF;&#x9009;&#x53C2;&#x6570;</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--basedir</td>
+<td>Path to MySQL installation directory</td>
+</tr>
+<tr>
+<td>--core-file-size</td>
+<td>Size of core file that mysqld should be able to create</td>
+</tr>
+<tr>
+<td>--datadir</td>
+<td>Path to data directory</td>
+</tr>
+<tr>
+<td>--defaults-extra-file</td>
+<td>Read named option file in addition to usual option files</td>
+</tr>
+<tr>
+<td>--defaults-file</td>
+<td>Read only named option file</td>
+</tr>
+<tr>
+<td>--help</td>
+<td>Display help message and exit</td>
+</tr>
+<tr>
+<td>--ledir</td>
+<td>Path to directory where server is located</td>
+</tr>
+<tr>
+<td>--log-error</td>
+<td>Write error log to named file</td>
+</tr>
+<tr>
+<td>--malloc-lib</td>
+<td>Alternative malloc library to use for mysqld</td>
+</tr>
+<tr>
+<td>--mysqld</td>
+<td>Name of server program to start (in ledir directory)</td>
+</tr>
+<tr>
+<td>--mysqld-safe-log-timestamps</td>
+<td>Timestamp format for logging</td>
+</tr>
+<tr>
+<td>--mysqld-version</td>
+<td>Suffix for server program name</td>
+</tr>
+<tr>
+<td>--nice</td>
+<td>Use nice program to set server scheduling priority</td>
+</tr>
+<tr>
+<td>--no-defaults</td>
+<td>Read no option files</td>
+</tr>
+<tr>
+<td>--open-files-limit</td>
+<td>Number of files that mysqld should be able to open</td>
+</tr>
+<tr>
+<td>--pid-file</td>
+<td>Path name of server process ID file</td>
+</tr>
+<tr>
+<td>--plugin-dir</td>
+<td>Directory where plugins are installed</td>
+</tr>
+<tr>
+<td>--port</td>
+<td>Port number on which to listen for TCP/IP connections</td>
+</tr>
+<tr>
+<td>--skip-kill-mysqld</td>
+<td>Do not try to kill stray mysqld processes</td>
+</tr>
+<tr>
+<td>--skip-syslog</td>
+<td>Do not write error messages to syslog; use error log file</td>
+</tr>
+<tr>
+<td>--socket</td>
+<td>Socket file on which to listen for Unix socket connections</td>
+</tr>
+<tr>
+<td>--syslog</td>
+<td>Write error messages to syslog</td>
+</tr>
+<tr>
+<td>--syslog-tag</td>
+<td>Tag suffix for messages written to syslog</td>
+</tr>
+<tr>
+<td>--timezone</td>
+<td>Set TZ time zone environment variable to named value</td>
+</tr>
+<tr>
+<td>--user</td>
+<td>Run mysqld as user having name user_name or numeric user ID user_id</td>
+</tr>
+</tbody>
+</table>
+<h4 id="433--mysqlserver-&#x2014;-mysql-server-startup-script">4.3.3  mysql.server &#x2014; MySQL Server Startup Script</h4>
+<p>&#x6587;&#x6863; <a href="https://dev.mysql.com/doc/refman/8.0/en/mysql-server.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/mysql-server.html</a></p>
+<p>&#x5728;Unix and Unix-like&#x7CFB;&#x7EDF;&#x4E2D;&#x5305;&#x542B;mysql.start&#x547D;&#x4EE4;&#xFF0C;
+&#x4F1A;&#x901A;&#x8FC7;&#x8C03;&#x7528;mysqld_safe&#x6765;&#x542F;&#x52A8;&#x6216;&#x505C;&#x6B62;&#x670D;&#x52A1;</p>
+<pre class="language-"><code>shell&gt; mysql.server start
+shell&gt; mysql.server stop
+</code></pre><p>mysql.server&#x8BFB;&#x53D6;my.cnf&#x4E2D;&#x7684;[mysql.server] and [mysqld]&#x914D;&#x7F6E;&#x9879;</p>
+<p>mysql.server &#x652F;&#x6301;&#x4EE5;&#x4E0B;&#x53C2;&#x6570;, &#x8FD9;&#x4E9B;&#x53C2;&#x6570;&#x53EA;&#x80FD;&#x653E;&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;, &#x4E0D;&#x80FD;&#x6DFB;&#x52A0;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x4E0A;
+basedir &#x662F;mysql&#x7684;&#x5B89;&#x88C5;&#x6587;&#x4EF6;&#x5939;
+datadir &#x662F;mysql&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5939;</p>
+<table>
+<thead>
+<tr>
+<th>Option Name</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>basedir</td>
+<td>Path to MySQL installation directory</td>
+<td>Directory name</td>
+</tr>
+<tr>
+<td>datadir</td>
+<td>Path to MySQL data directory</td>
+<td>Directory name</td>
+</tr>
+<tr>
+<td>pid-file</td>
+<td>File in which server should write its process ID</td>
+<td>File name</td>
+</tr>
+<tr>
+<td>service-startup-timeout</td>
+<td>How long to wait for server startup</td>
+<td>Integer</td>
+</tr>
+</tbody>
+</table>
+<h3 id="&#x5B89;&#x88C5;&#x4E4B;&#x540E;&#x9700;&#x8981;&#x505A;&#x4EE5;&#x4E0B;&#x4E8B;&#x60C5;">&#x5B89;&#x88C5;&#x4E4B;&#x540E;&#x9700;&#x8981;&#x505A;&#x4EE5;&#x4E0B;&#x4E8B;&#x60C5;</h3>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.html</a></p>
+<ol>
+<li>&#x521D;&#x59CB;&#x5316;data directory, &#x540C;&#x65F6;&#x521B;&#x5EFA;mysql&#x9ED8;&#x8BA4;&#x6743;&#x9650;&#x8868;(grant tables), &#x6709;&#x4E9B;&#x7248;&#x672C;&#x5728;&#x5B89;&#x88C5;&#x65F6;&#x4F1A;&#x81EA;&#x52A8;&#x5B8C;&#x6210;&#x8FD9;&#x4E00;&#x6B65;</li>
+<li>&#x542F;&#x52A8;server</li>
+<li>&#x5728;grant tables&#x4E2D;&#x8BBE;&#x7F6E;root&#x8D26;&#x6237;&#x7684;&#x5BC6;&#x7801;</li>
+<li>&#x8BBE;&#x7F6E;server&#x7684;&#x81EA;&#x52A8;&#x542F;&#x52A8;</li>
+<li>&#x8BBE;&#x7F6E;&#x65F6;&#x533A;</li>
+</ol>
+<h4 id="&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;&#x6587;&#x4EF6;&#x5939;">&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;&#x6587;&#x4EF6;&#x5939;</h4>
+<p>&#x8FDB;&#x5165;basedir, &#x4E3A;mysql&#x7684;&#x5B89;&#x88C5;&#x8DEF;&#x5F84;,&#x5982; /usr/local/opt/mysql</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span>cd basedir
+</code></pre>
+<ol>
+<li>&#x521B;&#x5EFA;&#x6587;&#x4EF6;&#x5939;, &#x8BE5;&#x6587;&#x4EF6;&#x5939;&#x7528;&#x6765;&#x5B58;&#x653E;mysql&#x6267;&#x884C;&#x65F6;&#x7684;&#x6570;&#x636E;&#x5E93;&#x6587;&#x4EF6;</li>
+</ol>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> <span class="token function">cd</span> /usr/local/mysql
+<span class="token comment"># &#x521B;&#x5EFA;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5939;, &#x8BE5;&#x6587;&#x4EF6;&#x4F1A;&#x88AB;&#x8D4B;&#x4E88;&#x5168;&#x5C40;&#x53D8;&#x91CF; secure_file_priv  </span>
+shell<span class="token operator">&gt;</span> <span class="token function">mkdir</span> mysql-files
+</code></pre>
+<ol>
+<li>&#x7ED9;&#x8BE5;&#x6587;&#x4EF6;&#x8BBE;&#x7F6E;mysql&#x7684;&#x6743;&#x9650;, &#x5728;mac&#x4E0A;&#x7528;&#x6237;&#x548C;&#x7528;&#x6237;&#x7EC4;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x4E3A; mysql:mysql</li>
+</ol>
+<p>mac&#x4E0A;mysql&#x6267;&#x884C;&#x4F7F;&#x7528;&#x7684;&#x7528;&#x6237;&#x662F;_mysql &#x53EF;&#x4EE5;&#x901A;&#x8FC7; dscl . list /Users &#x67E5;&#x770B;mac&#x4E2D;&#x7684;&#x7528;&#x6237;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> <span class="token function">chown</span> mysql:mysql mysql-files
+shell<span class="token operator">&gt;</span> <span class="token function">chmod</span> 750 mysql-files
+</code></pre>
+<ol>
+<li>&#x521D;&#x59CB;&#x5316;&#x8BE5;&#x6587;&#x4EF6;&#x5939;</li>
+</ol>
+<p>&#x4F1A;&#x521B;&#x5EFA;&#x5305;&#x62EC;mysql&#x7684;database&#x548C;grant tables</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># --user&#x6307;&#x5B9A;&#x7528;&#x6237;, --basedir &#x6307;&#x5B9A;mysql&#x7684;basedir, --datadir&#x6307;&#x5B9A;data&#x6587;&#x4EF6;&#x5939;</span>
+shell<span class="token operator">&gt;</span> bin/mysqld --initialize --user<span class="token operator">=</span>mysql
+</code></pre>
+<h3 id="&#x5B89;&#x88C5;&#x7684;&#x547D;&#x4EE4;">&#x5B89;&#x88C5;&#x7684;&#x547D;&#x4EE4;</h3>
+<p>&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x5B89;&#x88C5;&#x7684;&#x547D;&#x4EE4;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> <span class="token function">ls</span> /usr/local/mysql/bin
+</code></pre>
+<h3 id="&#x542F;&#x52A8;server">&#x542F;&#x52A8;server</h3>
+<p>&#x5982;&#x679C;&#x7CFB;&#x7EDF;&#x5B89;&#x88C5;&#x4E86; mysqld_safe &#x5219;&#x53EF;&#x4EE5;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x542F;&#x52A8;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> bin/mysqld_safe --user<span class="token operator">=</span>mysql <span class="token operator">&amp;</span>
+</code></pre>
+<p>&#x5982;&#x679C;&#x4F7F;&#x7528;rpm&#x5305;&#x5B89;&#x88C5;&#x5219;&#x4F7F;&#x7528;systemd &#x547D;&#x4EE4;</p>
+<p>&#x5982;&#x679C;&#x5B89;&#x88C5;&#x4E86;systemd&#x5219;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x65B9;&#x5F0F;&#x542F;&#x52A8;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> systemctl start mysqld
+</code></pre>
+<p>mysql server&#x9700;&#x8981;&#x4F7F;&#x7528;unprivileged (non-root) &#x8D26;&#x53F7;&#x542F;&#x52A8;, &#x56E0;&#x6B64;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;--user&#x6765;&#x6307;&#x5B9A;&#x7528;&#x6237;</p>
+<h3 id="server&#x72B6;&#x6001;&#x6D4B;&#x8BD5;">server&#x72B6;&#x6001;&#x6D4B;&#x8BD5;</h3>
+<p>&#x9A8C;&#x8BC1;server&#x662F;&#x5426;&#x542F;&#x52A8;&#x5E76;&#x4E14;&#x53EF;&#x4EE5;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> bin/mysqladmin version
+shell<span class="token operator">&gt;</span> bin/mysqladmin variables
+</code></pre>
+<p>&#x6307;&#x5B9A;root&#x8D26;&#x53F7;&#x8FDE;&#x63A5;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> bin/mysqladmin -u root -p version
+Enter password: <span class="token punctuation">(</span>enter root password here<span class="token punctuation">)</span>
+</code></pre>
+<p>&#x6D4B;&#x8BD5;&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x5173;&#x95ED;&#x8FDE;&#x63A5;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> bin/mysqladmin -u root <span class="token function">shutdown</span>
+</code></pre>
+<p>&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x91CD;&#x542F;server</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> bin/mysqld_safe --user<span class="token operator">=</span>mysql <span class="token operator">&amp;</span>
+</code></pre>
+<p>&#x67E5;&#x770B;&#x5F53;&#x524D;&#x5B58;&#x5728;&#x7684;&#x6570;&#x636E;&#x5E93;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysqlshow -u root
++--------------------+
+<span class="token operator">|</span>     Databases      <span class="token operator">|</span>
++--------------------+
+<span class="token operator">|</span> information_schema <span class="token operator">|</span>
+<span class="token operator">|</span> mysql              <span class="token operator">|</span>
+<span class="token operator">|</span> performance_schema <span class="token operator">|</span>
+<span class="token operator">|</span> sys                <span class="token operator">|</span>
++--------------------+
+</code></pre>
+<p>&#x67E5;&#x770B;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x8868;</p>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x5217;&#x51FA;&#x6570;&#x636E;&#x5E93;mysql&#x4E2D;&#x7684;&#x8868;</span>
+shell<span class="token operator">&gt;</span> mysqlshow -u root mysql
+</code></pre>
+<p>&#x67E5;&#x770B;mysql&#x53D8;&#x91CF;</p>
+<pre class="language-"><code class="lang-bash">mysqladmin variables -u root -h host_name
+</code></pre>
+<h4 id="&#x9519;&#x8BEF;&#x60C5;&#x51B5;">&#x9519;&#x8BEF;&#x60C5;&#x51B5;</h4>
+<p>&#x5F53;&#x542F;&#x52A8;mysqld&#x65F6;&#x5982;&#x679C;&#x63D0;&#x793A;Permission denied&#x8868;&#x793A;&#x6CA1;&#x6709;data directory&#x7684;&#x6743;&#x9650;,&#x6B64;&#x65F6;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4FEE;&#x6539;&#x8BE5;&#x6587;&#x4EF6;&#x7684;&#x6743;&#x9650;&#x6765;&#x89E3;&#x51B3;, &#x4E5F;&#x53EF;&#x4EE5;&#x7528;root&#x6A21;&#x5F0F;&#x542F;&#x52A8;Server, &#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x4F1A;&#x6709;&#x4E00;&#x4E9B;&#x98CE;&#x9669;.</p>
+<p>&#x6DFB;&#x52A0;&#x6743;&#x9650;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> <span class="token function">chown</span> -R mysql /usr/local/mysql/data
+shell<span class="token operator">&gt;</span> <span class="token function">chgrp</span> -R mysql /usr/local/mysql/data
+</code></pre>
+<h4 id="&#x7ED9;mysql&#x8D26;&#x6237;&#x8BBE;&#x7F6E;&#x5BC6;&#x7801;">&#x7ED9;mysql&#x8D26;&#x6237;&#x8BBE;&#x7F6E;&#x5BC6;&#x7801;</h4>
+<p>mysql&#x5728;&#x521D;&#x59CB;&#x5316;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x521D;&#x59CB;&#x5316;data&#x6587;&#x4EF6;&#x5939;, &#x5176;&#x4E2D;&#x4F1A;&#x521B;&#x5EFA;grant tables,&#x8FD9;&#x4E2A;&#x8868;&#x91CC;&#x5B9A;&#x4E49;&#x4E86;mysql&#x7684;&#x8D26;&#x53F7;</p>
+<p>&#x66F4;&#x6539;&#x5BC6;&#x7801;</p>
+<ol>
+<li>&#x6709;&#x5DF2;&#x77E5;&#x5BC6;&#x7801;</li>
+</ol>
+<pre class="language-"><code class="lang-bash">mysql<span class="token operator">&gt;</span> ALTER USER <span class="token string">&apos;root&apos;</span>@<span class="token string">&apos;localhost&apos;</span> IDENTIFIED BY <span class="token string">&apos;new_password&apos;</span><span class="token punctuation">;</span>
+</code></pre>
+<ol>
+<li>&#x672A;&#x8BBE;&#x7F6E;&#x5BC6;&#x7801;</li>
+</ol>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x8FDE;&#x63A5;Server, &#x4E0D;&#x4F7F;&#x7528;&#x5BC6;&#x7801;</span>
+shell<span class="token operator">&gt;</span> mysql -u root --skip-password
+<span class="token comment"># &#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x5BC6;&#x7801;</span>
+mysql<span class="token operator">&gt;</span> ALTER USER <span class="token string">&apos;root&apos;</span>@<span class="token string">&apos;localhost&apos;</span> IDENTIFIED BY <span class="token string">&apos;new_password&apos;</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="&#x8FDE;&#x63A5;server">&#x8FDE;&#x63A5;server</h3>
+<pre class="language-"><code># &#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93; host&#x662F;&#x6570;&#x636E;&#x5E93;&#x7684;&#x670D;&#x52A1;, &#x7701;&#x7565;&#x5219;&#x8FDE;&#x63A5;&#x672C;&#x673A;, -u &#x8BBE;&#x7F6E;&#x6570;&#x636E;&#x5E93;&#x7528;&#x6237;&#x540D;, -p &#x5BC6;&#x7801;, &#x5982;&#x679C;&#x8981;&#x5E26;&#x5BC6;&#x7801;&#x7684;&#x8BDD;&#x9700;&#x8981;&#x7D27;&#x8DDF;-p &#x5982;, -p123456, &#x53EF;&#x4EE5;&#x52A0;&#x6570;&#x636E;&#x5E93;&#x540D;&#x5219;&#x76F4;&#x63A5;&#x9009;&#x62E9;&#x8BE5;&#x6570;&#x636E;&#x5E93;.
+shell&gt; mysql [-h host] -u root -p [database_name]
+Enter PASSWORD ****
+# &#x8FDE;&#x63A5;&#x6210;&#x529F;&#x4E4B;&#x540E;&#x8FDB;&#x5165;mysql&#x6A21;&#x5F0F;, &#x53EF;&#x4EE5;&#x5F00;&#x59CB;&#x8F93;&#x5165;sql&#x8BED;&#x53E5;
+mysql&gt;
+</code></pre><p>&#x9000;&#x51FA;&#x8FDE;&#x63A5;</p>
+<pre class="language-"><code class="lang-bash">mysql<span class="token operator">&gt;</span> quit
+</code></pre>
+<h3 id="&#x67E5;&#x770B;mysql-&#x8FD0;&#x884C;&#x72B6;&#x6001;">&#x67E5;&#x770B;mysql &#x8FD0;&#x884C;&#x72B6;&#x6001;</h3>
+<pre class="language-"><code class="lang-bash"><span class="token function">sudo</span> /usr/local/mysql/support-files/mysql.server status
+</code></pre>
+<h3 id="&#x542F;&#x52A8;mysql">&#x542F;&#x52A8;mysql</h3>
+<pre class="language-"><code class="lang-bash"><span class="token function">sudo</span> /usr/local/mysql/support-files/mysql.server start
+</code></pre>
+<h3 id="&#x91CD;&#x542F;mysql">&#x91CD;&#x542F;MySQL</h3>
+<pre class="language-"><code class="lang-bash"><span class="token function">sudo</span> /usr/local/mysql/support-files/mysql.server restart
+</code></pre>
+<h3 id="&#x505C;&#x6B62;mysql">&#x505C;&#x6B62;MySQL</h3>
+<pre class="language-"><code class="lang-bash"><span class="token function">sudo</span> /usr/local/mysql/support-files/mysql.server stop
+</code></pre>
+<h3 id="&#x4FEE;&#x6539;&#x5BC6;&#x7801;">&#x4FEE;&#x6539;&#x5BC6;&#x7801;</h3>
+<pre class="language-"><code class="lang-bash">/usr/local/mysql/bin/mysqladmin -u root password <span class="token operator">&lt;</span>your-password<span class="token operator">&gt;</span>
+</code></pre>
+<h3 id="&#x67E5;&#x770B;&#x7AEF;&#x53E3;">&#x67E5;&#x770B;&#x7AEF;&#x53E3;</h3>
+<pre class="language-"><code class="lang-bash"><span class="token comment"># &#x767B;&#x5F55;mysql</span>
+mysql -u root -p
+mysql<span class="token operator">&gt;</span> SHOW GLOBAL VARIABLES LIKE <span class="token string">&apos;PORT&apos;</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="&#x67E5;&#x770B;&#x53D8;&#x91CF;">&#x67E5;&#x770B;&#x53D8;&#x91CF;</h3>
+<pre class="language-"><code class="lang-bash">mysql<span class="token operator">&gt;</span> SHOW <span class="token punctuation">[</span>GLOBAL <span class="token operator">|</span> SESSION<span class="token punctuation">]</span> VARIABLES
+    <span class="token punctuation">[</span>LIKE <span class="token string">&apos;pattern&apos;</span> <span class="token operator">|</span> WHERE expr<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="&#x5BA2;&#x6237;&#x7AEF;">&#x5BA2;&#x6237;&#x7AEF;</h2>
+<p>&#x8FDE;&#x63A5;mysql</p>
+<pre class="language-"><code>shell&gt; mysql -u user -p<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>password</span><span class="token punctuation">&gt;</span></span> -h localhost -P 3306
+</code></pre><h2 id="&#x57FA;&#x672C;&#x64CD;&#x4F5C;">&#x57FA;&#x672C;&#x64CD;&#x4F5C;</h2>
+<h3 id="&#x8F93;&#x5165;sql&#x8BED;&#x53E5;">&#x8F93;&#x5165;sql&#x8BED;&#x53E5;</h3>
+<p>&#x67E5;&#x8BE2;&#x5F53;&#x524D;Server&#x7684;&#x7248;&#x672C;;</p>
+<p>&#x6700;&#x540E;&#x4E00;&#x884C;&#x4F1A;&#x8F93;&#x51FA;&#x8F93;&#x51FA;&#x7684;&#x884C;&#x6570;&#x4EE5;&#x53CA;&#x67E5;&#x8BE2;&#x65F6;&#x95F4;</p>
+<pre class="language-"><code>mysql&gt; SELECT VERSION(), CURRENT_DATE;
++-----------+--------------+
+| VERSION() | CURRENT_DATE |
++-----------+--------------+
+| 5.8.0-m17 | 2015-12-21   |
++-----------+--------------+
+1 row in set (0.02 sec)
+mysql&gt;
+</code></pre><p>&#x5173;&#x952E;&#x8BCD;&#x5927;&#x5C0F;&#x5199;&#x90FD;&#x652F;&#x6301;</p>
+<p>&#x53EF;&#x4EE5;&#x6267;&#x884C;&#x8BA1;&#x7B97;</p>
+<pre class="language-"><code>mysql&gt; select sin(pi()/4), (4+1)*5;
++--------------------+---------+
+| sin(pi()/4)        | (4+1)*5 |
++--------------------+---------+
+| 0.7071067811865475 |      25 |
++--------------------+---------+
+1 row in set (0.01 sec)
+</code></pre><p>&#x591A;&#x6761;&#x8BED;&#x53E5;&#x53EF;&#x4EE5;&#x5199;&#x5728;&#x4E00;&#x884C;</p>
+<pre class="language-"><code>mysql&gt; select version(); select now();
++-----------+
+| version() |
++-----------+
+| 8.0.12    |
++-----------+
+1 row in set (0.00 sec)
+
++---------------------+
+| now()               |
++---------------------+
+| 2018-07-28 23:19:14 |
++---------------------+
+1 row in set (0.00 sec)
+</code></pre><p>&#x4E00;&#x6761;&#x8BED;&#x53E5;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x591A;&#x884C;&#x4E66;&#x5199;, &#x4E00;&#x6761;sql&#x8BED;&#x53E5;&#x9700;&#x8981;&#x4EE5;&#x5206;&#x53F7;&#x7ED3;&#x5C3E;. &#x5373;&#x53EA;&#x6709;&#x9047;&#x5230;&#x5206;&#x53F7;&#x65F6;mysql&#x624D;&#x4F1A;&#x6267;&#x884C;&#x5F53;&#x524D;&#x8BED;&#x53E5;.</p>
+<pre class="language-"><code>mysql&gt; select
+    -&gt; user()
+    -&gt; ,
+    -&gt; current_date;
++----------------+--------------+
+| user()         | current_date |
++----------------+--------------+
+| root@localhost | 2018-07-28   |
++----------------+--------------+
+1 row in set (0.00 sec)
+</code></pre><p>&#x5728;&#x7B49;&#x5F85;&#x6267;&#x884C;&#x65F6;, &#x8981;&#x9000;&#x51FA;&#x8BE5;&#x8BED;&#x53E5;, &#x8F93;&#x5165;\c</p>
+<p>mysql&#x6A21;&#x5F0F;&#x4E2D;prompt&#x7B26;&#x53F7;&#x7684;&#x610F;&#x4E49;</p>
+<table>
+<thead>
+<tr>
+<th>Prompt</th>
+<th>&#x542B;&#x4E49;</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mysql&gt;</td>
+<td>&#x7B49;&#x5F85;&#x8F93;&#x5165;&#x65B0;&#x7684;&#x8BED;&#x53E5;</td>
+<td>Ready for new query</td>
+</tr>
+<tr>
+<td>-&gt;</td>
+<td>&#x7B49;&#x5F85;&#x8F93;&#x5165;&#x4E0B;&#x4E00;&#x884C;&#x8BED;&#x53E5;</td>
+<td>Waiting for next line of multiple-line query</td>
+</tr>
+<tr>
+<td>&apos;&gt;</td>
+<td>&#x7B49;&#x5F85;&#x8F93;&#x5165;&#x5355;&#x5F15;&#x53F7;&#x7ED3;&#x675F;</td>
+<td>Waiting for next line, waiting for completion of a string that began with a single quote (&apos;)</td>
+</tr>
+<tr>
+<td>&quot;&gt;</td>
+<td>&#x7B49;&#x5F85;&#x8F93;&#x5165;&#x53CC;&#x5F15;&#x53F7;&#x5C01;&#x95ED;</td>
+<td>Waiting for next line, waiting for completion of a string that began with a double quote (&quot;)</td>
+</tr>
+<tr>
+<td>`&gt;</td>
+<td>&#x7B49;&#x5F85;&#x8F93;&#x5165;&#x53CD;&#x5F15;&#x53F7;</td>
+<td>Waiting for next line, waiting for completion of an identifier that began with a backtick (`)</td>
+</tr>
+<tr>
+<td>/*&gt;</td>
+<td>&#x7B49;&#x5F85;&#x8F93;&#x5165;&#x6CE8;&#x91CA;&#x7ED3;&#x5C3E;</td>
+<td>Waiting for next line, waiting for completion of a comment that began with /*</td>
+</tr>
+</tbody>
+</table>
+<p>mysql&#x4E2D;&#x6E05;&#x7A7A;&#x5F53;&#x524D;&#x5C4F;&#x5E55;</p>
+<p>mysql&gt; system clear;</p>
+<h3 id="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x9009;&#x62E9;&#x6570;&#x636E;&#x5E93;">&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x9009;&#x62E9;&#x6570;&#x636E;&#x5E93;</h3>
+<p>&#x67E5;&#x770B;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x4E0A;&#x5B58;&#x5728;&#x7684;&#x6570;&#x636E;&#x5E93;, &#x53EA;&#x80FD;&#x663E;&#x793A;&#x5F53;&#x524D;&#x7528;&#x6237;&#x6709;&#x6743;&#x9650;&#x7684;&#x6570;&#x636E;&#x5E93;.</p>
+<pre class="language-"><code>mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+</code></pre><p>&#x5207;&#x6362;&#x6570;&#x636E;&#x5E93;</p>
+<pre class="language-"><code>mysql&gt; use mysql
+
+Database changed
+</code></pre><p>use&#x547D;&#x4EE4;&#x548C;quit&#x547D;&#x4EE4;&#x4E00;&#x6837;&#x7ED3;&#x5C3E;&#x53EF;&#x4EE5;&#x4E0D;&#x52A0;&#x5F15;&#x53F7;, &#x4E0D;&#x8FC7;&#x9700;&#x8981;&#x5728;&#x5355;&#x72EC;&#x4E00;&#x884C;&#x6765;&#x5199;. </p>
+<p>&#x7BA1;&#x7406;&#x5458;&#x4E3A;&#x67D0;&#x4E2A;&#x7528;&#x6237;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x7684;&#x6743;&#x9650; </p>
+<pre class="language-"><code>mysql&gt; GRANT ALL ON menagerie.* TO &apos;your_mysql_name&apos;@&apos;your_client_host&apos;;
+</code></pre><p>&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;wuxia, &#x5E76;&#x5207;&#x6362;&#x5230;&#x8BE5;&#x6570;&#x636E;&#x5E93;</p>
+<pre class="language-"><code>mysql&gt; create database wuxia;
+Query OK, 1 row affected (0.03 sec)
+
+mysql&gt; use wuxia
+</code></pre><p>&#x6570;&#x636E;&#x5E93;&#x540D;&#x548C;&#x8868;&#x540D;&#x9700;&#x8981;&#x533A;&#x5206;&#x5927;&#x5C0F;&#x5199;.</p>
+<p>&#x67E5;&#x770B;&#x5F53;&#x524D;&#x8FDE;&#x63A5;&#x7684;&#x7528;&#x6237;</p>
+<pre class="language-"><code>mysql&gt; select user();
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+</code></pre><p>&#x67E5;&#x770B;&#x5F53;&#x524D;&#x4F7F;&#x7528;&#x7684;&#x6570;&#x636E;&#x5E93;</p>
+<pre class="language-"><code>mysql&gt; select database();
++------------+
+| database() |
++------------+
+| memories   |
++------------+
+1 row in set (0.00 sec)
+</code></pre><p>&#x67E5;&#x770B;&#x5F53;&#x524D;&#x8FDE;&#x63A5;&#x72B6;&#x6001;</p>
+<pre class="language-"><code>mysql&gt; status;
+--------------
+mysql  Ver 8.0.11 for osx10.13 on x86_64 (Homebrew)
+
+Connection id:        27
+Current database:    memories
+Current user:        root@localhost
+SSL:            Not in use
+Current pager:        less
+Using outfile:        &apos;&apos;
+Using delimiter:    ;
+Server version:        8.0.11 Homebrew
+Protocol version:    10
+Connection:        Localhost via UNIX socket
+Server characterset:    utf8
+Db     characterset:    utf8
+Client characterset:    utf8mb4
+Conn.  characterset:    utf8mb4
+UNIX socket:        /tmp/mysql.sock
+Uptime:            6 days 22 hours 42 min 41 sec
+
+Threads: 5  Questions: 4148  Slow queries: 0  Opens: 267  Flush tables: 2  Open tables: 243  Queries per second avg: 0.006
+--------------
+</code></pre><h3 id="&#x521B;&#x5EFA;&#x8868;">&#x521B;&#x5EFA;&#x8868;</h3>
+<p>&#x65B0;&#x521B;&#x5EFA;&#x7684;&#x6570;&#x636E;&#x5E93;&#x91CC;&#x6CA1;&#x6709;&#x8868;, &#x9700;&#x8981;&#x65B0;&#x5EFA;</p>
+<p>&#x67E5;&#x770B;&#x5DF2;&#x6709;&#x7684;&#x8868;</p>
+<pre class="language-"><code>mysql&gt; show tables;
+Empty set (0.00 sec)
+</code></pre><p>&#x521B;&#x5EFA;&#x8868; shaolin</p>
+<pre class="language-"><code>mysql&gt; create table shaolin (name varchar(5), nick_name varchar(20), birth date,  skill varchar(20));
+Query OK, 0 rows affected (0.07 sec)
+</code></pre><p>birth &#x4F7F;&#x7528;date&#x7C7B;&#x578B;</p>
+<p>&#x518D;&#x6B21;&#x67E5;&#x770B;&#x8868;</p>
+<pre class="language-"><code>mysql&gt; show tables;
++-----------------+
+| Tables_in_wuxia |
++-----------------+
+| shaolin         |
++-----------------+
+1 row in set (0.00 sec)
+</code></pre><p>&#x67E5;&#x770B;&#x8868;&#x7ED3;&#x6784;&#x4F7F;&#x7528;describe&#x547D;&#x4EE4;</p>
+<pre class="language-"><code>mysql&gt; describe shaolin;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| name      | varchar(5)  | YES  |     | NULL    |       |
+| nick_name | varchar(20) | YES  |     | NULL    |       |
+| birth     | date        | YES  |     | NULL    |       |
+| skill     | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+</code></pre><h2 id="&#x7B2C;13&#x7AE0;-sql&#x8BED;&#x53E5;">&#x7B2C;13&#x7AE0; SQL&#x8BED;&#x53E5;</h2>
+<h3 id="131-&#x6570;&#x636E;&#x5B9A;&#x4E49;&#x8BED;&#x53E5;">13.1 &#x6570;&#x636E;&#x5B9A;&#x4E49;&#x8BED;&#x53E5;</h3>
+<h4 id="1318-alter-table">13.1.8 ALTER TABLE</h4>
+<p>&#x4FEE;&#x6539;&#x8868;&#x5934;</p>
+<p>&#x5728;&#x8868;&#x7B2C;&#x4E00;&#x5217;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x81EA;&#x589E;&#x7684;id&#x952E;</p>
+<pre class="language-"><code>ALTER TABLE members ADD id INT(8) auto_increment PRIMARY KEY FIRST;
+</code></pre><p>&#x5728;id&#x540E;&#x9762;&#x6DFB;&#x52A0;&#x4E00;&#x5217;user_name, &#x9ED8;&#x8BA4;&#x503C;&#x4E3A;NULL</p>
+<pre class="language-"><code>ALTER TABLE members ADD COLUMN user_name VARCHAR(18) DEFAULT NULL AFTER id;
+</code></pre><p>&#x4FEE;&#x6539;&#x4E00;&#x5217;</p>
+<pre class="language-"><code>ALTER TABLE members modify telephone varchar(11)
+</code></pre><h3 id="132-&#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5;-data-manipulation-statements">13.2 &#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5; Data Manipulation Statements</h3>
+<h4 id="1321-insert">13.2.1 INSERT</h4>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/insert.html</a></p>
+<pre class="language-"><code>INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
+    [INTO] tbl_name
+    [PARTITION (partition_name [, partition_name] ...)]
+    [(col_name [, col_name] ...)]
+    {VALUES | VALUE} (value_list) [, (value_list)] ...
+    [ON DUPLICATE KEY UPDATE assignment_list]
+
+INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
+    [INTO] tbl_name
+    [PARTITION (partition_name [, partition_name] ...)]
+    SET assignment_list
+    [ON DUPLICATE KEY UPDATE assignment_list]
+
+INSERT [LOW_PRIORITY | HIGH_PRIORITY] [IGNORE]
+    [INTO] tbl_name
+    [PARTITION (partition_name [, partition_name] ...)]
+    [(col_name [, col_name] ...)]
+    SELECT ...
+    [ON DUPLICATE KEY UPDATE assignment_list]
+
+value:
+    {expr | DEFAULT}
+
+value_list:
+    value [, value] ...
+
+assignment:
+    col_name = value
+
+assignment_list:
+    assignment [, assignment] ...
+</code></pre><p>&#x63D2;&#x5165;&#x6570;&#x636E;</p>
+<pre class="language-"><code>insert into members (user_name, email, password, telephone) values (
+&apos;test&apos;,
+&apos;1234@qq.com&apos;,
+&apos;12345678&apos;,
+&apos;13312345678&apos;
+);
+</code></pre><p>&#x63D2;&#x5165;&#x591A;&#x6761;, &#x591A;&#x7EC4;values&#x7528;&#x9017;&#x53F7;&#x9694;&#x5F00;</p>
+<pre class="language-"><code>insert into members (user_name, email, password, telephone) values (
+&apos;test&apos;,
+&apos;1234@qq.com&apos;,
+&apos;12345678&apos;,
+&apos;13312345678&apos;
+), (
+&apos;test&apos;,
+&apos;1234@qq.com&apos;,
+&apos;12345678&apos;,
+&apos;13312345678&apos;
+), (
+&apos;test&apos;,
+&apos;1234@qq.com&apos;,
+&apos;12345678&apos;,
+&apos;13312345678&apos;
+), (
+&apos;test&apos;,
+&apos;1234@qq.com&apos;,
+&apos;12345678&apos;,
+&apos;13312345678&apos;
+);
+</code></pre><p>13.2.2 DELETE Syntax</p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/delete.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/delete.html</a></p>
+<p>&#x5355;&#x8868;&#x5220;&#x9664;</p>
+<pre class="language-"><code>DELETE [LOW_PRIORITY] [QUICK] [IGNORE] FROM tbl_name
+    [PARTITION (partition_name [, partition_name] ...)]
+    [WHERE where_condition]
+    [ORDER BY ...]
+    [LIMIT row_count]
+</code></pre><pre class="language-"><code>delete from user_list 
+where 
+id=6;
+</code></pre><p>&#x591A;&#x4E2A;&#x8868;&#x683C;&#x5220;&#x9664;</p>
+<pre class="language-"><code>DELETE [LOW_PRIORITY] [QUICK] [IGNORE]
+    tbl_name[.*] [, tbl_name[.*]] ...
+    FROM table_references
+    [WHERE where_condition]
+
+DELETE [LOW_PRIORITY] [QUICK] [IGNORE]
+    FROM tbl_name[.*] [, tbl_name[.*]] ...
+    USING table_references
+    [WHERE where_condition]
+</code></pre>
                                 
                                 </section>
                             
@@ -1824,7 +2615,7 @@ mysql<span class="token operator">&gt;</span> <span class="token function">type<
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"mysql","level":"6.1","depth":1,"next":{"title":"nginx","level":"6.2","depth":1,"path":"notes/nginx.md","ref":"notes/nginx.md","articles":[]},"previous":{"title":"linux管道及IO重定向","level":"5.11","depth":1,"path":"notes/linux-study/linux管道及IO重定向.md","ref":"notes/linux-study/linux管道及IO重定向.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/mysql.md","mtime":"2018-09-15T16:30:54.286Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-29T07:11:24.109Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"mysql","level":"6.1","depth":1,"next":{"title":"nginx","level":"6.2","depth":1,"path":"notes/nginx.md","ref":"notes/nginx.md","articles":[]},"previous":{"title":"linux管道及IO重定向","level":"5.11","depth":1,"path":"notes/linux-study/linux管道及IO重定向.md","ref":"notes/linux-study/linux管道及IO重定向.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/mysql.md","mtime":"2019-05-29T15:40:11.811Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T06:40:21.676Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
