@@ -1,7 +1,5 @@
 # Summary
 
-
-
 ## Http
 
 * [HTTP中常见的状态码](notes/HTTP中常见的状态码.md)
@@ -99,12 +97,15 @@
 * [mysql](notes/mysql.md)
 * [nginx](notes/nginx.md)
 * [php](notes/php.md)
-* [python.base](notes/python.base.md)
-* [python.django](notes/python.django.md)
 * [rsync](notes/rsync.md)
 * [二叉树](notes/二叉树.md)
 * [jmeter](notes/jmeter.md)
 * [数据结构与算法学习](notes/数据结构与算法学习.md)
+
+## Python
+
+* [python.base](notes/python/python.base.md)
+* [python.django](notes/python/python.django.md)
 
 ## System Design
 

@@ -24,25 +24,46 @@ ssh协议: secure shell
 
 #### terminal 操作快捷键
 
-mac 下快捷键
-[https://support.apple.com/zh-cn/guide/terminal/keyboard-shortcuts-trmlshtcts/mac](https://support.apple.com/zh-cn/guide/terminal/keyboard-shortcuts-trmlshtcts/mac)
+
+[Mac下快捷键](https://support.apple.com/zh-cn/guide/terminal/keyboard-shortcuts-trmlshtcts/mac)
+
+[Base快捷键](https://github.com/hokein/Wiki/wiki/Bash-Shell%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE)
+
+光标定位
+
+mac 的 iterm 的 option + 左右方向被绑定了其他功能。需要设置快捷键映射
+
+![](images/chatu/2019-05-30-13-36-02.png)
 
 |操作|快捷键|
 |--|--|
 |重新定位插入点|在按住 Option 键的同时将指针移到新的插入点。|
-|将插入点移到行的开头|Control-A|
-|将插入点移到行的结尾|Control-E|
-|将插入点前移一个字符|右箭头键|
-|将插入点后移一个字符|左箭头键|
-|将插入点前移一个字词|Option-右箭头键|
-|将插入点后移一个字词|Option-左箭头键|
-|删除到行的开头|Control-U|
+|移到行首|Control-A|
+|移到行尾|Control-E|
+|前移一个字符|右箭头键|
+|后移一个字符|左箭头键|
+|前移一个字词|Option-右箭头键|
+|后移一个字词|Option-左箭头键|
+
+编辑操作
+
+|操作|快捷键|
+|--|--|
+|删除到行的开头，清空当前行|Control-U|
 |删除到行的结尾|Control-K|
 |向前删除到字词的结尾|Option-D（选中将 Option 键用作 Meta 键后可用）|
 |向后删除到字词的开头|Control-W|
 |删除一个字符|Delete|
 |向前删除一个字符|向前删除（或使用 Fn-Delete）|
 |转置两个字符|Control-T|
+
+#### Iterm2 快捷键
+
+|操作|快捷键|说明
+|--|--|--|
+|打开命令剪贴板|Cmd + shift + H||
+|快照返回| Cmd + Shift + B|查看之前时间点的面板变化|
+
 
 
 ### 1.2.1 shell 外壳
