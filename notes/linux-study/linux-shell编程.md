@@ -18,7 +18,6 @@ grep -E  // 使用扩展正则表达式
 cat /proc/cpuinfo | grep -A 3 'cpu MHz' // after 显示cpuinfo文件中匹配到的行并且显示其后跟着的3行 (共显示4行)
 cat /proc/cpuinfo | grep -B 3 'cpu MHz' // before 显示cpuinfo文件中匹配到的行并且显示其前面3行 (共显示4行)
 cat /proc/cpuinfo | grep -C 3 'cpu MHz' // context 显示cpuinfo文件中匹配到的行并且显示其前后各3行 (共显示4行)
-
 ```
 
 ### 正则表达式
@@ -207,7 +206,7 @@ echo $? // 输出 1, 表示false
 
 ```bash
 
-id xzc &> /dev/null && echo "欢迎, 徐志超" // id xzc 语句的运行结果, 如果为true 即用户xzc存在, 则输出 "欢迎, ..." 语句
+id xzc &> /dev/null && echo "欢迎, 徐超" // id xzc 语句的运行结果, 如果为true 即用户xzc存在, 则输出 "欢迎, ..." 语句
 
 ```
 
@@ -241,14 +240,12 @@ else
 fi
 
 ```bash
-
 user=xzc
 if id $user; then
 echo "用户存在"
 else 
 echo "用户不存在"
 fi
-
 ```
 
 

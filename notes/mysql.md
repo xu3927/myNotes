@@ -118,7 +118,7 @@ mysql> show databases;
 
 ## server 相关
 
-#### 4.2.7 my.cnf配置文件
+### 4.2.7 my.cnf配置文件
 
 文档 https://dev.mysql.com/doc/refman/8.0/en/option-files.html
 
@@ -272,9 +272,9 @@ max_allowed_packet  = 16M
 key_buffer      = 16M
 ```
 
-### 4.3 server 启动
+## 4.3 server 启动
 
-#### 4.3.1  mysqld - The MySQL Server
+### 4.3.1  mysqld - The MySQL Server
 
 这个是mysql的server程序， 可以管理mysql的数据文件夹， data
 
@@ -283,7 +283,7 @@ key_buffer      = 16M
 shell> mysqld --verbose --help
 ```
 
-#### 4.3.2 mysqld_safe MySQL Server Startup Script
+### 4.3.2 mysqld_safe MySQL Server Startup Script
 
 文档 https://dev.mysql.com/doc/refman/8.0/en/mysqld-safe.html
 
@@ -321,7 +321,7 @@ shell> mysqld --verbose --help
 | --timezone | Set TZ time zone environment variable to named value |
 | --user | Run mysqld as user having name user_name or numeric user ID user_id |
 
-#### 4.3.3  mysql.server — MySQL Server Startup Script
+### 4.3.3  mysql.server — MySQL Server Startup Script
 
 文档 https://dev.mysql.com/doc/refman/8.0/en/mysql-server.html
 
@@ -346,7 +346,7 @@ datadir 是mysql的数据文件夹
 | pid-file|File in which server should write its process ID|File name |
 | service-startup-timeout|How long to wait for server startup|Integer |
 
-### 安装之后需要做以下事情
+## 安装之后需要做以下事情
 
 https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.html
 
@@ -356,7 +356,7 @@ https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.htm
 4. 设置server的自动启动
 5. 设置时区
 
-#### 初始化数据库文件夹
+### 初始化数据库文件夹
 
 进入basedir, 为mysql的安装路径,如 /usr/local/opt/mysql
 
@@ -466,7 +466,7 @@ shell> mysqlshow -u root mysql
 mysqladmin variables -u root -h host_name
 ```
 
-#### 错误情况
+### 错误情况
 
 当启动mysqld时如果提示Permission denied表示没有data directory的权限,此时可以通过修改该文件的权限来解决, 也可以用root模式启动Server, 这种方式会有一些风险.
 
@@ -477,7 +477,7 @@ shell> chown -R mysql /usr/local/mysql/data
 shell> chgrp -R mysql /usr/local/mysql/data
 ```
 
-#### 给mysql账户设置密码
+### 给mysql账户设置密码
 
 mysql在初始化的时候会初始化data文件夹, 其中会创建grant tables,这个表里定义了mysql的账号
 
@@ -560,13 +560,59 @@ mysql> SHOW [GLOBAL | SESSION] VARIABLES
     [LIKE 'pattern' | WHERE expr]
 ```
 
-## 客户端
+## 4.5 客户端
 
 连接mysql
 
 ```
 shell> mysql -u user -p<password> -h localhost -P 3306
 ```
+
+### 4.5.4 mysqldump 数据库备份
+
+[文档](https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html)
+
+语法
+
+```bash
+shell> mysqldump [options] db_name [tbl_name ...]
+shell> mysqldump [options] --databases db_name ...
+shell> mysqldump [options] --all-databases
+```
+
+备份远程数据库
+
+```bash
+shell> mysqldump -h 127.0.0.1 -u root -p12345 db_name [tbl_name] > backup-file.sql
+```
+
+从备份恢复数据库
+
+```bash
+shell> mysql db_name < backup-file.sql
+```
+
+
+
+
+在2个 server 之间备份
+
+```bash
+shell> mysqldump db_name | mysqp --host=[remote_host] -C db_name
+```
+
+复制多个数据库
+
+```bash
+shell> mysqldump --databases db_name1 [db_name2 ...] > my_databases.sql
+```
+
+复制所有数据库
+
+```bash
+shell> mysqldump --all-databases > all_databases.sql
+```
+
 
 ## 基本操作
 
@@ -803,9 +849,9 @@ mysql> describe shaolin;
 
 ## 第13章 SQL语句
 
-### 13.1 数据定义语句
+## 13.1 数据定义语句
 
-#### 13.1.8 ALTER TABLE
+### 13.1.8 ALTER TABLE
 
 修改表头
 
@@ -825,9 +871,9 @@ ALTER TABLE members ADD COLUMN user_name VARCHAR(18) DEFAULT NULL AFTER id;
 ALTER TABLE members modify telephone varchar(11)
 ```
 
-### 13.2 数据操作语句 Data Manipulation Statements
+## 13.2 数据操作语句 Data Manipulation Statements
 
-#### 13.2.1 INSERT
+## 13.2.1 INSERT
 
 https://dev.mysql.com/doc/refman/8.0/en/insert.html
 
@@ -937,3 +983,31 @@ DELETE [LOW_PRIORITY] [QUICK] [IGNORE]
 ```
 
 
+### 13.2.10 SELECT Syntax
+
+```sql
+SELECT
+    [ALL | DISTINCT | DISTINCTROW ]
+      [HIGH_PRIORITY]
+      [STRAIGHT_JOIN]
+      [SQL_SMALL_RESULT] [SQL_BIG_RESULT] [SQL_BUFFER_RESULT]
+      [SQL_NO_CACHE] [SQL_CALC_FOUND_ROWS]
+    select_expr [, select_expr ...]
+    [FROM table_references
+      [PARTITION partition_list]
+    [WHERE where_condition]
+    [GROUP BY {col_name | expr | position}, ... [WITH ROLLUP]]
+    [HAVING where_condition]
+    [WINDOW window_name AS (window_spec)
+        [, window_name AS (window_spec)] ...]
+    [ORDER BY {col_name | expr | position}
+      [ASC | DESC], ... [WITH ROLLUP]]
+    [LIMIT {[offset,] row_count | row_count OFFSET offset}]
+    [INTO OUTFILE 'file_name'
+        [CHARACTER SET charset_name]
+        export_options
+      | INTO DUMPFILE 'file_name'
+      | INTO var_name [, var_name]]
+    [FOR {UPDATE | SHARE} [OF tbl_name [, tbl_name] ...] [NOWAIT | SKIP LOCKED] 
+      | LOCK IN SHARE MODE]]
+```

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>算汽水</h1>
+    <div>
+        <h3>你有多少钱?</h3>
+        <input type="number" id='money'>
+    </div>
+    <div style="margin-top: 20px;">
+        <button class="start">开始算</button>
+    </div>
+    <div class="result"></div>
+    <script>
+        document.querySelector('.start').onclick = function () {
+            var money = document.querySelector('#money').value
+            if (money < 0) {
+                alert('你瞧瞧你哩钱是不是错了')
+            } else {
+                foo()
+            }
+        }
+        function foo(money = 8) {
+            var pin = 0, gai = 0, total = 0, price = 2, last_pin = 0, last_gai = 0
+
+            function calc(money, pin, gai) {
+                var n_money = parseInt(money / price)
+                var n_pin = parseInt(pin / 2)
+                var n_gai = parseInt(gai / 4)
+                var currentNum = n_money + n_pin + n_gai
+
+                last_pin = pin % 2 + currentNum
+                last_gai = gai % 4 + currentNum
+
+                console.log(`用${money}元买了${n_money}瓶`)
+                console.log(`用${pin}个瓶换了${n_pin}瓶`)
+                console.log(`用${gai}个盖买了${n_gai}瓶`)
+                console.log(`当前剩下的瓶${last_pin}`)
+                console.log(`当前剩下的盖${last_gai}`)
+                total += currentNum
+                console.log('')
+                if (money > price || last_pin >= 2 || last_gai >= 4) {
+
+                    calc(0, last_pin, last_gai)
+                } else {
+                    console.log(`一共喝了${total}瓶`)
+                    alert(`一共能喝${total}瓶`)
+                    return total
+                }
+            }
+
+            return calc(money, 0, 0)
+        }
+
+    </script>
+</body>
+
+</html>

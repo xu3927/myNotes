@@ -1848,7 +1848,7 @@ basedir<span class="token operator">=</span>/usr/local/opt/mysql
 </li>
 </ol>
 <h2 id="server-&#x76F8;&#x5173;">server &#x76F8;&#x5173;</h2>
-<h4 id="427-mycnf&#x914D;&#x7F6E;&#x6587;&#x4EF6;">4.2.7 my.cnf&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h4>
+<h3 id="427-mycnf&#x914D;&#x7F6E;&#x6587;&#x4EF6;">4.2.7 my.cnf&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h3>
 <p>&#x6587;&#x6863; <a href="https://dev.mysql.com/doc/refman/8.0/en/option-files.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/option-files.html</a></p>
 <p>&#x8FD9;&#x662F;mysql&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;.</p>
 <p>windows&#x4E0B;mysql&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5728; /c/ProgramData/MySQL/MySQL Server 8.0/my.ini</p>
@@ -1993,13 +1993,13 @@ max_allowed_packet  <span class="token operator">=</span> 16M
 <span class="token punctuation">[</span>isamchk<span class="token punctuation">]</span>
 key_buffer      <span class="token operator">=</span> 16M
 </code></pre>
-<h3 id="43-server-&#x542F;&#x52A8;">4.3 server &#x542F;&#x52A8;</h3>
-<h4 id="431--mysqld---the-mysql-server">4.3.1  mysqld - The MySQL Server</h4>
+<h2 id="43-server-&#x542F;&#x52A8;">4.3 server &#x542F;&#x52A8;</h2>
+<h3 id="431--mysqld---the-mysql-server">4.3.1  mysqld - The MySQL Server</h3>
 <p>&#x8FD9;&#x4E2A;&#x662F;mysql&#x7684;server&#x7A0B;&#x5E8F;&#xFF0C; &#x53EF;&#x4EE5;&#x7BA1;&#x7406;mysql&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5939;&#xFF0C; data</p>
 <p>&#x67E5;&#x770B;&#x5E2E;&#x52A9;</p>
 <pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysqld --verbose --help
 </code></pre>
-<h4 id="432-mysqldsafe-mysql-server-startup-script">4.3.2 mysqld_safe MySQL Server Startup Script</h4>
+<h3 id="432-mysqldsafe-mysql-server-startup-script">4.3.2 mysqld_safe MySQL Server Startup Script</h3>
 <p>&#x6587;&#x6863; <a href="https://dev.mysql.com/doc/refman/8.0/en/mysqld-safe.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/mysqld-safe.html</a></p>
 <p>&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x8BE5;&#x547D;&#x4EE4;&#x542F;&#x52A8;server&#xFF0C;&#x5176;&#x4E2D;&#x589E;&#x52A0;&#x4E86;&#x4E00;&#x4E9B;&#x5B89;&#x5168;&#x7279;&#x6027;</p>
 <p>&#x8BE5;&#x547D;&#x4EE4;&#x4F1A;&#x5C1D;&#x8BD5;&#x8C03;&#x7528;mysqld&#xFF0C; &#x8BE5;&#x547D;&#x4EE4;&#x548C;mysqld&#x7684;&#x53C2;&#x6570;&#x5927;&#x90E8;&#x5206;&#x4E00;&#x81F4;</p>
@@ -2114,7 +2114,7 @@ key_buffer      <span class="token operator">=</span> 16M
 </tr>
 </tbody>
 </table>
-<h4 id="433--mysqlserver-&#x2014;-mysql-server-startup-script">4.3.3  mysql.server &#x2014; MySQL Server Startup Script</h4>
+<h3 id="433--mysqlserver-&#x2014;-mysql-server-startup-script">4.3.3  mysql.server &#x2014; MySQL Server Startup Script</h3>
 <p>&#x6587;&#x6863; <a href="https://dev.mysql.com/doc/refman/8.0/en/mysql-server.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/mysql-server.html</a></p>
 <p>&#x5728;Unix and Unix-like&#x7CFB;&#x7EDF;&#x4E2D;&#x5305;&#x542B;mysql.start&#x547D;&#x4EE4;&#xFF0C;
 &#x4F1A;&#x901A;&#x8FC7;&#x8C03;&#x7528;mysqld_safe&#x6765;&#x542F;&#x52A8;&#x6216;&#x505C;&#x6B62;&#x670D;&#x52A1;</p>
@@ -2155,7 +2155,7 @@ datadir &#x662F;mysql&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5939;</p>
 </tr>
 </tbody>
 </table>
-<h3 id="&#x5B89;&#x88C5;&#x4E4B;&#x540E;&#x9700;&#x8981;&#x505A;&#x4EE5;&#x4E0B;&#x4E8B;&#x60C5;">&#x5B89;&#x88C5;&#x4E4B;&#x540E;&#x9700;&#x8981;&#x505A;&#x4EE5;&#x4E0B;&#x4E8B;&#x60C5;</h3>
+<h2 id="&#x5B89;&#x88C5;&#x4E4B;&#x540E;&#x9700;&#x8981;&#x505A;&#x4EE5;&#x4E0B;&#x4E8B;&#x60C5;">&#x5B89;&#x88C5;&#x4E4B;&#x540E;&#x9700;&#x8981;&#x505A;&#x4EE5;&#x4E0B;&#x4E8B;&#x60C5;</h2>
 <p><a href="https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.html</a></p>
 <ol>
 <li>&#x521D;&#x59CB;&#x5316;data directory, &#x540C;&#x65F6;&#x521B;&#x5EFA;mysql&#x9ED8;&#x8BA4;&#x6743;&#x9650;&#x8868;(grant tables), &#x6709;&#x4E9B;&#x7248;&#x672C;&#x5728;&#x5B89;&#x88C5;&#x65F6;&#x4F1A;&#x81EA;&#x52A8;&#x5B8C;&#x6210;&#x8FD9;&#x4E00;&#x6B65;</li>
@@ -2164,7 +2164,7 @@ datadir &#x662F;mysql&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5939;</p>
 <li>&#x8BBE;&#x7F6E;server&#x7684;&#x81EA;&#x52A8;&#x542F;&#x52A8;</li>
 <li>&#x8BBE;&#x7F6E;&#x65F6;&#x533A;</li>
 </ol>
-<h4 id="&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;&#x6587;&#x4EF6;&#x5939;">&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;&#x6587;&#x4EF6;&#x5939;</h4>
+<h3 id="&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;&#x6587;&#x4EF6;&#x5939;">&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;&#x6587;&#x4EF6;&#x5939;</h3>
 <p>&#x8FDB;&#x5165;basedir, &#x4E3A;mysql&#x7684;&#x5B89;&#x88C5;&#x8DEF;&#x5F84;,&#x5982; /usr/local/opt/mysql</p>
 <pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span>cd basedir
 </code></pre>
@@ -2235,13 +2235,13 @@ shell<span class="token operator">&gt;</span> mysqlshow -u root mysql
 <p>&#x67E5;&#x770B;mysql&#x53D8;&#x91CF;</p>
 <pre class="language-"><code class="lang-bash">mysqladmin variables -u root -h host_name
 </code></pre>
-<h4 id="&#x9519;&#x8BEF;&#x60C5;&#x51B5;">&#x9519;&#x8BEF;&#x60C5;&#x51B5;</h4>
+<h3 id="&#x9519;&#x8BEF;&#x60C5;&#x51B5;">&#x9519;&#x8BEF;&#x60C5;&#x51B5;</h3>
 <p>&#x5F53;&#x542F;&#x52A8;mysqld&#x65F6;&#x5982;&#x679C;&#x63D0;&#x793A;Permission denied&#x8868;&#x793A;&#x6CA1;&#x6709;data directory&#x7684;&#x6743;&#x9650;,&#x6B64;&#x65F6;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4FEE;&#x6539;&#x8BE5;&#x6587;&#x4EF6;&#x7684;&#x6743;&#x9650;&#x6765;&#x89E3;&#x51B3;, &#x4E5F;&#x53EF;&#x4EE5;&#x7528;root&#x6A21;&#x5F0F;&#x542F;&#x52A8;Server, &#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x4F1A;&#x6709;&#x4E00;&#x4E9B;&#x98CE;&#x9669;.</p>
 <p>&#x6DFB;&#x52A0;&#x6743;&#x9650;</p>
 <pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> <span class="token function">chown</span> -R mysql /usr/local/mysql/data
 shell<span class="token operator">&gt;</span> <span class="token function">chgrp</span> -R mysql /usr/local/mysql/data
 </code></pre>
-<h4 id="&#x7ED9;mysql&#x8D26;&#x6237;&#x8BBE;&#x7F6E;&#x5BC6;&#x7801;">&#x7ED9;mysql&#x8D26;&#x6237;&#x8BBE;&#x7F6E;&#x5BC6;&#x7801;</h4>
+<h3 id="&#x7ED9;mysql&#x8D26;&#x6237;&#x8BBE;&#x7F6E;&#x5BC6;&#x7801;">&#x7ED9;mysql&#x8D26;&#x6237;&#x8BBE;&#x7F6E;&#x5BC6;&#x7801;</h3>
 <p>mysql&#x5728;&#x521D;&#x59CB;&#x5316;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x521D;&#x59CB;&#x5316;data&#x6587;&#x4EF6;&#x5939;, &#x5176;&#x4E2D;&#x4F1A;&#x521B;&#x5EFA;grant tables,&#x8FD9;&#x4E2A;&#x8868;&#x91CC;&#x5B9A;&#x4E49;&#x4E86;mysql&#x7684;&#x8D26;&#x53F7;</p>
 <p>&#x66F4;&#x6539;&#x5BC6;&#x7801;</p>
 <ol>
@@ -2290,10 +2290,32 @@ mysql<span class="token operator">&gt;</span> SHOW GLOBAL VARIABLES LIKE <span c
 <pre class="language-"><code class="lang-bash">mysql<span class="token operator">&gt;</span> SHOW <span class="token punctuation">[</span>GLOBAL <span class="token operator">|</span> SESSION<span class="token punctuation">]</span> VARIABLES
     <span class="token punctuation">[</span>LIKE <span class="token string">&apos;pattern&apos;</span> <span class="token operator">|</span> WHERE expr<span class="token punctuation">]</span>
 </code></pre>
-<h2 id="&#x5BA2;&#x6237;&#x7AEF;">&#x5BA2;&#x6237;&#x7AEF;</h2>
+<h2 id="45-&#x5BA2;&#x6237;&#x7AEF;">4.5 &#x5BA2;&#x6237;&#x7AEF;</h2>
 <p>&#x8FDE;&#x63A5;mysql</p>
 <pre class="language-"><code>shell&gt; mysql -u user -p<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>password</span><span class="token punctuation">&gt;</span></span> -h localhost -P 3306
-</code></pre><h2 id="&#x57FA;&#x672C;&#x64CD;&#x4F5C;">&#x57FA;&#x672C;&#x64CD;&#x4F5C;</h2>
+</code></pre><h3 id="454-mysqldump-&#x6570;&#x636E;&#x5E93;&#x5907;&#x4EFD;">4.5.4 mysqldump &#x6570;&#x636E;&#x5E93;&#x5907;&#x4EFD;</h3>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html" target="_blank">&#x6587;&#x6863;</a></p>
+<p>&#x8BED;&#x6CD5;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysqldump <span class="token punctuation">[</span>options<span class="token punctuation">]</span> db_name <span class="token punctuation">[</span>tbl_name <span class="token punctuation">..</span>.<span class="token punctuation">]</span>
+shell<span class="token operator">&gt;</span> mysqldump <span class="token punctuation">[</span>options<span class="token punctuation">]</span> --databases db_name <span class="token punctuation">..</span>.
+shell<span class="token operator">&gt;</span> mysqldump <span class="token punctuation">[</span>options<span class="token punctuation">]</span> --all-databases
+</code></pre>
+<p>&#x5907;&#x4EFD;&#x8FDC;&#x7A0B;&#x6570;&#x636E;&#x5E93;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysqldump -h 127.0.0.1 -u root -p12345 db_name <span class="token punctuation">[</span>tbl_name<span class="token punctuation">]</span> <span class="token operator">&gt;</span> backup-file.sql
+</code></pre>
+<p>&#x4ECE;&#x5907;&#x4EFD;&#x6062;&#x590D;&#x6570;&#x636E;&#x5E93;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysql db_name <span class="token operator">&lt;</span> backup-file.sql
+</code></pre>
+<p>&#x5728;2&#x4E2A; server &#x4E4B;&#x95F4;&#x5907;&#x4EFD;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysqldump db_name <span class="token operator">|</span> mysqp --host<span class="token operator">=</span><span class="token punctuation">[</span>remote_host<span class="token punctuation">]</span> -C db_name
+</code></pre>
+<p>&#x590D;&#x5236;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x5E93;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysqldump --databases db_name1 <span class="token punctuation">[</span>db_name2 <span class="token punctuation">..</span>.<span class="token punctuation">]</span> <span class="token operator">&gt;</span> my_databases.sql
+</code></pre>
+<p>&#x590D;&#x5236;&#x6240;&#x6709;&#x6570;&#x636E;&#x5E93;</p>
+<pre class="language-"><code class="lang-bash">shell<span class="token operator">&gt;</span> mysqldump --all-databases <span class="token operator">&gt;</span> all_databases.sql
+</code></pre>
+<h2 id="&#x57FA;&#x672C;&#x64CD;&#x4F5C;">&#x57FA;&#x672C;&#x64CD;&#x4F5C;</h2>
 <h3 id="&#x8F93;&#x5165;sql&#x8BED;&#x53E5;">&#x8F93;&#x5165;sql&#x8BED;&#x53E5;</h3>
 <p>&#x67E5;&#x8BE2;&#x5F53;&#x524D;Server&#x7684;&#x7248;&#x672C;;</p>
 <p>&#x6700;&#x540E;&#x4E00;&#x884C;&#x4F1A;&#x8F93;&#x51FA;&#x8F93;&#x51FA;&#x7684;&#x884C;&#x6570;&#x4EE5;&#x53CA;&#x67E5;&#x8BE2;&#x65F6;&#x95F4;</p>
@@ -2479,8 +2501,8 @@ Query OK, 0 rows affected (0.07 sec)
 +-----------+-------------+------+-----+---------+-------+
 4 rows in set (0.01 sec)
 </code></pre><h2 id="&#x7B2C;13&#x7AE0;-sql&#x8BED;&#x53E5;">&#x7B2C;13&#x7AE0; SQL&#x8BED;&#x53E5;</h2>
-<h3 id="131-&#x6570;&#x636E;&#x5B9A;&#x4E49;&#x8BED;&#x53E5;">13.1 &#x6570;&#x636E;&#x5B9A;&#x4E49;&#x8BED;&#x53E5;</h3>
-<h4 id="1318-alter-table">13.1.8 ALTER TABLE</h4>
+<h2 id="131-&#x6570;&#x636E;&#x5B9A;&#x4E49;&#x8BED;&#x53E5;">13.1 &#x6570;&#x636E;&#x5B9A;&#x4E49;&#x8BED;&#x53E5;</h2>
+<h3 id="1318-alter-table">13.1.8 ALTER TABLE</h3>
 <p>&#x4FEE;&#x6539;&#x8868;&#x5934;</p>
 <p>&#x5728;&#x8868;&#x7B2C;&#x4E00;&#x5217;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x81EA;&#x589E;&#x7684;id&#x952E;</p>
 <pre class="language-"><code>ALTER TABLE members ADD id INT(8) auto_increment PRIMARY KEY FIRST;
@@ -2488,8 +2510,8 @@ Query OK, 0 rows affected (0.07 sec)
 <pre class="language-"><code>ALTER TABLE members ADD COLUMN user_name VARCHAR(18) DEFAULT NULL AFTER id;
 </code></pre><p>&#x4FEE;&#x6539;&#x4E00;&#x5217;</p>
 <pre class="language-"><code>ALTER TABLE members modify telephone varchar(11)
-</code></pre><h3 id="132-&#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5;-data-manipulation-statements">13.2 &#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5; Data Manipulation Statements</h3>
-<h4 id="1321-insert">13.2.1 INSERT</h4>
+</code></pre><h2 id="132-&#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5;-data-manipulation-statements">13.2 &#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5; Data Manipulation Statements</h2>
+<h2 id="1321-insert">13.2.1 INSERT</h2>
 <p><a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/insert.html</a></p>
 <pre class="language-"><code>INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
     [INTO] tbl_name
@@ -2572,7 +2594,33 @@ DELETE [LOW_PRIORITY] [QUICK] [IGNORE]
     FROM tbl_name[.*] [, tbl_name[.*]] ...
     USING table_references
     [WHERE where_condition]
+</code></pre><h3 id="13210-select-syntax">13.2.10 SELECT Syntax</h3>
+<pre class="language-"><code class="lang-sql"><span class="token keyword">SELECT</span>
+    <span class="token punctuation">[</span><span class="token keyword">ALL</span> <span class="token operator">|</span> <span class="token keyword">DISTINCT</span> <span class="token operator">|</span> <span class="token keyword">DISTINCTROW</span> <span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>HIGH_PRIORITY<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>STRAIGHT_JOIN<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>SQL_SMALL_RESULT<span class="token punctuation">]</span> <span class="token punctuation">[</span>SQL_BIG_RESULT<span class="token punctuation">]</span> <span class="token punctuation">[</span>SQL_BUFFER_RESULT<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>SQL_NO_CACHE<span class="token punctuation">]</span> <span class="token punctuation">[</span>SQL_CALC_FOUND_ROWS<span class="token punctuation">]</span>
+    select_expr <span class="token punctuation">[</span><span class="token punctuation">,</span> select_expr <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">FROM</span> table_references
+      <span class="token punctuation">[</span><span class="token keyword">PARTITION</span> partition_list<span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">WHERE</span> where_condition<span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">GROUP</span> <span class="token keyword">BY</span> {col_name <span class="token operator">|</span> expr <span class="token operator">|</span> position}<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">[</span><span class="token keyword">WITH ROLLUP</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">HAVING</span> where_condition<span class="token punctuation">]</span>
+    <span class="token punctuation">[</span>WINDOW window_name <span class="token keyword">AS</span> <span class="token punctuation">(</span>window_spec<span class="token punctuation">)</span>
+        <span class="token punctuation">[</span><span class="token punctuation">,</span> window_name <span class="token keyword">AS</span> <span class="token punctuation">(</span>window_spec<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">ORDER</span> <span class="token keyword">BY</span> {col_name <span class="token operator">|</span> expr <span class="token operator">|</span> position}
+      <span class="token punctuation">[</span><span class="token keyword">ASC</span> <span class="token operator">|</span> <span class="token keyword">DESC</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">[</span><span class="token keyword">WITH ROLLUP</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">LIMIT</span> {<span class="token punctuation">[</span><span class="token keyword">offset</span><span class="token punctuation">,</span><span class="token punctuation">]</span> row_count <span class="token operator">|</span> row_count <span class="token keyword">OFFSET</span> <span class="token keyword">offset</span>}<span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">INTO</span> <span class="token keyword">OUTFILE</span> <span class="token string">&apos;file_name&apos;</span>
+        <span class="token punctuation">[</span><span class="token keyword">CHARACTER</span> <span class="token keyword">SET</span> charset_name<span class="token punctuation">]</span>
+        export_options
+      <span class="token operator">|</span> <span class="token keyword">INTO</span> <span class="token keyword">DUMPFILE</span> <span class="token string">&apos;file_name&apos;</span>
+      <span class="token operator">|</span> <span class="token keyword">INTO</span> var_name <span class="token punctuation">[</span><span class="token punctuation">,</span> var_name<span class="token punctuation">]</span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">FOR</span> {<span class="token keyword">UPDATE</span> <span class="token operator">|</span> <span class="token keyword">SHARE</span>} <span class="token punctuation">[</span><span class="token keyword">OF</span> tbl_name <span class="token punctuation">[</span><span class="token punctuation">,</span> tbl_name<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span> <span class="token punctuation">[</span>NOWAIT <span class="token operator">|</span> SKIP LOCKED<span class="token punctuation">]</span> 
+      <span class="token operator">|</span> <span class="token keyword">LOCK</span> <span class="token operator">IN</span> <span class="token keyword">SHARE</span> <span class="token keyword">MODE</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
 </code></pre>
+
                                 
                                 </section>
                             
@@ -2615,7 +2663,7 @@ DELETE [LOW_PRIORITY] [QUICK] [IGNORE]
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"mysql","level":"6.1","depth":1,"next":{"title":"nginx","level":"6.2","depth":1,"path":"notes/nginx.md","ref":"notes/nginx.md","articles":[]},"previous":{"title":"linux管道及IO重定向","level":"5.11","depth":1,"path":"notes/linux-study/linux管道及IO重定向.md","ref":"notes/linux-study/linux管道及IO重定向.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/mysql.md","mtime":"2019-05-29T15:40:11.811Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T06:40:21.676Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"mysql","level":"6.1","depth":1,"next":{"title":"nginx","level":"6.2","depth":1,"path":"notes/nginx.md","ref":"notes/nginx.md","articles":[]},"previous":{"title":"linux管道及IO重定向","level":"5.11","depth":1,"path":"notes/linux-study/linux管道及IO重定向.md","ref":"notes/linux-study/linux管道及IO重定向.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/mysql.md","mtime":"2019-06-04T14:25:16.690Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-05T07:58:24.106Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
