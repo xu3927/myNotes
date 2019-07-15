@@ -691,3 +691,51 @@ Git 会遍历所有的commit，分离出与S项目的相对路径相关的commit
 
 
 
+### git ignore
+
+[官方文档](https://git-scm.com/docs/gitignore)
+
+
+检查某个被忽略的文件应用的哪条规则
+
+```
+$ git check-ignore -v <path/>to/file>
+```
+
+如
+```
+$ git check-ignore Project/node_modules -v 
+>>> Project/.gitignore:3:node_modules/ Project/node_modules 
+```
+
+git 可以在子目录中添加 .gitignore，其规则会应用到当前目录及其子目录中
+
+
+#### 匹配规则
+
+A blank line matches no files, so it can serve as a separator for readability.
+
+A line starting with # serves as a comment. Put a backslash ("\") in front of the first hash for patterns that begin with a hash.
+
+Trailing spaces are ignored unless they are quoted with backslash ("\").
+
+An optional prefix "!" which negates the pattern; any matching file excluded by a previous pattern will become included again. It is not possible to re-include a file if a parent directory of that file is excluded. Git doesn’t list excluded directories for performance reasons, so any patterns on contained files have no effect, no matter where they are defined. Put a backslash ("\") in front of the first "!" for patterns that begin with a literal "!", for example, "\!important!.txt".
+
+If the pattern ends with a slash, it is removed for the purpose of the following description, but it would only find a match with a directory. In other words, foo/ will match a directory foo and paths underneath it, but will not match a regular file or a symbolic link foo (this is consistent with the way how pathspec works in general in Git).
+
+If the pattern does not contain a slash /, Git treats it as a shell glob pattern and checks for a match against the pathname relative to the location of the .gitignore file (relative to the toplevel of the work tree if not from a .gitignore file).
+
+Otherwise, Git treats the pattern as a shell glob: "*" matches anything except "/", "?" matches any one character except "/" and "[]" matches one character in a selected range. See fnmatch(3) and the FNM_PATHNAME flag for a more detailed description.
+
+A leading slash matches the beginning of the pathname. For example, "/*.c" matches "cat-file.c" but not "mozilla-sha1/sha1.c".
+
+Two consecutive asterisks ("**") in patterns matched against full pathname may have special meaning:
+
+A leading "**" followed by a slash means match in all directories. For example, "**/foo" matches file or directory "foo" anywhere, the same as pattern "foo". "**/foo/bar" matches file or directory "bar" anywhere that is directly under directory "foo".
+
+A trailing "/**" matches everything inside. For example, "abc/**" matches all files inside directory "abc", relative to the location of the .gitignore file, with infinite depth.
+
+A slash followed by two consecutive asterisks then a slash matches zero or more directories. For example, "a/**/b" matches "a/b", "a/x/b", "a/x/y/b" and so on.
+
+Other consecutive asterisks are considered regular asterisks and will match according to the previous rules.
+

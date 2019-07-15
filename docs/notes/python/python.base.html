@@ -178,9 +178,9 @@
         
         
     
-        <li class="chapter " data-level="2.1" data-path="../JavaScript设计模式3.html">
+        <li class="chapter " data-level="2.1" data-path="../javascript设计模式3.html">
             
-                <a href="../JavaScript设计模式3.html">
+                <a href="../javascript设计模式3.html">
             
                     
                         <b>2.1.</b>
@@ -1054,9 +1054,9 @@
         
         
     
-        <li class="chapter " data-level="5.1" data-path="../linux-study/linux.命令学习.html">
+        <li class="chapter " data-level="5.1" data-path="../linux-study/linux.命令学习.md">
             
-                <a href="../linux-study/linux.命令学习.html">
+                <span>
             
                     
                         <b>5.1.</b>
@@ -1174,9 +1174,9 @@
             
         </li>
     
-        <li class="chapter " data-level="5.9" data-path="../linux-study/linux.命令学习.html">
+        <li class="chapter " data-level="5.9" data-path="../linux-study/linux.命令学习.md">
             
-                <a href="../linux-study/linux.命令学习.html">
+                <span>
             
                     
                         <b>5.9.</b>
@@ -1777,7 +1777,53 @@ mac &#x4E0A;&#x53EF;&#x4EE5;&#x5B89;&#x88C5; python3, &#x4E0E;&#x7CFB;&#x7EDF;&#
 </code></pre>
 <h3 id="&#x6CE8;&#x91CA;">&#x6CE8;&#x91CA;</h3>
 <p>&#x4EE5; # &#x5F00;&#x5934;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;&#x4E00;&#x884C;&#xFF0C;&#x6216;&#x4E00;&#x884C;&#x7ED3;&#x5C3E;</p>
-<h2 id="&#x8868;&#x8FBE;&#x5F0F;">&#x8868;&#x8FBE;&#x5F0F;</h2>
+<h2 id="&#x6570;&#x636E;&#x7C7B;&#x578B;">&#x6570;&#x636E;&#x7C7B;&#x578B;</h2>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#typesseq" target="_blank">&#x6587;&#x6863; Built-in Types</a></p>
+<h3 id="&#x5B57;&#x7B26;&#x4E32;">&#x5B57;&#x7B26;&#x4E32;</h3>
+<p>python3 &#x4E2D;&#x5B57;&#x7B26;&#x4E32;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528; unicode &#x7F16;&#x7801;&#x3002;</p>
+<p>python2 &#x4E2D;&#x5B9A;&#x4E49;unicode&#x5B57;&#x7B26;&#x4E32;&#x524D;&#x9762;&#x52A0;&#x4E2A; u&#xFF0C;r &#x8868;&#x793A;&#x4E0D;&#x8F6C;&#x4E49;</p>
+<pre class="language-"><code>&gt;&gt;&gt; u&apos;Hello\u0020World !&apos;
+u&apos;Hello World !&apos;
+&gt;&gt;&gt; ur&apos;Hello\\u0020World !&apos;
+u&apos;Hello\\\\u0020World !&apos;
+</code></pre><p>python3 &#x4E2D;&#xFF0C; &#x901A;&#x8FC7; encode &#x53EF;&#x4EE5;&#x8F6C;&#x4E3A; bytes&#xFF0C;&#x8F93;&#x51FA;&#x65F6;&#x524D;&#x9762;&#x4F1A;&#x5E26;&#x5B57;&#x6BCD; b</p>
+<pre class="language-"><code>&gt;&gt;&gt; a_s = &apos;&#x54C8;&#x54C8; hello!&apos;
+&gt;&gt;&gt; a_b = a_s.encode(&apos;utf-8&apos;)
+&gt;&gt;&gt; a_b
+b&apos;\xe5\x93\x88\xe5\x93\x88 hello!&apos;
+&gt;&gt;&gt; type(a_b)
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>class</span> <span class="token attr-name">&apos;bytes&apos;</span><span class="token punctuation">&gt;</span></span>
+&gt;&gt;&gt; a_s2 = a_b.decode(&apos;utf-8&apos;)
+&gt;&gt;&gt; a_s2
+&apos;&#x54C8;&#x54C8; hello!&apos;
+&gt;&gt;&gt; type(a_s2)
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>class</span> <span class="token attr-name">&apos;str&apos;</span><span class="token punctuation">&gt;</span></span>
+</code></pre><p>string &#x548C; bytes &#x8F6C;&#x5316;&#x5982;&#x4E0B;&#x56FE;</p>
+<p><img src="images/chatu/2019-06-05-23-01-37.png" alt=""></p>
+<h3 id="tuples-&#x5143;&#x7EC4;">Tuples &#x5143;&#x7EC4;</h3>
+<p>Tuples &#x662F;&#x4E00;&#x79CD;&#x4E0D;&#x53EF;&#x53D8;&#x7684;&#x5E8F;&#x5217;&#x3002;</p>
+<p>&#x521B;&#x5EFA;&#x65B9;&#x5F0F;&#x6709;&#xFF1A;</p>
+<ul>
+<li>Using a pair of parentheses to denote the empty tuple: ()</li>
+<li>Using a trailing comma for a singleton tuple: a, or (a,)</li>
+<li>Separating items with commas: a, b, c or (a, b, c)</li>
+<li>Using the tuple() built-in: tuple() or tuple(iterable)</li>
+</ul>
+<pre class="language-"><code>&gt;&gt;&gt; t1 = (1,)
+&gt;&gt;&gt; t1
+(1,)
+# &#x4E00;&#x9879;&#x7684;&#x8BDD;&#x540E;&#x9762;&#x5FC5;&#x987B;&#x5E26;&#x9017;&#x53F7;
+&gt;&gt;&gt; t2 = (2)
+&gt;&gt;&gt; t2
+2
+&gt;&gt;&gt; t3 = (4,5,6)
+&gt;&gt;&gt; t3
+(4, 5, 6)
+&gt;&gt;&gt; tuple(&apos;abded&apos;)
+(&apos;a&apos;, &apos;b&apos;, &apos;d&apos;, &apos;e&apos;, &apos;d&apos;)
+&gt;&gt;&gt; tuple([3,4,6,7,8])
+(3, 4, 6, 7, 8)
+</code></pre><h2 id="&#x8868;&#x8FBE;&#x5F0F;">&#x8868;&#x8FBE;&#x5F0F;</h2>
 <h2 id="&#x5305;&#x7BA1;&#x7406;">&#x5305;&#x7BA1;&#x7406;</h2>
 <p>&#x9996;&#x5148;&#x67E5;&#x627E;&#x5168;&#x5C40;&#x53D8;&#x91CF;
 &#x5176;&#x4ED6;&#x7684;&#x6A21;&#x5757;&#x9700;&#x8981;&#x901A;&#x8FC7; import &#x5F15;&#x5165;
@@ -2337,6 +2383,49 @@ cities.copy()
 </code></pre><p>&#x7C7B;&#x5B9A;&#x4E49;&#x57DF;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#xFF08;def &#x8BED;&#x53E5;&#xFF09;&#x4E00;&#x6837;&#xFF0C;&#x5FC5;&#x987B;&#x88AB;&#x6267;&#x884C;&#x624D;&#x4F1A;&#x8D77;&#x4F5C;&#x7528;</p>
 <h3 id="&#x79C1;&#x6709;&#x5C5E;&#x6027;">&#x79C1;&#x6709;&#x5C5E;&#x6027;</h3>
 <p>python &#x4E2D;&#x7684;&#x7C7B;&#x6CA1;&#x6709;&#x79C1;&#x6709;&#x5C5E;&#x6027;&#xFF0C;&#x901A;&#x5E38;&#x4E60;&#x60EF;&#x4EE5;&#x4E0B;&#x5212;&#x7EBF;&#x5F00;&#x5934;&#x7684;&#x53D8;&#x91CF;&#x4F5C;&#x4E3A;&#x79C1;&#x6709;&#x5C5E;&#x6027;</p>
+<h2 id="&#x590D;&#x5408;&#x8BED;&#x53E5;">&#x590D;&#x5408;&#x8BED;&#x53E5;</h2>
+<p>&#x590D;&#x5408;&#x8BED;&#x53E5;&#x662F;&#x5305;&#x542B;&#x5176;&#x4ED6;&#x8BED;&#x53E5;&#x7684;&#x8BED;&#x53E5;&#xFF0C;&#x4F1A;&#x4EE5;&#x67D0;&#x79CD;&#x65B9;&#x5F0F;&#x5F71;&#x54CD;&#x6216;&#x63A7;&#x5236;&#x6240;&#x5305;&#x542B;&#x5176;&#x5B83;&#x8BED;&#x53E5;&#x7684;&#x6267;&#x884C;&#x3002; &#x901A;&#x5E38;&#xFF0C;&#x590D;&#x5408;&#x8BED;&#x53E5;&#x4F1A;&#x8DE8;&#x8D8A;&#x591A;&#x884C;&#x3002;
+&#x4E00;&#x4E2A;&#x590D;&#x5408;&#x8BED;&#x53E5;&#x7531;&#x591A;&#x4E2A;&#x5B50;&#x53E5;&#x7EC4;&#x6210;&#xFF0C;&#x5B50;&#x53E5;&#x7531;&#x53E5;&#x5934;&#x548C;&#x53E5;&#x4F53;&#x7EC4;&#x6210;&#xFF0C;
+&#x53E5;&#x5934;&#x662F;&#x4ECE;&#x5F00;&#x59CB;&#x5230;&#x5192;&#x53F7;&#x7ED3;&#x675F;&#xFF0C;&#x53E5;&#x4F53;&#x662F;&#x7531;&#x4E00;&#x4E2A;&#x5B57;&#x53E5;&#x63A7;&#x5236;&#x7684;&#x4E00;&#x7EC4;&#x8BED;&#x53E5;&#x3002;
+&#x5B50;&#x53E5;&#x4F53;&#x53EF;&#x4EE5;&#x662F;&#x5728;&#x5B50;&#x53E5;&#x5934;&#x7684;&#x5192;&#x53F7;&#x4E4B;&#x540E;&#x4E0E;&#x5176;&#x540C;&#x5904;&#x4E00;&#x884C;&#x7684;&#x4E00;&#x6761;&#x6216;&#x7531;&#x5206;&#x53F7;&#x5206;&#x5272;&#x7684;&#x591A;&#x6761;&#x7B80;&#x5355;&#x8BED;&#x53E5;&#xFF0C;&#x6216;&#x8005;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x5728;&#x5176;&#x4E4B;&#x540E;&#x7F29;&#x8FDB;&#x7684;&#x4E00;&#x884C;&#x6216;&#x591A;&#x884C;&#x8BED;&#x53E5;&#x3002;</p>
+<h3 id="with-&#x8BED;&#x53E5;">with &#x8BED;&#x53E5;</h3>
+<p><a href="https://docs.python.org/zh-cn/3/reference/compound_stmts.html#the-with-statement" target="_blank">&#x5B98;&#x65B9;&#x6587;&#x6863;</a>
+<a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-pythonwith/" target="_blank">&#x6D45;&#x8C08; Python &#x7684; with &#x8BED;&#x53E5;</a></p>
+<p>with &#x8BED;&#x53E5;&#x7528;&#x4E8E;&#x5305;&#x88C5;&#x5E26;&#x6709;&#x4F7F;&#x7528;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x5668;&#x5B9A;&#x4E49;&#x7684;&#x65B9;&#x6CD5;&#x7684;&#x4EE3;&#x7801;&#x5757;&#x7684;&#x6267;&#x884C;&#x3002;</p>
+<pre class="language-"><code>with_stmt ::=   &quot;with&quot; with_item (&apos;,&apos; with_item)* &quot;:&quot; suite
+with_item ::=   expression [&quot;as&quot; target]
+</code></pre><p>with &#x8BED;&#x53E5;&#x7684;&#x6267;&#x884C;&#x8FC7;&#x7A0B;</p>
+<ol>
+<li>&#x5BF9;&#x4E0A;&#x4E0B;&#x6587;&#x8868;&#x8FBE;&#x5F0F;&#x6C42;&#x503C;&#x4EE5;&#x83B7;&#x5F97;&#x4E00;&#x4E2A;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x5668;</li>
+<li>&#x8F7D;&#x5165;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x5668;&#x7684;<strong>exit</strong>()&#x4EE5;&#x4FBF;&#x540E;&#x7EED;&#x4F7F;&#x7528;</li>
+<li>&#x53D1;&#x8D77;&#x8C03;&#x7528;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x5668;&#x7684;<strong>enter</strong>()&#x65B9;&#x6CD5;</li>
+<li>&#x5982;&#x679C; with &#x8BED;&#x53E5;&#x4E2D;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x76EE;&#x6807;&#xFF0C;&#x6765;&#x81EA;<strong>enter</strong>()&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x5C06;&#x88AB;&#x8D4B;&#x503C;&#x7ED9;&#x5B83;&#x3002;&#x6CE8;&#x610F;&#xFF1A;with &#x8BED;&#x53E5;&#x4F1A;&#x4FDD;&#x8BC1;&#x5982;&#x679C; <strong>enter</strong>() &#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x65F6;&#x672A;&#x53D1;&#x751F;&#x9519;&#x8BEF;&#xFF0C;&#x5219;<strong>exit</strong>()&#x5C06;&#x603B;&#x662F;&#x88AB;&#x8C03;&#x7528;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x5BF9;&#x76EE;&#x6807;&#x5217;&#x8868;&#x8D4B;&#x503C;&#x671F;&#x95F4;&#x53D1;&#x751F;&#x9519;&#x8BEF;&#xFF0C;&#x5219;&#x4F1A;&#x5C06;&#x5176;&#x89C6;&#x4E3A;&#x5728;&#x8BED;&#x53E5;&#x4F53;&#x5185;&#x53D1;&#x751F;&#x7684;&#x9519;&#x8BEF;&#x3002;</li>
+<li>&#x6267;&#x884C;&#x9884;&#x805A;&#x4F53;&#x3002;</li>
+<li>&#x53D1;&#x8D77;&#x8C03;&#x7528;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x5668;&#x7684; <strong>exit</strong>() &#x65B9;&#x6CD5;&#x3002; &#x5982;&#x679C;&#x8BED;&#x53E5;&#x4F53;&#x7684;&#x9000;&#x51FA;&#x662F;&#x7531;&#x5F02;&#x5E38;&#x5BFC;&#x81F4;&#x7684;&#xFF0C;&#x5219;&#x5176;&#x7C7B;&#x578B;&#x3001;&#x503C;&#x548C;&#x56DE;&#x6EAF;&#x4FE1;&#x606F;&#x5C06;&#x80CC;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x7ED9;<strong>exit</strong>()&#x3002;&#x5426;&#x5219;&#x7684;&#x8BDD;&#xFF0C;&#x5C06;&#x63D0;&#x4F9B;3&#x4E2A; None &#x53C2;&#x6570;&#x3002;&#x5982;&#x679C;&#x8BED;&#x53E5;&#x4F53;&#x7684;&#x9000;&#x51FA;&#x662F;&#x7531;&#x5F02;&#x5E38;&#x5BFC;&#x81F4;&#x7684;&#xFF0C;&#x5E76;&#x4E14;&#x6765;&#x81EA; <strong>exit</strong>() &#x65B9;&#x6CD5;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x5047;&#xFF0C;&#x5219;&#x8BE5;&#x5F02;&#x5E38;&#x4F1A;&#x88AB;&#x91CD;&#x65B0;&#x5F15;&#x53D1;&#x3002;&#x5982;&#x679C;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x771F;&#xFF0C;&#x5219;&#x8BE5;&#x5F02;&#x5E38;&#x4F1A;&#x88AB;&#x4E00;&#x76F4;&#xFF0C;&#x5E76;&#x4F1A;&#x7EE7;&#x7EED;&#x6267;&#x884C; with &#x8BED;&#x53E5;&#x4E4B;&#x540E;&#x7684;&#x8BED;&#x53E5;&#x3002; &#x5982;&#x679C;&#x8BED;&#x53E5;&#x4F53;&#x7531;&#x4E8E;&#x5F02;&#x5E38;&#x4EE5;&#x5916;&#x7684;&#x539F;&#x56E0;&#x9000;&#x51FA;&#xFF0C;&#x5219;&#x6765;&#x81EA;<strong>exit</strong>()&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4F1A;&#x88AB;&#x5FFD;&#x7565;&#xFF0C;&#x5E76;&#x4F1A;&#x5728;&#x8BE5;&#x7C7B;&#x9000;&#x51FA;&#x6B63;&#x5E38;&#x7684;&#x53D1;&#x751F;&#x4F4D;&#x7F6E;&#x6025;&#x9700;&#x6267;&#x884C;&#x3002;</li>
+</ol>
+<h4 id="&#x57FA;&#x672C;&#x8BED;&#x6CD5;&#x548C;&#x5DE5;&#x4F5C;&#x539F;&#x7406;">&#x57FA;&#x672C;&#x8BED;&#x6CD5;&#x548C;&#x5DE5;&#x4F5C;&#x539F;&#x7406;</h4>
+<p>&#x8BED;&#x6CD5;:</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">with</span> context_expression <span class="token punctuation">[</span><span class="token keyword">as</span> target<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span><span class="token operator">-</span>body
+</code></pre>
+<p>&#x8FD9;&#x91CC; context<em>expression &#x8981;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x5668;&#x5BF9;&#x8C61;&#xFF0C;&#x8BE5;&#x5BF9;&#x8C61;&#x5E76;&#x4E0D;&#x8D4B;&#x503C;&#x7ED9; as &#x5B50;&#x53E5;&#x4E2D;&#x7684; target(s) &#xFF0C;&#x5982;&#x679C;&#x6307;&#x5B9A;&#x4E86; as &#x5B50;&#x53E5;&#x7684;&#x8BDD;&#xFF0C;&#x4F1A;&#x5C06;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x5668;&#x7684; <em>_enter</em></em>() &#x65B9;&#x6CD5;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x8D4B;&#x503C;&#x7ED9; target(s)&#x3002;target(s) &#x53EF;&#x4EE5;&#x662F;&#x5355;&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x6216;&#x8005;&#x7531;&#x201C;()&#x201D;&#x62EC;&#x8D77;&#x6765;&#x7684;&#x5143;&#x7EC4;&#xFF08;&#x4E0D;&#x80FD;&#x662F;&#x4EC5;&#x4EC5;&#x7531;&#x201C;,&#x201D;&#x5206;&#x9694;&#x7684;&#x53D8;&#x91CF;&#x5217;&#x8868;&#xFF0C;&#x5FC5;&#x987B;&#x52A0;&#x201C;()&#x201D;&#xFF09;&#x3002;</p>
+<p>Python &#x5BF9;&#x4E00;&#x4E9B;&#x5185;&#x5EFA;&#x5BF9;&#x8C61;&#x8FDB;&#x884C;&#x6539;&#x8FDB;&#xFF0C;&#x52A0;&#x5165;&#x4E86;&#x5BF9;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x5668;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4E8E; with &#x8BED;&#x53E5;&#x4E2D;&#xFF0C;&#x6BD4;&#x5982;&#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x5173;&#x95ED;&#x6587;&#x4EF6;&#x3001;&#x7EBF;&#x7A0B;&#x9501;&#x7684;&#x81EA;&#x52A8;&#x83B7;&#x53D6;&#x548C;&#x91CA;&#x653E;&#x7B49;&#x3002;&#x5047;&#x8BBE;&#x8981;&#x5BF9;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#xFF0C;&#x4F7F;&#x7528; with &#x8BED;&#x53E5;&#x53EF;&#x4EE5;&#x6709;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
+<p>&#x793A;&#x4F8B;1&#xFF1A; &#x6587;&#x4EF6;&#x64CD;&#x4F5C;</p>
+<pre class="language-"><code class="lang-python"><span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">r&apos;somefileName&apos;</span><span class="token punctuation">)</span> <span class="token keyword">as</span> somefile<span class="token punctuation">:</span>
+    <span class="token keyword">for</span> line <span class="token keyword">in</span> somefile<span class="token punctuation">:</span>
+        <span class="token keyword">print</span> line
+        <span class="token comment"># ...more code</span>
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x4E86; with &#x8BED;&#x53E5;&#xFF0C;&#x4E0D;&#x7BA1;&#x5728;&#x5904;&#x7406;&#x6587;&#x4EF6;&#x8FC7;&#x7A0B;&#x4E2D;&#x662F;&#x5426;&#x53D1;&#x751F;&#x5F02;&#x5E38;&#xFF0C;&#x90FD;&#x80FD;&#x4FDD;&#x8BC1; with &#x8BED;&#x53E5;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x540E;&#x5DF2;&#x7ECF;&#x5173;&#x95ED;&#x4E86;&#x6253;&#x5F00;&#x7684;&#x6587;&#x4EF6;&#x53E5;&#x67C4;&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528;&#x4F20;&#x7EDF;&#x7684; try/finally &#x8303;&#x5F0F;&#xFF0C;&#x5219;&#x8981;&#x4F7F;&#x7528;&#x7C7B;&#x4F3C;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre class="language-"><code class="lang-python">somefile <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">r&apos;somefileName&apos;</span><span class="token punctuation">)</span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> line <span class="token keyword">in</span> somefile<span class="token punctuation">:</span>
+        <span class="token keyword">print</span> line
+        <span class="token comment"># ...more code</span>
+<span class="token keyword">finally</span><span class="token punctuation">:</span>
+    somefile<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>&#x6BD4;&#x8F83;&#x8D77;&#x6765;&#xFF0C;&#x4F7F;&#x7528; with &#x8BED;&#x53E5;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;&#x7F16;&#x7801;&#x91CF;&#x3002;&#x5DF2;&#x7ECF;&#x52A0;&#x5165;&#x5BF9;&#x4E0A;&#x4E0B;&#x6587;&#x7BA1;&#x7406;&#x534F;&#x8BAE;&#x652F;&#x6301;&#x7684;&#x8FD8;&#x6709;&#x6A21;&#x5757; threading&#x3001;decimal &#x7B49;</p>
 <h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;">&#x53C2;&#x8003;&#x8D44;&#x6599;</h2>
 <ul>
 <li><a href="https://docs.python.org/zh-cn/3/tutorial/index.html" target="_blank">&#x5B98;&#x65B9;&#x5165;&#x95E8;&#x6559;&#x7A0B;</a></li>
@@ -2392,7 +2481,7 @@ cities.copy()
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"python.base","level":"7.1","depth":1,"next":{"title":"python.django","level":"7.2","depth":1,"path":"notes/python/python.django.md","ref":"notes/python/python.django.md","articles":[]},"previous":{"title":"数据结构与算法学习","level":"6.7","depth":1,"path":"notes/数据结构与算法学习.md","ref":"notes/数据结构与算法学习.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/python/python.base.md","mtime":"2019-05-29T08:32:52.943Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-05T08:22:01.600Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"python.base","level":"7.1","depth":1,"next":{"title":"python.django","level":"7.2","depth":1,"path":"notes/python/python.django.md","ref":"notes/python/python.django.md","articles":[]},"previous":{"title":"数据结构与算法学习","level":"6.7","depth":1,"path":"notes/数据结构与算法学习.md","ref":"notes/数据结构与算法学习.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/python/python.base.md","mtime":"2019-06-14T13:28:34.890Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-21T09:36:18.620Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

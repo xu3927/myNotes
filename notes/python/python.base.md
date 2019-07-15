@@ -33,6 +33,73 @@ python 文件默认使用 utf-8编码
 
 以 # 开头，可以是一行，或一行结尾
 
+## 数据类型
+
+[文档 Built-in Types](https://docs.python.org/3/library/stdtypes.html#typesseq)
+
+### 字符串
+
+python3 中字符串默认使用 unicode 编码。
+
+python2 中定义unicode字符串前面加个 u，r 表示不转义
+
+```
+>>> u'Hello\u0020World !'
+u'Hello World !'
+>>> ur'Hello\\u0020World !'
+u'Hello\\\\u0020World !'
+```
+
+python3 中， 通过 encode 可以转为 bytes，输出时前面会带字母 b
+
+```
+>>> a_s = '哈哈 hello!'
+>>> a_b = a_s.encode('utf-8')
+>>> a_b
+b'\xe5\x93\x88\xe5\x93\x88 hello!'
+>>> type(a_b)
+<class 'bytes'>
+>>> a_s2 = a_b.decode('utf-8')
+>>> a_s2
+'哈哈 hello!'
+>>> type(a_s2)
+<class 'str'>
+```
+
+string 和 bytes 转化如下图
+
+![](images/chatu/2019-06-05-23-01-37.png)
+
+
+### Tuples 元组
+
+Tuples 是一种不可变的序列。
+
+创建方式有：
+
+- Using a pair of parentheses to denote the empty tuple: ()
+- Using a trailing comma for a singleton tuple: a, or (a,)
+- Separating items with commas: a, b, c or (a, b, c)
+- Using the tuple() built-in: tuple() or tuple(iterable)
+
+```
+>>> t1 = (1,)
+>>> t1
+(1,)
+# 一项的话后面必须带逗号
+>>> t2 = (2)
+>>> t2
+2
+>>> t3 = (4,5,6)
+>>> t3
+(4, 5, 6)
+>>> tuple('abded')
+('a', 'b', 'd', 'e', 'd')
+>>> tuple([3,4,6,7,8])
+(3, 4, 6, 7, 8)
+```
+
+
 ## 表达式
 
 
@@ -885,6 +952,70 @@ class ClassName：
 
 python 中的类没有私有属性，通常习惯以下划线开头的变量作为私有属性
 
+## 复合语句
+
+复合语句是包含其他语句的语句，会以某种方式影响或控制所包含其它语句的执行。 通常，复合语句会跨越多行。
+一个复合语句由多个子句组成，子句由句头和句体组成，
+句头是从开始到冒号结束，句体是由一个字句控制的一组语句。
+子句体可以是在子句头的冒号之后与其同处一行的一条或由分号分割的多条简单语句，或者也可以是在其之后缩进的一行或多行语句。
+
+
+### with 语句
+
+[官方文档](https://docs.python.org/zh-cn/3/reference/compound_stmts.html#the-with-statement)
+[浅谈 Python 的 with 语句](https://www.ibm.com/developerworks/cn/opensource/os-cn-pythonwith/)
+
+with 语句用于包装带有使用上下文管理器定义的方法的代码块的执行。
+
+```
+with_stmt ::=   "with" with_item (',' with_item)* ":" suite
+with_item ::=   expression ["as" target]
+```
+
+with 语句的执行过程
+
+1. 对上下文表达式求值以获得一个上下文管理器
+2. 载入上下文管理器的__exit__()以便后续使用
+3. 发起调用上下文管理器的__enter__()方法
+4. 如果 with 语句中包含一个目标，来自__enter__()的返回值将被赋值给它。注意：with 语句会保证如果 __enter__() 方法返回时未发生错误，则__exit__()将总是被调用。因此，如果在对目标列表赋值期间发生错误，则会将其视为在语句体内发生的错误。
+5. 执行预聚体。
+6. 发起调用上下文管理器的 __exit__() 方法。 如果语句体的退出是由异常导致的，则其类型、值和回溯信息将背作为参数传递给__exit__()。否则的话，将提供3个 None 参数。如果语句体的退出是由异常导致的，并且来自 __exit__() 方法的返回值为假，则该异常会被重新引发。如果返回值为真，则该异常会被一直，并会继续执行 with 语句之后的语句。 如果语句体由于异常以外的原因退出，则来自__exit__()的返回值会被忽略，并会在该类退出正常的发生位置急需执行。
+
+#### 基本语法和工作原理
+
+语法:
+
+```python
+with context_expression [as target(s)]:
+    with-body
+```
+
+这里 context_expression 要返回一个上下文管理器对象，该对象并不赋值给 as 子句中的 target(s) ，如果指定了 as 子句的话，会将上下文管理器的 __enter__() 方法的返回值赋值给 target(s)。target(s) 可以是单个变量，或者由“()”括起来的元组（不能是仅仅由“,”分隔的变量列表，必须加“()”）。
+
+Python 对一些内建对象进行改进，加入了对上下文管理器的支持，可以用于 with 语句中，比如可以自动关闭文件、线程锁的自动获取和释放等。假设要对一个文件进行操作，使用 with 语句可以有如下代码：
+
+示例1： 文件操作
+
+```python
+with open(r'somefileName') as somefile:
+    for line in somefile:
+        print line
+        # ...more code
+```
+
+这里使用了 with 语句，不管在处理文件过程中是否发生异常，都能保证 with 语句执行完毕后已经关闭了打开的文件句柄。如果使用传统的 try/finally 范式，则要使用类似如下代码：
+
+```python
+somefile = open(r'somefileName')
+try:
+    for line in somefile:
+        print line
+        # ...more code
+finally:
+    somefile.close()
+```
+
+比较起来，使用 with 语句可以减少编码量。已经加入对上下文管理协议支持的还有模块 threading、decimal 等
 
 
 ## 参考资料

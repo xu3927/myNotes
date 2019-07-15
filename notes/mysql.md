@@ -4,14 +4,6 @@
 
 [官网](https://dev.mysql.com/doc/refman/8.0/en/)
 
-## Mysql版本
-
-1. MySQL Community Server 社区版本，开源免费，但不提供官方技术支持。
-2. MySQL Enterprise Edition 企业版本，需付费，可以试用30天。
-3. MySQL Cluster 集群版，开源免费。可将几个MySQL Server封装成一个Server。
-4. MySQL Cluster CGE 高级集群版，需付费。
-5. MySQL Workbench（GUI TOOL）一款专为MySQL设计的ER/数据库建模工具。它是著名的数据库设计工具DBDesigner4的继任者。MySQL Workbench又分为两个版本，分别是社区版（MySQL Workbench OSS）、商用版（MySQL Workbench SE）
-
 ## 语法
 
 ```bash
@@ -23,9 +15,17 @@ root-shell> type a shell command as root here
 mysql> type a mysql statement here
 ```
 
-## 安装MySQL
+## 2 安装以及升级 MySQL
 
-community为社区版
+## 2.1.1 MySQL 版本
+
+1. MySQL Community Server 社区版本，开源免费，但不提供官方技术支持。
+2. MySQL Enterprise Edition 企业版本，需付费，可以试用30天。
+3. MySQL Cluster 集群版，开源免费。可将几个MySQL Server封装成一个Server。
+4. MySQL Cluster CGE 高级集群版，需付费。
+5. MySQL Workbench（GUI TOOL）一款专为MySQL设计的ER/数据库建模工具。它是著名的数据库设计工具DBDesigner4的继任者。MySQL Workbench又分为两个版本，分别是社区版（MySQL Workbench OSS）、商用版（MySQL Workbench SE）
+
+### community为社区版
 
 包含的几个软件:
 1. mysql server是mysql服务
@@ -34,10 +34,9 @@ community为社区版
 4. mysql workbench是mysql提供的可视化编辑工具
 5. mysql connectors是mysql连接不同语言的连接层,如nodejs, python等调用mysql的连接层
 
-
 下载安装Server https://dev.mysql.com/downloads/mysql/
 
-### mac 安装mysql
+### 2.4 mac 安装mysql
 
 1. 安装mysql
 
@@ -116,7 +115,221 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
 mysql> show databases;
 ```
 
-## server 相关
+## 2.10 Postinstallation Setup and Testing 安装之后需要做以下事情
+
+https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.html
+
+1. 初始化data directory, 同时创建mysql默认权限表(grant tables), 有些版本在安装时会自动完成这一步
+2. 启动server
+3. 在grant tables中设置root账户的密码
+4. 设置server的自动启动
+5. 设置时区
+
+### 初始化数据库文件夹
+
+进入basedir, 为mysql的安装路径,如 /usr/local/opt/mysql
+
+```bash
+shell>cd basedir
+```
+
+1. 创建文件夹, 该文件夹用来存放mysql执行时的数据库文件
+
+```bash
+shell> cd /usr/local/mysql
+# 创建数据文件夹, 该文件会被赋予全局变量 secure_file_priv  
+shell> mkdir mysql-files
+```
+
+2. 给该文件设置mysql的权限, 在mac上用户和用户组需要设置为 mysql:mysql
+
+mac上mysql执行使用的用户是_mysql 可以通过 dscl . list /Users 查看mac中的用户
+
+```bash
+shell> chown mysql:mysql mysql-files
+shell> chmod 750 mysql-files
+```
+
+3. 初始化该文件夹
+
+会创建包括mysql的database和grant tables
+
+```bash
+# --user指定用户, --basedir 指定mysql的basedir, --datadir指定data文件夹
+shell> bin/mysqld --initialize --user=mysql
+```
+
+### 安装的命令
+
+可以查看安装的命令
+
+```bash
+shell> ls /usr/local/mysql/bin
+```
+
+### 启动server
+
+如果系统安装了 mysqld_safe 则可以用下面的命令启动
+
+```bash
+shell> bin/mysqld_safe --user=mysql &
+```
+如果使用rpm包安装则使用systemd 命令
+
+如果安装了systemd则使用以下方式启动
+
+```bash
+shell> systemctl start mysqld
+```
+mysql server需要使用unprivileged (non-root) 账号启动, 因此可以使用--user来指定用户
+
+### server状态测试
+
+验证server是否启动并且可以建立连接
+
+```bash
+shell> bin/mysqladmin version
+shell> bin/mysqladmin variables
+```
+指定root账号连接
+
+```bash
+shell> bin/mysqladmin -u root -p version
+Enter password: (enter root password here)
+```
+
+测试是否可以关闭连接
+
+```bash
+shell> bin/mysqladmin -u root shutdown
+```
+
+是否可以重启server
+```bash
+shell> bin/mysqld_safe --user=mysql &
+```
+
+查看当前存在的数据库
+
+```bash
+shell> mysqlshow -u root
++--------------------+
+|     Databases      |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+```
+
+查看数据库中的表
+
+```bash
+# 列出数据库mysql中的表
+shell> mysqlshow -u root mysql
+```
+
+查看mysql变量
+```bash
+mysqladmin variables -u root -h host_name
+```
+
+### 错误情况
+
+当启动mysqld时如果提示Permission denied表示没有data directory的权限,此时可以通过修改该文件的权限来解决, 也可以用root模式启动Server, 这种方式会有一些风险.
+
+添加权限
+
+```bash
+shell> chown -R mysql /usr/local/mysql/data
+shell> chgrp -R mysql /usr/local/mysql/data
+```
+
+### 给mysql账户设置密码
+
+mysql在初始化的时候会初始化data文件夹, 其中会创建grant tables,这个表里定义了mysql的账号
+
+更改密码
+
+1. 有已知密码
+
+```bash
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+```
+
+2. 未设置密码
+
+```bash
+# 连接Server, 不使用密码
+shell> mysql -u root --skip-password
+# 设置一个密码
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+```
+
+
+### 连接server
+
+```
+# 连接数据库 host是数据库的服务, 省略则连接本机, -u 设置数据库用户名, -p 密码, 如果要带密码的话需要紧跟-p 如, -p123456, 可以加数据库名则直接选择该数据库.
+shell> mysql [-h host] -u root -p [database_name]
+Enter PASSWORD ****
+# 连接成功之后进入mysql模式, 可以开始输入sql语句
+mysql>
+```
+
+退出连接
+
+```bash
+mysql> quit
+```
+
+### 查看mysql 运行状态
+
+```bash
+sudo /usr/local/mysql/support-files/mysql.server status
+```
+
+### 启动mysql
+
+```bash
+sudo /usr/local/mysql/support-files/mysql.server start
+```
+
+### 重启MySQL
+
+```bash
+sudo /usr/local/mysql/support-files/mysql.server restart
+```
+
+### 停止MySQL
+
+```bash
+sudo /usr/local/mysql/support-files/mysql.server stop
+```
+
+### 修改密码
+
+```bash
+/usr/local/mysql/bin/mysqladmin -u root password <your-password>
+```
+
+### 查看端口
+
+```bash
+# 登录mysql
+mysql -u root -p
+mysql> SHOW GLOBAL VARIABLES LIKE 'PORT';
+```
+
+### 查看变量
+
+```bash
+mysql> SHOW [GLOBAL | SESSION] VARIABLES
+    [LIKE 'pattern' | WHERE expr]
+```
+
+## 4 MySQL Programs 包含的程序
 
 ### 4.2.7 my.cnf配置文件
 
@@ -346,219 +559,7 @@ datadir 是mysql的数据文件夹
 | pid-file|File in which server should write its process ID|File name |
 | service-startup-timeout|How long to wait for server startup|Integer |
 
-## 安装之后需要做以下事情
 
-https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.html
-
-1. 初始化data directory, 同时创建mysql默认权限表(grant tables), 有些版本在安装时会自动完成这一步
-2. 启动server
-3. 在grant tables中设置root账户的密码
-4. 设置server的自动启动
-5. 设置时区
-
-### 初始化数据库文件夹
-
-进入basedir, 为mysql的安装路径,如 /usr/local/opt/mysql
-
-```bash
-shell>cd basedir
-```
-
-1. 创建文件夹, 该文件夹用来存放mysql执行时的数据库文件
-
-```bash
-shell> cd /usr/local/mysql
-# 创建数据文件夹, 该文件会被赋予全局变量 secure_file_priv  
-shell> mkdir mysql-files
-```
-
-2. 给该文件设置mysql的权限, 在mac上用户和用户组需要设置为 mysql:mysql
-
-mac上mysql执行使用的用户是_mysql 可以通过 dscl . list /Users 查看mac中的用户
-
-```bash
-shell> chown mysql:mysql mysql-files
-shell> chmod 750 mysql-files
-```
-
-3. 初始化该文件夹
-
-会创建包括mysql的database和grant tables
-
-```bash
-# --user指定用户, --basedir 指定mysql的basedir, --datadir指定data文件夹
-shell> bin/mysqld --initialize --user=mysql
-```
-
-### 安装的命令
-
-可以查看安装的命令
-
-```bash
-shell> ls /usr/local/mysql/bin
-```
-
-### 启动server
-
-如果系统安装了 mysqld_safe 则可以用下面的命令启动
-
-```bash
-shell> bin/mysqld_safe --user=mysql &
-```
-如果使用rpm包安装则使用systemd 命令
-
-如果安装了systemd则使用以下方式启动
-
-```bash
-shell> systemctl start mysqld
-```
-mysql server需要使用unprivileged (non-root) 账号启动, 因此可以使用--user来指定用户
-
-### server状态测试
-
-验证server是否启动并且可以建立连接
-
-```bash
-shell> bin/mysqladmin version
-shell> bin/mysqladmin variables
-```
-指定root账号连接
-
-```bash
-shell> bin/mysqladmin -u root -p version
-Enter password: (enter root password here)
-```
-
-测试是否可以关闭连接
-
-```bash
-shell> bin/mysqladmin -u root shutdown
-```
-
-是否可以重启server
-```bash
-shell> bin/mysqld_safe --user=mysql &
-```
-
-查看当前存在的数据库
-
-```bash
-shell> mysqlshow -u root
-+--------------------+
-|     Databases      |
-+--------------------+
-| information_schema |
-| mysql              |
-| performance_schema |
-| sys                |
-+--------------------+
-```
-
-查看数据库中的表
-
-```bash
-# 列出数据库mysql中的表
-shell> mysqlshow -u root mysql
-```
-
-查看mysql变量
-```bash
-mysqladmin variables -u root -h host_name
-```
-
-### 错误情况
-
-当启动mysqld时如果提示Permission denied表示没有data directory的权限,此时可以通过修改该文件的权限来解决, 也可以用root模式启动Server, 这种方式会有一些风险.
-
-添加权限
-
-```bash
-shell> chown -R mysql /usr/local/mysql/data
-shell> chgrp -R mysql /usr/local/mysql/data
-```
-
-### 给mysql账户设置密码
-
-mysql在初始化的时候会初始化data文件夹, 其中会创建grant tables,这个表里定义了mysql的账号
-
-更改密码
-
-1. 有已知密码
-
-```bash
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
-```
-
-2. 未设置密码
-
-```bash
-# 连接Server, 不使用密码
-shell> mysql -u root --skip-password
-# 设置一个密码
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
-```
-
-
-### 连接server
-
-```
-# 连接数据库 host是数据库的服务, 省略则连接本机, -u 设置数据库用户名, -p 密码, 如果要带密码的话需要紧跟-p 如, -p123456, 可以加数据库名则直接选择该数据库.
-shell> mysql [-h host] -u root -p [database_name]
-Enter PASSWORD ****
-# 连接成功之后进入mysql模式, 可以开始输入sql语句
-mysql>
-```
-
-退出连接
-
-```bash
-mysql> quit
-```
-
-### 查看mysql 运行状态
-
-```bash
-sudo /usr/local/mysql/support-files/mysql.server status
-```
-
-### 启动mysql
-
-```bash
-sudo /usr/local/mysql/support-files/mysql.server start
-```
-
-### 重启MySQL
-
-```bash
-sudo /usr/local/mysql/support-files/mysql.server restart
-```
-
-### 停止MySQL
-
-```bash
-sudo /usr/local/mysql/support-files/mysql.server stop
-```
-
-### 修改密码
-
-```bash
-/usr/local/mysql/bin/mysqladmin -u root password <your-password>
-```
-
-### 查看端口
-
-```bash
-# 登录mysql
-mysql -u root -p
-mysql> SHOW GLOBAL VARIABLES LIKE 'PORT';
-```
-
-### 查看变量
-
-```bash
-mysql> SHOW [GLOBAL | SESSION] VARIABLES
-    [LIKE 'pattern' | WHERE expr]
-```
 
 ## 4.5 客户端
 
@@ -579,6 +580,7 @@ shell> mysqldump [options] db_name [tbl_name ...]
 shell> mysqldump [options] --databases db_name ...
 shell> mysqldump [options] --all-databases
 ```
+备份生成的是一个 sql 语句的文件。 到要导入的地方，执行这些语句，即完成了数据迁移的过程
 
 备份远程数据库
 
@@ -591,9 +593,12 @@ shell> mysqldump -h 127.0.0.1 -u root -p12345 db_name [tbl_name] > backup-file.s
 ```bash
 shell> mysql db_name < backup-file.sql
 ```
+或者登录数据库后
 
-
-
+```bash
+shell> mysql -u root -p;
+mysql> souce backup-file.sql;
+```
 
 在2个 server 之间备份
 
@@ -612,7 +617,6 @@ shell> mysqldump --databases db_name1 [db_name2 ...] > my_databases.sql
 ```bash
 shell> mysqldump --all-databases > all_databases.sql
 ```
-
 
 ## 基本操作
 
@@ -699,6 +703,7 @@ mysql模式中prompt符号的意义
 mysql中清空当前屏幕
 
 mysql> system clear;
+
 
 ### 创建以及选择数据库
 
@@ -845,7 +850,47 @@ mysql> describe shaolin;
 4 rows in set (0.01 sec)
 ```
 
+## 第5章 MySQL Server 管理
 
+## 5.1 MySQL Server
+
+### 5.1.10 Server SQL Modes
+
+[官方文档](https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by)
+
+server 可以在不同的模式下运行，通过配置 sql_mode 变量，可以为不同的客户端应用不同的模式。
+
+查看当前 sql_mode 配置
+
+```sql
+SELECT @@GLOBAL.sql_mode;
+SELECT @@SESSION.sql_mode;
+```
+
+设置 sql_mode
+
+```sql
+SET GLOBAL sql_mode = 'modes';
+SET SESSION sql_mode = 'modes';
+```
+
+也可以在配置文件 my.cnf 中修改 sql_mode=<modes> 的值
+
+#### only_full_group_by
+
+5.7以后的版本增加了该配置，使用这个就是使用和oracle一样的group 规则, select的列都要在group中,或者本身是聚合列(SUM,AVG,MAX,MIN) 才行，其实这个配置目前个人感觉和distinct差不多的，所以去掉就好
+
+不开启该模式时，下面语句可以用。
+
+```sql
+SELECT `id` AS `id`,`name` FROM `game` GROUP BY `name`
+```
+
+开启之后，需要使用聚合函数
+
+```sql
+SELECT ANY_VALUE(`id`) AS `id`,MAX(`id`),`name` FROM `game` GROUP BY `name`
+```
 
 ## 第13章 SQL语句
 
@@ -947,13 +992,21 @@ insert into members (user_name, email, password, telephone) values (
 );
 ```
 
-13.2.2 DELETE Syntax
+跨数据库复制插入
+
+```sql
+insert into db1.t1 
+select * from db2.t2 
+where id="123"
+```
+
+## 13.2.2 DELETE Syntax
 
 https://dev.mysql.com/doc/refman/8.0/en/delete.html
 
 单表删除
 
-```
+```sql
 DELETE [LOW_PRIORITY] [QUICK] [IGNORE] FROM tbl_name
     [PARTITION (partition_name [, partition_name] ...)]
     [WHERE where_condition]
@@ -961,7 +1014,7 @@ DELETE [LOW_PRIORITY] [QUICK] [IGNORE] FROM tbl_name
     [LIMIT row_count]
 ```
 
-```
+```sql
 delete from user_list 
 where 
 id=6;
@@ -982,8 +1035,46 @@ DELETE [LOW_PRIORITY] [QUICK] [IGNORE]
     
 ```
 
+删除重复的行
 
-### 13.2.10 SELECT Syntax
+```
+# 选出重复的行 使用 group by 统计数量
+mysql> select name, count(name) 
+    from shaolin 
+    group by name
+    having count(name) > 1;
+
++---------+-------------+
+| name    | count(name) |
++---------+-------------+
+| xuzhu   |           2 |
+| chenkun |           1 |
+| yuanjue |           1 |
++---------+-------------+
+3 rows in set (0.00 sec)
+
+# 删除 name 重复的项，并保留 id 比较小的
+
+mysql> delete t1 from shaolin t1
+    -> inner join
+    -> shaolin t2
+    -> where t1.name = t2.name and t1.id < t2.id;
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from shaolin;
++----+---------+-----------+------------+-----------+
+| id | name    | nick_name | birth      | skill     |
++----+---------+-----------+------------+-----------+
+|  5 | xuzhu   |           | 1989-01-02 | quan      |
+|  6 | chenkun |           | 1939-01-02 | shizigong |
+|  7 | yuanjue |           | 1969-02-02 | zhang     |
++----+---------+-----------+------------+-----------+
+3 rows in set (0.00 sec)
+
+```
+
+
+## 13.2.10 SELECT Syntax
 
 ```sql
 SELECT
@@ -1010,4 +1101,64 @@ SELECT
       | INTO var_name [, var_name]]
     [FOR {UPDATE | SHARE} [OF tbl_name [, tbl_name] ...] [NOWAIT | SKIP LOCKED] 
       | LOCK IN SHARE MODE]]
+```
+
+显示所有列
+```sql
+SELECT * FROM t;
+```
+
+显示指定列
+```sql
+SELECT id, user, type FROM t;
+```
+
+### 13.2.12 UPDATE Syntax
+
+Single-table syntax:
+
+```sql
+UPDATE [LOW_PRIORITY] [IGNORE] table_reference
+    SET assignment_list
+    [WHERE where_condition]
+    [ORDER BY ...]
+    [LIMIT row_count]
+
+value:
+    {expr | DEFAULT}
+
+assignment:
+    col_name = value
+
+assignment_list:
+    assignment [, assignment] ...
+```
+
+Multiple-table syntax:
+
+```sql
+UPDATE [LOW_PRIORITY] [IGNORE] table_references
+    SET assignment_list
+    [WHERE where_condition]
+```
+
+例子
+
+```sql
+UPDATE t1 SET col1 = col1 + 1;
+```
+
+```sql
+UPDATE t1 SET col1 = col1 + 1, col2 = col1;
+```
+
+更新时需要操作多个表
+
+```sql
+UPDATE items,month SET items.price=month.price
+WHERE items.id=month.id;
+```
+
+```sql
+update t  set data_time=DATE_FORMAT(data_time, '%Y-%m') where type = 'month';
 ```

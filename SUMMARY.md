@@ -8,7 +8,7 @@
 
 ## Front End
 
-* [JavaScript设计模式3](notes/JavaScript设计模式3.md)
+* [JavaScript设计模式3](notes/javascript设计模式3.md)
 * [ES6知识整理](notes/ES6知识整理.md)
 * [babel](notes/babel.md)
 * [dom事件监听](notes/dom事件监听.md)

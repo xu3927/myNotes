@@ -33,6 +33,12 @@ chmod u=rwx,g-wx,o-x a.txt  // 给haha.txt的属主权限设为rwx, 属组去掉
 -rwxr--r-x. 1 root root 0 1月  25 01:44 a.txt
 ```
 
+给当前目录及所有子目录设置权限
+
+```
+$ find /path/to/dir -type d -exec chmod 755 {} \;
+```
+
 #### 2. chown 更改属主 change owner
 
 ```bash

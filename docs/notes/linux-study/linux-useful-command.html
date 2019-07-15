@@ -77,7 +77,7 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="linux.命令学习.html" />
+    <link rel="next" href="linux.命令学习.md" />
     
     
     <link rel="prev" href="vim常用操作.html" />
@@ -178,9 +178,9 @@
         
         
     
-        <li class="chapter " data-level="2.1" data-path="../JavaScript设计模式3.html">
+        <li class="chapter " data-level="2.1" data-path="../javascript设计模式3.html">
             
-                <a href="../JavaScript设计模式3.html">
+                <a href="../javascript设计模式3.html">
             
                     
                         <b>2.1.</b>
@@ -1054,9 +1054,9 @@
         
         
     
-        <li class="chapter " data-level="5.1" data-path="linux.命令学习.html">
+        <li class="chapter " data-level="5.1" data-path="linux.命令学习.md">
             
-                <a href="linux.命令学习.html">
+                <span>
             
                     
                         <b>5.1.</b>
@@ -1174,9 +1174,9 @@
             
         </li>
     
-        <li class="chapter " data-level="5.9" data-path="linux.命令学习.html">
+        <li class="chapter " data-level="5.9" data-path="linux.命令学习.md">
             
-                <a href="linux.命令学习.html">
+                <span>
             
                     
                         <b>5.9.</b>
@@ -1756,7 +1756,8 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="linux-useful-command">Linux Useful Command</h1>
+                                <p>[TOC]</p>
+<h1 id="linux-useful-command">Linux Useful Command</h1>
 <h2 id="&#x526A;&#x8D34;&#x677F;">&#x526A;&#x8D34;&#x677F;</h2>
 <p>pbcopy  : &#x8868;&#x793A;&#x590D;&#x5236;&#x526A;&#x5207;&#x7248;
 pbpaste &#xFF1A;&#x8868;&#x793A;&#x7C98;&#x8D34;&#x526A;&#x5207;&#x7248;</p>
@@ -1854,6 +1855,266 @@ lsof +|-r [t] &#x63A7;&#x5236;lsof&#x4E0D;&#x65AD;&#x91CD;&#x590D;&#x6267;&#x884
 <p>-r&#xFF0C;lsof&#x4F1A;&#x6C38;&#x8FDC;&#x4E0D;&#x65AD;&#x7684;&#x6267;&#x884C;&#xFF0C;&#x76F4;&#x5230;&#x6536;&#x5230;&#x4E2D;&#x65AD;&#x4FE1;&#x53F7;</p>
 <p>+r&#xFF0C;lsof&#x4F1A;&#x4E00;&#x76F4;&#x6267;&#x884C;&#xFF0C;&#x76F4;&#x5230;&#x6CA1;&#x6709;&#x6863;&#x6848;&#x88AB;&#x663E;&#x793A;</p>
 <p>&#x4F8B;&#x5B50;&#xFF1A;&#x4E0D;&#x65AD;&#x67E5;&#x770B;&#x76EE;&#x524D;ftp&#x8FDE;&#x63A5;&#x7684;&#x60C5;&#x51B5;&#xFF1A;lsof -i tcp@192.168.1.111:ftp -r</p>
+<h2 id="rm-&#x5220;&#x9664;&#x6587;&#x4EF6;&#x547D;&#x4EE4;">rm &#x5220;&#x9664;&#x6587;&#x4EF6;&#x547D;&#x4EE4;</h2>
+<p>&#x5E38;&#x7528;&#x7684;&#x6709; &#xFF1A;</p>
+<p>rm -rf &#x76EE;&#x5F55;  //&#x5220;&#x9664;&#x76EE;&#x5F55;&#x5305;&#x62EC;&#x5B50;&#x76EE;&#x5F55;&#x53CA;&#x6587;&#x4EF6;</p>
+<p>rm&#x662F;&#x4E00;&#x4E2A;&#x5371;&#x9669;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x4F7F;&#x7528;&#x7684;&#x65F6;&#x5019;&#x8981;&#x7279;&#x522B;&#x5F53;&#x5FC3;&#xFF0C;&#x5C24;&#x5176;&#x5BF9;&#x4E8E;&#x65B0;&#x624B;&#xFF0C;&#x5426;&#x5219;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;&#x5C31;&#x4F1A;&#x6BC1;&#x5728;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#xFF08;&#x6BD4;&#x5982;&#x5728;/&#xFF08;&#x6839;&#x76EE;&#x5F55;&#xFF09;&#x4E0B;&#x6267;&#x884C;rm * -rf&#xFF09;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x6267;&#x884C;rm&#x4E4B;&#x524D;&#x6700;&#x597D;&#x5148;&#x786E;&#x8BA4;&#x4E00;&#x4E0B;&#x5728;&#x54EA;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x5230;&#x5E95;&#x8981;&#x5220;&#x9664;&#x4EC0;&#x4E48;&#x4E1C;&#x897F;&#xFF0C;&#x64CD;&#x4F5C;&#x65F6;&#x4FDD;&#x6301;&#x9AD8;&#x5EA6;&#x6E05;&#x9192;&#x7684;&#x5934;&#x8111;&#x3002;</p>
+<blockquote>
+<p>1&#xFF0E;&#x547D;&#x4EE4;&#x683C;&#x5F0F;&#xFF1A;</p>
+</blockquote>
+<p>rm [&#x9009;&#x9879;] &#x6587;&#x4EF6;&#x2026; </p>
+<blockquote>
+<p>2&#xFF0E;&#x547D;&#x4EE4;&#x529F;&#x80FD;&#xFF1A;</p>
+</blockquote>
+<p>&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4F7F;&#x7528;- r&#x9009;&#x9879;&#xFF0C;&#x5219;rm&#x4E0D;&#x4F1A;&#x5220;&#x9664;&#x76EE;&#x5F55;&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528; rm &#x6765;&#x5220;&#x9664;&#x6587;&#x4EF6;&#xFF0C;&#x901A;&#x5E38;&#x4ECD;&#x53EF;&#x4EE5;&#x5C06;&#x8BE5;&#x6587;&#x4EF6;&#x6062;&#x590D;&#x539F;&#x72B6;&#x3002;</p>
+<blockquote>
+<p>3&#xFF0E;&#x547D;&#x4EE4;&#x53C2;&#x6570;&#xFF1A;
+    -f, --force    &#x5FFD;&#x7565;&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x4ECE;&#x4E0D;&#x7ED9;&#x51FA;&#x63D0;&#x793A;&#x3002;
+    -i, --interactive &#x8FDB;&#x884C;&#x4EA4;&#x4E92;&#x5F0F;&#x5220;&#x9664;
+    -r, -R, --recursive   &#x6307;&#x793A;rm&#x5C06;&#x53C2;&#x6570;&#x4E2D;&#x5217;&#x51FA;&#x7684;&#x5168;&#x90E8;&#x76EE;&#x5F55;&#x548C;&#x5B50;&#x76EE;&#x5F55;&#x5747;&#x9012;&#x5F52;&#x5730;&#x5220;&#x9664;&#x3002;
+    -v, --verbose    &#x8BE6;&#x7EC6;&#x663E;&#x793A;&#x8FDB;&#x884C;&#x7684;&#x6B65;&#x9AA4;
+          --help     &#x663E;&#x793A;&#x6B64;&#x5E2E;&#x52A9;&#x4FE1;&#x606F;&#x5E76;&#x9000;&#x51FA;
+          --version  &#x8F93;&#x51FA;&#x7248;&#x672C;&#x4FE1;&#x606F;&#x5E76;&#x9000;&#x51FA;</p>
+<p>4&#xFF0E;&#x547D;&#x4EE4;&#x5B9E;&#x4F8B;&#xFF1A;
+&#x5B9E;&#x4F8B;&#x4E00;&#xFF1A;&#x5220;&#x9664;&#x6587;&#x4EF6;file&#xFF0C;&#x7CFB;&#x7EDF;&#x4F1A;&#x5148;&#x8BE2;&#x95EE;&#x662F;&#x5426;&#x5220;&#x9664;&#x3002; 
+&#x547D;&#x4EE4;&#xFF1A;
+rm &#x6587;&#x4EF6;&#x540D;
+&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre class="language-"><code>[root@localhost test1]# ll
+&#x603B;&#x8BA1; 4
+-rw-r--r-- 1 root root 56 10-26 14:31 log.log
+root@localhost test1]# rm log.log 
+rm&#xFF1A;&#x662F;&#x5426;&#x5220;&#x9664; &#x4E00;&#x822C;&#x6587;&#x4EF6; &#x201C;log.log&#x201D;? y
+root@localhost test1]# ll
+&#x603B;&#x8BA1; 0[root@localhost test1]#
+</code></pre><p>&#x8BF4;&#x660E;&#xFF1A;
+&#x8F93;&#x5165;rm log.log&#x547D;&#x4EE4;&#x540E;&#xFF0C;&#x7CFB;&#x7EDF;&#x4F1A;&#x8BE2;&#x95EE;&#x662F;&#x5426;&#x5220;&#x9664;&#xFF0C;&#x8F93;&#x5165;y&#x540E;&#x5C31;&#x4F1A;&#x5220;&#x9664;&#x6587;&#x4EF6;&#xFF0C;&#x4E0D;&#x60F3;&#x5220;&#x9664;&#x5219;&#x6570;&#x636E;n&#x3002;
+&#x5B9E;&#x4F8B;&#x4E8C;&#xFF1A;&#x5F3A;&#x884C;&#x5220;&#x9664;file&#xFF0C;&#x7CFB;&#x7EDF;&#x4E0D;&#x518D;&#x63D0;&#x793A;&#x3002; 
+&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre class="language-"><code>rm -f log1.log
+</code></pre><p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre class="language-"><code>[root@localhost test1]# ll
+&#x603B;&#x8BA1; 4
+-rw-r--r-- 1 root root 23 10-26 14:40 log1.log
+[root@localhost test1]# rm -f log1.log 
+[root@localhost test1]# ll
+&#x603B;&#x8BA1; 0[root@localhost test1]#
+</code></pre></blockquote>
+<p>&#x5B9E;&#x4F8B;&#x4E09;&#xFF1A;&#x5220;&#x9664;&#x4EFB;&#x4F55;.log&#x6587;&#x4EF6;&#xFF1B;&#x5220;&#x9664;&#x524D;&#x9010;&#x4E00;&#x8BE2;&#x95EE;&#x786E;&#x8BA4; </p>
+<p>&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre class="language-"><code>rm -i *.log
+</code></pre><p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre class="language-"><code>[root@localhost test1]# ll
+&#x603B;&#x8BA1; 8
+-rw-r--r-- 1 root root 11 10-26 14:45 log1.log
+-rw-r--r-- 1 root root 24 10-26 14:45 log2.log
+[root@localhost test1]# rm -i *.log
+rm&#xFF1A;&#x662F;&#x5426;&#x5220;&#x9664; &#x4E00;&#x822C;&#x6587;&#x4EF6; &#x201C;log1.log&#x201D;? y
+rm&#xFF1A;&#x662F;&#x5426;&#x5220;&#x9664; &#x4E00;&#x822C;&#x6587;&#x4EF6; &#x201C;log2.log&#x201D;? y
+[root@localhost test1]# ll
+&#x603B;&#x8BA1; 0[root@localhost test1]#
+</code></pre><p>&#x5B9E;&#x4F8B;&#x56DB;&#xFF1A;&#x5C06; test1&#x5B50;&#x76EE;&#x5F55;&#x53CA;&#x5B50;&#x76EE;&#x5F55;&#x4E2D;&#x6240;&#x6709;&#x6863;&#x6848;&#x5220;&#x9664;</p>
+<p>&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre class="language-"><code>rm -r test1
+</code></pre><p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre class="language-"><code>[root@localhost test]# ll
+&#x603B;&#x8BA1; 24drwxr-xr-x 7 root root 4096 10-25 18:07 scf
+drwxr-xr-x 2 root root 4096 10-26 14:51 test1
+drwxr-xr-x 3 root root 4096 10-25 17:44 test2
+drwxrwxrwx 2 root root 4096 10-25 17:46 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+[root@localhost test]# rm -r test1
+rm&#xFF1A;&#x662F;&#x5426;&#x8FDB;&#x5165;&#x76EE;&#x5F55; &#x201C;test1&#x201D;? y
+rm&#xFF1A;&#x662F;&#x5426;&#x5220;&#x9664; &#x4E00;&#x822C;&#x6587;&#x4EF6; &#x201C;test1/log3.log&#x201D;? y
+rm&#xFF1A;&#x662F;&#x5426;&#x5220;&#x9664; &#x76EE;&#x5F55; &#x201C;test1&#x201D;? y
+[root@localhost test]# ll
+&#x603B;&#x8BA1; 20drwxr-xr-x 7 root root 4096 10-25 18:07 scf
+drwxr-xr-x 3 root root 4096 10-25 17:44 test2
+drwxrwxrwx 2 root root 4096 10-25 17:46 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+[root@localhost test]#
+</code></pre><p>&#x5B9E;&#x4F8B;&#x4E94;&#xFF1A;rm -rf test2&#x547D;&#x4EE4;&#x4F1A;&#x5C06; test2 &#x5B50;&#x76EE;&#x5F55;&#x53CA;&#x5B50;&#x76EE;&#x5F55;&#x4E2D;&#x6240;&#x6709;&#x6863;&#x6848;&#x5220;&#x9664;,&#x5E76;&#x4E14;&#x4E0D;&#x7528;&#x4E00;&#x4E00;&#x786E;&#x8BA4;</p>
+<p>&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre class="language-"><code>rm -rf  test2
+</code></pre><p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre class="language-"><code>[root@localhost test]# rm -rf test2
+[root@localhost test]# ll
+&#x603B;&#x8BA1; 16drwxr-xr-x 7 root root 4096 10-25 18:07 scf
+drwxrwxrwx 2 root root 4096 10-25 17:46 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+[root@localhost test]#
+</code></pre><p>&#x5B9E;&#x4F8B;&#x516D;&#xFF1A;&#x5220;&#x9664;&#x4EE5; -f &#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;</p>
+<p>&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre class="language-"><code>rm -- -f
+</code></pre><p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre class="language-"><code>[root@localhost test]# touch -- -f
+[root@localhost test]# ls -- -f
+-f[root@localhost test]# rm -- -f
+rm&#xFF1A;&#x662F;&#x5426;&#x5220;&#x9664; &#x4E00;&#x822C;&#x7A7A;&#x6587;&#x4EF6; &#x201C;-f&#x201D;? y
+[root@localhost test]# ls -- -f
+ls: -f: &#x6CA1;&#x6709;&#x90A3;&#x4E2A;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;
+[root@localhost test]#
+&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x64CD;&#x4F5C;&#x6B65;&#x9AA4;:
+[root@localhost test]# touch ./-f
+[root@localhost test]# ls ./-f
+./-f[root@localhost test]# rm ./-f
+rm&#xFF1A;&#x662F;&#x5426;&#x5220;&#x9664; &#x4E00;&#x822C;&#x7A7A;&#x6587;&#x4EF6; &#x201C;./-f&#x201D;? y
+[root@localhost test]#
+</code></pre><p>&#x5B9E;&#x4F8B;&#x4E03;&#xFF1A;&#x81EA;&#x5B9A;&#x4E49;&#x56DE;&#x6536;&#x7AD9;&#x529F;&#x80FD;</p>
+<p>&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre class="language-"><code>myrm(){ D=/tmp/$(date +%Y%m%d%H%M%S); mkdir -p $D; mv &quot;$@&quot; $D &amp;&amp; echo &quot;moved to $D ok&quot;; }
+</code></pre><p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre class="language-"><code>[root@localhost test]# myrm(){ D=/tmp/$(date +%Y%m%d%H%M%S); mkdir -p $D;     mv &quot;$@&quot; $D &amp;&amp; echo &quot;moved to $D ok&quot;; }
+[root@localhost test]# alias rm=&apos;myrm&apos;
+[root@localhost test]# touch 1.log 2.log 3.log
+[root@localhost test]# ll
+&#x603B;&#x8BA1; 16
+-rw-r--r-- 1 root root    0 10-26 15:08 1.log
+-rw-r--r-- 1 root root    0 10-26 15:08 2.log
+-rw-r--r-- 1 root root    0 10-26 15:08 3.log
+drwxr-xr-x 7 root root 4096 10-25 18:07 scf
+drwxrwxrwx 2 root root 4096 10-25 17:46 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+[root@localhost test]# rm [123].log
+moved to /tmp/20121026150901 ok
+[root@localhost test]# ll
+&#x603B;&#x8BA1; 16drwxr-xr-x 7 root root 4096 10-25 18:07 scf
+drwxrwxrwx 2 root root 4096 10-25 17:46 test3
+drwxr-xr-x 2 root root 4096 10-25 17:56 test4
+drwxr-xr-x 3 root root 4096 10-25 17:56 test5
+[root@localhost test]# ls /tmp/20121026150901/
+1.log  2.log  3.log
+[root@localhost test]#
+</code></pre><p>&#x8BF4;&#x660E;&#xFF1A;
+&#x4E0A;&#x9762;&#x7684;&#x64CD;&#x4F5C;&#x8FC7;&#x7A0B;&#x6A21;&#x62DF;&#x4E86;&#x56DE;&#x6536;&#x7AD9;&#x7684;&#x6548;&#x679C;&#xFF0C;&#x5373;&#x5220;&#x9664;&#x6587;&#x4EF6;&#x7684;&#x65F6;&#x5019;&#x53EA;&#x662F;&#x628A;&#x6587;&#x4EF6;&#x653E;&#x5230;&#x4E00;&#x4E2A;&#x4E34;&#x65F6;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x8FD9;&#x6837;&#x5728;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x8FD8;&#x53EF;&#x4EE5;&#x6062;&#x590D;&#x8FC7;&#x6765;&#x3002;</p>
+<h2 id="tar-&#x538B;&#x7F29;">tar &#x538B;&#x7F29;</h2>
+<p>Tar &#x662F; tape archive &#x78C1;&#x5E26;&#x5B58;&#x6863;</p>
+<p>&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x662F; Tarball &#x6216; Tarfile</p>
+<p>&#x5E38;&#x7528;&#x6709;3&#x79CD;&#x6A21;&#x5F0F;</p>
+<ul>
+<li>&#x521B;&#x5EFA;&#x538B;&#x7F29; -c </li>
+<li>&#x89E3;&#x538B; -x</li>
+<li>&#x67E5;&#x770B;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x5185;&#x5BB9; -t</li>
+</ul>
+<h3 id="&#x5E38;&#x7528;&#x53C2;&#x6570;">&#x5E38;&#x7528;&#x53C2;&#x6570;</h3>
+<pre class="language-"><code>-c: &#x521B;&#x5EFA;&#x538B;&#x7F29;&#x6587;&#x4EF6;
+-x&#xFF1A;&#x89E3;&#x538B;
+-t&#xFF1A;&#x67E5;&#x770B;&#x5185;&#x5BB9;
+-r&#xFF1A;&#x5411;&#x538B;&#x7F29;&#x5F52;&#x6863;&#x6587;&#x4EF6;&#x672B;&#x5C3E;&#x8FFD;&#x52A0;&#x6587;&#x4EF6;
+-u&#xFF1A;&#x66F4;&#x65B0;&#x539F;&#x538B;&#x7F29;&#x5305;&#x4E2D;&#x7684;&#x6587;&#x4EF6;
+</code></pre><p>&#x8FD9;&#x4E94;&#x4E2A;&#x662F;&#x72EC;&#x7ACB;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x538B;&#x7F29;&#x89E3;&#x538B;&#x90FD;&#x8981;&#x7528;&#x5230;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#xFF0C;&#x53EF;&#x4EE5;&#x548C;&#x522B;&#x7684;&#x547D;&#x4EE4;&#x8FDE;&#x7528;&#x4F46;&#x53EA;&#x80FD;&#x7528;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x3002;&#x4E0B;&#x9762;&#x7684;&#x53C2;&#x6570;&#x662F;&#x6839;&#x636E;&#x9700;&#x8981;&#x5728;&#x538B;&#x7F29;&#x6216;&#x89E3;&#x538B;&#x6863;&#x6848;&#x65F6;&#x53EF;&#x9009;&#x7684;&#x3002;</p>
+<pre class="language-"><code>-z&#xFF1A;&#x6709;gzip&#x5C5E;&#x6027;&#x7684;
+-j&#xFF1A;&#x6709;bz2&#x5C5E;&#x6027;&#x7684;
+-Z&#xFF1A;&#x6709;compress&#x5C5E;&#x6027;&#x7684;
+-v&#xFF1A;&#x663E;&#x793A;&#x6240;&#x6709;&#x8FC7;&#x7A0B;
+-O&#xFF1A;&#x5C06;&#x6587;&#x4EF6;&#x89E3;&#x5F00;&#x5230;&#x6807;&#x51C6;&#x8F93;&#x51FA;
+</code></pre><p>&#x4E0B;&#x9762;&#x7684;&#x53C2;&#x6570;-f&#x662F;&#x5FC5;&#x987B;&#x7684;</p>
+<pre class="language-"><code>-f: &#x4F7F;&#x7528;&#x6863;&#x6848;&#x540D;&#x5B57;&#xFF0C;&#x5207;&#x8BB0;&#xFF0C;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x540E;&#x9762;&#x53EA;&#x80FD;&#x63A5;&#x6863;&#x6848;&#x540D;&#x3002;
+``
+### &#x793A;&#x4F8B;
+
+&#x8FD9;&#x6761;&#x547D;&#x4EE4;&#x662F;&#x5C06;&#x6240;&#x6709;.jpg&#x7684;&#x6587;&#x4EF6;&#x6253;&#x6210;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;all.tar&#x7684;&#x5305;&#x3002;-c&#x662F;&#x8868;&#x793A;&#x4EA7;&#x751F;&#x65B0;&#x7684;&#x5305;&#xFF0C;-f&#x6307;&#x5B9A;&#x5305;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x3002;
+tar -cf all.tar *.jpg 
+
+&#x8FD9;&#x6761;&#x547D;&#x4EE4;&#x662F;&#x5C06;&#x6240;&#x6709;.gif&#x7684;&#x6587;&#x4EF6;&#x589E;&#x52A0;&#x5230;all.tar&#x7684;&#x5305;&#x91CC;&#x9762;&#x53BB;&#x3002;-r&#x662F;&#x8868;&#x793A;&#x589E;&#x52A0;&#x6587;&#x4EF6;&#x7684;&#x610F;&#x601D;&#x3002;
+tar -rf all.tar *.gif 
+
+&#x8FD9;&#x6761;&#x547D;&#x4EE4;&#x662F;&#x66F4;&#x65B0;&#x539F;&#x6765;tar&#x5305;all.tar&#x4E2D;logo.gif&#x6587;&#x4EF6;&#xFF0C;-u&#x662F;&#x8868;&#x793A;&#x66F4;&#x65B0;&#x6587;&#x4EF6;&#x7684;&#x610F;&#x601D;&#x3002;
+tar -uf all.tar logo.gif 
+
+&#x8FD9;&#x6761;&#x547D;&#x4EE4;&#x662F;&#x5217;&#x51FA;all.tar&#x5305;&#x4E2D;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF0C;-t&#x662F;&#x5217;&#x51FA;&#x6587;&#x4EF6;&#x7684;&#x610F;&#x601D;
+tar -tf all.tar 
+
+&#x8FD9;&#x6761;&#x547D;&#x4EE4;&#x662F;&#x89E3;&#x51FA;all.tar&#x5305;&#x4E2D;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF0C;-x&#x662F;&#x89E3;&#x5F00;&#x7684;&#x610F;&#x601D;
+tar -xf all.tar 
+
+### &#x538B;&#x7F29;
+</code></pre><p>tar -cvf jpg.tar *.jpg //&#x5C06;&#x76EE;&#x5F55;&#x91CC;&#x6240;&#x6709;jpg&#x6587;&#x4EF6;&#x6253;&#x5305;&#x6210;jpg.tar </p>
+<p>tar -czf jpg.tar.gz *.jpg   //&#x5C06;&#x76EE;&#x5F55;&#x91CC;&#x6240;&#x6709;jpg&#x6587;&#x4EF6;&#x6253;&#x5305;&#x6210;jpg.tar&#x540E;&#xFF0C;&#x5E76;&#x4E14;&#x5C06;&#x5176;&#x7528;gzip&#x538B;&#x7F29;&#xFF0C;&#x751F;&#x6210;&#x4E00;&#x4E2A;gzip&#x538B;&#x7F29;&#x8FC7;&#x7684;&#x5305;&#xFF0C;&#x547D;&#x540D;&#x4E3A;jpg.tar.gz</p>
+<p>tar -cjf jpg.tar.bz2 *.jpg //&#x5C06;&#x76EE;&#x5F55;&#x91CC;&#x6240;&#x6709;jpg&#x6587;&#x4EF6;&#x6253;&#x5305;&#x6210;jpg.tar&#x540E;&#xFF0C;&#x5E76;&#x4E14;&#x5C06;&#x5176;&#x7528;bzip2&#x538B;&#x7F29;&#xFF0C;&#x751F;&#x6210;&#x4E00;&#x4E2A;bzip2&#x538B;&#x7F29;&#x8FC7;&#x7684;&#x5305;&#xFF0C;&#x547D;&#x540D;&#x4E3A;jpg.tar.bz2</p>
+<p>tar -cZf jpg.tar.Z *.jpg   //&#x5C06;&#x76EE;&#x5F55;&#x91CC;&#x6240;&#x6709;jpg&#x6587;&#x4EF6;&#x6253;&#x5305;&#x6210;jpg.tar&#x540E;&#xFF0C;&#x5E76;&#x4E14;&#x5C06;&#x5176;&#x7528;compress&#x538B;&#x7F29;&#xFF0C;&#x751F;&#x6210;&#x4E00;&#x4E2A;umcompress&#x538B;&#x7F29;&#x8FC7;&#x7684;&#x5305;&#xFF0C;&#x547D;&#x540D;&#x4E3A;jpg.tar.Z</p>
+<p>rar a jpg.rar *.jpg //rar&#x683C;&#x5F0F;&#x7684;&#x538B;&#x7F29;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x4E0B;&#x8F7D;rar for linux</p>
+<p>zip jpg.zip *.jpg //zip&#x683C;&#x5F0F;&#x7684;&#x538B;&#x7F29;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x4E0B;&#x8F7D;zip for linux</p>
+<pre class="language-"><code>
+### &#x89E3;&#x538B;
+</code></pre><p>tar -xvf file.tar //&#x89E3;&#x538B; tar&#x5305;</p>
+<p>tar -xzvf file.tar.gz //&#x89E3;&#x538B;tar.gz</p>
+<p>tar -xjvf file.tar.bz2   //&#x89E3;&#x538B; tar.bz2</p>
+<p>tar -xZvf file.tar.Z   //&#x89E3;&#x538B;tar.Z</p>
+<p>unrar e file.rar //&#x89E3;&#x538B;rar</p>
+<p>unzip file.zip //&#x89E3;&#x538B;zip</p>
+<pre class="language-"><code>
+### &#x603B;&#x7ED3;
+
+1&#x3001;*.tar &#x7528; tar -xvf &#x89E3;&#x538B;
+
+2&#x3001;*.gz &#x7528; gzip -d&#x6216;&#x8005;gunzip &#x89E3;&#x538B;
+
+3&#x3001;*.tar.gz&#x548C;*.tgz &#x7528; tar -xzf &#x89E3;&#x538B;
+
+4&#x3001;*.bz2 &#x7528; bzip2 -d&#x6216;&#x8005;&#x7528;bunzip2 &#x89E3;&#x538B;
+
+5&#x3001;*.tar.bz2&#x7528;tar -xjf &#x89E3;&#x538B;
+
+6&#x3001;*.Z &#x7528; uncompress &#x89E3;&#x538B;
+
+7&#x3001;*.tar.Z &#x7528;tar -xZf &#x89E3;&#x538B;
+
+8&#x3001;*.rar &#x7528; unrar e&#x89E3;&#x538B;
+
+9&#x3001;*.zip &#x7528; unzip &#x89E3;&#x538B;
+
+## zip unzip
+
+&#x538B;&#x7F29;
+</code></pre><p>zip pkg.zip ./*.png</p>
+<pre class="language-"><code>
+&#x67E5;&#x770B;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x5185;&#x5BB9;
+</code></pre><p>unzip -v pkg.zip</p>
+<pre class="language-"><code>
+&#x89E3;&#x538B;
+</code></pre><p>unzip pkg.zip -d /path/to/dir</p>
+<pre class="language-"><code>
+## nohup &#x540E;&#x53F0;&#x8FD0;&#x884C;
+
+&#x53EF;&#x4EE5;&#x8BA9;&#x547D;&#x4EE4;&#x4E0D;&#x6302;&#x65AD;&#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C;
+
+&#x5B98;&#x65B9;&#x6587;&#x6863; https://www.computerhope.com/unix/unohup.htm
+
+Syntax
+</code></pre><p>nohup command [command-argument ...]</p>
+<pre class="language-"><code>
+- &#x5982;&#x679C; standard input &#x662F;&#x4E00;&#x4E2A; terminal&#xFF0C; nohup &#x4F1A;&#x91CD;&#x5B9A;&#x5411;&#x5230; /dev/null &#x56E0;&#x6B64;&#x9002;&#x7528; nohup &#x8FD0;&#x884C;&#x540E;&#xFF0C;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x5C31;&#x4E0D;&#x53EF;&#x7528;&#x4E86;&#x3002;
+- &#x5982;&#x679C;&#x662F;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x662F; terminal&#xFF0C;&#x8F93;&#x51FA;&#x4F1A;&#x91CD;&#x5B9A;&#x5411;&#x5230; nohup.out&#xFF0C;&#x6216;&#x8005; $HOME/nohup.out
+- &#x5982;&#x679C; standard error &#x662F; terminal&#xFF0C;&#x4F1A;&#x91CD;&#x5B9A;&#x5411;&#x5230; &#x6807;&#x51C6;&#x8F93;&#x51FA;
+
+&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;&#x5230;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#xFF0C;&#x5219;
+</code></pre><p>nohup <command> &gt; file</p>
+<pre class="language-"><code>
+&#x4F8B;&#x5B50;
+
+&#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C; python &#x811A;&#x672C;&#xFF0C; stdout, stderr &#x4F1A;&#x88AB;&#x91CD;&#x5B9A;&#x5411;&#x5230; ./nohup.out &#x6587;&#x4EF6;
+</code></pre><p>nohup python main.py</p>
+<pre class="language-"><code>
+&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x5728;&#x6267;&#x884C;&#x547D;&#x4EE4;&#x540E;&#x4F1A;&#x8FD4;&#x56DE;&#x5230; shell &#x4E2D;. &#x7ED3;&#x5C3E;&#x7684;&#x7B26;&#x53F7; &quot;&amp;&quot; &#x6307;&#x793A; bash &#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#x547D;&#x4EE4;&#x3002; &#x53EF;&#x4EE5;&#x901A;&#x8FC7; fg &#x547D;&#x4EE4;&#x628A;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#x7684;&#x7A0B;&#x5E8F;&#x62C9;&#x56DE;&#x5230;&#x524D;&#x53F0;&#x3002;
+</code></pre><h1 id="&#x8FD4;&#x56DE;-jobid-&#x548C;-pid">&#x8FD4;&#x56DE; jobid &#x548C; PID</h1>
+<p>nohup python main.py &amp;</p>
+<pre class="language-"><code>
+&#x53EF;&#x4EE5;&#x901A;&#x8FC7; PID &#x6765;&#x7ED3;&#x675F;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#x7684;&#x7A0B;&#x5E8F;
+</code></pre><p>kill -9 <pid></pid></p>
+<pre class="language-"><code>
+## fg &#x8BA9;&#x540E;&#x53F0;&#x7684;&#x7A0B;&#x5E8F;&#x5230;&#x524D;&#x53F0;&#x8FD0;&#x884C;
+
+Syntax
+</code></pre><p>fg <job_id></job_id></p>
+<pre class="language-"><code>
+&#x4F8B;&#x5B50;
+</code></pre><p>fg 1
+```</p>
 
                                 
                                 </section>
@@ -1886,7 +2147,7 @@ lsof +|-r [t] &#x63A7;&#x5236;lsof&#x4E0D;&#x65AD;&#x91CD;&#x590D;&#x6267;&#x884
                 </a>
                 
                 
-                <a href="linux.命令学习.html" class="navigation navigation-next " aria-label="Next page: linux.命令学习">
+                <a href="linux.命令学习.md" class="navigation navigation-next " aria-label="Next page: linux.命令学习">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1897,7 +2158,7 @@ lsof +|-r [t] &#x63A7;&#x5236;lsof&#x4E0D;&#x65AD;&#x91CD;&#x590D;&#x6267;&#x884
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"linux-useful-command.md  ","level":"5.8","depth":1,"next":{"title":"linux.命令学习","level":"5.9","depth":1,"path":"notes/linux-study/linux.命令学习.md","ref":"notes/linux-study/linux.命令学习.md","articles":[]},"previous":{"title":"vim常用操作","level":"5.7","depth":1,"path":"notes/linux-study/vim常用操作.md","ref":"notes/linux-study/vim常用操作.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/linux-study/linux-useful-command.md","mtime":"2019-05-25T05:16:29.904Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-05T08:22:01.600Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"linux-useful-command.md  ","level":"5.8","depth":1,"next":{"title":"linux.命令学习","level":"5.9","depth":1,"path":"notes/linux-study/linux.命令学习.md","ref":"notes/linux-study/linux.命令学习.md","articles":[]},"previous":{"title":"vim常用操作","level":"5.7","depth":1,"path":"notes/linux-study/vim常用操作.md","ref":"notes/linux-study/vim常用操作.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/linux-study/linux-useful-command.md","mtime":"2019-06-20T12:04:31.226Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-21T09:36:18.620Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
