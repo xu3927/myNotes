@@ -15,7 +15,7 @@ mac 上可以安装 python3, 与系统自带的 python2.7 可以共存
 
 ## python 启用
 
-1. 交互式： 执行 python，进入 python 环境，然后执行相应指令
+1. 交互式： 执行 python，进入 python 环境，然后执行相应指令。交互式设置参数 python - arg1 arg2
 2. python -c command [arg] ...：直接执行某个指令。
 3. 把 python 模块作为脚本使用。 python -m module [arg] ... 会执行模块的源文件。如果脚本运行完需要进入交互模式，则增加 -i 参数
 
@@ -404,6 +404,16 @@ $ deactivate
 $ rmvirtualenv my_project_venv
 ```
 Tab补全在virtualenvwrapper中是可用的哦～
+
+add2virtualenv 为当前环境添加环境变量 
+
+```
+# 添加环境变量
+$ add2virtualenv a/b/c 
+==> Warning: Converting "a/b/c" to "/Users/3927/code/project/server/a/b/c"
+# 删除环境变量
+$ add2virtualenv -d a/b/c 
+```
 
 ### 使用 pip 和 virtualenv 进行依赖管理
 

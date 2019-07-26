@@ -202,6 +202,33 @@ https://www.npmjs.com/package/shelljs
 [https://www.npmjs.com/package/ora](https://www.npmjs.com/package/ora)
 
 
+### memory-fs
+
+js 的一个内存文件系统， 文件作为 js 对象存储
+
+https://www.npmjs.com/package/memory-fs
+
+```js
+var MemoryFileSystem = require("memory-fs");
+var fs = new MemoryFileSystem(); // Optionally pass a javascript object
+ 
+fs.mkdirpSync("/a/test/dir");
+fs.writeFileSync("/a/test/dir/file.txt", "Hello World");
+fs.readFileSync("/a/test/dir/file.txt"); // returns Buffer("Hello World")
+ 
+// Async variants too
+fs.unlink("/a/test/dir/file.txt", function(err) {
+    // ...
+});
+ 
+fs.readdirSync("/a/test"); // returns ["dir"]
+fs.statSync("/a/test/dir").isDirectory(); // returns true
+fs.rmdirSync("/a/test/dir");
+ 
+fs.mkdirpSync("C:\\use\\windows\\style\\paths");
+```
+
+
 ## Browserify 浏览器环境
 
 ### superagent HTTP请求库
@@ -301,25 +328,25 @@ middleware.run({}, {}, function (err, req, res) {
 
 用于在gulp任务流中插入webpack处理过程
 
-## gulp-footer 
+### gulp-footer 
 
 [https://www.npmjs.com/package/gulp-footer](https://www.npmjs.com/package/gulp-footer)
 
 在文件底部插入另一个文件内容
 
-## gulp-concat
+### gulp-concat
 
 连接多个文件
 
-## gulp-replace
+### gulp-replace
 
 替换文件中指定的内容
 
-## gulp-rename
+### gulp-rename
 
 重命名文件
 
-## gulp-clone
+### gulp-clone
 
 在内存中复制文件
 

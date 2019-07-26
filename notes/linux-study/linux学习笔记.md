@@ -262,6 +262,7 @@ ARGUMENTS: 命令参数, 是命令的作用对象. (命令对什么生效).  如
 ~]# ls -r  // list reverse 逆序列出目录
 ~]# ls -lr  // list reverse 逆序列出目录详细信息
 ~]# ls -R  // list recursive 递归列出目录文件
+~]# ls -l ./ --block-size=M 以 MB 显示文件大小
 
 ~/# cat  /etc/fstable // concatenate  文本文件查看工具
 ~/# cat -n /etc/fstable // concatenate number 查看文本文件并给每行编号显示(不影响实际文件)
