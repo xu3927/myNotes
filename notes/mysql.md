@@ -892,6 +892,79 @@ SELECT `id` AS `id`,`name` FROM `game` GROUP BY `name`
 SELECT ANY_VALUE(`id`) AS `id`,MAX(`id`),`name` FROM `game` GROUP BY `name`
 ```
 
+## 第12章 函数和操作符 Chapter 12 Functions and Operators
+
+## 12.5 字符串函数和操作符 String Functions and Operators
+
+[文档](https://dev.mysql.com/doc/refman/8.0/en/string-functions.html)
+
+### 12.5.1 String Comparison Functions and Operators 字符串比较函数
+
+示例文档 http://www.mysqltutorial.org/mysql-like/
+
+- LIKE 语句 简单的比较模式. like 操作符是一个逻辑运算符用来判断一个字符串是否包含一个指定的模式。
+- NOT LIKE 
+- STRCMP() 比较2个字符串
+
+```sql
+expr LIKE pat [ESCAPE 'escape_char']
+```
+
+like 可以使用的2个匹配符
+
+- % 匹配任何数量字符
+- _ 匹配一个字符
+
+```sql
+mysql> SELECT 'David!' LIKE 'David_';
+        -> 1
+mysql> SELECT 'David!' LIKE '%D%v%';
+        -> 1
+```
+需要测试匹配符字面量的话，需要使用逃逸符。
+
+```sql
+mysql> SELECT 'David!' LIKE 'David\_';
+    -> 0
+mysql> SELECT 'David_' LIKE 'David\_';
+    -> 1
+```
+
+classicmodels 数据库练习
+
+```sql
+# 匹配lastName列中包含 on 的数据
+SELECT 
+    employeeNumber, 
+    lastName, 
+    firstName
+FROM
+    employees
+WHERE
+    lastName LIKE '%on%';
+```
+
+可以指定逃逸符
+
+```sql
+mysql> SELECT 'David_' LIKE 'David|_' ESCAPE '|';
+    -> 1
+```
+
+逃逸符默认为 '\'， 要匹配逃逸符，需要使用双逃逸符，如 '\\n' 匹配 '\n'
+
+STRCMP(expr1, expr2) 比较2个字符串，按 unicode 序号比较，返回 -1, 0, 1
+```sql
+mysql> SELECT STRCMP('text', 'text2');
+        -> -1
+mysql> SELECT STRCMP('text2', 'text');
+        -> 1
+mysql> SELECT STRCMP('text', 'text');
+        -> 0
+```
+
+
+
 ## 第13章 SQL语句
 
 ## 13.1 数据定义语句
@@ -910,11 +983,178 @@ ALTER TABLE members ADD id INT(8) auto_increment PRIMARY KEY FIRST;
 ALTER TABLE members ADD COLUMN user_name VARCHAR(18) DEFAULT NULL AFTER id;
 ```
 
-修改一列
+修改一列类型
 
 ```
 ALTER TABLE members modify telephone varchar(11)
 ```
+
+修改一列表头名称
+
+```
+ALTER TABLE book CHANGE autor author varchar(10);
+```
+
+### 13.1.20 CREATE TABLE Syntax 创建表语法
+
+文档 https://dev.mysql.com/doc/refman/8.0/en/create-table.html
+
+```sql
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name
+    (create_definition,...)
+    [table_options]
+    [partition_options]
+
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name
+    [(create_definition,...)]
+    [table_options]
+    [partition_options]
+    [IGNORE | REPLACE]
+    [AS] query_expression
+
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name
+    { LIKE old_tbl_name | (LIKE old_tbl_name) }
+
+create_definition:
+    col_name column_definition
+  | {INDEX|KEY} [index_name] [index_type] (key_part,...)
+      [index_option] ...
+  | {FULLTEXT|SPATIAL} [INDEX|KEY] [index_name] (key_part,...)
+      [index_option] ...
+  | [CONSTRAINT [symbol]] PRIMARY KEY
+      [index_type] (key_part,...)
+      [index_option] ...
+  | [CONSTRAINT [symbol]] UNIQUE [INDEX|KEY]
+      [index_name] [index_type] (key_part,...)
+      [index_option] ...
+  | [CONSTRAINT [symbol]] FOREIGN KEY
+      [index_name] (col_name,...)
+      reference_definition
+  | check_constraint_definition
+
+column_definition:
+    data_type [NOT NULL | NULL] [DEFAULT {literal | (expr)} ]
+      [AUTO_INCREMENT] [UNIQUE [KEY]] [[PRIMARY] KEY]
+      [COMMENT 'string']
+      [COLLATE collation_name]
+      [COLUMN_FORMAT {FIXED|DYNAMIC|DEFAULT}]
+      [STORAGE {DISK|MEMORY}]
+      [reference_definition]
+      [check_constraint_definition]
+  | data_type
+      [COLLATE collation_name]
+      [GENERATED ALWAYS] AS (expr)
+      [VIRTUAL | STORED] [NOT NULL | NULL]
+      [UNIQUE [KEY]] [[PRIMARY] KEY]
+      [COMMENT 'string']
+      [reference_definition]
+      [check_constraint_definition]
+
+data_type:
+    (see Chapter 11, Data Types)
+
+key_part: {col_name [(length)] | (expr)} [ASC | DESC]
+
+index_type:
+    USING {BTREE | HASH}
+
+index_option:
+    KEY_BLOCK_SIZE [=] value
+  | index_type
+  | WITH PARSER parser_name
+  | COMMENT 'string'
+  | {VISIBLE | INVISIBLE}
+
+check_constraint_definition:
+    [CONSTRAINT [symbol]] CHECK (expr) [[NOT] ENFORCED]
+
+reference_definition:
+    REFERENCES tbl_name (key_part,...)
+      [MATCH FULL | MATCH PARTIAL | MATCH SIMPLE]
+      [ON DELETE reference_option]
+      [ON UPDATE reference_option]
+
+reference_option:
+    RESTRICT | CASCADE | SET NULL | NO ACTION | SET DEFAULT
+
+table_options:
+    table_option [[,] table_option] ...
+
+table_option:
+    AUTO_INCREMENT [=] value
+  | AVG_ROW_LENGTH [=] value
+  | [DEFAULT] CHARACTER SET [=] charset_name
+  | CHECKSUM [=] {0 | 1}
+  | [DEFAULT] COLLATE [=] collation_name
+  | COMMENT [=] 'string'
+  | COMPRESSION [=] {'ZLIB'|'LZ4'|'NONE'}
+  | CONNECTION [=] 'connect_string'
+  | {DATA|INDEX} DIRECTORY [=] 'absolute path to directory'
+  | DELAY_KEY_WRITE [=] {0 | 1}
+  | ENCRYPTION [=] {'Y' | 'N'}
+  | ENGINE [=] engine_name
+  | INSERT_METHOD [=] { NO | FIRST | LAST }
+  | KEY_BLOCK_SIZE [=] value
+  | MAX_ROWS [=] value
+  | MIN_ROWS [=] value
+  | PACK_KEYS [=] {0 | 1 | DEFAULT}
+  | PASSWORD [=] 'string'
+  | ROW_FORMAT [=] {DEFAULT|DYNAMIC|FIXED|COMPRESSED|REDUNDANT|COMPACT}
+  | STATS_AUTO_RECALC [=] {DEFAULT|0|1}
+  | STATS_PERSISTENT [=] {DEFAULT|0|1}
+  | STATS_SAMPLE_PAGES [=] value
+  | TABLESPACE tablespace_name [STORAGE {DISK|MEMORY}]
+  | UNION [=] (tbl_name[,tbl_name]...)
+
+partition_options:
+    PARTITION BY
+        { [LINEAR] HASH(expr)
+        | [LINEAR] KEY [ALGORITHM={1|2}] (column_list)
+        | RANGE{(expr) | COLUMNS(column_list)}
+        | LIST{(expr) | COLUMNS(column_list)} }
+    [PARTITIONS num]
+    [SUBPARTITION BY
+        { [LINEAR] HASH(expr)
+        | [LINEAR] KEY [ALGORITHM={1|2}] (column_list) }
+      [SUBPARTITIONS num]
+    ]
+    [(partition_definition [, partition_definition] ...)]
+
+partition_definition:
+    PARTITION partition_name
+        [VALUES
+            {LESS THAN {(expr | value_list) | MAXVALUE}
+            |
+            IN (value_list)}]
+        [[STORAGE] ENGINE [=] engine_name]
+        [COMMENT [=] 'string' ]
+        [DATA DIRECTORY [=] 'data_dir']
+        [INDEX DIRECTORY [=] 'index_dir']
+        [MAX_ROWS [=] max_number_of_rows]
+        [MIN_ROWS [=] min_number_of_rows]
+        [TABLESPACE [=] tablespace_name]
+        [(subpartition_definition [, subpartition_definition] ...)]
+
+subpartition_definition:
+    SUBPARTITION logical_name
+        [[STORAGE] ENGINE [=] engine_name]
+        [COMMENT [=] 'string' ]
+        [DATA DIRECTORY [=] 'data_dir']
+        [INDEX DIRECTORY [=] 'index_dir']
+        [MAX_ROWS [=] max_number_of_rows]
+        [MIN_ROWS [=] min_number_of_rows]
+        [TABLESPACE [=] tablespace_name]
+
+query_expression:
+    SELECT ...   (Some valid select or union statement)
+```
+
+#### 创建表并设置自增主键
+
+```sql
+create table book_role (id int(4) primary key not null auto_increment, book_name varchar(10), role_name varchar(10))
+```
+
 
 ## 13.2 数据操作语句 Data Manipulation Statements
 
@@ -1074,7 +1314,10 @@ mysql> select * from shaolin;
 ```
 
 
-## 13.2.10 SELECT Syntax
+
+## 13.2.9 SELECT Syntax
+
+### 13.2.9.1 SELECT ... INTO Syntax
 
 ```sql
 SELECT
@@ -1113,7 +1356,259 @@ SELECT * FROM t;
 SELECT id, user, type FROM t;
 ```
 
-### 13.2.12 UPDATE Syntax
+### 13.2.9.2 JOIN Syntax
+
+join 文档 https://dev.mysql.com/doc/refman/5.7/en/join.html
+
+```sql
+table_references:
+    escaped_table_reference [, escaped_table_reference] ...
+
+escaped_table_reference:
+    table_reference
+  | { OJ table_reference }
+
+table_reference:
+    table_factor
+  | joined_table
+
+table_factor:
+    tbl_name [PARTITION (partition_names)]
+        [[AS] alias] [index_hint_list]
+  | table_subquery [AS] alias
+  | ( table_references )
+
+joined_table:
+    table_reference [INNER | CROSS] JOIN table_factor [join_specification]
+  | table_reference STRAIGHT_JOIN table_factor
+  | table_reference STRAIGHT_JOIN table_factor ON search_condition
+  | table_reference {LEFT|RIGHT} [OUTER] JOIN table_reference join_specification
+  | table_reference NATURAL [{LEFT|RIGHT} [OUTER]] JOIN table_factor
+
+join_specification:
+    ON search_condition
+  | USING (join_column_list)
+
+join_column_list:
+    column_name [, column_name] ...
+
+index_hint_list:
+    index_hint [, index_hint] ...
+
+index_hint:
+    USE {INDEX|KEY}
+      [FOR {JOIN|ORDER BY|GROUP BY}] ([index_list])
+  | {IGNORE|FORCE} {INDEX|KEY}
+      [FOR {JOIN|ORDER BY|GROUP BY}] (index_list)
+
+index_list:
+    index_name [, index_name] ...
+```
+
+
+#### 联表查询:
+
+参考文档 MySQL多表查询 https://blog.csdn.net/qq_36381855/article/details/80007575
+
+包括内连接和外连接
+
+- 内连接：join，inner join
+- 外连接：left join，left outer join，right join，right outer join，union
+- 交叉连接：cross join
+
+有表 age 和 name 2个表
+
+```
+mysql> select * from age;
++----+------+
+| id | age  |
++----+------+
+|  3 |   18 |
+|  4 |   24 |
+|  5 |   19 |
++----+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from name;
++----+--------+
+| id | name   |
++----+--------+
+|  1 | 小明   |
+|  2 | tom    |
+|  3 | lily   |
+|  4 | allen  |
++----+--------+
+4 rows in set (0.00 sec)
+```
+
+#### cross join 获取笛卡尔集合
+
+得到的是2个表的乘积（笛卡尔集），这种方式基本用不到
+更常用的是内联结查询
+
+```sql
+select * from age cross join name; 
+```
+
+如果两个表使用逗号连接，会作为 cross join 解析。
+
+```sql
+mysql> select * from age, name;
++----+------+----+--------+
+| id | age  | id | name   |
++----+------+----+--------+
+|  3 |   18 |  1 | 小明   |
+|  4 |   24 |  1 | 小明   |
+|  5 |   19 |  1 | 小明   |
+|  3 |   18 |  2 | tom    |
+|  4 |   24 |  2 | tom    |
+|  5 |   19 |  2 | tom    |
+|  3 |   18 |  3 | lily   |
+|  4 |   24 |  3 | lily   |
+|  5 |   19 |  3 | lily   |
+|  3 |   18 |  4 | allen  |
+|  4 |   24 |  4 | allen  |
+|  5 |   19 |  4 | allen  |
++----+------+----+--------+
+12 rows in set (0.00 sec)
+```
+
+mysql 的语句容错
+
+1. 一般cross join后面加上where条件，但是用cross join+on也是被解释为cross join+where；
+2. 一般内连接都需要加上on限定条件，如上面场景2.1；如果不加会被解释为交叉连接；
+3. 如果连接表格使用的是逗号，会被解释为交叉连接；
+
+#### 内连接
+
+
+![](images/chatu/2019-07-30-23-33-56.png)
+
+语法
+```
+# 隐式内联结
+
+select * from table1 别名t1, table2 别名t2 where t1.xx = t2.xx;
+
+# 显式内联结 inner 可以省略
+
+select r.name, r.skill, r.nick_name, b.book_name from role r inner join book_role b where b.role_name like concat('%', r.name, '%') \G;
+
+```
+
+内连接，只选出符合条件的两个表中均存在的条目才会列出。 得到的是 t1, t2的交集数据
+
+```sql
+mysql> select * from age t1, name t2 where t1.id = t2.id;
++----+------+----+-------+
+| id | age  | id | name  |
++----+------+----+-------+
+|  3 |   18 |  3 | lily  |
+|  4 |   24 |  4 | allen |
++----+------+----+-------+
+2 rows in set (0.00 sec)
+```
+
+#### 外联结
+
+#### 左联结
+
+第一个表 t1 中数据全部使用，t2 中没有符合条件的也会列出，并补全。 如t1 中 id = 5 条目在 t2中没有，也会列出。 如此得到 t1 中的全部数据
+
+![](images/chatu/2019-07-30-23-34-26.png)
+
+```sql
+mysql> select * from age t1 left join name t2 on t1.id = t2.id;
++----+------+------+-------+
+| id | age  | id   | name  |
++----+------+------+-------+
+|  3 |   18 |    3 | lily  |
+|  4 |   24 |    4 | allen |
+|  5 |   19 | NULL | NULL  |
++----+------+------+-------+
+3 rows in set (0.00 sec)
+```
+
+查看 t1 t2 中 都有的数据，同时增加 where 条件，过滤掉 t2 中没有的数据。列出的还是 t1, t2 的交集。
+
+```sql
+mysql> select * from age t1 left join name t2 on t1.id = t2.id where t2.id is not null;
++----+------+------+-------+
+| id | age  | id   | name  |
++----+------+------+-------+
+|  3 |   18 |    3 | lily  |
+|  4 |   24 |    4 | allen |
++----+------+------+-------+
+2 rows in set (0.00 sec)
+```
+
+只列出 t1 中有， t2中没有的数据。
+
+![](images/chatu/2019-07-30-23-41-03.png)
+
+```sql
+mysql> select * from age t1 left join name t2 on t1.id = t2.id where t2.id is null;
++----+------+------+------+
+| id | age  | id   | name |
++----+------+------+------+
+|  5 |   19 | NULL | NULL |
++----+------+------+------+
+1 row in set (0.00 sec)
+```
+
+#### 右联结, 与左连接相反，用第一个表的数据填充第二个表。t1中不存在时填充 NULL。 这样得到了 t2 中的全部数据
+
+```sql
+mysql> select * from age t1 right join name t2 on t1.id = t2.id;
++------+------+----+--------+
+| id   | age  | id | name   |
++------+------+----+--------+
+| NULL | NULL |  1 | 小明   |
+| NULL | NULL |  2 | tom    |
+|    3 |   18 |  3 | lily   |
+|    4 |   24 |  4 | allen  |
++------+------+----+--------+
+4 rows in set (0.00 sec)
+```
+
+使用 union 得到全部的数据，同时会过滤重复项
+
+![](images/chatu/2019-07-30-23-45-35.png)
+
+```sql
+mysql> select * from age t1 left join name t2 on t1.id = t2.id
+    -> union
+    -> select * from age t1 right join name t2 on t1.id = t2.id;
++------+------+------+--------+
+| id   | age  | id   | name   |
++------+------+------+--------+
+|    3 |   18 |    3 | lily   |
+|    4 |   24 |    4 | allen  |
+|    5 |   19 | NULL | NULL   |
+| NULL | NULL |    1 | 小明   |
+| NULL | NULL |    2 | tom    |
++------+------+------+--------+
+5 rows in set (0.00 sec)
+```
+union + is null 得到2组中都不满足条件的集合
+
+![](images/chatu/2019-07-30-23-49-16.png)
+
+```sql
+mysql> select * from age t1 left join name t2 on t1.id = t2.id where t2.id is null
+    -> union
+    -> select * from age t1 right join name t2 on t1.id = t2.id where t1.id is null;
++------+------+------+--------+
+| id   | age  | id   | name   |
++------+------+------+--------+
+|    5 |   19 | NULL | NULL   |
+| NULL | NULL |    1 | 小明   |
+| NULL | NULL |    2 | tom    |
++------+------+------+--------+
+3 rows in set (0.01 sec)
+```
+
+### 13.2.11 UPDATE Syntax
 
 Single-table syntax:
 
@@ -1162,3 +1657,62 @@ WHERE items.id=month.id;
 ```sql
 update t  set data_time=DATE_FORMAT(data_time, '%Y-%m') where type = 'month';
 ```
+
+## 13.7 Database Administration Statements
+
+- 13.7.1 Account Management Statements
+- 13.7.2 Resource Group Management Statements
+- 13.7.3 Table Maintenance Statements
+- 13.7.4 Component, Plugin, and User-Defined Function Statements
+- 13.7.5 SET Syntax
+- 13.7.6 SHOW Syntax
+- 13.7.7 Other Administrative Statements
+
+
+## 13.7.16 SHOW Syntax 
+
+### 13.7.6.6 SHOW CREATE DATABASE Syntax
+
+```sql
+SHOW CREATE {DATABASE | SCHEMA} [IF NOT EXISTS] db_name
+```
+
+Shows the CREATE DATABASE statement that creates the named database. If the SHOW statement includes an IF NOT EXISTS clause, the output too includes such a clause. SHOW CREATE SCHEMA is a synonym for SHOW CREATE DATABASE.
+
+```sql
+mysql> SHOW CREATE DATABASE test\G
+*************************** 1. row ***************************
+       Database: test
+Create Database: CREATE DATABASE `test` /*!40100 DEFAULT CHARACTER SET utf8mb4 
+                 COLLATE utf8mb4_0900_ai_ci */ /*!80014 DEFAULT ENCRYPTION='N' */
+
+mysql> SHOW CREATE SCHEMA test\G
+*************************** 1. row ***************************
+       Database: test
+Create Database: CREATE DATABASE `test` /*!40100 DEFAULT CHARACTER SET utf8mb4 
+                 COLLATE utf8mb4_0900_ai_ci */ /*!80014 DEFAULT ENCRYPTION='N' */
+
+```
+
+### 13.7.6.10 SHOW CREATE TABLE Syntax
+
+查看一个表的创建语句
+
+```sql
+SHOW CREATE TABLE tbl_name
+```
+
+```sql
+mysql> SHOW CREATE TABLE t\G
+*************************** 1. row ***************************
+       Table: t
+Create Table: CREATE TABLE `t` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `s` char(60) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+```
+
+
+
+
