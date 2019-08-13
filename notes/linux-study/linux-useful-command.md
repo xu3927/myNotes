@@ -188,6 +188,7 @@ root@localhost test1]# ll
 rm -f log1.log
 ```
 输出：
+
 ```
 [root@localhost test1]# ll
 总计 4
@@ -356,7 +357,8 @@ Tar 是 tape archive 磁带存档
 
 ```
 -f: 使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。
-``
+```
+
 ### 示例
 
 这条命令是将所有.jpg的文件打成一个名为all.tar的包。-c是表示产生新的包，-f指定包的文件名。
@@ -555,7 +557,10 @@ h表示 humanreadable 以方便阅读的形式显示
 du (disk usage) 查看目录/文件占用大小
 
 ```
+# 查看文件列表
 du -ah -d 1 <dir>
+# 列出文件目录并排序
+du -ah -d 2 | sort -h
 ```
 
 参数
@@ -564,3 +569,200 @@ du -ah -d 1 <dir>
 -h 以 K,M,G表示大小
 -d <num> --max-depth=0 查看的深度，深入第几层目录查看。 为0则不查看子目录
 ```
+
+## 日志查看
+
+[常用Linux日志查看命令](https://blog.csdn.net/hellozpc/article/details/72859152)
+
+### more 命令
+
+http://www.cnblogs.com/peida/archive/2012/11/02/2750588.html
+
+more会以一页一页的显示文档，more命令从前向后读取文件，因此在启动时就加载整个文件。
+
+* space 下一页
+* b 上一页
+* f 下一页
+* Enter 键 显示下一行
+* = 输出当前行的行号
+* q 退出
+
+命令参数
+
+```sh
++n      从笫n行开始显示
+-n       定义屏幕大小为n行
++/pattern 在每个档案显示前搜寻该字串（pattern），然后从该字串前两行之后开始显示  
+-c       从顶部清屏，然后显示
+-d       提示“Press space to continue，’q’ to quit（按空格键继续，按q键退出）”，禁用响铃功能
+-l        忽略Ctrl+l（换页）字符
+-p       通过清除窗口而不是滚屏来对文件进行换页，与-c选项相似
+-s       把连续的多个空行显示为一行
+-u       把文件内容中的下画线去掉
+```
+
+命令实例：
+
+实例1：显示文件中从第3行起的内容， 每行显示6条
+
+命令：
+```
+more +3 -6 log2012.log
+```
+输出：
+```
+[root@localhost test]# more +3 -6 log2012.log 
+2012-04-day1
+2012-04-day2
+2012-04-day3
+2012-04-day4
+2012-04-day5
+2012-04-day6
+```
+
+实例2：从文件中查找第一个出现"day3"字符串的行，并从该处前两行开始显示输出 
+
+命令：
+```
+more +/day3 log2012.log
+```
+输出：
+```
+[root@localhost test]# more +/day3 log2012.log 
+...skipping
+2012-04-day1
+2012-04-day2
+2012-04-day3
+2012-05
+2012-05-day1
+======[root@localhost test]#
+```
+实例3：设定每屏显示行数 
+
+命令：
+```
+more -5 log2012.log
+```
+输出：
+```
+[root@localhost test]# more -5 log2012.log 
+2012-01
+2012-02
+2012-03
+2012-04-day1
+2012-04-day2
+```
+说明：
+
+如下图所示，最下面显示了该屏展示的内容占文件总行数的比例，按 Ctrl+F 或者 空格键 将会显示下一屏5条内容，百分比也会跟着变化。
+
+实例4：列一个目录下的文件，由于内容太多，我们应该学会用more来分页显示。这得和管道 | 结合起来 
+
+命令：
+```
+ls -l  | more -5
+```
+输出：
+```
+[root@localhost test]#  ls -l  | more -5
+总计 36
+-rw-r--r-- 1 root root  308 11-01 16:49 log2012.log
+-rw-r--r-- 1 root root   33 10-28 16:54 log2013.log
+-rw-r--r-- 1 root root  127 10-28 16:51 log2014.log
+lrwxrwxrwx 1 root root    7 10-28 15:18 log_link.log -> log.log
+-rw-r--r-- 1 root root   25 10-28 17:02 log.log
+-rw-r--r-- 1 root root   37 10-28 17:07 log.txt
+drwxr-xr-x 6 root root 4096 10-27 01:58 scf
+drwxrwxrwx 2 root root 4096 10-28 14:47 test3
+drwxrwxrwx 2 root root 4096 10-28 14:47 test4
+```
+
+说明：
+
+每页显示5个文件信息，按 Ctrl+F 或者 空格键 将会显示下5条文件信息。
+
+### less 命令
+
+less 工具也是对文件或其它输出进行分页显示的工具，应该说是linux正统查看文件内容的工具，功能极其强大。less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 [pageup] [pagedown] 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。
+
+命令格式：
+```
+less [参数]  文件 
+```
+
+命令功能：
+
+less 与 more 类似，但使用 less 可以随意浏览文件，而 more 仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。
+
+快捷键
+
+```
+n：重复前一个搜索（与 / 或 ? 有关）
+N：反向重复前一个搜索（与 / 或 ? 有关）
+b  向后翻一页
+d  向后翻半页
+h  显示帮助界面
+Q  退出less 命令
+u  向前滚动半页
+y  向前滚动一行
+空格键 滚动一行
+回车键 滚动一页
+[pagedown]： 向下翻动一页
+[pageup]：   向上翻动一页
+```
+
+命令参数：
+
+```
+-b <缓冲区大小> 设置缓冲区的大小
+-e  当文件显示结束后，自动离开
+-f  强迫打开特殊文件，例如外围设备代号、目录和二进制文件
+-g  只标志最后搜索的关键词
+-i  忽略搜索时的大小写
+-m  显示类似more命令的百分比
+-N  显示每行的行号
+-o <文件名> 将less 输出的内容在指定文件中保存起来
+-Q  不使用警告音
+-s  显示连续空行为一行
+-S  行过长时间将超出部分舍弃
+-x <数字> 将“tab”键显示为规定的数字空格
+/字符串：向下搜索“字符串”的功能
+?字符串：向上搜索“字符串”的功能
+```
+使用实例：
+
+ps查看进程信息并通过less分页显示 
+
+命令：
+```
+ps -ef |less
+history | less
+```
+
+### tail 从尾部开始查 
+
+http://www.cnblogs.com/peida/archive/2012/11/07/2758084.html
+
+### head 从头部开始查看
+
+http://www.cnblogs.com/peida/archive/2012/11/06/2756278.html
+
+### grep 查找
+
+https://www.cnblogs.com/peida/archive/2012/12/17/2821195.html
+
+```
+# 查看文件中的关键字
+grep 'keyword' <filename>
+# 显示行号
+grep -n 'keyword' <filename>
+# 显示关键词前后各几行的内容
+grep -n -C10 'keyword' <filename>
+```
+
+grep 结合 tail 命令查看日志
+
+```
+grep  -n  -C10  'R0619'  caps-biz.txt | tail -n 21 | less（借助less命令的/pattern可以高亮搜索词）
+```
+

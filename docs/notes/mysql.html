@@ -2527,6 +2527,58 @@ Query OK, 0 rows affected (0.07 sec)
 <p>&#x5F00;&#x542F;&#x4E4B;&#x540E;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x805A;&#x5408;&#x51FD;&#x6570;</p>
 <pre class="language-"><code class="lang-sql"><span class="token keyword">SELECT</span> ANY_VALUE<span class="token punctuation">(</span><span class="token punctuation">`</span>id<span class="token punctuation">`</span><span class="token punctuation">)</span> <span class="token keyword">AS</span> <span class="token punctuation">`</span>id<span class="token punctuation">`</span><span class="token punctuation">,</span><span class="token function">MAX</span><span class="token punctuation">(</span><span class="token punctuation">`</span>id<span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">`</span>name<span class="token punctuation">`</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span>game<span class="token punctuation">`</span> <span class="token keyword">GROUP</span> <span class="token keyword">BY</span> <span class="token punctuation">`</span>name<span class="token punctuation">`</span>
 </code></pre>
+<h2 id="&#x7B2C;12&#x7AE0;-&#x51FD;&#x6570;&#x548C;&#x64CD;&#x4F5C;&#x7B26;-chapter-12-functions-and-operators">&#x7B2C;12&#x7AE0; &#x51FD;&#x6570;&#x548C;&#x64CD;&#x4F5C;&#x7B26; Chapter 12 Functions and Operators</h2>
+<h2 id="125-&#x5B57;&#x7B26;&#x4E32;&#x51FD;&#x6570;&#x548C;&#x64CD;&#x4F5C;&#x7B26;-string-functions-and-operators">12.5 &#x5B57;&#x7B26;&#x4E32;&#x51FD;&#x6570;&#x548C;&#x64CD;&#x4F5C;&#x7B26; String Functions and Operators</h2>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/string-functions.html" target="_blank">&#x6587;&#x6863;</a></p>
+<h3 id="1251-string-comparison-functions-and-operators-&#x5B57;&#x7B26;&#x4E32;&#x6BD4;&#x8F83;&#x51FD;&#x6570;">12.5.1 String Comparison Functions and Operators &#x5B57;&#x7B26;&#x4E32;&#x6BD4;&#x8F83;&#x51FD;&#x6570;</h3>
+<p>&#x793A;&#x4F8B;&#x6587;&#x6863; <a href="http://www.mysqltutorial.org/mysql-like/" target="_blank">http://www.mysqltutorial.org/mysql-like/</a></p>
+<ul>
+<li>LIKE &#x8BED;&#x53E5; &#x7B80;&#x5355;&#x7684;&#x6BD4;&#x8F83;&#x6A21;&#x5F0F;. like &#x64CD;&#x4F5C;&#x7B26;&#x662F;&#x4E00;&#x4E2A;&#x903B;&#x8F91;&#x8FD0;&#x7B97;&#x7B26;&#x7528;&#x6765;&#x5224;&#x65AD;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x662F;&#x5426;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x6307;&#x5B9A;&#x7684;&#x6A21;&#x5F0F;&#x3002;</li>
+<li>NOT LIKE </li>
+<li>STRCMP() &#x6BD4;&#x8F83;2&#x4E2A;&#x5B57;&#x7B26;&#x4E32;</li>
+</ul>
+<pre class="language-"><code class="lang-sql">expr <span class="token operator">LIKE</span> pat <span class="token punctuation">[</span><span class="token keyword">ESCAPE</span> <span class="token string">&apos;escape_char&apos;</span><span class="token punctuation">]</span>
+</code></pre>
+<p>like &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7684;2&#x4E2A;&#x5339;&#x914D;&#x7B26;</p>
+<ul>
+<li>% &#x5339;&#x914D;&#x4EFB;&#x4F55;&#x6570;&#x91CF;&#x5B57;&#x7B26;</li>
+<li>_ &#x5339;&#x914D;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;</li>
+</ul>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> <span class="token string">&apos;David!&apos;</span> <span class="token operator">LIKE</span> <span class="token string">&apos;David_&apos;</span><span class="token punctuation">;</span>
+        <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token number">1</span>
+mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> <span class="token string">&apos;David!&apos;</span> <span class="token operator">LIKE</span> <span class="token string">&apos;%D%v%&apos;</span><span class="token punctuation">;</span>
+        <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token number">1</span>
+</code></pre>
+<p>&#x9700;&#x8981;&#x6D4B;&#x8BD5;&#x5339;&#x914D;&#x7B26;&#x5B57;&#x9762;&#x91CF;&#x7684;&#x8BDD;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x9003;&#x9038;&#x7B26;&#x3002;</p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> <span class="token string">&apos;David!&apos;</span> <span class="token operator">LIKE</span> <span class="token string">&apos;David\_&apos;</span><span class="token punctuation">;</span>
+    <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token number">0</span>
+mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> <span class="token string">&apos;David_&apos;</span> <span class="token operator">LIKE</span> <span class="token string">&apos;David\_&apos;</span><span class="token punctuation">;</span>
+    <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token number">1</span>
+</code></pre>
+<p>classicmodels &#x6570;&#x636E;&#x5E93;&#x7EC3;&#x4E60;</p>
+<pre class="language-"><code class="lang-sql"><span class="token comment"># &#x5339;&#x914D;lastName&#x5217;&#x4E2D;&#x5305;&#x542B; on &#x7684;&#x6570;&#x636E;</span>
+<span class="token keyword">SELECT</span> 
+    employeeNumber<span class="token punctuation">,</span> 
+    lastName<span class="token punctuation">,</span> 
+    firstName
+<span class="token keyword">FROM</span>
+    employees
+<span class="token keyword">WHERE</span>
+    lastName <span class="token operator">LIKE</span> <span class="token string">&apos;%on%&apos;</span><span class="token punctuation">;</span>
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x9003;&#x9038;&#x7B26;</p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> <span class="token string">&apos;David_&apos;</span> <span class="token operator">LIKE</span> <span class="token string">&apos;David|_&apos;</span> <span class="token keyword">ESCAPE</span> <span class="token string">&apos;|&apos;</span><span class="token punctuation">;</span>
+    <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token number">1</span>
+</code></pre>
+<p>&#x9003;&#x9038;&#x7B26;&#x9ED8;&#x8BA4;&#x4E3A; &apos;\&apos;&#xFF0C; &#x8981;&#x5339;&#x914D;&#x9003;&#x9038;&#x7B26;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x53CC;&#x9003;&#x9038;&#x7B26;&#xFF0C;&#x5982; &apos;\n&apos; &#x5339;&#x914D; &apos;\n&apos;</p>
+<p>STRCMP(expr1, expr2) &#x6BD4;&#x8F83;2&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6309; unicode &#x5E8F;&#x53F7;&#x6BD4;&#x8F83;&#xFF0C;&#x8FD4;&#x56DE; -1, 0, 1</p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> STRCMP<span class="token punctuation">(</span><span class="token string">&apos;text&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;text2&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token operator">-</span><span class="token number">1</span>
+mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> STRCMP<span class="token punctuation">(</span><span class="token string">&apos;text2&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;text&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token number">1</span>
+mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> STRCMP<span class="token punctuation">(</span><span class="token string">&apos;text&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;text&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token number">0</span>
+</code></pre>
 <h2 id="&#x7B2C;13&#x7AE0;-sql&#x8BED;&#x53E5;">&#x7B2C;13&#x7AE0; SQL&#x8BED;&#x53E5;</h2>
 <h2 id="131-&#x6570;&#x636E;&#x5B9A;&#x4E49;&#x8BED;&#x53E5;">13.1 &#x6570;&#x636E;&#x5B9A;&#x4E49;&#x8BED;&#x53E5;</h2>
 <h3 id="1318-alter-table">13.1.8 ALTER TABLE</h3>
@@ -2535,9 +2587,164 @@ Query OK, 0 rows affected (0.07 sec)
 <pre class="language-"><code>ALTER TABLE members ADD id INT(8) auto_increment PRIMARY KEY FIRST;
 </code></pre><p>&#x5728;id&#x540E;&#x9762;&#x6DFB;&#x52A0;&#x4E00;&#x5217;user_name, &#x9ED8;&#x8BA4;&#x503C;&#x4E3A;NULL</p>
 <pre class="language-"><code>ALTER TABLE members ADD COLUMN user_name VARCHAR(18) DEFAULT NULL AFTER id;
-</code></pre><p>&#x4FEE;&#x6539;&#x4E00;&#x5217;</p>
+</code></pre><p>&#x4FEE;&#x6539;&#x4E00;&#x5217;&#x7C7B;&#x578B;</p>
 <pre class="language-"><code>ALTER TABLE members modify telephone varchar(11)
-</code></pre><h2 id="132-&#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5;-data-manipulation-statements">13.2 &#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5; Data Manipulation Statements</h2>
+</code></pre><p>&#x4FEE;&#x6539;&#x4E00;&#x5217;&#x8868;&#x5934;&#x540D;&#x79F0;</p>
+<pre class="language-"><code>ALTER TABLE book CHANGE autor author varchar(10);
+</code></pre><h3 id="13120-create-table-syntax-&#x521B;&#x5EFA;&#x8868;&#x8BED;&#x6CD5;">13.1.20 CREATE TABLE Syntax &#x521B;&#x5EFA;&#x8868;&#x8BED;&#x6CD5;</h3>
+<p>&#x6587;&#x6863; <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/create-table.html</a></p>
+<pre class="language-"><code class="lang-sql"><span class="token keyword">CREATE</span> <span class="token punctuation">[</span><span class="token keyword">TEMPORARY</span><span class="token punctuation">]</span> <span class="token keyword">TABLE</span> <span class="token punctuation">[</span><span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span><span class="token punctuation">]</span> tbl_name
+    <span class="token punctuation">(</span>create_definition<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+    <span class="token punctuation">[</span>table_options<span class="token punctuation">]</span>
+    <span class="token punctuation">[</span>partition_options<span class="token punctuation">]</span>
+
+<span class="token keyword">CREATE</span> <span class="token punctuation">[</span><span class="token keyword">TEMPORARY</span><span class="token punctuation">]</span> <span class="token keyword">TABLE</span> <span class="token punctuation">[</span><span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span><span class="token punctuation">]</span> tbl_name
+    <span class="token punctuation">[</span><span class="token punctuation">(</span>create_definition<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span>table_options<span class="token punctuation">]</span>
+    <span class="token punctuation">[</span>partition_options<span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">IGNORE</span> <span class="token operator">|</span> <span class="token keyword">REPLACE</span><span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token keyword">AS</span><span class="token punctuation">]</span> query_expression
+
+<span class="token keyword">CREATE</span> <span class="token punctuation">[</span><span class="token keyword">TEMPORARY</span><span class="token punctuation">]</span> <span class="token keyword">TABLE</span> <span class="token punctuation">[</span><span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span><span class="token punctuation">]</span> tbl_name
+    { <span class="token operator">LIKE</span> old_tbl_name <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token operator">LIKE</span> old_tbl_name<span class="token punctuation">)</span> }
+
+create_definition:
+    col_name column_definition
+  <span class="token operator">|</span> {<span class="token keyword">INDEX</span><span class="token operator">|</span><span class="token keyword">KEY</span>} <span class="token punctuation">[</span>index_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>index_type<span class="token punctuation">]</span> <span class="token punctuation">(</span>key_part<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+      <span class="token punctuation">[</span>index_option<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token operator">|</span> {FULLTEXT<span class="token operator">|</span>SPATIAL} <span class="token punctuation">[</span><span class="token keyword">INDEX</span><span class="token operator">|</span><span class="token keyword">KEY</span><span class="token punctuation">]</span> <span class="token punctuation">[</span>index_name<span class="token punctuation">]</span> <span class="token punctuation">(</span>key_part<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+      <span class="token punctuation">[</span>index_option<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token operator">|</span> <span class="token punctuation">[</span><span class="token keyword">CONSTRAINT</span> <span class="token punctuation">[</span>symbol<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span>
+      <span class="token punctuation">[</span>index_type<span class="token punctuation">]</span> <span class="token punctuation">(</span>key_part<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+      <span class="token punctuation">[</span>index_option<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token operator">|</span> <span class="token punctuation">[</span><span class="token keyword">CONSTRAINT</span> <span class="token punctuation">[</span>symbol<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">UNIQUE</span> <span class="token punctuation">[</span><span class="token keyword">INDEX</span><span class="token operator">|</span><span class="token keyword">KEY</span><span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>index_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>index_type<span class="token punctuation">]</span> <span class="token punctuation">(</span>key_part<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+      <span class="token punctuation">[</span>index_option<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token operator">|</span> <span class="token punctuation">[</span><span class="token keyword">CONSTRAINT</span> <span class="token punctuation">[</span>symbol<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span>
+      <span class="token punctuation">[</span>index_name<span class="token punctuation">]</span> <span class="token punctuation">(</span>col_name<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+      reference_definition
+  <span class="token operator">|</span> check_constraint_definition
+
+column_definition:
+    data_type <span class="token punctuation">[</span><span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span><span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token keyword">DEFAULT</span> {literal <span class="token operator">|</span> <span class="token punctuation">(</span>expr<span class="token punctuation">)</span>} <span class="token punctuation">]</span>
+      <span class="token punctuation">[</span><span class="token keyword">AUTO_INCREMENT</span><span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token keyword">UNIQUE</span> <span class="token punctuation">[</span><span class="token keyword">KEY</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token keyword">PRIMARY</span><span class="token punctuation">]</span> <span class="token keyword">KEY</span><span class="token punctuation">]</span>
+      <span class="token punctuation">[</span><span class="token keyword">COMMENT</span> <span class="token string">&apos;string&apos;</span><span class="token punctuation">]</span>
+      <span class="token punctuation">[</span><span class="token keyword">COLLATE</span> collation_name<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>COLUMN_FORMAT {<span class="token keyword">FIXED</span><span class="token operator">|</span>DYNAMIC<span class="token operator">|</span><span class="token keyword">DEFAULT</span>}<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>STORAGE {<span class="token keyword">DISK</span><span class="token operator">|</span>MEMORY}<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>reference_definition<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>check_constraint_definition<span class="token punctuation">]</span>
+  <span class="token operator">|</span> data_type
+      <span class="token punctuation">[</span><span class="token keyword">COLLATE</span> collation_name<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>GENERATED ALWAYS<span class="token punctuation">]</span> <span class="token keyword">AS</span> <span class="token punctuation">(</span>expr<span class="token punctuation">)</span>
+      <span class="token punctuation">[</span>VIRTUAL <span class="token operator">|</span> STORED<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span><span class="token punctuation">]</span>
+      <span class="token punctuation">[</span><span class="token keyword">UNIQUE</span> <span class="token punctuation">[</span><span class="token keyword">KEY</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token keyword">PRIMARY</span><span class="token punctuation">]</span> <span class="token keyword">KEY</span><span class="token punctuation">]</span>
+      <span class="token punctuation">[</span><span class="token keyword">COMMENT</span> <span class="token string">&apos;string&apos;</span><span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>reference_definition<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span>check_constraint_definition<span class="token punctuation">]</span>
+
+data_type:
+    <span class="token punctuation">(</span>see Chapter <span class="token number">11</span><span class="token punctuation">,</span> <span class="token keyword">Data</span> <span class="token keyword">Types</span><span class="token punctuation">)</span>
+
+key_part: {col_name <span class="token punctuation">[</span><span class="token punctuation">(</span>length<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">|</span> <span class="token punctuation">(</span>expr<span class="token punctuation">)</span>} <span class="token punctuation">[</span><span class="token keyword">ASC</span> <span class="token operator">|</span> <span class="token keyword">DESC</span><span class="token punctuation">]</span>
+
+index_type:
+    <span class="token keyword">USING</span> {<span class="token keyword">BTREE</span> <span class="token operator">|</span> <span class="token keyword">HASH</span>}
+
+index_option:
+    KEY_BLOCK_SIZE <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token keyword">value</span>
+  <span class="token operator">|</span> index_type
+  <span class="token operator">|</span> <span class="token keyword">WITH</span> PARSER parser_name
+  <span class="token operator">|</span> <span class="token keyword">COMMENT</span> <span class="token string">&apos;string&apos;</span>
+  <span class="token operator">|</span> {VISIBLE <span class="token operator">|</span> INVISIBLE}
+
+check_constraint_definition:
+    <span class="token punctuation">[</span><span class="token keyword">CONSTRAINT</span> <span class="token punctuation">[</span>symbol<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">CHECK</span> <span class="token punctuation">(</span>expr<span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token operator">NOT</span><span class="token punctuation">]</span> ENFORCED<span class="token punctuation">]</span>
+
+reference_definition:
+    <span class="token keyword">REFERENCES</span> tbl_name <span class="token punctuation">(</span>key_part<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+      <span class="token punctuation">[</span><span class="token keyword">MATCH</span> <span class="token keyword">FULL</span> <span class="token operator">|</span> <span class="token keyword">MATCH</span> <span class="token keyword">PARTIAL</span> <span class="token operator">|</span> <span class="token keyword">MATCH</span> <span class="token keyword">SIMPLE</span><span class="token punctuation">]</span>
+      <span class="token punctuation">[</span><span class="token keyword">ON</span> <span class="token keyword">DELETE</span> reference_option<span class="token punctuation">]</span>
+      <span class="token punctuation">[</span><span class="token keyword">ON</span> <span class="token keyword">UPDATE</span> reference_option<span class="token punctuation">]</span>
+
+reference_option:
+    <span class="token keyword">RESTRICT</span> <span class="token operator">|</span> <span class="token keyword">CASCADE</span> <span class="token operator">|</span> <span class="token keyword">SET</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token keyword">NO</span> <span class="token keyword">ACTION</span> <span class="token operator">|</span> <span class="token keyword">SET</span> <span class="token keyword">DEFAULT</span>
+
+table_options:
+    table_option <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token punctuation">,</span><span class="token punctuation">]</span> table_option<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+table_option:
+    <span class="token keyword">AUTO_INCREMENT</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token keyword">value</span>
+  <span class="token operator">|</span> AVG_ROW_LENGTH <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token keyword">value</span>
+  <span class="token operator">|</span> <span class="token punctuation">[</span><span class="token keyword">DEFAULT</span><span class="token punctuation">]</span> <span class="token keyword">CHARACTER</span> <span class="token keyword">SET</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> charset_name
+  <span class="token operator">|</span> CHECKSUM <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> {<span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span>}
+  <span class="token operator">|</span> <span class="token punctuation">[</span><span class="token keyword">DEFAULT</span><span class="token punctuation">]</span> <span class="token keyword">COLLATE</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> collation_name
+  <span class="token operator">|</span> <span class="token keyword">COMMENT</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;string&apos;</span>
+  <span class="token operator">|</span> COMPRESSION <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> {<span class="token string">&apos;ZLIB&apos;</span><span class="token operator">|</span><span class="token string">&apos;LZ4&apos;</span><span class="token operator">|</span><span class="token string">&apos;NONE&apos;</span>}
+  <span class="token operator">|</span> CONNECTION <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;connect_string&apos;</span>
+  <span class="token operator">|</span> {<span class="token keyword">DATA</span><span class="token operator">|</span><span class="token keyword">INDEX</span>} DIRECTORY <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;absolute path to directory&apos;</span>
+  <span class="token operator">|</span> DELAY_KEY_WRITE <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> {<span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span>}
+  <span class="token operator">|</span> ENCRYPTION <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> {<span class="token string">&apos;Y&apos;</span> <span class="token operator">|</span> <span class="token string">&apos;N&apos;</span>}
+  <span class="token operator">|</span> <span class="token keyword">ENGINE</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> engine_name
+  <span class="token operator">|</span> INSERT_METHOD <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> { <span class="token keyword">NO</span> <span class="token operator">|</span> <span class="token keyword">FIRST</span> <span class="token operator">|</span> <span class="token keyword">LAST</span> }
+  <span class="token operator">|</span> KEY_BLOCK_SIZE <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token keyword">value</span>
+  <span class="token operator">|</span> MAX_ROWS <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token keyword">value</span>
+  <span class="token operator">|</span> MIN_ROWS <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token keyword">value</span>
+  <span class="token operator">|</span> PACK_KEYS <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> {<span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span> <span class="token operator">|</span> <span class="token keyword">DEFAULT</span>}
+  <span class="token operator">|</span> PASSWORD <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;string&apos;</span>
+  <span class="token operator">|</span> ROW_FORMAT <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> {<span class="token keyword">DEFAULT</span><span class="token operator">|</span>DYNAMIC<span class="token operator">|</span><span class="token keyword">FIXED</span><span class="token operator">|</span>COMPRESSED<span class="token operator">|</span>REDUNDANT<span class="token operator">|</span>COMPACT}
+  <span class="token operator">|</span> STATS_AUTO_RECALC <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> {<span class="token keyword">DEFAULT</span><span class="token operator">|</span><span class="token number">0</span><span class="token operator">|</span><span class="token number">1</span>}
+  <span class="token operator">|</span> STATS_PERSISTENT <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> {<span class="token keyword">DEFAULT</span><span class="token operator">|</span><span class="token number">0</span><span class="token operator">|</span><span class="token number">1</span>}
+  <span class="token operator">|</span> STATS_SAMPLE_PAGES <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token keyword">value</span>
+  <span class="token operator">|</span> <span class="token keyword">TABLESPACE</span> tablespace_name <span class="token punctuation">[</span>STORAGE {<span class="token keyword">DISK</span><span class="token operator">|</span>MEMORY}<span class="token punctuation">]</span>
+  <span class="token operator">|</span> <span class="token keyword">UNION</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token punctuation">(</span>tbl_name<span class="token punctuation">[</span><span class="token punctuation">,</span>tbl_name<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+
+partition_options:
+    <span class="token keyword">PARTITION</span> <span class="token keyword">BY</span>
+        { <span class="token punctuation">[</span>LINEAR<span class="token punctuation">]</span> <span class="token keyword">HASH</span><span class="token punctuation">(</span>expr<span class="token punctuation">)</span>
+        <span class="token operator">|</span> <span class="token punctuation">[</span>LINEAR<span class="token punctuation">]</span> <span class="token keyword">KEY</span> <span class="token punctuation">[</span><span class="token keyword">ALGORITHM</span><span class="token operator">=</span>{<span class="token number">1</span><span class="token operator">|</span><span class="token number">2</span>}<span class="token punctuation">]</span> <span class="token punctuation">(</span>column_list<span class="token punctuation">)</span>
+        <span class="token operator">|</span> RANGE{<span class="token punctuation">(</span>expr<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token keyword">COLUMNS</span><span class="token punctuation">(</span>column_list<span class="token punctuation">)</span>}
+        <span class="token operator">|</span> LIST{<span class="token punctuation">(</span>expr<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token keyword">COLUMNS</span><span class="token punctuation">(</span>column_list<span class="token punctuation">)</span>} }
+    <span class="token punctuation">[</span>PARTITIONS num<span class="token punctuation">]</span>
+    <span class="token punctuation">[</span>SUBPARTITION <span class="token keyword">BY</span>
+        { <span class="token punctuation">[</span>LINEAR<span class="token punctuation">]</span> <span class="token keyword">HASH</span><span class="token punctuation">(</span>expr<span class="token punctuation">)</span>
+        <span class="token operator">|</span> <span class="token punctuation">[</span>LINEAR<span class="token punctuation">]</span> <span class="token keyword">KEY</span> <span class="token punctuation">[</span><span class="token keyword">ALGORITHM</span><span class="token operator">=</span>{<span class="token number">1</span><span class="token operator">|</span><span class="token number">2</span>}<span class="token punctuation">]</span> <span class="token punctuation">(</span>column_list<span class="token punctuation">)</span> }
+      <span class="token punctuation">[</span>SUBPARTITIONS num<span class="token punctuation">]</span>
+    <span class="token punctuation">]</span>
+    <span class="token punctuation">[</span><span class="token punctuation">(</span>partition_definition <span class="token punctuation">[</span><span class="token punctuation">,</span> partition_definition<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+partition_definition:
+    <span class="token keyword">PARTITION</span> partition_name
+        <span class="token punctuation">[</span><span class="token keyword">VALUES</span>
+            {LESS THAN {<span class="token punctuation">(</span>expr <span class="token operator">|</span> value_list<span class="token punctuation">)</span> <span class="token operator">|</span> MAXVALUE}
+            <span class="token operator">|</span>
+            <span class="token operator">IN</span> <span class="token punctuation">(</span>value_list<span class="token punctuation">)</span>}<span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token punctuation">[</span>STORAGE<span class="token punctuation">]</span> <span class="token keyword">ENGINE</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> engine_name<span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token keyword">COMMENT</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;string&apos;</span> <span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token keyword">DATA</span> DIRECTORY <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;data_dir&apos;</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token keyword">INDEX</span> DIRECTORY <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;index_dir&apos;</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span>MAX_ROWS <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> max_number_of_rows<span class="token punctuation">]</span>
+        <span class="token punctuation">[</span>MIN_ROWS <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> min_number_of_rows<span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token keyword">TABLESPACE</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> tablespace_name<span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token punctuation">(</span>subpartition_definition <span class="token punctuation">[</span><span class="token punctuation">,</span> subpartition_definition<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+subpartition_definition:
+    SUBPARTITION logical_name
+        <span class="token punctuation">[</span><span class="token punctuation">[</span>STORAGE<span class="token punctuation">]</span> <span class="token keyword">ENGINE</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> engine_name<span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token keyword">COMMENT</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;string&apos;</span> <span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token keyword">DATA</span> DIRECTORY <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;data_dir&apos;</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token keyword">INDEX</span> DIRECTORY <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> <span class="token string">&apos;index_dir&apos;</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span>MAX_ROWS <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> max_number_of_rows<span class="token punctuation">]</span>
+        <span class="token punctuation">[</span>MIN_ROWS <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> min_number_of_rows<span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token keyword">TABLESPACE</span> <span class="token punctuation">[</span><span class="token operator">=</span><span class="token punctuation">]</span> tablespace_name<span class="token punctuation">]</span>
+
+query_expression:
+    <span class="token keyword">SELECT</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>   <span class="token punctuation">(</span><span class="token keyword">Some</span> valid <span class="token keyword">select</span> <span class="token operator">or</span> <span class="token keyword">union</span> statement<span class="token punctuation">)</span>
+</code></pre>
+<h4 id="&#x521B;&#x5EFA;&#x8868;&#x5E76;&#x8BBE;&#x7F6E;&#x81EA;&#x589E;&#x4E3B;&#x952E;">&#x521B;&#x5EFA;&#x8868;&#x5E76;&#x8BBE;&#x7F6E;&#x81EA;&#x589E;&#x4E3B;&#x952E;</h4>
+<pre class="language-"><code class="lang-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> book_role <span class="token punctuation">(</span>id <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token keyword">primary</span> <span class="token keyword">key</span> <span class="token operator">not</span> <span class="token boolean">null</span> <span class="token keyword">auto_increment</span><span class="token punctuation">,</span> book_name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span> role_name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="132-&#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5;-data-manipulation-statements">13.2 &#x6570;&#x636E;&#x64CD;&#x4F5C;&#x8BED;&#x53E5; Data Manipulation Statements</h2>
 <h2 id="1321-insert">13.2.1 INSERT</h2>
 <p><a href="https://dev.mysql.com/doc/refman/8.0/en/insert.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/insert.html</a></p>
 <pre class="language-"><code>INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
@@ -2661,7 +2868,8 @@ mysql&gt; select * from shaolin;
 |  7 | yuanjue |           | 1969-02-02 | zhang     |
 +----+---------+-----------+------------+-----------+
 3 rows in set (0.00 sec)
-</code></pre><h2 id="13210-select-syntax">13.2.10 SELECT Syntax</h2>
+</code></pre><h2 id="1329-select-syntax">13.2.9 SELECT Syntax</h2>
+<h3 id="13291-select--into-syntax">13.2.9.1 SELECT ... INTO Syntax</h3>
 <pre class="language-"><code class="lang-sql"><span class="token keyword">SELECT</span>
     <span class="token punctuation">[</span><span class="token keyword">ALL</span> <span class="token operator">|</span> <span class="token keyword">DISTINCT</span> <span class="token operator">|</span> <span class="token keyword">DISTINCTROW</span> <span class="token punctuation">]</span>
       <span class="token punctuation">[</span>HIGH_PRIORITY<span class="token punctuation">]</span>
@@ -2693,7 +2901,208 @@ mysql&gt; select * from shaolin;
 <p>&#x663E;&#x793A;&#x6307;&#x5B9A;&#x5217;</p>
 <pre class="language-"><code class="lang-sql"><span class="token keyword">SELECT</span> id<span class="token punctuation">,</span> <span class="token keyword">user</span><span class="token punctuation">,</span> <span class="token keyword">type</span> <span class="token keyword">FROM</span> t<span class="token punctuation">;</span>
 </code></pre>
-<h3 id="13212-update-syntax">13.2.12 UPDATE Syntax</h3>
+<h3 id="13292-join-syntax">13.2.9.2 JOIN Syntax</h3>
+<p>join &#x6587;&#x6863; <a href="https://dev.mysql.com/doc/refman/5.7/en/join.html" target="_blank">https://dev.mysql.com/doc/refman/5.7/en/join.html</a></p>
+<pre class="language-"><code class="lang-sql">table_references:
+    escaped_table_reference <span class="token punctuation">[</span><span class="token punctuation">,</span> escaped_table_reference<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+escaped_table_reference:
+    table_reference
+  <span class="token operator">|</span> { OJ table_reference }
+
+table_reference:
+    table_factor
+  <span class="token operator">|</span> joined_table
+
+table_factor:
+    tbl_name <span class="token punctuation">[</span><span class="token keyword">PARTITION</span> <span class="token punctuation">(</span>partition_names<span class="token punctuation">)</span><span class="token punctuation">]</span>
+        <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token keyword">AS</span><span class="token punctuation">]</span> alias<span class="token punctuation">]</span> <span class="token punctuation">[</span>index_hint_list<span class="token punctuation">]</span>
+  <span class="token operator">|</span> table_subquery <span class="token punctuation">[</span><span class="token keyword">AS</span><span class="token punctuation">]</span> alias
+  <span class="token operator">|</span> <span class="token punctuation">(</span> table_references <span class="token punctuation">)</span>
+
+joined_table:
+    table_reference <span class="token punctuation">[</span><span class="token keyword">INNER</span> <span class="token operator">|</span> <span class="token keyword">CROSS</span><span class="token punctuation">]</span> <span class="token keyword">JOIN</span> table_factor <span class="token punctuation">[</span>join_specification<span class="token punctuation">]</span>
+  <span class="token operator">|</span> table_reference STRAIGHT_JOIN table_factor
+  <span class="token operator">|</span> table_reference STRAIGHT_JOIN table_factor <span class="token keyword">ON</span> search_condition
+  <span class="token operator">|</span> table_reference {<span class="token keyword">LEFT</span><span class="token operator">|</span><span class="token keyword">RIGHT</span>} <span class="token punctuation">[</span><span class="token keyword">OUTER</span><span class="token punctuation">]</span> <span class="token keyword">JOIN</span> table_reference join_specification
+  <span class="token operator">|</span> table_reference <span class="token keyword">NATURAL</span> <span class="token punctuation">[</span>{<span class="token keyword">LEFT</span><span class="token operator">|</span><span class="token keyword">RIGHT</span>} <span class="token punctuation">[</span><span class="token keyword">OUTER</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">JOIN</span> table_factor
+
+join_specification:
+    <span class="token keyword">ON</span> search_condition
+  <span class="token operator">|</span> <span class="token keyword">USING</span> <span class="token punctuation">(</span>join_column_list<span class="token punctuation">)</span>
+
+join_column_list:
+    column_name <span class="token punctuation">[</span><span class="token punctuation">,</span> column_name<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+index_hint_list:
+    index_hint <span class="token punctuation">[</span><span class="token punctuation">,</span> index_hint<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+index_hint:
+    <span class="token keyword">USE</span> {<span class="token keyword">INDEX</span><span class="token operator">|</span><span class="token keyword">KEY</span>}
+      <span class="token punctuation">[</span><span class="token keyword">FOR</span> {<span class="token keyword">JOIN</span><span class="token operator">|</span><span class="token keyword">ORDER</span> <span class="token keyword">BY</span><span class="token operator">|</span><span class="token keyword">GROUP</span> <span class="token keyword">BY</span>}<span class="token punctuation">]</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>index_list<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token operator">|</span> {<span class="token keyword">IGNORE</span><span class="token operator">|</span><span class="token keyword">FORCE</span>} {<span class="token keyword">INDEX</span><span class="token operator">|</span><span class="token keyword">KEY</span>}
+      <span class="token punctuation">[</span><span class="token keyword">FOR</span> {<span class="token keyword">JOIN</span><span class="token operator">|</span><span class="token keyword">ORDER</span> <span class="token keyword">BY</span><span class="token operator">|</span><span class="token keyword">GROUP</span> <span class="token keyword">BY</span>}<span class="token punctuation">]</span> <span class="token punctuation">(</span>index_list<span class="token punctuation">)</span>
+
+index_list:
+    index_name <span class="token punctuation">[</span><span class="token punctuation">,</span> index_name<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+</code></pre>
+<h4 id="&#x8054;&#x8868;&#x67E5;&#x8BE2;">&#x8054;&#x8868;&#x67E5;&#x8BE2;:</h4>
+<p>&#x53C2;&#x8003;&#x6587;&#x6863; MySQL&#x591A;&#x8868;&#x67E5;&#x8BE2; <a href="https://blog.csdn.net/qq_36381855/article/details/80007575" target="_blank">https://blog.csdn.net/qq_36381855/article/details/80007575</a></p>
+<p>&#x5305;&#x62EC;&#x5185;&#x8FDE;&#x63A5;&#x548C;&#x5916;&#x8FDE;&#x63A5;</p>
+<ul>
+<li>&#x5185;&#x8FDE;&#x63A5;&#xFF1A;join&#xFF0C;inner join</li>
+<li>&#x5916;&#x8FDE;&#x63A5;&#xFF1A;left join&#xFF0C;left outer join&#xFF0C;right join&#xFF0C;right outer join&#xFF0C;union</li>
+<li>&#x4EA4;&#x53C9;&#x8FDE;&#x63A5;&#xFF1A;cross join</li>
+</ul>
+<p>&#x6709;&#x8868; age &#x548C; name 2&#x4E2A;&#x8868;</p>
+<pre class="language-"><code>mysql&gt; select * from age;
++----+------+
+| id | age  |
++----+------+
+|  3 |   18 |
+|  4 |   24 |
+|  5 |   19 |
++----+------+
+3 rows in set (0.00 sec)
+
+mysql&gt; select * from name;
++----+--------+
+| id | name   |
++----+--------+
+|  1 | &#x5C0F;&#x660E;   |
+|  2 | tom    |
+|  3 | lily   |
+|  4 | allen  |
++----+--------+
+4 rows in set (0.00 sec)
+</code></pre><h4 id="cross-join-&#x83B7;&#x53D6;&#x7B1B;&#x5361;&#x5C14;&#x96C6;&#x5408;">cross join &#x83B7;&#x53D6;&#x7B1B;&#x5361;&#x5C14;&#x96C6;&#x5408;</h4>
+<p>&#x5F97;&#x5230;&#x7684;&#x662F;2&#x4E2A;&#x8868;&#x7684;&#x4E58;&#x79EF;&#xFF08;&#x7B1B;&#x5361;&#x5C14;&#x96C6;&#xFF09;&#xFF0C;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x57FA;&#x672C;&#x7528;&#x4E0D;&#x5230;
+&#x66F4;&#x5E38;&#x7528;&#x7684;&#x662F;&#x5185;&#x8054;&#x7ED3;&#x67E5;&#x8BE2;</p>
+<pre class="language-"><code class="lang-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age <span class="token keyword">cross</span> <span class="token keyword">join</span> name<span class="token punctuation">;</span>
+</code></pre>
+<p>&#x5982;&#x679C;&#x4E24;&#x4E2A;&#x8868;&#x4F7F;&#x7528;&#x9017;&#x53F7;&#x8FDE;&#x63A5;&#xFF0C;&#x4F1A;&#x4F5C;&#x4E3A; cross join &#x89E3;&#x6790;&#x3002;</p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age<span class="token punctuation">,</span> name<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">----+------+----+--------+</span>
+<span class="token operator">|</span> id <span class="token operator">|</span> age  <span class="token operator">|</span> id <span class="token operator">|</span> name   <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+----+--------+</span>
+<span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>  <span class="token number">1</span> <span class="token operator">|</span> &#x5C0F;&#x660E;   <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>  <span class="token number">1</span> <span class="token operator">|</span> &#x5C0F;&#x660E;   <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">5</span> <span class="token operator">|</span>   <span class="token number">19</span> <span class="token operator">|</span>  <span class="token number">1</span> <span class="token operator">|</span> &#x5C0F;&#x660E;   <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>  <span class="token number">2</span> <span class="token operator">|</span> tom    <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>  <span class="token number">2</span> <span class="token operator">|</span> tom    <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">5</span> <span class="token operator">|</span>   <span class="token number">19</span> <span class="token operator">|</span>  <span class="token number">2</span> <span class="token operator">|</span> tom    <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span> lily   <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span> lily   <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">5</span> <span class="token operator">|</span>   <span class="token number">19</span> <span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span> lily   <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span> allen  <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span> allen  <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">5</span> <span class="token operator">|</span>   <span class="token number">19</span> <span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span> allen  <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+----+--------+</span>
+<span class="token number">12</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+<p>mysql &#x7684;&#x8BED;&#x53E5;&#x5BB9;&#x9519;</p>
+<ol>
+<li>&#x4E00;&#x822C;cross join&#x540E;&#x9762;&#x52A0;&#x4E0A;where&#x6761;&#x4EF6;&#xFF0C;&#x4F46;&#x662F;&#x7528;cross join+on&#x4E5F;&#x662F;&#x88AB;&#x89E3;&#x91CA;&#x4E3A;cross join+where&#xFF1B;</li>
+<li>&#x4E00;&#x822C;&#x5185;&#x8FDE;&#x63A5;&#x90FD;&#x9700;&#x8981;&#x52A0;&#x4E0A;on&#x9650;&#x5B9A;&#x6761;&#x4EF6;&#xFF0C;&#x5982;&#x4E0A;&#x9762;&#x573A;&#x666F;2.1&#xFF1B;&#x5982;&#x679C;&#x4E0D;&#x52A0;&#x4F1A;&#x88AB;&#x89E3;&#x91CA;&#x4E3A;&#x4EA4;&#x53C9;&#x8FDE;&#x63A5;&#xFF1B;</li>
+<li>&#x5982;&#x679C;&#x8FDE;&#x63A5;&#x8868;&#x683C;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x9017;&#x53F7;&#xFF0C;&#x4F1A;&#x88AB;&#x89E3;&#x91CA;&#x4E3A;&#x4EA4;&#x53C9;&#x8FDE;&#x63A5;&#xFF1B;</li>
+</ol>
+<h4 id="&#x5185;&#x8FDE;&#x63A5;">&#x5185;&#x8FDE;&#x63A5;</h4>
+<p><img src="images/chatu/2019-07-30-23-33-56.png" alt=""></p>
+<p>&#x8BED;&#x6CD5;</p>
+<pre class="language-"><code># &#x9690;&#x5F0F;&#x5185;&#x8054;&#x7ED3;
+
+select * from table1 &#x522B;&#x540D;t1, table2 &#x522B;&#x540D;t2 where t1.xx = t2.xx;
+
+# &#x663E;&#x5F0F;&#x5185;&#x8054;&#x7ED3; inner &#x53EF;&#x4EE5;&#x7701;&#x7565;
+
+select r.name, r.skill, r.nick_name, b.book_name from role r inner join book_role b where b.role_name like concat(&apos;%&apos;, r.name, &apos;%&apos;) \G;
+</code></pre><p>&#x5185;&#x8FDE;&#x63A5;&#xFF0C;&#x53EA;&#x9009;&#x51FA;&#x7B26;&#x5408;&#x6761;&#x4EF6;&#x7684;&#x4E24;&#x4E2A;&#x8868;&#x4E2D;&#x5747;&#x5B58;&#x5728;&#x7684;&#x6761;&#x76EE;&#x624D;&#x4F1A;&#x5217;&#x51FA;&#x3002; &#x5F97;&#x5230;&#x7684;&#x662F; t1, t2&#x7684;&#x4EA4;&#x96C6;&#x6570;&#x636E;</p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1<span class="token punctuation">,</span> name t2 <span class="token keyword">where</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">----+------+----+-------+</span>
+<span class="token operator">|</span> id <span class="token operator">|</span> age  <span class="token operator">|</span> id <span class="token operator">|</span> name  <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+----+-------+</span>
+<span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span> lily  <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span> allen <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+----+-------+</span>
+<span class="token number">2</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+<h4 id="&#x5916;&#x8054;&#x7ED3;">&#x5916;&#x8054;&#x7ED3;</h4>
+<h4 id="&#x5DE6;&#x8054;&#x7ED3;">&#x5DE6;&#x8054;&#x7ED3;</h4>
+<p>&#x7B2C;&#x4E00;&#x4E2A;&#x8868; t1 &#x4E2D;&#x6570;&#x636E;&#x5168;&#x90E8;&#x4F7F;&#x7528;&#xFF0C;t2 &#x4E2D;&#x6CA1;&#x6709;&#x7B26;&#x5408;&#x6761;&#x4EF6;&#x7684;&#x4E5F;&#x4F1A;&#x5217;&#x51FA;&#xFF0C;&#x5E76;&#x8865;&#x5168;&#x3002; &#x5982;t1 &#x4E2D; id = 5 &#x6761;&#x76EE;&#x5728; t2&#x4E2D;&#x6CA1;&#x6709;&#xFF0C;&#x4E5F;&#x4F1A;&#x5217;&#x51FA;&#x3002; &#x5982;&#x6B64;&#x5F97;&#x5230; t1 &#x4E2D;&#x7684;&#x5168;&#x90E8;&#x6570;&#x636E;</p>
+<p><img src="images/chatu/2019-07-30-23-34-26.png" alt=""></p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1 <span class="token keyword">left</span> <span class="token keyword">join</span> name t2 <span class="token keyword">on</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+-------+</span>
+<span class="token operator">|</span> id <span class="token operator">|</span> age  <span class="token operator">|</span> id   <span class="token operator">|</span> name  <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+-------+</span>
+<span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>    <span class="token number">3</span> <span class="token operator">|</span> lily  <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>    <span class="token number">4</span> <span class="token operator">|</span> allen <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">5</span> <span class="token operator">|</span>   <span class="token number">19</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span>  <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+-------+</span>
+<span class="token number">3</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+<p>&#x67E5;&#x770B; t1 t2 &#x4E2D; &#x90FD;&#x6709;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x540C;&#x65F6;&#x589E;&#x52A0; where &#x6761;&#x4EF6;&#xFF0C;&#x8FC7;&#x6EE4;&#x6389; t2 &#x4E2D;&#x6CA1;&#x6709;&#x7684;&#x6570;&#x636E;&#x3002;&#x5217;&#x51FA;&#x7684;&#x8FD8;&#x662F; t1, t2 &#x7684;&#x4EA4;&#x96C6;&#x3002;</p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1 <span class="token keyword">left</span> <span class="token keyword">join</span> name t2 <span class="token keyword">on</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id <span class="token keyword">where</span> t2<span class="token punctuation">.</span>id <span class="token operator">is</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+-------+</span>
+<span class="token operator">|</span> id <span class="token operator">|</span> age  <span class="token operator">|</span> id   <span class="token operator">|</span> name  <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+-------+</span>
+<span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>    <span class="token number">3</span> <span class="token operator">|</span> lily  <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>    <span class="token number">4</span> <span class="token operator">|</span> allen <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+-------+</span>
+<span class="token number">2</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+<p>&#x53EA;&#x5217;&#x51FA; t1 &#x4E2D;&#x6709;&#xFF0C; t2&#x4E2D;&#x6CA1;&#x6709;&#x7684;&#x6570;&#x636E;&#x3002;</p>
+<p><img src="images/chatu/2019-07-30-23-41-03.png" alt=""></p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1 <span class="token keyword">left</span> <span class="token keyword">join</span> name t2 <span class="token keyword">on</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id <span class="token keyword">where</span> t2<span class="token punctuation">.</span>id <span class="token operator">is</span> <span class="token boolean">null</span><span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+------+</span>
+<span class="token operator">|</span> id <span class="token operator">|</span> age  <span class="token operator">|</span> id   <span class="token operator">|</span> name <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+------+</span>
+<span class="token operator">|</span>  <span class="token number">5</span> <span class="token operator">|</span>   <span class="token number">19</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----+------+------+------+</span>
+<span class="token number">1</span> <span class="token keyword">row</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+<h4 id="&#x53F3;&#x8054;&#x7ED3;-&#x4E0E;&#x5DE6;&#x8FDE;&#x63A5;&#x76F8;&#x53CD;&#xFF0C;&#x7528;&#x7B2C;&#x4E00;&#x4E2A;&#x8868;&#x7684;&#x6570;&#x636E;&#x586B;&#x5145;&#x7B2C;&#x4E8C;&#x4E2A;&#x8868;&#x3002;t1&#x4E2D;&#x4E0D;&#x5B58;&#x5728;&#x65F6;&#x586B;&#x5145;-null&#x3002;-&#x8FD9;&#x6837;&#x5F97;&#x5230;&#x4E86;-t2-&#x4E2D;&#x7684;&#x5168;&#x90E8;&#x6570;&#x636E;">&#x53F3;&#x8054;&#x7ED3;, &#x4E0E;&#x5DE6;&#x8FDE;&#x63A5;&#x76F8;&#x53CD;&#xFF0C;&#x7528;&#x7B2C;&#x4E00;&#x4E2A;&#x8868;&#x7684;&#x6570;&#x636E;&#x586B;&#x5145;&#x7B2C;&#x4E8C;&#x4E2A;&#x8868;&#x3002;t1&#x4E2D;&#x4E0D;&#x5B58;&#x5728;&#x65F6;&#x586B;&#x5145; NULL&#x3002; &#x8FD9;&#x6837;&#x5F97;&#x5230;&#x4E86; t2 &#x4E2D;&#x7684;&#x5168;&#x90E8;&#x6570;&#x636E;</h4>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1 <span class="token keyword">right</span> <span class="token keyword">join</span> name t2 <span class="token keyword">on</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">------+------+----+--------+</span>
+<span class="token operator">|</span> id   <span class="token operator">|</span> age  <span class="token operator">|</span> id <span class="token operator">|</span> name   <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------+------+----+--------+</span>
+<span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span>  <span class="token number">1</span> <span class="token operator">|</span> &#x5C0F;&#x660E;   <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span>  <span class="token number">2</span> <span class="token operator">|</span> tom    <span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>  <span class="token number">3</span> <span class="token operator">|</span> lily   <span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>  <span class="token number">4</span> <span class="token operator">|</span> allen  <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------+------+----+--------+</span>
+<span class="token number">4</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+<p>&#x4F7F;&#x7528; union &#x5F97;&#x5230;&#x5168;&#x90E8;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x540C;&#x65F6;&#x4F1A;&#x8FC7;&#x6EE4;&#x91CD;&#x590D;&#x9879;</p>
+<p><img src="images/chatu/2019-07-30-23-45-35.png" alt=""></p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1 <span class="token keyword">left</span> <span class="token keyword">join</span> name t2 <span class="token keyword">on</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id
+    <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token keyword">union</span>
+    <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1 <span class="token keyword">right</span> <span class="token keyword">join</span> name t2 <span class="token keyword">on</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+--------+</span>
+<span class="token operator">|</span> id   <span class="token operator">|</span> age  <span class="token operator">|</span> id   <span class="token operator">|</span> name   <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+--------+</span>
+<span class="token operator">|</span>    <span class="token number">3</span> <span class="token operator">|</span>   <span class="token number">18</span> <span class="token operator">|</span>    <span class="token number">3</span> <span class="token operator">|</span> lily   <span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">4</span> <span class="token operator">|</span>   <span class="token number">24</span> <span class="token operator">|</span>    <span class="token number">4</span> <span class="token operator">|</span> allen  <span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">5</span> <span class="token operator">|</span>   <span class="token number">19</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span>   <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span>    <span class="token number">1</span> <span class="token operator">|</span> &#x5C0F;&#x660E;   <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span>    <span class="token number">2</span> <span class="token operator">|</span> tom    <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+--------+</span>
+<span class="token number">5</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+<p>union + is null &#x5F97;&#x5230;2&#x7EC4;&#x4E2D;&#x90FD;&#x4E0D;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;&#x96C6;&#x5408;</p>
+<p><img src="images/chatu/2019-07-30-23-49-16.png" alt=""></p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1 <span class="token keyword">left</span> <span class="token keyword">join</span> name t2 <span class="token keyword">on</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id <span class="token keyword">where</span> t2<span class="token punctuation">.</span>id <span class="token operator">is</span> <span class="token boolean">null</span>
+    <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token keyword">union</span>
+    <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> age t1 <span class="token keyword">right</span> <span class="token keyword">join</span> name t2 <span class="token keyword">on</span> t1<span class="token punctuation">.</span>id <span class="token operator">=</span> t2<span class="token punctuation">.</span>id <span class="token keyword">where</span> t1<span class="token punctuation">.</span>id <span class="token operator">is</span> <span class="token boolean">null</span><span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+--------+</span>
+<span class="token operator">|</span> id   <span class="token operator">|</span> age  <span class="token operator">|</span> id   <span class="token operator">|</span> name   <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+--------+</span>
+<span class="token operator">|</span>    <span class="token number">5</span> <span class="token operator">|</span>   <span class="token number">19</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span>   <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span>    <span class="token number">1</span> <span class="token operator">|</span> &#x5C0F;&#x660E;   <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span> <span class="token boolean">NULL</span> <span class="token operator">|</span>    <span class="token number">2</span> <span class="token operator">|</span> tom    <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+--------+</span>
+<span class="token number">3</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.01</span> sec<span class="token punctuation">)</span>
+</code></pre>
+<h3 id="13211-update-syntax">13.2.11 UPDATE Syntax</h3>
 <p>Single-table syntax:</p>
 <pre class="language-"><code class="lang-sql"><span class="token keyword">UPDATE</span> <span class="token punctuation">[</span>LOW_PRIORITY<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token keyword">IGNORE</span><span class="token punctuation">]</span> table_reference
     <span class="token keyword">SET</span> assignment_list
@@ -2725,6 +3134,46 @@ assignment_list:
 <span class="token keyword">WHERE</span> items<span class="token punctuation">.</span>id<span class="token operator">=</span><span class="token keyword">month</span><span class="token punctuation">.</span>id<span class="token punctuation">;</span>
 </code></pre>
 <pre class="language-"><code class="lang-sql"><span class="token keyword">update</span> t  <span class="token keyword">set</span> data_time<span class="token operator">=</span>DATE_FORMAT<span class="token punctuation">(</span>data_time<span class="token punctuation">,</span> <span class="token string">&apos;%Y-%m&apos;</span><span class="token punctuation">)</span> <span class="token keyword">where</span> <span class="token keyword">type</span> <span class="token operator">=</span> <span class="token string">&apos;month&apos;</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="137-database-administration-statements">13.7 Database Administration Statements</h2>
+<ul>
+<li>13.7.1 Account Management Statements</li>
+<li>13.7.2 Resource Group Management Statements</li>
+<li>13.7.3 Table Maintenance Statements</li>
+<li>13.7.4 Component, Plugin, and User-Defined Function Statements</li>
+<li>13.7.5 SET Syntax</li>
+<li>13.7.6 SHOW Syntax</li>
+<li>13.7.7 Other Administrative Statements</li>
+</ul>
+<h2 id="13716-show-syntax">13.7.16 SHOW Syntax</h2>
+<h3 id="13766-show-create-database-syntax">13.7.6.6 SHOW CREATE DATABASE Syntax</h3>
+<pre class="language-"><code class="lang-sql"><span class="token keyword">SHOW</span> <span class="token keyword">CREATE</span> {<span class="token keyword">DATABASE</span> <span class="token operator">|</span> <span class="token keyword">SCHEMA</span>} <span class="token punctuation">[</span><span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span><span class="token punctuation">]</span> db_name
+</code></pre>
+<p>Shows the CREATE DATABASE statement that creates the named database. If the SHOW statement includes an IF NOT EXISTS clause, the output too includes such a clause. SHOW CREATE SCHEMA is a synonym for SHOW CREATE DATABASE.</p>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">SHOW</span> <span class="token keyword">CREATE</span> <span class="token keyword">DATABASE</span> test\G
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> <span class="token number">1.</span> <span class="token keyword">row</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+       <span class="token keyword">Database</span>: test
+<span class="token keyword">Create</span> <span class="token keyword">Database</span>: <span class="token keyword">CREATE</span> <span class="token keyword">DATABASE</span> <span class="token punctuation">`</span>test<span class="token punctuation">`</span> <span class="token comment">/*!40100 DEFAULT CHARACTER SET utf8mb4 
+                 COLLATE utf8mb4_0900_ai_ci */</span> <span class="token comment">/*!80014 DEFAULT ENCRYPTION=&apos;N&apos; */</span>
+
+mysql<span class="token operator">&gt;</span> <span class="token keyword">SHOW</span> <span class="token keyword">CREATE</span> <span class="token keyword">SCHEMA</span> test\G
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> <span class="token number">1.</span> <span class="token keyword">row</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+       <span class="token keyword">Database</span>: test
+<span class="token keyword">Create</span> <span class="token keyword">Database</span>: <span class="token keyword">CREATE</span> <span class="token keyword">DATABASE</span> <span class="token punctuation">`</span>test<span class="token punctuation">`</span> <span class="token comment">/*!40100 DEFAULT CHARACTER SET utf8mb4 
+                 COLLATE utf8mb4_0900_ai_ci */</span> <span class="token comment">/*!80014 DEFAULT ENCRYPTION=&apos;N&apos; */</span>
+</code></pre>
+<h3 id="137610-show-create-table-syntax">13.7.6.10 SHOW CREATE TABLE Syntax</h3>
+<p>&#x67E5;&#x770B;&#x4E00;&#x4E2A;&#x8868;&#x7684;&#x521B;&#x5EFA;&#x8BED;&#x53E5;</p>
+<pre class="language-"><code class="lang-sql"><span class="token keyword">SHOW</span> <span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> tbl_name
+</code></pre>
+<pre class="language-"><code class="lang-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">SHOW</span> <span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> t\G
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> <span class="token number">1.</span> <span class="token keyword">row</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+       <span class="token keyword">Table</span>: t
+<span class="token keyword">Create</span> <span class="token keyword">Table</span>: <span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token punctuation">`</span>t<span class="token punctuation">`</span> <span class="token punctuation">(</span>
+  <span class="token punctuation">`</span>id<span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">AUTO_INCREMENT</span><span class="token punctuation">,</span>
+  <span class="token punctuation">`</span>s<span class="token punctuation">`</span> <span class="token keyword">char</span><span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span><span class="token punctuation">`</span>id<span class="token punctuation">`</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span> <span class="token keyword">ENGINE</span><span class="token operator">=</span><span class="token keyword">InnoDB</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CHARSET</span><span class="token operator">=</span>utf8mb4
 </code></pre>
 
                                 
@@ -2769,7 +3218,7 @@ assignment_list:
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"mysql","level":"6.1","depth":1,"next":{"title":"nginx","level":"6.2","depth":1,"path":"notes/nginx.md","ref":"notes/nginx.md","articles":[]},"previous":{"title":"linux管道及IO重定向","level":"5.11","depth":1,"path":"notes/linux-study/linux管道及IO重定向.md","ref":"notes/linux-study/linux管道及IO重定向.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/mysql.md","mtime":"2019-06-21T06:58:19.485Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-21T09:36:18.620Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"mysql","level":"6.1","depth":1,"next":{"title":"nginx","level":"6.2","depth":1,"path":"notes/nginx.md","ref":"notes/nginx.md","articles":[]},"previous":{"title":"linux管道及IO重定向","level":"5.11","depth":1,"path":"notes/linux-study/linux管道及IO重定向.md","ref":"notes/linux-study/linux管道及IO重定向.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/mysql.md","mtime":"2019-07-30T15:55:11.173Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-08-13T07:08:22.780Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

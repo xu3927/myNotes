@@ -1874,6 +1874,27 @@ urllib<span class="token punctuation">.</span><span class="token function">reque
 <h3 id="ora">ora</h3>
 <p>&#x547D;&#x4EE4;&#x884C; loading</p>
 <p><a href="https://www.npmjs.com/package/ora" target="_blank">https://www.npmjs.com/package/ora</a></p>
+<h3 id="memory-fs">memory-fs</h3>
+<p>js &#x7684;&#x4E00;&#x4E2A;&#x5185;&#x5B58;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#xFF0C; &#x6587;&#x4EF6;&#x4F5C;&#x4E3A; js &#x5BF9;&#x8C61;&#x5B58;&#x50A8;</p>
+<p><a href="https://www.npmjs.com/package/memory-fs" target="_blank">https://www.npmjs.com/package/memory-fs</a></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">var</span> MemoryFileSystem <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;memory-fs&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> fs <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MemoryFileSystem</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Optionally pass a javascript object</span>
+
+fs<span class="token punctuation">.</span><span class="token function">mkdirpSync</span><span class="token punctuation">(</span><span class="token string">&quot;/a/test/dir&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+fs<span class="token punctuation">.</span><span class="token function">writeFileSync</span><span class="token punctuation">(</span><span class="token string">&quot;/a/test/dir/file.txt&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;Hello World&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">&quot;/a/test/dir/file.txt&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// returns Buffer(&quot;Hello World&quot;)</span>
+
+<span class="token comment">// Async variants too</span>
+fs<span class="token punctuation">.</span><span class="token function">unlink</span><span class="token punctuation">(</span><span class="token string">&quot;/a/test/dir/file.txt&quot;</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">readdirSync</span><span class="token punctuation">(</span><span class="token string">&quot;/a/test&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// returns [&quot;dir&quot;]</span>
+fs<span class="token punctuation">.</span><span class="token function">statSync</span><span class="token punctuation">(</span><span class="token string">&quot;/a/test/dir&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isDirectory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// returns true</span>
+fs<span class="token punctuation">.</span><span class="token function">rmdirSync</span><span class="token punctuation">(</span><span class="token string">&quot;/a/test/dir&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">mkdirpSync</span><span class="token punctuation">(</span><span class="token string">&quot;C:\\use\\windows\\style\\paths&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
 <h2 id="browserify-&#x6D4F;&#x89C8;&#x5668;&#x73AF;&#x5883;">Browserify &#x6D4F;&#x89C8;&#x5668;&#x73AF;&#x5883;</h2>
 <h3 id="superagent-http&#x8BF7;&#x6C42;&#x5E93;">superagent HTTP&#x8BF7;&#x6C42;&#x5E93;</h3>
 <p>&#x53D1;&#x9001;http&#x8BF7;&#x6C42;</p>
@@ -1927,16 +1948,16 @@ middleware.run({}, {}, function (err, req, res) {
 <h3 id="webpack-stream">webpack-stream</h3>
 <p><a href="https://www.npmjs.com/package/webpack-stream" target="_blank">webpack-stream</a></p>
 <p>&#x7528;&#x4E8E;&#x5728;gulp&#x4EFB;&#x52A1;&#x6D41;&#x4E2D;&#x63D2;&#x5165;webpack&#x5904;&#x7406;&#x8FC7;&#x7A0B;</p>
-<h2 id="gulp-footer">gulp-footer</h2>
+<h3 id="gulp-footer">gulp-footer</h3>
 <p><a href="https://www.npmjs.com/package/gulp-footer" target="_blank">https://www.npmjs.com/package/gulp-footer</a></p>
 <p>&#x5728;&#x6587;&#x4EF6;&#x5E95;&#x90E8;&#x63D2;&#x5165;&#x53E6;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x5185;&#x5BB9;</p>
-<h2 id="gulp-concat">gulp-concat</h2>
+<h3 id="gulp-concat">gulp-concat</h3>
 <p>&#x8FDE;&#x63A5;&#x591A;&#x4E2A;&#x6587;&#x4EF6;</p>
-<h2 id="gulp-replace">gulp-replace</h2>
+<h3 id="gulp-replace">gulp-replace</h3>
 <p>&#x66FF;&#x6362;&#x6587;&#x4EF6;&#x4E2D;&#x6307;&#x5B9A;&#x7684;&#x5185;&#x5BB9;</p>
-<h2 id="gulp-rename">gulp-rename</h2>
+<h3 id="gulp-rename">gulp-rename</h3>
 <p>&#x91CD;&#x547D;&#x540D;&#x6587;&#x4EF6;</p>
-<h2 id="gulp-clone">gulp-clone</h2>
+<h3 id="gulp-clone">gulp-clone</h3>
 <p>&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x590D;&#x5236;&#x6587;&#x4EF6;</p>
 <h2 id="&#x5176;&#x4ED6;">&#x5176;&#x4ED6;</h2>
 <p><a href="https://github.com/postcss/postcss#plugins" target="_blank">postCss github&#x5730;&#x5740;</a></p>
@@ -2008,7 +2029,7 @@ middleware.run({}, {}, function (err, req, res) {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"npm.有用的npm包整理","level":"3.4","depth":1,"next":{"title":"fis3常用方法整理","level":"4.1","depth":1,"path":"notes/fis3常用方法整理.md","ref":"notes/fis3常用方法整理.md","articles":[]},"previous":{"title":"node.stream","level":"3.3","depth":1,"path":"notes/node.stream.md","ref":"notes/node.stream.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/npm.有用的npm包整理.md","mtime":"2019-05-07T16:50:31.487Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-21T09:36:18.620Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"npm.有用的npm包整理","level":"3.4","depth":1,"next":{"title":"fis3常用方法整理","level":"4.1","depth":1,"path":"notes/fis3常用方法整理.md","ref":"notes/fis3常用方法整理.md","articles":[]},"previous":{"title":"node.stream","level":"3.3","depth":1,"path":"notes/node.stream.md","ref":"notes/node.stream.md","articles":[]},"dir":"ltr"},"config":{"plugins":["page-toc","theme-default","splitter","prism","folding-chapters","-sharing","url-embed","custom-js-css"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"splitter":{},"search":{},"page-toc":{"selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"sepia","family":"sans","size":1},"folding-chapters":{},"highlight":{},"url-embed":{},"custom-js-css":{"js":[],"css":["./notes/css/custom-gitbook.css"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"copyright":"All Rights Reserved","theme":"default","author":"x3927","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"Introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"uxDisplayServe":"http://xxx.com","homePage":"/"},"title":"My Notes","language":"zh-hans","authorHomepage":"","gitbook":"*","description":"个人笔记"},"file":{"path":"notes/npm.有用的npm包整理.md","mtime":"2019-07-16T05:18:51.403Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-08-13T07:08:22.780Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
