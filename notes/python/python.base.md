@@ -4,6 +4,10 @@
 
 python 是解释型语言 (interpreted language)
 
+[python 官方教程 tutorial ](https://docs.python.org/3/tutorial/index.html)
+[python 标准库 standard library](https://docs.python.org/3/library/index.html)
+[realy python 教程](https://realpython.com/)
+
 ## 安装
 
 安装 python3
@@ -917,31 +921,132 @@ $ python3 setup.py sdist
 ```
 该命令会在 dist 目录下创建一个 zip 或 tar.gz 文件。该文件可以发送给别人使用，或上传至 https://pypi.org/
 
-## 列表
+## 错误和异常 Errors and Exceptions
 
-列表方法
+[官方文档](https://docs.python.org/3/tutorial/errors.html)
 
+[其他教程](https://realpython.com/python-exceptions/)
+
+### syntax error 和 exception error
+错误优先级: 语法验证通过才会触发 异常错误
+
+syntax error
+
+```python
+>>> print( 0 / 0 ))
+  File "<stdin>", line 1
+    print( 0 / 0 ))
+                  ^
+SyntaxError: invalid syntax
 ```
-cities = ['北京', '上海']
-cities.append('广州')
-henan = ['zhengzhou', 'anyang']
-# extend 追加一个列表
-cities.extend(henan)
+exception 错误
 
->>> cities.remove('广州')
->>> cities
-['北京', '上海', 'zhengzhou', 'anyang']
-# 移除匹配的到第一项
-cities.remove('广州')
-# 移除某项
-cities.pop(2)
-# sort
-cities.sort()
-# reverse
-cities.reverse()
-# 浅复制一个列表
-cities.copy()
+```python
+>>> print( 0 / 0)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ZeroDivisionError: integer division or modulo by zero
 ```
+### raise 触发 Exception
+
+使用 raise 可以触发异常
+
+```python
+x = 10
+if x > 5:
+    raise Exception('x should not exceed 5. The value of x was: {}'.format(x)
+```
+输出
+```
+Traceback (most recent call last):
+  File "<input>", line 4, in <module>
+Exception: x should not exceed 5. The value of x was: 10
+```
+
+### AssertionError 断言异常
+
+使用 assert 断言语句, 不满足条件时触发错误
+语法 AssertionError
+
+> assert condition msg
+
+```python
+>>> import sys
+>>> assert ('linux' in sys.platform), "This code runs on Linux only."
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AssertionError: This code runs on Linux only.
+```
+
+### try except 来捕获异常
+
+语句块 try ... except ... 
+
+```python
+>>> def linux_interaction():
+...     assert ('linux' in sys.platform), "Function can only run on Linux systems."
+...     print('Doing something.')
+... 
+>>> try:
+...     linux_interaction()
+... except:
+...     print('非 linux 系统)
+... 
+
+非 linux 系统
+```
+
+except 指定捕获的错误
+
+```python
+try:
+    linux_interaction()
+except AssertionError as error:
+    print(error)
+    print('The linux_interaction() function was not executed')
+```
+
+输出
+
+```shell
+Function can only run on Linux systems.
+The linux_interaction() function was not executed
+```
+
+### try ... except ... else 语句
+
+![](images/chatu/2019-10-15-13-01-28.png)
+
+无异常时触发 else
+
+```python
+try:
+    linux_interaction()
+except AssertionError as error:
+    print(error)
+else:
+    print('Executing the else clause.')
+```
+
+### finally 语句
+
+![](images/chatu/2019-10-15-13-02-32.png)
+
+```python
+try:
+    linux_interaction()
+except AssertionError as error:
+    print(error)
+else:
+    try:
+        with open('file.log') as file:
+            read_data = file.read()
+    except FileNotFoundError as fnf_error:
+        print(fnf_error)
+finally:
+    print('Cleaning up, irrespective of any exceptions.')
+```
+
 
 ## classes 类
 

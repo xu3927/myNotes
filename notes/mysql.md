@@ -3,6 +3,9 @@
 # MySQL
 
 [官网](https://dev.mysql.com/doc/refman/8.0/en/)
+[mysql 实践教程](http://www.mysqltutorial.org/)
+[安装示例数据库](http://www.mysqltutorial.org/mysql-sample-database.aspx)
+
 
 ## 语法
 
@@ -127,18 +130,30 @@ https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization-mysqld.htm
 
 ### 初始化数据库文件夹
 
+#### 执行程序自动初始化该文件夹
+
+会读取 my.cnf 的配置 创建包括mysql的database和grant tables
+
+```bash
+# --user指定用户, --basedir 指定mysql的basedir, --datadir指定data文件夹
+shell> bin/mysqld --initialize --user=mysql
+```
+
+
 进入basedir, 为mysql的安装路径,如 /usr/local/opt/mysql
 
 ```bash
 shell>cd basedir
 ```
 
+#### 初始化数据库文件夹执行的步骤
+
 1. 创建文件夹, 该文件夹用来存放mysql执行时的数据库文件
 
 ```bash
 shell> cd /usr/local/mysql
 # 创建数据文件夹, 该文件会被赋予全局变量 secure_file_priv  
-shell> mkdir mysql-files
+shell> mkdir data
 ```
 
 2. 给该文件设置mysql的权限, 在mac上用户和用户组需要设置为 mysql:mysql
@@ -146,18 +161,10 @@ shell> mkdir mysql-files
 mac上mysql执行使用的用户是_mysql 可以通过 dscl . list /Users 查看mac中的用户
 
 ```bash
-shell> chown mysql:mysql mysql-files
-shell> chmod 750 mysql-files
+shell> chown mysql:mysql data
+shell> chmod 750 data
 ```
 
-3. 初始化该文件夹
-
-会创建包括mysql的database和grant tables
-
-```bash
-# --user指定用户, --basedir 指定mysql的basedir, --datadir指定data文件夹
-shell> bin/mysqld --initialize --user=mysql
-```
 
 ### 安装的命令
 
@@ -168,6 +175,10 @@ shell> ls /usr/local/mysql/bin
 ```
 
 ### 启动server
+
+```bash
+mysql.server start
+```
 
 如果系统安装了 mysqld_safe 则可以用下面的命令启动
 
@@ -347,6 +358,19 @@ my.cnf文件的查找顺序
 /usr/local/etc/my.cnf
 ~/.my.cnf
 ```
+
+查看当前 mysql 使用了哪个配置文件
+1. 查看是否指定了配置文件
+```
+$ ps aux|grep mysql|grep 'my.cnf'
+```
+
+2. 查看 mysql 默认配置文件读取顺序
+```
+$ mysql --help | grep my.cnf
+```
+
+
 my.cnf 配置
 
 ```bash
@@ -1240,6 +1264,13 @@ select * from db2.t2
 where id="123"
 ```
 
+从其他库选择部分数据插入
+
+```sql
+# 从 t2 中选择 id, f1 字段, 并添加一些值
+insert into t1 (a, b, t2_id, t2_f1, c) select 'a_value', 'b_value', id, f1, 'c_value' from t2 where id < 5;
+```
+
 ## 13.2.2 DELETE Syntax
 
 https://dev.mysql.com/doc/refman/8.0/en/delete.html
@@ -1313,7 +1344,66 @@ mysql> select * from shaolin;
 
 ```
 
+## 13.2.7 LOAD DATA Syntax 从文件加载数据
 
+[https://dev.mysql.com/doc/refman/8.0/en/load-data.html](https://dev.mysql.com/doc/refman/8.0/en/load-data.html)
+
+```sql
+LOAD DATA
+    [LOW_PRIORITY | CONCURRENT] [LOCAL]
+    INFILE 'file_name'
+    [REPLACE | IGNORE]
+    INTO TABLE tbl_name
+    [PARTITION (partition_name [, partition_name] ...)]
+    [CHARACTER SET charset_name]
+    [{FIELDS | COLUMNS}
+        [TERMINATED BY 'string']
+        [[OPTIONALLY] ENCLOSED BY 'char']
+        [ESCAPED BY 'char']
+    ]
+    [LINES
+        [STARTING BY 'string']
+        [TERMINATED BY 'string']
+    ]
+    [IGNORE number {LINES | ROWS}]
+    [(col_name_or_user_var
+        [, col_name_or_user_var] ...)]
+    [SET col_name={expr | DEFAULT},
+        [, col_name={expr | DEFAULT}] ...]
+```
+
+从 txt 文件导入数据
+
+```sql
+LOAD DATA INFILE 'data.txt' INTO TABLE db2.my_table;
+```
+
+### 从 csv 导入数据
+
+[参考资料 http://www.mysqltutorial.org/import-csv-file-mysql-table/
+](http://www.mysqltutorial.org/import-csv-file-mysql-table/
+)
+
+创建表
+```sql
+# 创建表
+> mysql CREATE TABLE discounts (
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    expired_date DATE NOT NULL,
+    amount DECIMAL(10 , 2 ) NULL,
+    PRIMARY KEY (id)
+);
+
+# 导入数据
+mysql> LOAD DATA INFILE 'c:/tmp/discounts.csv' 
+INTO TABLE discounts 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+```
 
 ## 13.2.9 SELECT Syntax
 
@@ -1354,6 +1444,35 @@ SELECT * FROM t;
 显示指定列
 ```sql
 SELECT id, user, type FROM t;
+```
+
+选择指定的列并拼接一些固定值
+
+```sql
+mysql> select contactLastName, contactFirstName from customers limit 5;
++-----------------+------------------+
+| contactLastName | contactFirstName |
++-----------------+------------------+
+| Schmitt         | Carine           |
+| King            | Jean             |
+| Ferguson        | Peter            |
+| Labrune         | Janine           |
+| Bergulfsen      | Jonas            |
++-----------------+------------------+
+5 rows in set (0.00 sec)
+
+
+mysql> select 'f1', contactLastName, contactFirstName, DATE_FORMAT(now(), '%Y-%m-%d')  from customers limit 5;
++----+-----------------+------------------+--------------------------------+
+| f1 | contactLastName | contactFirstName | DATE_FORMAT(now(), '%Y-%m-%d') |
++----+-----------------+------------------+--------------------------------+
+| f1 | Schmitt         | Carine           | 2019-10-10                     |
+| f1 | King            | Jean             | 2019-10-10                     |
+| f1 | Ferguson        | Peter            | 2019-10-10                     |
+| f1 | Labrune         | Janine           | 2019-10-10                     |
+| f1 | Bergulfsen      | Jonas            | 2019-10-10                     |
++----+-----------------+------------------+--------------------------------+
+5 rows in set (0.00 sec)
 ```
 
 ### 13.2.9.2 JOIN Syntax
@@ -1658,6 +1777,184 @@ WHERE items.id=month.id;
 update t  set data_time=DATE_FORMAT(data_time, '%Y-%m') where type = 'month';
 ```
 
+从一列取数据更新另外一列
+```sql
+update test t1, test t2 set t1.f1 = t2.f2 where t1.id = t2.id
+```
+## 13.6 Compound Statement Syntax
+
+13.6.1 BEGIN ... END Compound Statement
+13.6.2 Statement Labels
+13.6.3 DECLARE Statement
+13.6.4 Variables in Stored Programs
+13.6.5 Flow Control Statements
+13.6.6 Cursors
+13.6.7 Condition Handling
+13.6.8 Restrictions on Condition Handling
+
+### 13.6.5 Flow Control Statements 流程控制
+
+- case
+- IF
+- IFNULL
+- NULLIF
+
+### 13.6.5.1 CASE Statement case 条件
+
+文档: https://dev.mysql.com/doc/refman/8.0/en/case.html
+教程: http://www.mysqltutorial.org/mysql-case-function
+
+语法 
+判断是否是指定值
+```sql
+CASE case_value
+    WHEN when_value THEN statement_list
+    [WHEN when_value THEN statement_list] ...
+    [ELSE statement_list]
+END CASE
+
+# 如
+
+select card_val
+case card_val
+    when 13 then 'K'
+    when 12 then 'Q'
+    when 11 then 'J'
+end as card_cname
+from cards;
+```
+or
+
+根据条件表达式判断
+```sql
+CASE
+    WHEN search_condition THEN statement_list
+    [WHEN search_condition THEN statement_list] ...
+    [ELSE statement_list]
+END CASE
+
+# 如
+
+select count(*) as count
+case 
+    when count < 10 then '少'
+    when count < 100 then '中'
+    else '多
+end as count_type
+```
+
+
+实际DEMO
+
+```sql
+
+# 订单 数据库
+mysql> select orderNumber, customerNumber from orders limit 10;
++-------------+----------------+
+| orderNumber | customerNumber |
++-------------+----------------+
+|       10123 |            103 |
+|       10298 |            103 |
+|       10345 |            103 |
+|       10124 |            112 |
+|       10278 |            112 |
+|       10346 |            112 |
+|       10120 |            114 |
+|       10125 |            114 |
+|       10223 |            114 |
+|       10342 |            114 |
++-------------+----------------+
+10 rows in set (0.00 sec)
+
+
+# 用户数据库
+mysql> select customerName, customerNumber from customers limit 10;
++------------------------------+----------------+
+| customerName                 | customerNumber |
++------------------------------+----------------+
+| Atelier graphique            |            103 |
+| Signal Gift Stores           |            112 |
+| Australian Collectors, Co.   |            114 |
+| La Rochelle Gifts            |            119 |
+| Baane Mini Imports           |            121 |
+| Mini Gifts Distributors Ltd. |            124 |
+| Havel & Zbyszek Co           |            125 |
+| Blauer See Auto, Co.         |            128 |
+| Mini Wheels Co.              |            129 |
+| Land of Toys Inc.            |            131 |
++------------------------------+----------------+
+10 rows in set (0.00 sec)
+
+# 订单与用户 join 之后
+
+mysql> select 
+    customerNumber, customerName, count(*) as '次数' 
+from customers 
+left join orders 
+using (customerNumber)
+group by customerNumber 
+order by count(*) desc limit 10;
++----------------+------------------------------+--------+
+| customerNumber | customerName                 | 次数   |
++----------------+------------------------------+--------+
+|            141 | Euro+ Shopping Channel       |     26 |
+|            124 | Mini Gifts Distributors Ltd. |     17 |
+|            323 | Down Under Souveniers, Inc   |      5 |
+|            148 | Dragon Souveniers, Ltd.      |      5 |
+|            353 | Reims Collectables           |      5 |
+|            114 | Australian Collectors, Co.   |      5 |
+|            145 | Danish Wholesale Imports     |      5 |
+|            398 | Tokyo Collectables, Ltd      |      4 |
+|            450 | The Sharp Gifts Warehouse    |      4 |
+|            128 | Blauer See Auto, Co.         |      4 |
++----------------+------------------------------+--------+
+10 rows in set (0.00 sec)
+
+# 按条件查看
+
+mysql> with cte as (select customerNumber, customerName, count(*) as orderCount
+    from customers
+        left join orders using (customerNumber)
+    group by customerNumber
+    order by count(*) desc
+    limit 10)
+select customerName,
+    orderCount,
+    case
+        when orderCount <= 3 then '散客'
+        when orderCount <= 10 then '常客'
+        else '重点客户'
+        end customerType
+from cte;
++------------------------------+------------+--------------+
+| customerName                 | orderCount | customerType |
++------------------------------+------------+--------------+
+| Euro+ Shopping Channel       |         26 | 重点客户     |
+| Mini Gifts Distributors Ltd. |         17 | 重点客户     |
+| Danish Wholesale Imports     |          5 | 常客         |
+| Down Under Souveniers, Inc   |          5 | 常客         |
+| Dragon Souveniers, Ltd.      |          5 | 常客         |
+| Reims Collectables           |          5 | 常客         |
+| Australian Collectors, Co.   |          5 | 常客         |
+| La Rochelle Gifts            |          4 | 常客         |
+| Volvo Model Replicas, Co     |          4 | 常客         |
+| Baane Mini Imports           |          4 | 常客         |
++------------------------------+------------+--------------+
+10 rows in set (0.00 sec)
+
+```
+
+
+
+
+
+
+### 13.6.7 Condition Handling 条件处理
+
+
+
+
+
 ## 13.7 Database Administration Statements
 
 - 13.7.1 Account Management Statements
@@ -1668,6 +1965,111 @@ update t  set data_time=DATE_FORMAT(data_time, '%Y-%m') where type = 'month';
 - 13.7.6 SHOW Syntax
 - 13.7.7 Other Administrative Statements
 
+## 13.7.1.6 GRANT Syntax 授予权限
+[https://dev.mysql.com/doc/refman/8.0/en/grant.html](https://dev.mysql.com/doc/refman/8.0/en/grant.html)
+
+为指定账号授予文件导入权限
+```sql
+grant file on *.* to root@localhost identified by 'password';
+```
+
+刷新数据库权限表
+
+mysql 新设置用户或更改密码后需用flush privileges刷新MySQL的系统权限相关表，否则会出现拒绝访问，还有一种方法，就是重新启动mysql服务器，来使新设置生效。­
+
+```sql
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+```
+
+查看当前用户
+```sql
+mysql> SELECT user();
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT current_user();
++----------------+
+| current_user() |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+```
+
+查看用户权限
+
+```sql
+mysql> SHOW GRANTS FOR 'root'@'localhost';
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for root@localhost                                                                                                                                                                                                                                                                                                                                                                                                        |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER ON *.* TO 'root'@'localhost' IDENTIFIED BY PASSWORD '[OBSCURED]' WITH GRANT OPTION |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+```
+
+查看详细权限
+
+```sql
+
+         x509_subject: 
+        max_questions: 0
+          max_updates: 0
+      max_connections: 0
+ max_user_connections: 0
+*************************** 2. row ***************************
+                 Host: [HOSTNAME].com
+                 User: root
+             Password: *[OBSCURED]
+          Select_priv: Y
+          Insert_priv: Y
+          Update_priv: Y
+          Delete_priv: Y
+          Create_priv: Y
+            Drop_priv: Y
+          Reload_priv: Y
+        Shutdown_priv: Y
+         Process_priv: Y
+            File_priv: Y
+           Grant_priv: Y
+      References_priv: Y
+           Index_priv: Y
+           Alter_priv: Y
+         Show_db_priv: Y
+           Super_priv: Y
+Create_tmp_table_priv: Y
+     Lock_tables_priv: Y
+         Execute_priv: Y
+      Repl_slave_priv: Y
+     Repl_client_priv: Y
+     Create_view_priv: Y
+       Show_view_priv: Y
+  Create_routine_priv: Y
+   Alter_routine_priv: Y
+     Create_user_priv: Y
+           Event_priv: Y
+         Trigger_priv: Y
+             ssl_type: 
+           ssl_cipher: 
+          x509_issuer: 
+         x509_subject: 
+        max_questions: 0
+          max_updates: 0
+      max_connections: 0
+ max_user_connections: 0
+ 2 rows in set (0.00 sec)
+```
+
+授予权限
+```sql
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'steves'@'[hostname].com' IDENTIFIED BY '[OBSCURED]' WITH GRANT OPTION;
+
+```
 
 ## 13.7.16 SHOW Syntax 
 
