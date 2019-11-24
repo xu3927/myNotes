@@ -8,7 +8,9 @@
 
 
 ## 配置主机组
+
 默认路径 /etc/ansible/hosts
+
 ```
 [testgroup]
 192.168.56.40
@@ -257,3 +259,4 @@ ansible -vvvv
 
 1. 源码安装 nginx https://cloud.tencent.com/developer/article/1140044
 2. 官方文档 https://docs.ansible.com/ansible/latest/index.html
+3. 所有可用模块  https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html
