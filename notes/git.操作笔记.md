@@ -22,10 +22,80 @@ modified(已修改), staged(已暂存), commited(1已提交)
 
 可以使用指定的 SHA-1 值来指代一次提交
 
+查看某个 revision 的具体修改内容
+```bash
+git show <revision>
+```
+
 ### Short SHA-1
 
 SHA-1有40个字符, 可以使用前几个字符(最少需要4个)来指定 commit, 
 
+### tree-ish
+
+https://stackoverflow.com/questions/4044368/what-does-tree-ish-mean-in-git
+
+git 通过4种基本对象对源码进行跟踪, 每个对象都有一个 sha1 的 hash id
+
+- Tags: 会指向一个 commit
+- Commits: 指向项目根目录的某个 sha1
+- Trees: 项目的目录树
+- Blobs: 项目中的具体文件
+
+Commit-ish 是指向 commit 的标识类型, 
+
+如 tag -> commit
+
+Tree-ish 是最终指向某个文件夹的标识类型
+如 tag -> commit -> project-root-directory
+
+tag, commit, 
+
+git中对象结构, git 中每个对象都有一个 hash ID (SHA1), 包括文件, 文件夹, commit 等.
+
+commit 是一个指向根目录的 SHA-1 识别符
+
+
+![](images/chatu/2019-11-25-19-04-56.png)
+
+Commit-ish 和 Tree-ish 的类型
+
+```
+----------------------------------------------------------------------
+|    Commit-ish/Tree-ish    |                Examples
+----------------------------------------------------------------------
+|  1. <sha1>                | dae86e1950b1277e545cee180551750029cfe735
+|  2. <describeOutput>      | v1.7.4.2-679-g3bee7fb
+|  3. <refname>             | master, heads/master, refs/heads/master
+|  4. <refname>@{<date>}    | master@{yesterday}, HEAD@{5 minutes ago}
+|  5. <refname>@{<n>}       | master@{1}
+|  6. @{<n>}                | @{1}
+|  7. @{-<n>}               | @{-1}
+|  8. <refname>@{upstream}  | master@{upstream}, @{u}
+|  9. <rev>^                | HEAD^, v1.5.1^0
+| 10. <rev>~<n>             | master~3
+| 11. <rev>^{<type>}        | v0.99.8^{commit}
+| 12. <rev>^{}              | v0.99.8^{}
+| 13. <rev>^{/<text>}       | HEAD^{/fix nasty bug}
+| 14. :/<text>              | :/fix nasty bug
+----------------------------------------------------------------------
+|       Tree-ish only       |                Examples
+----------------------------------------------------------------------
+| 15. <rev>:<path>          | HEAD:README, :README, master:./README
+----------------------------------------------------------------------
+|         Tree-ish?         |                Examples
+----------------------------------------------------------------------
+| 16. :<n>:<path>           | :0:README, :README
+----------------------------------------------------------------------
+```
+
+文档中几种类型的区别
+```
+<tree> 表示一个文件夹路径
+<commit> 表示一个 commit
+<tree-ish> 表示一个文件夹, commit 或 tag, 最终指向一个路径的
+<commit-ish> 表示 commit ,tag
+```
 
 ### git log 查看commit记录
 
@@ -423,6 +493,44 @@ f95fc134bd6f8ebf141cb2e684a6e187e88aae03 refs/tags/tag1
 ### git reflog 引用记录(reference logs)管理 reflog 信息
 
 git reflog -5 HEAD // 输出最近的5次HEAD的指向改变历史
+
+在 git 操作的同时, git 在后台会保存一份引用日志, 一份记录最近几个月你的 HEAD 和分支引用的日志
+
+```bash
+# 查看引用日志
+$ git reflog
+734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+1c002dd HEAD@{2}: commit: added some blame and merge stuff
+1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+95df984 HEAD@{4}: commit: # This is a combination of two commits.
+1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
+```
+
+查看某次的改动
+```bash
+$ git show HEAD@{n}
+```
+注意: 该日志只保存在本地
+
+#### 祖先引用
+
+通过使用尖角号表示组件引用, 一个表示 HEAD 的上一次提交 如  HEAD^, 2个表示上2次提交 如 HEAD^^, 使用数字表示前 n 次提交, 如 HEAD^3 表示往前3次的提交
+
+HEAD 表示引用日志中的最新一个记录, 也可以使用 commit-ish
+
+查看上一次提交
+
+```
+$ git show HEAD^
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
+Author: Scott Chacon <schacon@gmail.com>
+Date:   Thu Dec 11 15:08:43 2008 -0800
+
+    Merge commit 'phedders/rdocs'
+```
 
 ### Detached HEAD 游离的HEAD
 

@@ -1,3 +1,5 @@
+[TOC]
+
 # ansible
 参考资料
 官方文档 https://ansible-tran.readthedocs.io/en/latest/docs/intro.html
@@ -190,7 +192,67 @@ ansible testgroup -m script -a "/usr/local/src/script"
 
 ## playbook
 
-### register
+文档 https://docs.ansible.com/ansible/latest/user_guide/playbooks.html
+中文介绍 https://ansible-tran.readthedocs.io/en/latest/docs/playbooks.html
+
+playbooks 是 ansible 的配置文件, 可以用来编写管理一系列的执行脚本, 可以跨多组机器执行特定步骤. 并且可以同步或异步执行任务
+
+### playbook 语法结构
+
+```yaml
+---
+# hosts 可以是一个或多个主机组, 多个以逗号分割
+- hosts: webservers
+  vars:
+    http_port: 80
+    max_clients: 200
+  # 远程机器用户名, 也可以在具体的 task 中定义
+  remote_user: root
+  # 是否使用 sudo 执行命令, 也可以在 task 中使用
+  sudo: yes
+  # tasks 列表
+  tasks:
+  - name: ensure apache is at the latest version
+    yum: pkg=httpd state=latest
+  - name: write the apache config file
+    template: src=/srv/httpd.j2 dest=/etc/httpd.conf
+    notify:
+    - restart apache
+  - name: ensure apache is running
+    service: name=httpd state=started
+  handlers:
+    - name: restart apache
+      service: name=httpd state=restarted
+```
+
+### Variables 变量使用
+
+文档 https://ansible-tran.readthedocs.io/en/latest/docs/playbooks_variables.html
+
+在 vars 中定义变量
+
+```yaml
+- hosts: webservers
+  vars:
+    http_port: 80
+```
+
+#### register 注册变量
+
+变量的另一个主要用途是在运行命令时,把命令结果存储到一个变量中.不同模块的执行结果是不同的.运行playbook时使用-v选项可以看到可能的结果值. 在ansible执行任务的结果值可以保存在变量中,以便稍后使用它.
+
+```yaml
+- hosts: web_servers
+
+  tasks:
+
+     - shell: /usr/bin/foo
+       register: foo_result
+       ignore_errors: True
+
+     - shell: /usr/bin/bar
+       when: foo_result.rc == 5
+```
 
 把输出的结果保存到 register 指定的变量中, when 关键字结果为 true 的时候才会执行对应的 task
 
@@ -202,6 +264,245 @@ ansible testgroup -m script -a "/usr/local/src/script"
 - name: echo date_output 
  command: echo "30"
  when: date_output.stdout.split(' ')[2] == "30"
+```
+
+命令行中传递变量
+
+通过 extra-vars  参数可以通过命令行发送变量, 对于编写在不同的机器上执行相同的脚本非常有用
+
+如
+```yaml
+---
+
+- hosts: '{{ hosts }}'
+  remote_user: '{{ user }}'
+
+  tasks:
+     - ...
+
+```
+
+执行命令
+
+```shell
+$ ansible-playbook release.yml --extra-vars "hosts=vipers user=starbuck"
+```
+
+### tasks
+
+每个 task 用来执行一个 module, module 执行具有幂等性, 多次执行应该具有相同的结果
+可以给要执行的 module 设置参数
+
+每个 task 需要有 name, 可以在输出的信息中辨别执行了哪个 task, 如果没有 name, 'action' 的值会作为输出信息中的标记
+
+执行的 module 语法
+
+```yaml
+tasks:
+- <module name>: <args>
+```
+
+如 service 模块, 参数使用 key=value 的形式
+
+```yaml
+tasks:
+  - name: make sure apache is running
+    service: name=httpd state=running
+```
+
+比较特别的两个 modudle 是 command 和 shell ,它们不使用 key=value 格式的参数,而是这样:
+
+```yaml
+tasks:
+  - name: disable selinux
+    command: /sbin/setenforce 0
+```
+使用 command module 和 shell module 时,我们需要关心返回码信息,如果有一条命令,它的成功执行的返回码不是0, 你或许希望这样做:
+
+```yaml
+tasks:
+  - name: run this command and ignore the result
+    shell: /usr/bin/somecommand || /bin/true
+```
+或者是这样:
+
+```yaml
+tasks:
+  - name: run this command and ignore the result
+    shell: /usr/bin/somecommand
+    # 忽略错误返回码
+    ignore_errors: True
+```
+
+### Handlers 在发生改变时被触发的操作
+
+handlers 也是一组 task 列表, 由tasks中的 notify 进行触发. 它们和一般的 task 并没有什么区别. Handlers 是由通知者进行 notify, 如果没有被 notify,handlers 不会执行.不管有多少个通知者进行了 notify,等到 play 中的所有 task 执行完成之后,handlers 也只会被执行一次.
+
+handler 示例
+
+```yaml
+
+handlers:
+    - name: restart memcached
+      service:  name=memcached state=restarted
+    - name: restart apache
+      service: name=apache state=restarted
+```
+
+task 中的 notify 触发 handler
+
+通过 handler 中 task 的 name 进行调用
+
+```yaml
+- name: template configuration file
+  template: src=template.j2 dest=/etc/foo.conf
+  notify:
+     - restart memcached
+     - restart apache
+```
+
+handler 执行的几个特点
+
+1. handler 的执行顺序与定义的顺序有关, 与触发的顺序无关, 
+2. handler 会在所有的 task 执行完毕之后才执行
+3. handler 被多个 task notify, 也只执行一次
+4. task 状态是 changed, 才会触发 notify 并执行 handler, 如果是 ok 状态, 则不会执行  handler
+
+Handlers 最佳的应用场景是用来重启服务,或者触发系统重启操作.除此以外很少用到了.
+
+按Handler的定义顺序执行
+handlers是按照在handlers中定义个顺序执行的，而不是安装notify的顺序执行的。
+
+下面的例子定义的顺序是1>2>3，notify的顺序是3>2>1，实际执行顺序：1>2>3.
+
+```yaml
+---
+- hosts: lb
+  remote_user: root
+  gather_facts: no
+  vars:
+      random_number1: "\{\{ 10000 | random \}\}"
+      random_number2: "\{\{ 10000000000 | random \}\}"
+  tasks:
+  - name: Copy the /etc/hosts to /tmp/hosts.\{\{ random_number1 \}\}
+    copy: src=/etc/hosts dest=/tmp/hosts.\{\{ random_number1 \}\}
+    notify:
+      - define the 3nd handler
+  - name: Copy the /etc/hosts to /tmp/hosts.\{\{ random_number2 \}\}
+    copy: src=/etc/hosts dest=/tmp/hosts.\{\{ random_number2 \}\}
+    notify:
+      - define the 2nd handler
+      - define the 1nd handler
+
+  handlers:
+  - name: define the 1nd handler
+    debug: msg="define the 1nd handler"
+  - name: define the 2nd handler
+    debug: msg="define the 2nd handler"
+  - name: define the 3nd handler
+    debug: msg="define the 3nd handler"
+```
+
+### roles
+
+文档 https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html
+
+
+### 从指定任务开始运行playbook
+
+使用 start-at 参数
+
+```shell
+$ ansible-playbook playbook.yml --start-at="install packages"
+```
+
+### Tags
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html
+
+为 task 指定 tag, 可以通过 tag 来运行特定的 task
+
+如
+```yaml
+tasks:
+- yum:
+    name:
+    - httpd
+    - memcached
+    state: present
+  tags:
+  - packages
+
+- template:
+    src: templates/src.j2
+    dest: /etc/foo.conf
+  tags:
+  - configuration
+```
+
+在命令行中通过  --tags or --skip-tags 来指定运行或跳过的 tag, 可以指定多个 tag
+
+```
+$ ansible-playbook example.yml --tags "configuration,packages"
+```
+
+参数 list-tasks 查看将运行都 task, 不会运行
+```shell
+$ ansible-playbook example.yml --tags "configuration,packages" --list-tasks
+```
+多个 task 可以使用相同的 tag
+
+```yaml
+---
+# file: roles/common/tasks/main.yml
+
+- name: be sure ntp is installed
+  yum:
+    name: ntp
+    state: present
+  tags: ntp
+
+- name: be sure ntp is configured
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+  notify:
+  - restart ntpd
+  tags: ntp
+
+- name: be sure ntpd is running and enabled
+  service:
+    name: ntpd
+    state: started
+    enabled: yes
+  tags: ntp
+```
+
+一个 tag 要执行多个 task, 可以使用 block
+
+```yaml
+- block:
+  - name: First task to run
+    ...
+  - name: Second task to run
+    ...
+  tags:
+  - mytag
+```
+
+always 是一个特殊的 tag, 这个 tag 总会执行, 除非通过 --skip-tags always 排除
+
+```yaml
+tasks:
+- debug:
+    msg: "Always runs"
+  tags:
+  - always
+
+- debug:
+    msg: "runs when you use tag1"
+  tags:
+  - tag1
 ```
 
 ## git 模块
