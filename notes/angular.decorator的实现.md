@@ -1,7 +1,6 @@
 # angular中decorator的实现
 
 
-
 ## 装饰器decorator介绍
 
 ### 模式
