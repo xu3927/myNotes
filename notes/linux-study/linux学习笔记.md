@@ -2,6 +2,11 @@
 
 # Linux 学习
 
+参考资料
+
+1. 鸟哥私房菜 http://cn.linux.vbird.org/linux_basic/linux_basic.php
+2. Linux Tools Quick Tutorial https://linuxtools-rst.readthedocs.io/zh_CN/latest/index.html#
+
 ## 1. Linux 基础
 
 ### 1.1 Linux哲学思想
@@ -737,9 +742,11 @@ passwd tom // 为tom设置密码
 
 cat /etc/group
 
-四个字段分别是 组名， 密码占位符， 组id， userlist(该组所包含的用户). 
+四个字段分别是 组名， 密码占位符， 组id， userlist(该组所包含的用户) 
 
 #### 4.9 添加组
 
 groupadd GROUPNAME // 添加组
+
+
 

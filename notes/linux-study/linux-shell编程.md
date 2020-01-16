@@ -1,3 +1,5 @@
+[TOC]
+
 # Linux Shell编程
 
 ## 正则表达式

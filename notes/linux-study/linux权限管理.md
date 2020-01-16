@@ -1,5 +1,8 @@
+[TOC]
+
 # 权限管理
-### 1. 文件权限管理
+
+## 1. 文件权限管理
 
 ```bash
 
@@ -17,7 +20,7 @@ drwxr-xr-x.  6 root root      4096 10月 17 02:36 yum
 | ---------| --- | --- | --- |
 | 文件类型 (d 目录, - 文件...) | 文件属主(user, owner)权限 | 文件属组(group)权限 | 其他用户的权限(other) |
 
-#### 1. chmod 修改文件权限 change mode
+### 1. chmod 修改文件权限 change mode
 
 通过 + - = 符号来设置权限
 如： chmod o+rx haha.txt // 给haha.txt 文件的其他用户增加rx权限
@@ -39,7 +42,7 @@ chmod u=rwx,g-wx,o-x a.txt  // 给haha.txt的属主权限设为rwx, 属组去掉
 $ find /path/to/dir -type d -exec chmod 755 {} \;
 ```
 
-#### 2. chown 更改属主 change owner
+### 2. chown 更改属主 change owner
 
 ```bash
 
@@ -47,7 +50,7 @@ chown haha a.txt // a.txt的属主改为用户haha
 
 ```
 
-#### 3. chgrp 更改属组 change group
+### 3. chgrp 更改属组 change group
 
 ```bash
 
