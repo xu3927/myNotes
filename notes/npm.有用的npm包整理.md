@@ -406,3 +406,40 @@ middleware.run({}, {}, function (err, req, res) {
 语义化版本判断库
 
 [https://www.npmjs.com/package/semver](https://www.npmjs.com/package/semver)
+
+### aproba 参数类型校验
+
+https://www.npmjs.com/package/aproba
+
+```js
+var validate = require("aproba")
+
+function myfunc(a, b, c) {
+  // `a` must be a string, `b` a number, `c` a function
+  validate('SNF', arguments) // [a,b,c] is also valid
+}
+
+myfunc('test', 23, function () {}) // ok
+myfunc(123, 23, function () {}) // type error
+myfunc('test', 23) // missing arg error
+myfunc('test', 23, function () {}, true) // too many args error
+```
+
+### slide 连续执行多个函数
+
+类似 promise
+
+```js
+var chain = require("slide").chain
+function myProgram (cb) {
+  var res = [], last = chain.last, first = chain.first
+  chain([
+    [fs, "readdir", "the-directory"]
+  , [readFiles, "the-directory", last]
+  , [sum, last]
+  , [ping, "POST", "example.com", 80, "/foo", last]
+  , [fs, "writeFile", "result.txt", last]
+  , [rmFiles, "./the-directory", first]
+  ], res, cb)
+}
+```
