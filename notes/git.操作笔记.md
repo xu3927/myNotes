@@ -460,6 +460,50 @@ git diff // 比较工作区和暂存区的差异
 git diff --cached // 暂存区和HEAD
 git diff HEAD // 工作区和HEAD比较
 
+举例:
+
+```
+# 查看2个分支的 src 目录下的差异
+git diff efafef..dev src/*
+# 排除 dist 目录
+git diff efafef..dev -- . ':!dist/*'
+```
+
+输出汇总信息
+```
+git diff --summary --stat master..dev src/*
+
+>>>  输出
+
+src/components/abc/abcV2.jsx        |   2 +-
+src/components/bbb/ddd.jsx          | 169 +++++++-------------------
+src/components/bbb/eee.jsx          | 132 --------------------
+src/components/bbb/fff.jsx          | 125 -------------------
+110 files changed, 1596 insertions(+), 10188 deletions(-)
+delete mode 100644 src/components/abc/fff.jsx
+delete mode 100644 src/components/abc/ggg.jsx
+delete mode 100644 src/components/hhh.jsx
+```
+
+输出每行的变更数量
+
+```
+$ git diff --numstat  master..dev src/*
+增加数量 删除数量
+125     44      src/components/CustomNode/ModalSelectionNode.jsx
+132     0       src/components/CustomNode/ModelSelectionModal.jsx
+125     0       src/components/CustomNode/SampleSelectionModal.jsx
+286     118     src/components/CustomNode/SampleSelectionNode.jsx
+```
+
+输出文件变更信息
+```
+$ git diff --summary  master..dev src/*
+create mode 100644 src/components/CustomNode/ModelSelectionModal.jsx
+deleted mode 100644 src/components/CustomNode/SampleSelectionModal.jsx
+create mode 100644 src/components/ExplicitIndex.jsx
+```
+
 ### git 历史回溯
 
 **修改上次的commit**

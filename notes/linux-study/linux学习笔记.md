@@ -283,7 +283,10 @@ ARGUMENTS: 命令参数, 是命令的作用对象. (命令对什么生效).  如
 ~]# echo "你好" // 直接打印字符串 
 ~]# echo -n "你好" // not  打印结果后不换行.
 ~]# echo -e "\n你好" // escape 执行转义字符. \n  换行符, \b 删除功能,  \t 制表符
-
+如 
+~]# echo -e abc\n123'
+abc
+123
 ~]# shutdown // 关机命令
 ~]# shutdown -h // 关机
 ~]# shutdown -r // 重启
