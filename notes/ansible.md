@@ -41,7 +41,7 @@ ansible_ssh_user=haha
 ## 配置ssh免密码登录
 
 ```
-ssh-keygen -t rsa#一直按回车即可
+ssh-keygen -t rsa #一直按回车即可
 ssh-copy-id -i .ssh/id_rsa.pub <user>@<ip> -p <port> #上传公钥到服务器
 ```
 
