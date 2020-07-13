@@ -51,6 +51,9 @@ set all
 Vim是不会显示space,tabs,newlines,trailing space,wrapped lines等不可见字符的。
 显示隐藏字符, 制表符显示为 '^I', 行尾符显示为 '$', 空格显示为一个空白字符
 ```
+# 指定字符的显示形式
+:set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+:set list
 :set list
 ```
 ![](images/chatu/2018-08-14-14-06-17.png)

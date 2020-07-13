@@ -4,6 +4,172 @@
 
 包括 grep, egrep, fgrep
 
+## 自带字符串操作
+
+https://tldp.org/LDP/abs/html/string-manipulation.html
+
+### String Length
+
+```sh
+
+stringZ=abcABC123ABCabc
+
+echo ${#stringZ}                 # 15
+echo `expr length $stringZ`      # 15
+echo `expr "$stringZ" : '.*'`    # 15
+```
+
+### 正则匹配到的字符串长度, 从开始匹配
+
+```sh
+
+stringZ=abcABC123ABCabc
+#       |------|
+#       12345678
+
+echo `expr match "$stringZ" 'abc[A-Z]*.2'`   # 8
+echo `expr "$stringZ" : 'abc[A-Z]*.2'`       # 8
+```
+
+### 查匹配到的索引
+
+```sh
+stringZ=abcABC123ABCabc
+#       123456 ...
+echo `expr index "$stringZ" C12`             # 6
+                                             # C position.
+
+echo `expr index "$stringZ" 1c`              # 3
+# 'c' (in #3 position) matches before '1'.
+```
+
+### 提取子串
+
+语法: ${string:position:length}
+
+
+```sh
+stringZ=abcABC123ABCabc
+#       0123456789.....
+#       0-based indexing.
+
+echo ${stringZ:0}                            # abcABC123ABCabc
+echo ${stringZ:1}                            # bcABC123ABCabc
+echo ${stringZ:7}                            # 23ABCabc
+
+echo ${stringZ:7:3}                          # 23A
+                                             # Three characters of substring.
+
+# Is it possible to index from the right end of the string?
+    
+echo ${stringZ:-4}                           # abcABC123ABCabc
+# Defaults to full string, as in ${parameter:-default}.
+# However . . .
+
+echo ${stringZ:(-4)}                         # Cabc 
+echo ${stringZ: -4}                          # Cabc
+# Now, it works.
+# Parentheses or added space "escape" the position parameter.
+
+# Thank you, Dan Jacobson, for pointing this out.
+```
+
+语法: expr substr $string $position $length
+
+```sh
+
+stringZ=abcABC123ABCabc
+#       123456789......
+#       1-based indexing.
+
+echo `expr substr $stringZ 1 2`              # ab
+echo `expr substr $stringZ 4 3`              # ABC
+```
+
+### 删除子串
+
+语法: ${string#substring}  删除最短匹配到的子串
+Deletes shortest match of $substring from front of $string.
+
+
+语法: ${string##substring} 删除匹配到的最长子串
+Deletes longest match of $substring from front of $string.
+
+```sh
+
+stringZ=abcABC123ABCabc
+#       |----|          shortest
+#       |----------|    longest
+
+echo ${stringZ#a*C}      # 123ABCabc
+# Strip out shortest match between 'a' and 'C'.
+
+echo ${stringZ##a*C}     # abc
+# Strip out longest match between 'a' and 'C'.
+
+# You can parameterize the substrings.
+
+X='a*C'
+
+echo ${stringZ#$X}      # 123ABCabc
+echo ${stringZ##$X}     # abc
+                        # As above.
+```
+
+### 子串替换
+
+语法: ${string/substring/replacement}  
+Replace first match of $substring with $replacement. 
+
+语法: ${string//substring/replacement}
+Replace all matches of $substring with $replacement.
+
+语法: ${string/#substring/replacement}
+If $substring matches front end of $string, substitute $replacement for $substring.
+
+语法: ${string/%substring/replacement}
+If $substring matches back end of $string, substitute $replacement for $substring.
+
+```sh
+stringZ=abcABC123ABCabc
+
+echo ${stringZ/abc/xyz}       # xyzABC123ABCabc
+                              # Replaces first match of 'abc' with 'xyz'.
+
+echo ${stringZ//abc/xyz}      # xyzABC123ABCxyz
+                              # Replaces all matches of 'abc' with # 'xyz'.
+
+echo  ---------------
+echo "$stringZ"               # abcABC123ABCabc
+echo  ---------------
+                              # The string itself is not altered!
+
+# Can the match and replacement strings be parameterized?
+match=abc
+repl=000
+echo ${stringZ/$match/$repl}  # 000ABC123ABCabc
+#              ^      ^         ^^^
+echo ${stringZ//$match/$repl} # 000ABC123ABC000
+# Yes!          ^      ^        ^^^         ^^^
+
+echo
+
+# What happens if no $replacement string is supplied?
+echo ${stringZ/abc}           # ABC123ABCabc
+echo ${stringZ//abc}          # ABC123ABC
+# A simple deletion takes place.
+
+
+stringZ=abcABC123ABCabc
+
+echo ${stringZ/#abc/XYZ}          # XYZABC123ABCabc
+                                  # Replaces front-end match of 'abc' with 'XYZ'.
+
+echo ${stringZ/%abc/XYZ}          # abcABC123ABCXYZ
+                                  # Replaces back-end match of 'abc' with 'XYZ'.
+                                  
+```
+
 
 ## grep 命令
 
@@ -570,3 +736,112 @@ Array["last"]="name"
 Array["birth"]="1987"
 ```
 
+
+## expr 简单处理文本
+
+expr 用于计算表达式的值
+作用:
+- 对于integers做四则运算
+- 计算字符串的拼接, 匹配子串等
+
+1. 查找子串位置
+
+expr index STRING CHARS
+
+```sh
+$ str='abcd@12345'
+$ expr index $str cd
+>> 3 
+```
+
+2. 截取子串
+
+expr substr STRING POS LENGTH
+
+```sh
+$ expr substr $str 3 5
+>> cd@12
+```
+
+3. 获取字符串长度
+
+expr length STRING
+
+```sh
+$ expr length $str
+>> 10
+```
+
+4. 正则匹配
+
+STRING : REGEXP
+
+```sh
+$ expr $str : '\([a-z]*\)'
+>> abcd
+```
+
+### 数值运算
+
+```
+ARG1 | ARG2
+      ARG1 if it is neither null nor 0, otherwise ARG2
+
+ARG1 & ARG2
+      ARG1 if neither argument is null or 0, otherwise 0
+
+ARG1 < ARG2
+      ARG1 is less than ARG2
+
+ARG1 <= ARG2
+      ARG1 is less than or equal to ARG2
+
+ARG1 = ARG2
+      ARG1 is equal to ARG2
+
+ARG1 != ARG2
+      ARG1 is unequal to ARG2
+
+ARG1 >= ARG2
+      ARG1 is greater than or equal to ARG2
+
+ARG1 > ARG2
+      ARG1 is greater than ARG2
+
+ARG1 + ARG2
+      arithmetic sum of ARG1 and ARG2
+
+ARG1 - ARG2
+      arithmetic difference of ARG1 and ARG2
+
+ARG1 * ARG2
+      arithmetic product of ARG1 and ARG2
+
+ARG1 / ARG2
+      arithmetic quotient of ARG1 divided by ARG2
+
+ARG1 % ARG2
+      arithmetic remainder of ARG1 divided by ARG2
+
+```
+
+
+
+```sh
+~]$ expr 5 ">" 2
+1
+~]$ expr 5 "<" 2
+0
+~]$ expr 5 ">=" 2
+1
+~]$ expr 5 + 2
+7
+~]$ expr 5 - 2
+3
+~]$ expr 5 \* 2
+10
+~]$ expr 5 % 2
+1
+~]$ expr 5 / 2
+2
+```

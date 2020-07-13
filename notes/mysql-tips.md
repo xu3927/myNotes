@@ -1,5 +1,7 @@
 # Mysql Tips
 
+[TOC]
+
 ## Delete Duplicate Rows
 
 [原文](http://www.mysqltutorial.org/mysql-delete-duplicate-rows/)
@@ -70,4 +72,19 @@ insert into shaolin_copy
 ```sql
 drop table shaolin;
 alter table shaolin_copy rename to shaolin;
+```
+
+## 查看数据库中各个表的大小
+
+```sql
+# 查询books数据库中各个表的大小, DATA_LENGTH 数据大小,  INDEX_LENGTH 索引大小.
+SELECT
+  TABLE_NAME AS `Table`,
+  ROUND((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024) AS `Size (MB)`
+FROM
+  information_schema.TABLES
+WHERE
+  TABLE_SCHEMA = "books"
+ORDER BY
+  (DATA_LENGTH + INDEX_LENGTH);
 ```
