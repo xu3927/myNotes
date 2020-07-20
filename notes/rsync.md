@@ -25,8 +25,8 @@ path = /data/www/example  #文件存放路径
 ignore errors 
 read only = false
 list = no 
-auth users = myUsername  #Devnet上传时指定的用户名
-hosts allow = 填写Devnet的IP地址  #允许访问的机器
+auth users = myUsername  #服务器上传时指定的用户名
+hosts allow = 填写服务器的IP地址  #允许访问的机器
 hosts deny = 0.0.0.0
 ```
 
@@ -57,9 +57,10 @@ service xinetd restart
 
 ## 同步命令
 
-增量同步src 和dest中的内容, sr中删除的内容dest中不删除
+增量同步src 和dest中的内容, src中删除的内容dest中不删除
 
 ```bash
+# src 路径以 / 结尾, 则该目录会作为根目录覆盖目标目录. 否则作为一个子文件, 同步到目标路径下
  rsync -vzrtopg --progress --password-file=/etc/rsync.pass /data/www/dir/ devnetassetspush@1.1.1.1::deploypublish
 
 ```
@@ -69,7 +70,7 @@ service xinetd restart
 在目标路径下, 会创建 ./ 之后的目录结构
 
 ```bash
-/data/www/dir]#  rsync -vzrtopg --progress --relative --password-file=/etc/rsync.pass /data/www/dir/./shield/1.0.2 devnetassetspush@1.1.1.1::deploypublish
+/data/www/dir]$ rsync -vzrtopg --progress --relative --password-file=/etc/rsync.pass /data/www/dir/./proj/1.0.2 devnetassetspush@1.1.1.1::deploypublish
 ```
 
 完全同步src dest 文件中的内容, 如果src中删除的话在dest也做删除操作 增加 --delete参数

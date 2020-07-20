@@ -34,7 +34,7 @@ do
 	echo "开始导入 $tbname"
 	# -f 跳过执行错误的语句
 	# --default-character-set 设置字符编码
-	mysql -uroot -p12345678 -h127.0.0.1 -P3306 --default-character-set=utf8 dbname < /root/tmp/dump_dir/$tbname.db
+	mysql -uroot -p12345678 -h127.0.0.1 -P3306 --default-character-set=utf8 -f dbname < /root/tmp/dump_dir/$tbname.db
 	if [ $? -ne 0 ]; then
 		echo "$tbname 导入失败"
 		continue

@@ -510,7 +510,6 @@ nohup python main.py
 下面的命令在执行命令后会返回到 shell 中. 结尾的符号 "&" 指示 bash 在后台运行命令。 可以通过 fg 命令把后台运行的程序拉回到前台。
 
 ```
-
 # 返回 jobid 和 PID 
 nohup python main.py &
 ```
@@ -519,6 +518,36 @@ nohup python main.py &
 
 ```
 kill -9 <PID>
+```
+
+### nohup并stdout stderr 重定向
+
+```sh
+# 自定义输出文件(标准输出和错误输出合并到 main.log)
+nohup python main.py >> main.log 2>&1 & 
+# 与上一个例子相同作用的简写方法
+nohup python main.py &> main.log &
+# 不记录输出信息
+nohup python main.py &> /dev/null &
+```
+
+### 查看后台运行的程序
+
+已知pid进程号当然最好了
+- 使用ps -ef 或者 ps -aux 结合grep过滤
+- 使用pstree -p确认复杂进程树结构
+- 使用lsof -i:80查端口获得进程号
+- 使用netstat -anp | grep 80查端口获得进程号，推荐使用lsof
+- jobs -l 列出后台程序
+
+
+```sh
+# 列出所有后台运行的程序, 返回任务编号 和 进程号
+jobs -l
+
+# 列出后台的进程
+ps -aux | grep <keyword>
+ps -ef | grep <keyword>
 ```
 
 ## fg 让后台的程序到前台运行

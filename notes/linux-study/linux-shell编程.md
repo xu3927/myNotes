@@ -2,9 +2,11 @@
 
 # Linux Shell编程
 
+教程: 
+- 文档: https://riptutorial.com/bash/topic/368/aliasing
+- https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php
+
 ## 正则表达式
-
-
 
 ## shell 脚本编程
 
@@ -22,7 +24,7 @@
 
  变量是命名的内存空间.
 
- ### 变量
+### 变量
 
 变量定义 set VARNAME
 撤销变量 unset VARNAME (变量名不要加$)
@@ -35,6 +37,20 @@
  - local VARNAME=VALUE 局部变量作用域为当前代码段
 - 位置变量 用来引用脚本的参数 $1, $2...
 - 特殊变量 用来保存某些特殊数据, 如 $? 保存上一个命令执行状态返回值, 执行一个命令后输出 echo $? 可以输出该命令的执行状态码(0, 正确执行, 1-255 错误执行)
+
+特殊变量有以下几种
+
+```
+echo $0    # 当前脚本的文件名（间接运行时还包括绝对路径）。
+echo $n    # 传递给脚本或函数的参数。n 是一个数字，表示第几个参数。例如，第一个参数是 $1 。
+echo $#    # 传递给脚本或函数的参数个数。
+echo $*    # 传递给脚本或函数的所有参数。
+echo $@    # 传递给脚本或函数的所有参数。被双引号 (" ") 包含时，与 $* 不同，下面将会讲到。
+echo $?    # 上个命令的退出状态，或函数的返回值。
+echo $$    # 当前 Shell 进程 ID。对于 Shell 脚本，就是这些脚本所在的进程 ID。
+echo $_    # 上一个命令的最后一个参数
+echo $!    # 后台运行的最后一个进程的 ID 号
+```
 
  用 $ 引用变量
  
@@ -217,3 +233,45 @@ echo date // date
 
 ```
 
+### 获取参数
+
+通过$n获取参数
+
+```bash
+echo "参数1 $1" 
+echo "参数2 $2" 
+echo "参数3 $3" 
+```
+
+通过getopts获取参数
+语法  getopts [v1:v2:v3v4] VARIABLE
+仅支持以-开头的单字符的参数. 
+首位的 : 表示「不打印错误信息」 后面的冒号表示该参数有值 如 mysql -h <host> -P <port>
+获取的参数会存到最后指定的变量VARIABLE中
+
+
+```bash
+# a:b:c 代表获取的参数, 后面的冒号表示该参数有值 如 mysql -h <host> -P <port>
+while getopts a:b:c:d: ARGS  
+do  
+case $ARGS in   
+    a)  
+        echo "发现 -a 选项"  
+        ;;  
+    b)  
+        echo "发现 -b 选项"  
+        echo "-b 选项的值是：$OPTARG"  
+        ;;  
+    c)  
+        echo "发现 -c 选项"  
+        echo "-c 选项的值是：$OPTARG"  
+        ;;  
+    d)  
+        echo "发现 -d 参数 $OPTARG"  
+        ;;  
+    *)  
+        echo "未知选项：$ARGS"
+        ;;
+esac
+done
+```
