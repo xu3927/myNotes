@@ -2,7 +2,8 @@
 
 # webpack 学习笔记
 
-[官方文档](https://webpack.js.org)
+- [官方文档](https://webpack.js.org)
+- [how-webpack-works](https://docs.qq.com/pdf/DZFR5d3pCSHBHVEVN)
 
 ## 比较
 
@@ -286,7 +287,21 @@ module.exports = {
     noInfo: true, // only errors & warns on hot reload
     // ...
   },
-
+  // 默认false. 监听文件改变. 只监听 resolved 的文件. 在 webpack-dev-server 中 watch 默认开启
+  watch: true,
+  // 配置
+  watchOptions: {
+      // 单位ms. 文件改动后多久执行build
+      aggregateTimeout: 200,
+      // false | number 多久执行一次文件变动的检查, NFS系统和虚拟机中文件监听无效
+      poll: 1000,
+      // String | RegExp | Array<String | RegExp>忽略的文件. 使用了 anymatch 库解析
+      ignored: /node_modules/,
+      // 或多个路径
+      // ignored: ['files/**/*.js', 'node_modules/**'],
+      //  'none' | 'info' | 'verbose' 默认info.  log 的级别
+      'info-verbosity': 'info',
+  },
   plugins: [
     // ...
   ],
@@ -741,6 +756,32 @@ modules: ['node_modules']
 modules: [path.reolve(__dirname, 'src'), 'node_modules']
 ```
 
+### resolve 路径测试
+
+使用该npm 包, 可以获得一个模块的解析结果路径. [enhanced-resolve](https://www.npmjs.com/package/enhanced-resolve)
+
+```js
+const resolve = require("enhanced-resolve");
+
+const myResolve = resolve.create({
+  modules: ['node_modules',
+    '/home/user/code/proj/src/node_modules'],
+  // or resolve.create.sync
+  extensions: ['.js', '.jsx', '.json', '.html', '.ts', '.tsx'],
+  // see more options below
+  alias: {
+    '@': '/home/user/code/proj/src'
+  }
+});
+
+myResolve('/home/user/code/proj/src/origin.js', '/home/user/code/proj/src/target.js', (err, result) => {
+  console.log(err)
+  console.log(result)
+})
+
+```
+
+
 ## loader 
 
 loader用于加载文件, 并对文件进行预处理. webpack只能打包 commonjs规范的 js文件, 其他的文件, html, css, jsx, scss, json等都需要通过loader加载进来.
@@ -889,6 +930,123 @@ webpack-dev-serve 建立本地服务.
 
 ![webpack构建过程](./images/chatu/webpack构建过程.jpg)
 
+## Plugins API
+
+### Tapable
+
+webpack 的插件由 [tapable](https://github.com/webpack/tapable#tapable) 库实现
+
+tapable 类会暴露3种方法 tap, tapAsync 和 tapPromise 方法
+
+tapable 接口语法
+
+```ts
+interface Hook {
+	tap: (name: string | Tap, fn: (context?, ...args) => Result) => void,
+	tapAsync: (name: string | Tap, fn: (context?, ...args, callback: (err, result: Result) => void) => void) => void,
+	tapPromise: (name: string | Tap, fn: (context?, ...args) => Promise<Result>) => void,
+	intercept: (interceptor: HookInterceptor) => void
+}
+```
+
+使用案例:
+
+```js
+// SyncHook Runs a plugin after a compilation has been created.
+compiler.hooks.compilation.tap(
+    'SomeStringWhichIsPlugin',
+    (compilation, compilationParams) => {
+        console.log('[compilation]:')
+    }
+)
+
+// AsyncSeriesHook Called after finishing and sealing the compilation.
+compiler.hooks.afterCompile.tapAsync(
+    'SomeStringWhichIsPlugin',
+    (compilation, callback) => {
+        console.log('[afterCompile]:')
+        callback()
+    }
+)
+// AsyncSeriesHook Executed when the compilation has completed.
+compiler.hooks.done.tapPromise('SomeStringWhichIsPlugin', (stats) => {
+  console.log('[done]:')
+  return Promise.resolve()
+})
+```
+
+### Compiler Hooks
+
+源码[https://github.com/webpack/webpack/blob/master/lib/Compiler.js](https://github.com/webpack/webpack/blob/master/lib/Compiler.js)
+
+在源码中查找hook的执行  /hooks\.\w+\.\call/
+
+![](images/chatu/2020-07-29-11-37-20.png)
+
+Compiler 模块接受 webpack options 后创建了 compilation 实例.
+
+```js
+const webpack = require('webpack');
+
+const compiler = webpack({
+  // webpack.config.js
+});
+
+compiler.run((err, stats) => { // Stats Object
+  // ...
+});
+```
+
+#### Watching
+
+监听文件, 开启watch 的话, 会触发以下3个事件
+
+- watchRun
+- watchClose
+- invalid
+
+#### Hooks
+
+compiler 的hooks有以下种类
+
+entryOption, afterPlugins, afterResolvers, environment, afterEnvironment, beforeRun, additionalPass, run, watchRun, normalModuleFactory, contextModuleFactory, initialize, beforeCompile, compile, thisCompilation, compilation, make, afterCompile, shouldEmit, emit, afterEmit, assetEmitted, done, failed, invalid, watchClose, infrastructureLog, log
+
+**如下图 hook 实际执行的触发顺序**
+
+- environment
+- afterEnvironment
+- entryOption
+- afterPlugins
+- afterResolvers
+- entryOption
+- watchRun
+- normalModuleFactory
+- contextModuleFactory
+- beforeCompile
+- compile
+- thisCompilation
+- compilation
+- normalModuleFactory
+- contextModuleFactory
+- beforeCompile
+- compilation
+- make
+- afterCompile
+- afterCompile
+- shouldEmit
+- emit
+- afterEmit
+- done
+
+![](images/chatu/2020-07-29-11-44-24.png)
+
+webpack 编译生命周期
+
+
+
+
+
+### Compilation
 
 
 

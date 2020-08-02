@@ -228,6 +228,11 @@ fs.rmdirSync("/a/test/dir");
 fs.mkdirpSync("C:\\use\\windows\\style\\paths");
 ```
 
+### minimist
+
+解析命令行参数
+
+
 
 ## Browserify 浏览器环境
 
