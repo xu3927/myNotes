@@ -1,6 +1,7 @@
 # markdown编辑数学公式
 
-markdown 适用 KaTeX 库解析数学公式, 支持LaTeX 
+markdown 使用 KaTeX 库解析数学公式, 
+KaTeX是一个高效的解析Tex公式的js库
 
 参考资料:
 
@@ -8,6 +9,9 @@ markdown 适用 KaTeX 库解析数学公式, 支持LaTeX
 - [Markdown数学公式录入](https://developer.aliyun.com/article/174761)
 - [Markdown数学公式语法](Markdown数学公式语法)
 - [Markdown 公式指导手册](https://www.zybuluo.com/codeep/note/163962)
+- [Katex支持的函数(官网)](https://katex.org/docs/supported.html)
+- [KaTex 支持的符号和函数 Github](https://github.com/KaTeX/KaTeX/blob/5806b240b342b964bcde3441d3ae7bfa7222c3b4/docs/support_table.md)
+- [KaTex测试](https://katex.org/#demo)
 
 ## stackrel 让一组符置于另外一组字符上面
 
@@ -16,6 +20,10 @@ A \stackrel{haha}{=} D
 $$
 
 语法 \\stackrel{top}{bootom}
+
+## substack 置于下方
+
+$A = \sum_{\substack{0<i<m\\0<j<n}} $
 
 ## 长等号 xlongequal
 
