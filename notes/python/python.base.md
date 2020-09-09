@@ -310,7 +310,7 @@ sudo pip3 install virtualenv
 1. 创建一个独立的环境
 
 ```
-virtualenv --distribute project_env
+virtualenv -p /usr/local/bin/python3.7 --distribute project_env
 
 # 输出
 
