@@ -36,15 +36,15 @@ DNS.1 = *.l.wizmacau.com
 
 2. 生成域名证书及密钥，
 ```
-$ openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout server.key
+openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout server.key
 ```
 
-得到 server.csr  server.key 文件
+得到 server.csr  server.key 文件 
 
 3. 使用根证书对域名证书签名
 
 ```
-$ openssl x509 -req -in server.csr -CA [rootCA.pem路径] -CAkey [rootCA.key路径] -CAcreateserial -out server.crt -days 500 -sha256 -extfile v3.ext
+openssl x509 -req -in server.csr -CA [rootCA.pem路径] -CAkey [rootCA.key路径] -CAcreateserial -out server.crt -days 500 -sha256 -extfile v3.ext
 ```
 
 ## 证书类型
@@ -76,7 +76,88 @@ X.509 PAM 编码(Base64)的后缀是： .PEM .CER .CRT
 .cer/.crt是用于存放证书，它是2进制形式存放的，不含私钥。
 .pem跟crt/cer的区别是它以Ascii来表示。
 
+## centos7 安装根证书 (root certificates)
+
+1.将证书复制到 /etc/pki/ca-trust/source/anchors/ 文件夹，本文以mitmproxy的https证书为例
+
+```
+cp /root/.mitmproxy/mitmproxy-ca-cert.crt /etc/pki/ca-trust/source/anchors/
+```
+
+2.移动到将此证书软连接至 /etc/ssl/certs/文件夹中
+
+```
+ln -s /etc/pki/ca-trust/source/anchors/mitmproxy-ca-cert.cer  /etc/ssl/certs/mitmproxy-ca-cert.cer
+```
+3.运行 update-ca-trust，更新系统的证书
+
+```
+update-ca-trust
+```
+
+此命令一般centos7自带，如果没有则需要安装
+yum install ca-certificates
+update-ca-trust force-enable
+
+
+### Linux (Ubuntu, Debian)
+
+ADD
+1. Copy your CA to dir /usr/local/share/ca-certificates/
+```
+sudo cp foo.crt /usr/local/share/ca-certificates/foo.crt
+```
+2. Update the CA store:
+```
+sudo update-ca-certificates
+```
+
+Remove	
+1. Remove your CA.
+2. Update the CA store: 
+```
+sudo update-ca-certificates --fresh
+```
+
+NOTE
+Restart Kerio Connect to reload the certificates in the 32-bit versions or Debian 7.
+
+### Linux (CentOs 6)
+
+Add	
+
+1. Install the ca-certificates package: 
+```
+yum install ca-certificates
+```
+
+2. Enable the dynamic CA configuration feature:
+```
+update-ca-trust force-enable
+```
+
+3. Add it as a new file to /etc/pki/ca-trust/source/anchors/: 
+
+```
+cp foo.crt /etc/pki/ca-trust/source/anchors/
+```
+4. Use command:
+```
+update-ca-trust extract
+```
+NOTE
+
+Restart Kerio Connect to reload the certificates in the 32-bit version.
+
+### Linux (CentOs 5)
+
+Add	
+1. Append your trusted certificate to file /etc/pki/tls/certs/ca-bundle.crt
+```
+cat foo.crt >>/etc/pki/tls/certs/ca-bundle.crt
+```
+
 ## 参考资料:
 1. https://lamjack.github.io/2018/05/17/openssl-localhost-https/
 2. OpenSSL http://www.netkiller.cn/cryptography/openssl/index.html
-
+3. Adding trusted root certificates to the server https://manuals.gfi.com/en/kerio/connect/content/server-configuration/ssl-certificates/adding-trusted-root-certificates-to-the-server-1605.html
