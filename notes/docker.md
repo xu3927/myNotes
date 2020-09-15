@@ -1,4 +1,6 @@
--# Docker
+# Docker
+
+[TOC]
 
 ## 简介
 
@@ -77,5 +79,132 @@ $ docker stop 停止一个运行中的容器
 
 定义容器内的环境. 网络接口, 文件系统等.
 
+## CLI 命令
 
+### Docker run
 
+```
+docker run -t -i <imgae>:latest /bin/sh
+```
+## image 管理
+
+1.pull
+
+```sh
+docker pull [OPTIONS] NAME[:TAG|@DIGEST]
+# 例子
+$ docker pull node:12.18.2-alpine3.10
+12.18.2-alpine3.10: Pulling from library/node
+Digest: sha256:24797dd05e07cb987638c30d92914dce994a854186e2dd2f8e54117ff46bcc70
+Status: Image is up to date for node:12.18.2-alpine3.10
+docker.io/library/node:12.18.2-alpine3.10
+
+$ docker images
+REPOSITORY                                          TAG                  IMAGE ID            CREATED             SIZE
+node                                                12.18.2-alpine3.10   f4ee33144ba0        2 months ago        89MB
+```
+2. commit
+
+```sh
+docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+
+# 例子
+$ docker ps
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS              NAMES
+c3f279d17e0a        ubuntu:12.04        /bin/bash           7 days ago          Up 25 hours                            desperate_dubinsky
+197387f1b436        ubuntu:12.04        /bin/bash           7 days ago          Up 25 hours                            focused_hamilton
+
+$ docker commit c3f279d17e0a  svendowideit/testimage:version3
+
+f5283438590d
+
+$ docker images
+
+REPOSITORY                        TAG                 ID                  CREATED             SIZE
+svendowideit/testimage            version3            f5283438590d        16 seconds ago      335.7 MB
+```
+2. 发布
+
+```sh
+docker push [OPTIONS] NAME[:TAG]
+docker push svendowideit/testimage:version3
+```
+
+## container
+
+https://docs.docker.com/engine/reference/commandline/container/
+
+### container 相关命令
+
+- container 管理
+
+```
+docker container ls
+docker container rm
+ # 列出所有的container
+docker ps -a
+# 移除container
+docker rm [OPTIONS] CONTAINER [CONTAINER...]
+# 强制删除 redis container
+docker rm --force redis
+```
+
+- container 运行
+
+```sh
+# 启动 container
+docker container start
+docker container restart
+docker container pause
+# 停止正在运行的container
+docker stop <CONTAINER>
+# 关闭正在运行的 container
+docker container kill [OPTIONS] CONTAINER [CONTAINER...]
+# 在一个新 container 中运行命令
+docker container run 
+# 在一个运行的container中执行命令 Run a command in a running container
+docker container exec 
+```
+
+- 由container创建image
+
+```sh
+docker container create [OPTIONS] IMAGE [COMMAND] [ARG...]
+```
+
+- 文件管理
+
+```sh
+# 在 container 和本地文件间复制文件
+docker container cp
+```
+
+- 文件存档
+
+```sh
+# Export a container’s filesystem as a tar archive
+docker container export [OPTIONS] CONTAINER
+```
+
+- 由container创建新的image
+
+```sh
+docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+
+# 案例
+$ docker ps
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS              NAMES
+c3f279d17e0a        ubuntu:12.04        /bin/bash           7 days ago          Up 25 hours                            desperate_dubinsky
+197387f1b436        ubuntu:12.04        /bin/bash           7 days ago          Up 25 hours                            focused_hamilton
+
+$ docker commit c3f279d17e0a  svendowideit/testimage:version3
+
+f5283438590d
+
+$ docker images
+
+REPOSITORY                        TAG                 ID                  CREATED             SIZE
+svendowideit/testimage            version3            f5283438590d        16 seconds ago      335.7 MB
+```
