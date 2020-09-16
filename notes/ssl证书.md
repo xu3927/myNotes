@@ -47,6 +47,11 @@ openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout server.
 openssl x509 -req -in server.csr -CA [rootCA.pem路径] -CAkey [rootCA.key路径] -CAcreateserial -out server.crt -days 500 -sha256 -extfile v3.ext
 ```
 
+4. 证书类型 csr 生成 crt
+```
+openssl x509 -req -in server.csr -signkey server.key -out server.crt
+```
+
 ## 证书类型
 
 链接：https://www.zhihu.com/question/29620953/answer/191763719
