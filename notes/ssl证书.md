@@ -162,6 +162,12 @@ Add
 cat foo.crt >>/etc/pki/tls/certs/ca-bundle.crt
 ```
 
+## 查看一个网站的证书详情
+
+```
+echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
+```
+
 ## 参考资料:
 1. https://lamjack.github.io/2018/05/17/openssl-localhost-https/
 2. OpenSSL http://www.netkiller.cn/cryptography/openssl/index.html

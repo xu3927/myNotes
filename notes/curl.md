@@ -73,27 +73,23 @@ curl 'http://test.com' \
     -H 'Cookie: aaa=xxx; bbb=yyy'
 ```
 
-### --insecure 
+### -k --insecure 
 
 不检验 ssl 证书
 
 ### --cacert
 
-指定本地的 ssl 根证书文件
+指定本地的 ssl 根证书文件, centos上默认为 /etc/pki/tls/certs/ca-bundle.crt
 
-### 发送文件
+### --resolve
 
-```sh
-curl -F ‘data=@path/to/local/file’ 'http://test.com'
+设置DNS解析的IP
 ```
-参数 -F --form <name=content> 发送 form 文件, content type 会设置为 enctype=”multipart/form-data”   
-符号@ 后面跟随的会识别为路径.  (--data-raw 参数中的 @ 不会做转换)
-
-传多个文件
-
-```sh
-curl -F 'fileX=@/path/to/fileX' -F 'fileY=@/path/to/fileY' ... http://localhost/upload
+--resolve <host:port:address[,address]...>
+curl --resolve 3927test.com:443:127.0.0.1 -v https://3927test.com
 ```
+
+
 
 ## 使用场景
 
@@ -110,9 +106,29 @@ curl 'http://test.com/cgi/nav_manage/get_latest' \
   --data-binary '{"system":"euler"}'
 ```
 
+### 发送文件
+
+```sh
+curl -F ‘data=@path/to/local/file’ 'http://test.com'
+```
+参数 -F --form <name=content> 发送 form 文件, content type 会设置为 enctype=”multipart/form-data”   
+符号@ 后面跟随的会识别为路径.  (--data-raw 参数中的 @ 不会做转换)
+
+传多个文件
+
+```sh
+curl -F 'fileX=@/path/to/fileX' -F 'fileY=@/path/to/fileY' ... http://localhost/upload
+```
+
+### 发送http2请求, 并指定根证书文件
+
+```sh
+curl ---cacert ./root.pem -resolve 3927test.com:443:127.0.0.1 -v https://3927test.com
+```
 
 ## 资料
 
 - [Everything curl](https://ec.haxx.se/http)
 - [how to install curl and libcurl](https://curl.haxx.se/docs/install.html)
 - [https://github.com/curl/curl](https://github.com/curl/curl)
+- [curl 常用案例 https://curl.haxx.se/docs/manual.html](https://curl.haxx.se/docs/manual.html)
