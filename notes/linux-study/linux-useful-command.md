@@ -795,3 +795,7 @@ grep 结合 tail 命令查看日志
 grep  -n  -C10  'R0619'  caps-biz.txt | tail -n 21 | less（借助less命令的/pattern可以高亮搜索词）
 ```
 
+
+## 网络测试
+
+[Netcat](https://www.freebuf.com/sectool/168661.html): 可以用作端口监听、端口扫描、远程文件传输、还可以实现远程shell等功能

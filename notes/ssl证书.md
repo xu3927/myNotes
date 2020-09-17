@@ -23,7 +23,7 @@ $ openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 3650 -out rootCA.p
 
 由于我们公司解析一个域名 .l.wizmacau.com 指向127.0.0.1，所以我们准备生成一个 .l.wizmacau.com 的通配域名证书。
 
-1. 创建一个v3.ext文件，以创建一个X509 v3证书。注意我们指定了subjectAltName选项。
+1. 创建一个v3.ext文件，以创建一个X509 v3证书。注意我们指定了 subjectAltName 选项。
 ```
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE

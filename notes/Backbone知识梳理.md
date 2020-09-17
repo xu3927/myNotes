@@ -1,29 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<title>Backbone 知识梳理</title>
-	<!-- 代码着色核心文件 -->
-	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/src/shCore.js"></script> 
-	<!-- 代码着色匹配代码类型的文件 -->
-	<script type="text/javascript" src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
-	<!-- 代码高亮的css样式文件 -->
-	<link type="text/css" rel="stylesheet" href="js/syntaxhighlighter_3.0.83/styles/shCoreEmacs.css"/>
-	<!-- 当前页面的主题 修改theme后面的值就可以直接修改主题了-->
-	<script type="text/theme" theme = "cyborg" id = "theme_strapdown"></script>
-
-	<!-- 自己定义的css样式 -->
-	<!-- <link rel="stylesheet"  type='text/css' href="css/base.css" /> -->
-	
-	<style type="text/css">
-
-	</style>
-</head>
-<body>
-
-<!-- 插入markDown -->
-
-<xmp>
 # Backbone 知识梳理
 ### 1 简介
 Backbone.js为复杂WEB应用程序提供模型(models)、集合(collections)、视图(views)的结构。
@@ -1031,35 +1005,3 @@ Backbone.history.on('route', function (e) {
 ### 8.3 路由的事件
 route的事件是对Backbone.history添加的，事件对象就是我们写在路由类中的routes
 
-
-</xmp>
-
-
-
-<!-- js代码 -->
-<script type="text/javascript">
-
-
-
-	
-</script>
-
-<!-- //markdown格式化文件 -->
-<script src="js/strapdown/strapdown_xiugai.js"></script>
-
-<!-- SyntaxHighlighter 代码着色执行文件 -->
-<script type="text/javascript">SyntaxHighlighter.all();</script>
-<script type="text/javascript" src="js/buildCatalog.js"></script>
-
-</body>
-</html>
-
-
-<!-- 代码自动高亮模板 -->
-<!-- <div class="daima">
-	<script type="syntaxhighlighter" class="brush: js;">
-
-	
-	</script>
-</div>
- -->
