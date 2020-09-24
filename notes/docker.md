@@ -63,6 +63,8 @@ $ docker run -t -i centos # 启动一个交互式的centos容器
 $ exit # 退出
 ```
 
+退出交互式terminal, 并且不终止进程. ctrl+P, ctrl+Q
+
 ## 常用命令
 
 ```bash
@@ -79,14 +81,53 @@ $ docker stop 停止一个运行中的容器
 
 定义容器内的环境. 网络接口, 文件系统等.
 
+### 生成image
+
+docker build [OPTIONS] PATH | URL | -
+
+```
+docker build -t <user name>/<custom app name>:latest .
+```
+参数 
+
+```
+-t 指定 tag
+```
+
 ## CLI 命令
 
 ### Docker run
 
 ```
-docker run -t -i <imgae>:latest /bin/sh
+# 以交互式从image启动一个新的container, 把container 8080端口绑定到host的80端口
+docker run -p 80:8080 -e NODE_ENV=development --name <container name> -t -i <imgae>:<tag> /bin/sh
 ```
-## image 管理
+参数
+
+```
+-d, --detach               Detached mode: run command in the background
+    --detach-keys string   Override the key sequence for detaching a container
+-e, --env list             Set environment variables
+    --expose		           Expose a port or a range of ports
+-h, --hostname string      Container host name
+-i, --interactive          Keep STDIN open even if not attached
+    --privileged           Give extended privileges to the command
+-m, --memory bytes         Memory limit
+    --mount mount          Attach a filesystem mount to the container
+    --name string          Assign a name to the container
+-p, --publish list         Publish a container's port(s) to the host
+-t, --tty                  Allocate a pseudo-TTY
+-u, --user string          Username or UID (format: <name|uid>[:<group|gid>])
+-v, --volume list          Bind mount a volume
+-w, --workdir string       Working directory inside the container
+```
+
+如果要在后台启动container, 使用 -d 参数. 
+退出一个交互式的container, 并且不终止terminal. 使用快捷键 ctrl + P, ctrl + Q
+
+## image
+
+### image 管理
 
 1.pull
 
@@ -131,6 +172,14 @@ docker push [OPTIONS] NAME[:TAG]
 docker push svendowideit/testimage:version3
 ```
 
+3. 删除image
+
+```
+docker rmi [OPTIONS] IMAGE [IMAGE...]
+```
+
+
+
 ## container
 
 https://docs.docker.com/engine/reference/commandline/container/
@@ -162,12 +211,12 @@ docker stop <CONTAINER>
 # 关闭正在运行的 container
 docker container kill [OPTIONS] CONTAINER [CONTAINER...]
 # 在一个新 container 中运行命令
-docker container run 
+docker container run [OPTIONS] IMAGE [COMMAND] [ARG...]
 # 在一个运行的container中执行命令 Run a command in a running container
 docker container exec 
 ```
 
-- 由container创建image
+- 由image创建container
 
 ```sh
 docker container create [OPTIONS] IMAGE [COMMAND] [ARG...]
@@ -208,3 +257,59 @@ $ docker images
 REPOSITORY                        TAG                 ID                  CREATED             SIZE
 svendowideit/testimage            version3            f5283438590d        16 seconds ago      335.7 MB
 ```
+
+## docker-compose
+
+https://docs.docker.com/compose/
+
+用来整合一个docker应用. 把项目代码, container, 服务整合到一起, 配置文件为 docker-compose.yml, 相关配置参数 https://docs.docker.com/compose/compose-file/
+
+```yaml
+# docker-compose.yml
+version: '2.0'
+services:
+  web:
+    build: .
+    ports:
+    - "5000:5000"
+    volumes:
+    - .:/code
+    - logvolume01:/var/log
+    links:
+    - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}
+```
+
+一个  docker-compose.yml 配置包含 version, services 两部分
+
+配置文件文档  https://docs.docker.com/compose/compose-file/#compose-file-structure-and-examples
+
+
+### 常用命令
+
+- 启动应用
+
+```
+docker-compose up -d
+```
+
+参数
+```
+-d 后台启动
+```
+- 查看当前运行的应用
+
+```
+docker-compose ps
+```
+
+- 停止应用 
+
+```
+docker-compose stop
+```
+
+
