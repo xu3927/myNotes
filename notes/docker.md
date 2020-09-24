@@ -81,6 +81,42 @@ $ docker stop 停止一个运行中的容器
 
 定义容器内的环境. 网络接口, 文件系统等.
 
+### 可用指令
+
+https://docs.docker.com/engine/reference/builder/#entrypoint
+
+```dockerfile
+FROM busybox
+ENV foo /bar
+WORKDIR ${foo}   # WORKDIR /bar
+ADD . $foo       # ADD . /bar
+COPY \$foo /quux # COPY $foo /quux
+```
+
+#### ENTRYPOINT
+
+ENTRYPOINT 让container作为一个可执行文件来运行
+
+语法:
+
+有两种形式
+
+```docker
+# exec form
+ENTRYPOINT ["executable", "param1", "param2"]
+# shell form
+ENTRYPOINT command param1 param2
+```
+
+命令行 docker run <image> 后面的参数, 会追加到  exec form 后, 同时会覆盖 CMD 指令. 
+
+docker run 的 --entrypoint 参数, 可以覆盖 dockerfile 中的 ENTRYPOINT 指令
+
+shell form 的形式不会传递 CMD or run 命令的参数. 同时 ENTRYPOINT 的命令会以这种形式执行 /bin/sh -c <ENTRYPOINT 命令> 并且不会传入 signals. 因此不可以通过 docker stop <container> 来结束程序
+
+有多个ENTRYPOINT时, 只有最后一个有效
+
+
 ### 生成image
 
 docker build [OPTIONS] PATH | URL | -
