@@ -43,22 +43,26 @@ openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout server.
 
 3. 使用根证书对域名证书签名
 
+得到 server.crt 文件
+
 ```
 openssl x509 -req -in server.csr -CA [rootCA.pem路径] -CAkey [rootCA.key路径] -CAcreateserial -out server.crt -days 500 -sha256 -extfile v3.ext
 ```
 
-4. 证书类型 csr 生成 crt
-```
-openssl x509 -req -in server.csr -signkey server.key -out server.crt
-```
 
 ## 证书类型
 
-链接：https://www.zhihu.com/question/29620953/answer/191763719
+参考资料:
+- https://www.zhihu.com/question/29620953/answer/191763719
+- https://serverfault.com/questions/9708/what-is-a-pem-file-and-how-does-it-differ-from-other-openssl-generated-key-file
 
-证书(Certificate) - *.cer *.crt 微软 IE 可以识别 cer 以运行一些命令
-私钥(Private Key) - *.key 
-证书签名请求(Certificate signing request) - *.csr 
+
+- 证书(Certificate) - *.cer *.cert *.crt 微软 IE 可以识别 cer 以运行一些命令. pem或者der编码格式的证书文件. 
+- 私钥(Private Key) - *.key 该文件是一个PEM格式的文件, 只包含指定证书的私钥
+- 证书签名请求(Certificate signing request) - *.csr.  该文件自己生成, 包含subject, organization, state 以及 public key 信息, 发给证书发布机构进行签名, 完成签名后会收到证书 certificate, 该证书即public certificate(包含公钥, 不包含私钥)
+- *.pem (Privacy Enhanced Mail (PEM)) 是一种容器格式，可能仅包含公钥证书，也可以包含完整的证书链（包括公玥，私钥，和根证书）。也可能用来编码 CSR文件。
+- *.der der是一种编码方案, 而不是一种文件格式. 使用der编码方案编码的pem文件. der 编码是使用二进制编码，一般pem文件使用的是base64进行编码，所以完全可以把der编码的文件转换成pem文件，命令： openssl x509 -inform der -in to-convert.der -out converted.pem 使用der编码的pem文件，后缀名可以为.der
+
 
 ### 编码方式
 
@@ -167,6 +171,10 @@ cat foo.crt >>/etc/pki/tls/certs/ca-bundle.crt
 ```
 echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
 ```
+
+## 名称
+
+- CA: 证书颁发机构（CA, Certificate Authority）
 
 ## 参考资料:
 1. https://lamjack.github.io/2018/05/17/openssl-localhost-https/

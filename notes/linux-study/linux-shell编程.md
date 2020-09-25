@@ -133,9 +133,11 @@ echo "文件行数为"$FinalLines
 
 **条件测试表达式:** 
 
+```
 - [ expression ]
 - [[ expression ]]
 - test expression
+```
 
 ##### 整数比较
 
