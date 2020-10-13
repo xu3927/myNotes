@@ -160,6 +160,12 @@ docker build -t <user name>/<custom app name>:latest .
 
 ## CLI 命令
 
+### 环境变量
+
+[https://docs.docker.com/engine/reference/commandline/cli/#environment-variables](https://docs.docker.com/engine/reference/commandline/cli/#environment-variables)
+
+- DOCKER_HOST: 设置 docker 使用的daemon. 如在wsl中, 要访问windows的docker daemon, 将该变量设置为 tcp://127.0.0.1:2375
+
 ### Docker run
 
 语法
