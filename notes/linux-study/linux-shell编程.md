@@ -5,7 +5,7 @@
 教程: 
 - 文档: https://riptutorial.com/bash/topic/368/aliasing
 - https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php
-
+- POSIX shell和公共命令详细文档: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/contents.html
 ## 正则表达式
 
 ## shell 脚本编程
@@ -128,6 +128,36 @@ echo "文件行数为"$FinalLines
 [ $FinalLines -gt 100 ] && echo "这是一个大文件" || echo "这是一个小文件"  //判断行数大于100则输出是大文件提示, 否则输出小文件提示
 
 ```
+
+### 数组变量
+
+环境变量可以作为数组来使用, 此时可以存储多个值, 也可以通过索引获取某个值
+
+```bash
+$ nums=(one two three four)
+$ echo ${nums}             
+one two three four
+# 获取某个索引的值
+$ echo ${nums[2]}
+two
+# 获取所有的值
+$ echo ${nums[*]}
+one two three four
+```
+删除某个索引的值
+```bash
+$ unset nums[2]       
+$ echo ${nums[*]}
+one three four
+$ echo ${nums[2]}
+```
+删除整个数组
+```bash
+$ unset nums   
+$ echo ${nums[*]}
+# 输出空
+```
+
 
 ## bash条件判断
 

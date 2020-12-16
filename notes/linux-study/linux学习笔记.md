@@ -372,6 +372,21 @@ Linux将时钟分为系统时钟(System Clock)和硬件(Real Time Clock，简称
     ~]# cal 2015 显示2015年的日历
     ~]# cal 10 2015  显示2015年10月的日历
 ```   
+
+时间同步
+
+```
+ntpdate -u time.nist.gov
+```
+
+该命令可以添加到crontab定时任务里
+
+```
+crontab -e
+# 添加
+0 0 * * * ntpdate -u time.nist.gov  > /dev/null 2>&1
+```
+
  
 ## 2. 一个系统的功能
 

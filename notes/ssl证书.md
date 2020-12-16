@@ -176,6 +176,13 @@ echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 
 
 - CA: 证书颁发机构（CA, Certificate Authority）
 
+## 其他
+
+### 泛域名证书
+
+泛域名证书只能认证一级, 不能认证多级.
+如申请了泛域名证书 *.abc.com, 则只能验证如 x.abc.com 域名, 不能验证 x.y.z.abc.com
+
 ## 参考资料:
 1. https://lamjack.github.io/2018/05/17/openssl-localhost-https/
 2. OpenSSL http://www.netkiller.cn/cryptography/openssl/index.html
