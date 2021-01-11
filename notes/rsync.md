@@ -84,3 +84,19 @@ rsync -vzrtopg --progress --delete --password-file=/etc/rsync.pass /data/www/dir
 ```bash
 rsync -vzrtop --progress --include="*.html" --include="*/" --exclude=* --password-file=/etc/rsync.pass /data/www/dir/ devnetassetspush@1.1.1.1::deploypublish
 ```
+
+## 其他
+
+查看 rsync 服务是否启动：
+
+```bash
+ubuntu@VM-0-7-ubuntu:~$  ps -ef | grep rsync
+root     18848     1  0 17:29 ?        00:00:00 rsync --daemon --config=/etc/rsyncd.conf
+ubuntu   18850 12214  0 17:29 pts/0    00:00:00 grep --color=auto rsync
+```
+
+如果没有启动，启动一下 rsync 服务：
+
+```bash
+sudo rsync --daemon --config=/etc/rsyncd.conf
+```
