@@ -84,6 +84,14 @@ No Plan.
 
 lsof（list open files）是一个列出当前系统打开文件的工具。在linux环境下，任何事物都以文件的形式存在，通过文件不仅仅可以访问常规数据，还可以访问网络连接和硬件。所以，lsof的功能很强大。一般root用户才能执行lsof命令，普通用户可以看见/usr/sbin/lsof命令，但是普通用户执行会显示“permission denied”。因此通过lsof工具能够查看这个列表对系统监测以及排错将是很有帮助的。
 
+```bash
+# 查看所有使用 tcp 协议占用 80端口的进程
+lsof -i tcp:80
+# 输出
+COMMAND     PID USER   FD   TYPE    DEVICE SIZE/OFF NODE NAME
+docker-pr 19879 root    4u  IPv6 838597760      0t0  TCP *:http (LISTEN)
+```
+
 每行显示一个打开的文件，若不指定条件默认将显示所有进程打开的所有文件。lsof输出各列信息的意义如下： 
 - COMMAND：进程的名称
 - PID：进程标识符
