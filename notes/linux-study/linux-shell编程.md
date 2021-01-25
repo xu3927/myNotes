@@ -397,8 +397,81 @@ fi
 if [ $USER == 'user00' ] || [ $USER == 'user01' ]; then
 	echo 有权限
 fi
+
+# 非操作
+
+if [ ! -d src ]; then
+    echo "src目录不存在"
+fi
 ```
 
+## 循环语句
+
+遍历数组
+
+标准for循环
+
+```bash
+nums=(one two three)
+
+echo nums
+
+for (( i=0; i < ${#nums[@]}; i++ )) do
+echo ${nums[i]}
+done;
+
+
+
+echo "数组下标"
+
+for i in "${!nums[@]}";
+do
+	echo ${nums[$i]}
+done
+
+
+echo "while 方式循环"
+
+n=0
+while [ $i -lt ${#nums[@]} ]
+do
+	echo ${nums[$n]}
+	let i++
+done
+```
+
+for ... in 循环
+
+```bash
+nums=(one two three)
+
+for ele in ${nums[@]}
+do
+	echo $ele
+done
+```
+
+数组下标循环
+```bash
+nums=(one two three)
+for i in "${!nums[@]}";
+do
+	echo ${nums[$i]}
+done
+```
+
+while 方式循环
+
+```bash
+nums=(one two three)
+
+n=0
+while [ $n -lt ${#nums[@]} ]
+do
+	echo ${nums[$n]}
+	let n++
+done
+```
 
 ## 逻辑语句
 
