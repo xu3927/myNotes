@@ -857,3 +857,31 @@ ARG1 % ARG2
 ~]$ expr 5 / 2
 2
 ```
+
+## cut 截取字符串
+           
+语法
+```
+cut -b list [-n] [file ...]
+cut -c list [file ...] 
+cut -f list [-d delim] [-s] [file ...]
+```
+
+主要参数
+```
+-b 指定字节位置
+-c 指定字符位置
+-d 指定分隔符
+-f 指定要取的序号
+```
+
+示例
+```sh
+~]$ stringZ="abc ABC 123 ABC abc"
+~]$ echo $stringZ | cut -d " " -f 2,3
+ABC 123
+~]$ who | cut -c 1-16,26-38
+zhichaoxu console  Dec 14 14:05 
+~]$ cut -d : -f 1,7 /etc/passwd | grep root
+root:/bin/sh
+```
